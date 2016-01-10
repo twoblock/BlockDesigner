@@ -1,7 +1,5 @@
 #include "Hanlder_CallBack.h"
 
-#include <jni.h>
-#include <jni_md.h>
 #include <stddef.h>
 #include <iostream>
 using namespace std;
@@ -18,7 +16,7 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 		return; /*method not found*/
 	}
 	pub_long_cycle = 1000;
-	env->CallVoidMethod(ths, mid, cycle );
+	env->CallVoidMethod(ths, mid, BDapi::cycle );
 }
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_StatusListener(JNIEnv *env, jobject ths)

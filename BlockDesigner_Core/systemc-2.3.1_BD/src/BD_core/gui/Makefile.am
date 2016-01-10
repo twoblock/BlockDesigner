@@ -36,11 +36,19 @@ noinst_LTLIBRARIES = libgui.la
 
 H_FILES = \
 	test.h \
-	StartSimulationThreads.h
+	StartSimulationThreads.h \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.h \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.h \
+	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.h \
+	../../../../../JNI_Interface/jdk_h/jni.h  \
+	../../../../../JNI_Interface/jdk_h/jni_md.h 
  
 CXX_FILES = \
 	test.cpp \
-	StartSimulationThreads.cpp
+	StartSimulationThreads.cpp \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.cpp \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.cpp \
+	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.cpp 
 
 localincludedir = $(includedir)/BD_core/gui
 nobase_localinclude_HEADERS = $(H_FILES)

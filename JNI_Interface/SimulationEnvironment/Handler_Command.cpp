@@ -1,7 +1,5 @@
 #include "Handler_Command.h"
 
-#include <jni.h>
-#include <jni_md.h>
 #include <stddef.h>
 #include <iostream>
 
@@ -35,17 +33,17 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Handler_1Command_
 	const char *c_Argu4 = env->GetStringUTFChars(Argu4Str, NULL);
 	const char *c_Argu5 = env->GetStringUTFChars(Argu5Str, NULL);
 	
-	GUI_COMMAND GUI_commnad;
+	//GUI_COMMAND GUI_commnad;
 
-	GUI_commnad.Operation = OperInt;
-	GUI_commnad.Command   = CmdInt;
-	strcpy( GUI_commnad.Argu1, c_Argu1 ); 
-	strcpy( GUI_commnad.Argu2, w_Argu2 ); 
-	strcpy( GUI_commnad.Argu3, c_Argu3 ); 
-	strcpy( GUI_commnad.Argu4, c_Argu4 ); 
-	strcpy( GUI_commnad.Argu5, c_Argu5 ); 
+	//GUI_commnad.Operation = OperInt;
+	//GUI_commnad.Command   = CmdInt;
+	//strcpy( GUI_commnad.Argu1, c_Argu1 ); 
+	//strcpy( GUI_commnad.Argu2, w_Argu2 ); 
+	//strcpy( GUI_commnad.Argu3, c_Argu3 ); 
+	//strcpy( GUI_commnad.Argu4, c_Argu4 ); 
+	//strcpy( GUI_commnad.Argu5, c_Argu5 ); 
 
-	CommandQueue::PushCommand( GUI_commnad );
+	//CommandQueue::PushCommand( GUI_commnad );
 	cout<< OperInt <<"/"<< CmdInt <<"/"<< c_Argu1 <<"/"<< c_Argu2 <<"/"<< c_Argu3 <<"/"<< c_Argu4 <<"/"<< c_Argu5 << endl;
 
 	env->ReleaseStringUTFChars(Argu1Str,c_Argu1);

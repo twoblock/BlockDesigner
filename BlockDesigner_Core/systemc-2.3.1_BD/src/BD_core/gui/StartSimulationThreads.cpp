@@ -16,7 +16,7 @@
 #include <pthread.h>
 #include "BD_core/gui/test.h"
 #include "BD_core/SimulationHandler/SimulationHandler.h"	
-#include "BD_core/StartSimulationThreads/StartSimulationThreads.h"	
+#include "StartSimulationThreads.h"	
 
 namespace BDapi
 {

@@ -72,7 +72,11 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libgui_la_LIBADD =
-am__objects_1 = test.lo StartSimulationThreads.lo
+am__dirstamp = $(am__leading_dot)dirstamp
+am__objects_1 = test.lo StartSimulationThreads.lo \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.lo \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.lo \
+	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.lo
 am_libgui_la_OBJECTS = $(am__objects_1)
 libgui_la_OBJECTS = $(am_libgui_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -304,11 +308,19 @@ EXTRA_DIST =
 noinst_LTLIBRARIES = libgui.la
 H_FILES = \
 	test.h \
-	StartSimulationThreads.h
+	StartSimulationThreads.h \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.h \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.h \
+	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.h \
+	../../../../../JNI_Interface/jdk_h/jni.h  \
+	../../../../../JNI_Interface/jdk_h/jni_md.h 
 
 CXX_FILES = \
 	test.cpp \
-	StartSimulationThreads.cpp
+	StartSimulationThreads.cpp \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.cpp \
+	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.cpp \
+	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.cpp 
 
 localincludedir = $(includedir)/BD_core/gui
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -357,15 +369,36 @@ clean-noinstLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
+../../../../../JNI_Interface/SimulationEnvironment/$(am__dirstamp):
+	@$(MKDIR_P) ../../../../../JNI_Interface/SimulationEnvironment
+	@: > ../../../../../JNI_Interface/SimulationEnvironment/$(am__dirstamp)
+../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) ../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)
+	@: > ../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/$(am__dirstamp)
+../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.lo: ../../../../../JNI_Interface/SimulationEnvironment/$(am__dirstamp) \
+	../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/$(am__dirstamp)
+../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.lo: ../../../../../JNI_Interface/SimulationEnvironment/$(am__dirstamp) \
+	../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/$(am__dirstamp)
+../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.lo: ../../../../../JNI_Interface/SimulationEnvironment/$(am__dirstamp) \
+	../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/$(am__dirstamp)
 libgui.la: $(libgui_la_OBJECTS) $(libgui_la_DEPENDENCIES) $(EXTRA_libgui_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(CXXLINK)  $(libgui_la_OBJECTS) $(libgui_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f ../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.$(OBJEXT)
+	-rm -f ../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.lo
+	-rm -f ../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.$(OBJEXT)
+	-rm -f ../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.lo
+	-rm -f ../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.$(OBJEXT)
+	-rm -f ../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.lo
 
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/Handler_Command.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/Handler_SimulationInitThread.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/Hanlder_CallBack.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/StartSimulationThreads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test.Plo@am__quote@
 
@@ -398,6 +431,7 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+	-rm -rf ../../../../../JNI_Interface/SimulationEnvironment/.libs ../../../../../JNI_Interface/SimulationEnvironment/_libs
 install-nobase_localincludeHEADERS: $(nobase_localinclude_HEADERS)
 	@$(NORMAL_INSTALL)
 	test -z "$(localincludedir)" || $(MKDIR_P) "$(DESTDIR)$(localincludedir)"
@@ -536,6 +570,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f ../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/$(am__dirstamp)
+	-rm -f ../../../../../JNI_Interface/SimulationEnvironment/$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -546,7 +582,7 @@ clean-am: clean-generic clean-libtool clean-noinstLTLIBRARIES \
 	mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR) ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -592,7 +628,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR) ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
