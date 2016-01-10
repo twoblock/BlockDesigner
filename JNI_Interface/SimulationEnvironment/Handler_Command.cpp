@@ -40,21 +40,4 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Handler_1Command_
 	env->ReleaseStringUTFChars(Argu3Str,c_Argu3);
 	env->ReleaseStringUTFChars(Argu4Str,c_Argu4);
 	env->ReleaseStringUTFChars(Argu5Str,c_Argu5);
-
 }
-
-//JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_CycleListener(JNIEnv *env, jobject ths)
-//{
-//	jclass cls = env->GetObjectClass(ths);
-//
-//	jmethodID mid = env->GetMethodID(cls, "CycleCallBack", "(J)V");
-//
-//	if (mid == NULL) {
-//		return; /*method not found*/
-//	}
-//	cout << "In C" << endl;
-//
-//	pub_long_cycle = 1000;
-//
-//	env->CallVoidMethod(ths, mid, pub_long_cycle);
-//}
