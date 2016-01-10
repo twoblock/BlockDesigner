@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Platform
+Bundle-SymbolicName: BlockDesigner;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.twoblock.blockdesigner.perspective.Activator
+Bundle-Vendor: TWOBLOCK
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.workbench
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: com.twoblock.blockdesigner.modulewizard
+Bundle-NativeCode: libBD_core.dll; osname=win32; processor=x86
