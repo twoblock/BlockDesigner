@@ -72,7 +72,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libgui_la_LIBADD =
-am__objects_1 = test.lo
+am__objects_1 = test.lo StartSimulationThreads.lo
 am_libgui_la_OBJECTS = $(am__objects_1)
 libgui_la_OBJECTS = $(am_libgui_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -303,10 +303,12 @@ CLEANFILES =
 EXTRA_DIST = 
 noinst_LTLIBRARIES = libgui.la
 H_FILES = \
-	test.h
+	test.h \
+	StartSimulationThreads.h
 
 CXX_FILES = \
-	test.cpp
+	test.cpp \
+	StartSimulationThreads.cpp
 
 localincludedir = $(includedir)/BD_core/gui
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -364,6 +366,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/StartSimulationThreads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test.Plo@am__quote@
 
 .cpp.o:
