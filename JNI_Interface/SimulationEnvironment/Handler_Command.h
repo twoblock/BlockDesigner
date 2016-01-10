@@ -4,8 +4,10 @@
 #include <string.h>
 #include <stdlib.h>
 //#include "../../BlockDesigner_Core/systemc-2.3.1_BD/src/BD_core/SimulationHandler/CommandQueue.h"	
-#include "../../BlockDesigner_Core/systemc-2.3.1_BD/src/BD_core/SimulationHandler/SimulationHandler_type.h"	
+#include "../../BlockDesigner_Core/systemc-2.3.1_BD/src/BD_core/SimulationHandler/SimulationHandler.h"	
 /* Header for class com_twoblock_blockdesigner_command_Handler_Command */
+
+using namespace BDapi;
 
 #ifndef _Included_com_twoblock_blockdesigner_command_Handler_Command
 #define _Included_com_twoblock_blockdesigner_command_Handler_Command

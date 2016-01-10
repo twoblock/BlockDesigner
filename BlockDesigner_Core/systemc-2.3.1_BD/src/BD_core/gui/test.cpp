@@ -24,16 +24,6 @@ namespace BDapi{
     
 		GUI_COMMAND GUI_commnad;
 
-		int   Operation;
-		int   Command;
-		char  Argu1[ArraySize];
-		char  Argu2[ArraySize];
-		char  Argu3[ArraySize];
-		char  Argu4[ArraySize];
-		char  Argu5[ArraySize];
-		char *p_Token;
-
-
 		while(1){
 			usleep(SECOND_UNIT(0.5));			// Required to prevent the print output overlap.
 

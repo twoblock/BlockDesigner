@@ -42,10 +42,7 @@ namespace BDapi
 				p_CommandHandler->SetCommand( st_Command );
 				p_CommandHandler->Execute();
 			}
-			
-			if( cycle%100 == 0 )	
-			printf("cycle : %d\n",cycle);
-	
+
 			/*
 				 if( ResponseQueue->IsEmpty() )
 				 Response = ResponseQueue->GetResponse(); 

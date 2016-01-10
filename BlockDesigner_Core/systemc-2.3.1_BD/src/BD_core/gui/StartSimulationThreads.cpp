@@ -29,7 +29,7 @@ namespace BDapi
 
 	void *Simulation_routine( void *arg)
 	{
-		sc_core::sc_elab_and_sim( NULL, NULL );
+		sc_core::sc_elab_and_sim( 0, NULL );
 		return arg;
 	}
 
@@ -38,12 +38,19 @@ namespace BDapi
 		pthread_t SimulationHandler_Thread;
 		pthread_t Simulation_Thread;
 
-		int Handlerstatus;
-		int Simulationstatus;
+		int Handlerstatus    = 0;
+		int Simulationstatus = 0;
 
 		Simulationstatus = pthread_create( &Simulation_Thread, NULL, Simulation_routine, NULL);
+		if( Simulationstatus < 0){
+        perror("Simulation thread create error:");
+        exit(0);
+    }
 		Handlerstatus    = pthread_create( &SimulationHandler_Thread, NULL, Simulation_Handler_routine, NULL);
-
+		if( Handlerstatus < 0){
+        perror("Handler thread create error:");
+        exit(0);
+    }
 		// 쓰레드가 종료되기를 기다린후 
 		// 쓰레드의 리턴값을 출력한다. 
 		//pthread_join(SimulationHandler_Thread, (void **)&Handlerstatus);
