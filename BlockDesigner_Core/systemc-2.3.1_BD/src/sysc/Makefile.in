@@ -113,7 +113,7 @@ am__DEPENDENCIES_1 =
 libsystemc_la_DEPENDENCIES = kernel/libkernel.la $(QT_LIB) \
 	communication/libcommunication.la tracing/libtracing.la \
 	utils/libutils.la datatypes/libdatatypes.la \
-	$(am__DEPENDENCIES_2)
+	../BD_core/libBD_core.la $(am__DEPENDENCIES_2)
 am_libsystemc_la_OBJECTS =
 libsystemc_la_OBJECTS = $(am_libsystemc_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -169,7 +169,7 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 ETAGS = etags
 CTAGS = ctags
 DIST_SUBDIRS = kernel qt communication tracing utils packages/boost \
-	datatypes
+	datatypes ../BD_core
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -368,7 +368,8 @@ SUBDIRS = \
 	tracing \
 	utils \
 	packages/boost \
-	datatypes
+	datatypes \
+  ../BD_core	
 
 H_FILES = 
 CXX_FILES = 
@@ -383,7 +384,8 @@ libsystemc_la_SOURCES =
 nodist_EXTRA_libsystemc_la_SOURCES = sc_nonexistent.cpp
 libsystemc_la_LIBADD = kernel/libkernel.la $(QT_LIB) \
 	communication/libcommunication.la tracing/libtracing.la \
-	utils/libutils.la datatypes/libdatatypes.la $(am__append_12)
+	utils/libutils.la datatypes/libdatatypes.la \
+	../BD_core/libBD_core.la $(am__append_12)
 libsystemc_la_LDFLAGS = -release $(VERSION) -L$(libarchdir)
 all: all-recursive
 

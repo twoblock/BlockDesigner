@@ -15,7 +15,7 @@
 ##
 ## ****************************************************************************
 ##
-##  src/sysc/Makefile.am --
+##  src/sysc/kernel/Makefile.am --
 ##  Process this file with automake to produce a Makefile.in file.
 ##
 ##  Original Author: Martin Janssen, Synopsys, Inc., 2001-05-21
@@ -32,23 +32,26 @@
 
 include $(top_srcdir)/config/Make-rules.sysc
 
-# order of SUBDIRS is important, sysc needs to go first:
+noinst_LTLIBRARIES = libBD_core.la
+
 SUBDIRS = \
-	sysc \
-	tlm_core  \
-	tlm_utils \
-	BD_core \
-	.
+	manager \
+  SimulationAPI 
 
 H_FILES = \
-	systemc \
-	systemc.h \
-	tlm \
-	tlm.h
+	BD_core.h
 
-nobase_include_HEADERS = $(H_FILES)
+CXX_FILES =
 
-EXTRA_DIST += \
-	README_TLM.txt
+localincludedir = $(includedir)/BD_core
+nobase_localinclude_HEADERS = $(H_FILES)
+
+libBD_core_la_SOURCES = $(NO_H_FILES) $(CXX_FILES)
+# dummy C++ source to cause C++ linking
+nodist_EXTRA_libBD_core_la_SOURCES = BD_core_nonexistent.cpp
+
+libBD_core_la_LIBADD = \
+       manager/libmanager.la \
+       SimulationAPI/libBDSim.la 
 
 ## Taf!

@@ -15,7 +15,7 @@
 ##
 ## ****************************************************************************
 ##
-##  src/sysc/Makefile.am --
+##  src/sysc/kernel/Makefile.am --
 ##  Process this file with automake to produce a Makefile.in file.
 ##
 ##  Original Author: Martin Janssen, Synopsys, Inc., 2001-05-21
@@ -32,23 +32,17 @@
 
 include $(top_srcdir)/config/Make-rules.sysc
 
-# order of SUBDIRS is important, sysc needs to go first:
-SUBDIRS = \
-	sysc \
-	tlm_core  \
-	tlm_utils \
-	BD_core \
-	.
+noinst_LTLIBRARIES = libmanager.la
 
 H_FILES = \
-	systemc \
-	systemc.h \
-	tlm \
-	tlm.h
+	ExecutionManager.h
+ 
+CXX_FILES = \
+	ExecutionManager.cpp
 
-nobase_include_HEADERS = $(H_FILES)
+localincludedir = $(includedir)/BD_core/manager
+nobase_localinclude_HEADERS = $(H_FILES)
 
-EXTRA_DIST += \
-	README_TLM.txt
+libmanager_la_SOURCES = $(NO_H_FILES) $(CXX_FILES)
 
 ## Taf!
