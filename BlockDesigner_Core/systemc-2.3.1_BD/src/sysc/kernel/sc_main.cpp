@@ -27,10 +27,20 @@
 
 #include "sysc/kernel/sc_cmnhdr.h"
 #include "sysc/kernel/sc_externs.h"
+#include "BD_core/manager/ExecutionManager.h"
+
+using namespace BDapi;
 
 int
 main( int argc, char* argv[] )
 {
+ // Simulation Thread
+
+ // Command Thread
+
+ // Simulation Thread
+
+	ExecutionManager::SetExecutionFlag(1);
 	return sc_core::sc_elab_and_sim( argc, argv );
 }
 
