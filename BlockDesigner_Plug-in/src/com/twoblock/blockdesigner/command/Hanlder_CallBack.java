@@ -1,12 +1,14 @@
 package com.twoblock.blockdesigner.command;
 
+import com.twoblock.blockdesigner.view.View_SimulationEnvironment;
+
 /* --- use for simulation interface Command --- */
 public class Hanlder_CallBack {
 	static {
 		try {
-			System.load("/home/lucas/workspace/BlockDesigner/libBD_sim.so");
+			System.load("/home/lucas/BlockDesigner.git/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so");
 		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load");
+			System.err.println("Native code library failed to load(callback)");
 		}
 	}
 	
@@ -30,6 +32,7 @@ public class Hanlder_CallBack {
 	/* --- Define Callback method --- */
 	private void CycleCallBack(long cycle) {
 		System.out.println("cycle = "+cycle);
+		View_SimulationEnvironment.lblCyclesCnt.setText(""+cycle);
 	}
 	private void StatusCallBack(int status) {
 		System.out.println("Status = "+status);
@@ -52,7 +55,6 @@ public class Hanlder_CallBack {
 	
 	static class CallBack_Func {
 		public static void main(String[] args) {
-			System.out.println("errorcode");
 			CallBack_Func();
 		}
 	}

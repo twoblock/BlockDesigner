@@ -2,6 +2,8 @@ package com.twoblock.blockdesigner.view;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -14,6 +16,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+
+import com.twoblock.blockdesigner.command.Handler_Command;
+import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
+import com.twoblock.blockdesigner.command.Hanlder_CallBack;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -32,8 +38,8 @@ import org.eclipse.ui.part.ViewPart;
 
 public class View_SimulationEnvironment extends ViewPart {
 	protected Shell parent;
-	private Text text;
-	
+	private Text txtStep;
+	public static Label lblCyclesCnt;
 	private void setViewState(int state) {
 		IWorkbenchPage page 
                     = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -44,7 +50,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		}
 	}
 	public void createPartControl(Composite parent) {
-		parent.setLayout(new GridLayout(12, false));
+		parent.setLayout(new GridLayout(11, false));
 		
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
 		Image imgOpen = idOpen.createImage();
@@ -76,8 +82,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnSave.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		btnSave.setImage(imgSave);
 		
-		Label sepBar = new Label(parent, SWT.SEPARATOR | SWT.CENTER);
-		sepBar.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 2));
+		Label sepBar1 = new Label(parent, SWT.SEPARATOR | SWT.CENTER);
+		sepBar1.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 2));
 		
 		Button btnRun = new Button(parent, SWT.NONE);
 		btnRun.setImage(imgRun);
@@ -87,26 +93,34 @@ public class View_SimulationEnvironment extends ViewPart {
 		
 		Button btnStep = new Button(parent, SWT.NONE);
 		btnStep.setImage(imgStep);
-		new Label(parent, SWT.NONE);
 		
-		text = new Text(parent, SWT.BORDER);
+		txtStep = new Text(parent, SWT.BORDER);
 		GridData txtStep_n = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
 		txtStep_n.widthHint = 50;
-		text.setLayoutData(txtStep_n);
+		txtStep.setLayoutData(txtStep_n);
 		
 		Button btnStep_n = new Button(parent, SWT.NONE);
 		btnStep_n.setImage(imgStep_n);
-		new Label(parent, SWT.NONE);
+		
+		Label sepBar2 = new Label(parent, SWT.SEPARATOR | SWT.CENTER);
+		sepBar2.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 2));
+		
+		lblCyclesCnt = new Label(parent, SWT.BORDER|SWT.RIGHT);
+		GridData gd_label = new GridData(SWT.RIGHT,SWT.CENTER,false,false,1,1);
+		gd_label.widthHint=200;
+		lblCyclesCnt.setLayoutData(gd_label);
+		lblCyclesCnt.setText("110254");
+//		lblCyclesCnt.setAlignment(SWT.CENTER);
 		
 		Label lblCycles = new Label(parent, SWT.NONE);
-		lblCycles.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lblCycles.setAlignment(SWT.CENTER);
 		lblCycles.setText("cycles");
-		new Label(parent, SWT.NONE);
+
 		
 		Label lblOpen = new Label(parent, SWT.NONE);
 		lblOpen.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblOpen.setText("Open");
-		
+
 		Label lblSave = new Label(parent, SWT.NONE);
 		lblSave.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblSave.setText("Save");
@@ -123,16 +137,57 @@ public class View_SimulationEnvironment extends ViewPart {
 		lblStep.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblStep.setText("Step");
 		
-		new Label(parent, SWT.NONE);
-		new Label(parent, SWT.NONE);
 		
 		Label lblStep_n = new Label(parent, SWT.NONE);
 		lblStep_n.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblStep_n.setText("n Step");
 		
+		
+		/* START--- Button Listener & Action --- */
+		btnOpen.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				Handler_Command.Command_Func(0, 1, "OPEN", "NULL", "NULL", "NULL", "NULL");
+				Handler_SimulationInitThread.SimInitThread_Func();
+			}
+		});
+		btnSave.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				Handler_Command.Command_Func(0, 1, "SAVE", "NULL", "NULL", "NULL", "NULL");
+				Hanlder_CallBack.CallBack_Func();
+			}
+		});
+		btnRun.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
+			}
+		});
+		btnStop.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				Handler_Command.Command_Func(0, 1, "STOP", "NULL", "NULL", "NULL", "NULL");
+			}
+		});
+		btnStep.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				Handler_Command.Command_Func(0, 1, "STEP", "1", "NULL", "NULL", "NULL");
+			}
+		});
+		btnStep_n.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				Handler_Command.Command_Func(0, 1, "STEP",txtStep.getText(), "NULL", "NULL", "NULL");
+			}
+		});
+		/* --- Button Listener & Action ---END */
+		
+		
 		Canvas canvas = new Canvas(parent, SWT.NONE);
 		canvas.setBackground(canvas.getDisplay().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT)); 
-		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 12, 1));
+		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 11, 1));
 	}
 	
 	/**

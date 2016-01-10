@@ -12,4 +12,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: com.twoblock.blockdesigner.modulewizard
 Bundle-NativeCode: libBD_core.so;osname = Linux;processor = x86-64,
- 						libBD_sim.so;osname = Linux;processor = x86-64
+ 						libBD_sim.so;osname = Linux;processor = x86-64,
+ 						libsystemc.so;osname = Linux;processor = x86-64
