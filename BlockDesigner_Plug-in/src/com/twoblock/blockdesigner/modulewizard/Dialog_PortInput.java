@@ -41,12 +41,12 @@ public class Dialog_PortInput extends Dialog {
 	 * @return
 	 */
 	public Double open() {
-		Text name_text;
+		final Text name_text;
 		Button create_btn;
 		Button cancel_btn;
-		Spinner count;
-		Combo type_cmb;
-		Combo data_type_cmb;
+		final Spinner count;
+		final Combo type_cmb;
+		final Combo data_type_cmb;
 		Label label;
 		Label seperator;
 		
@@ -106,7 +106,6 @@ public class Dialog_PortInput extends Dialog {
 		count.setMinimum(1);
 			
 		
-		
 		create_btn = new Button(shell, SWT.PUSH);
 		create_btn.setText("Ok");
 		//create_btn.setText("C&reate@Ctrl+W");
@@ -114,32 +113,7 @@ public class Dialog_PortInput extends Dialog {
 		
 		cancel_btn = new Button(shell, SWT.PUSH);
 		cancel_btn.setText("Cancel");
-		cancel_btn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		//check input data.
-//		text.addListener(SWT.Modify, new Listener() {
-//			public void handleEvent(Event event) {
-//				try {
-//					value = new Double(text.getText());
-//					buttonOK.setEnabled(true);
-//				} catch (Exception e) {
-//					buttonOK.setEnabled(true);
-//				}
-//			}
-//		});
-
-//		shell.addKeyListener(new KeyAdapter()
-//		{	
-//			public void keyPressed(KeyEvent e)
-//			{
-//				if(e.keyCode == SWT.ESC)
-//				{
-//					System.out.println ("sss");
-//				}
-//
-//			}
-//		});
-		
+		cancel_btn.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));	
 		
 		create_btn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
@@ -166,9 +140,10 @@ public class Dialog_PortInput extends Dialog {
 			}
 		});
 
-		
-		shell.pack();
-		shell.open();
+		shell.getShell().pack();
+		Shell shellopen = shell.getShell();
+		shellopen.open();
+//		shell;
 
 		Display display = parent.getDisplay();
 		while (!shell.isDisposed()) {
@@ -179,6 +154,7 @@ public class Dialog_PortInput extends Dialog {
 		return value;
 	}
 
+	
 	public static String main(String[] args) {
 		port_type="sc_in";
 		port_name="";
@@ -186,12 +162,13 @@ public class Dialog_PortInput extends Dialog {
 		String result;
 		Shell shell = new Shell();
 		Dialog_PortInput dialog = new Dialog_PortInput(shell);
-		System.out.println("dialog.open()="+dialog.open());
+		dialog.open();
+//		System.out.println("dialog.open()="+dialog.open());
 		result=(port_type+","+port_data_type+","+port_name+","+port_count);
 		return result;
 		
 	}
-
+	// for edit.
 	public static String main(String name, String p_type, String d_type) {
 		// TODO Auto-generated method stub
 		port_type=p_type;

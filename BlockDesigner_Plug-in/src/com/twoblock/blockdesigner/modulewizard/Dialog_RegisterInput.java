@@ -41,11 +41,11 @@ public class Dialog_RegisterInput extends Dialog {
 	 * @return
 	 */
 	public Double open() {
-		Text name_text;
-		Text value_text;
+		final Text name_text;
+		final Text value_text;
 		Button create_btn;
 		Button cancel_btn;
-		Combo type_cmb;
+		final Combo type_cmb;
 		Label label;
 		Label seperator;
 		

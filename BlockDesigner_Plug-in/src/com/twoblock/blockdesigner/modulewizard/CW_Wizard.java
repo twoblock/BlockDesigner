@@ -1,6 +1,10 @@
 package com.twoblock.blockdesigner.modulewizard;
 
-import org.eclipse.jface.dialogs.MessageDialog;
+//public class CW_Wizard {
+//	public native String ComponentCreate(String msg);
+//}
+
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
@@ -28,23 +32,23 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
+import com.twoblock.blockdesigner.command.Handler_Command;
+import com.twoblock.blockdesigner.command.Handler_ModuleWizard;
+
 /**
  * This class displays a ComponentWizard using a wizard
  */
-public class CW_Wizard {
+public class CW_Wizard extends Handler_ModuleWizard {
+	
 	static {
-		System.setProperty("user.dir", "libBD_core");
-		System.loadLibrary("libBD_core");
-		try {
-            System.loadLibrary("libBD_core"); //$NON-NLS-1$
-        } catch (Exception e) {
-            e.printStackTrace();
-            MessageDialog.openInformation(null, "HelloWorld", "HelloWorld Catch: " + e.getMessage());
-        }
+//		try{
+			System.load("/home/lucas/workspace/BlockDesigner/libBD_core.so");
+//		}catch(Exception e) {
+//			System.setProperty("user.dir", "libBD_core");
+//			System.loadLibrary("libBD_core");
+//		}
 	}
-
 	public native String ComponentCreate(String msg);
-
 	public String component_name;
 	public String component_location;
 	public int port_count;
@@ -63,18 +67,16 @@ public class CW_Wizard {
 	/**
 	 * Runs the application
 	 */
-
 	public void run(Display display) {
 		// Create the parent shell for the dialog, but don't show it
 		Shell shell = new Shell(display);
 		// Create the dialog
 		WizardDialog dlg = new WizardDialog(shell, new ComponentWizard(this));
+		WizardDialog dlg2 = new WizardDialog(dlg.getShell(), new ComponentWizard(this));
+		dlg.setTitle("");
 		dlg.setPageSize(350, 250);
-
-		dlg.open();
-
-		// Dispose the display
-//		display.dispose();
+		
+		dlg2.open();
 	}
 
 	/**
@@ -140,15 +142,15 @@ class Step1_name extends WizardPage {
 	 * Creates the page controls
 	 */
 	public void createControl(Composite parent) {
-
+		Handler_Command.Command_Func();
 		Label label;
-		Text location_text;
+		final Text location_text;
 		Button Location_btn;
 		GridData gridData1;
 		GridData gridData2;
 		GridData gridData3;
 
-		Composite composite = new Composite(parent, SWT.NONE);
+		final Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		composite.setLayout(layout);
@@ -245,7 +247,7 @@ class Step2_port extends WizardPage {
 
 		new Label(composite, SWT.LEFT).setText("Step 2 - Add Port Definitions");
 
-		Table po_table = new Table(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		final Table po_table = new Table(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		gd_table.heightHint = 120;
 		po_table.setLayoutData(gd_table);
 		TableColumn po_type = new TableColumn(po_table, SWT.CENTER);
@@ -328,7 +330,14 @@ class Step2_port extends WizardPage {
 				// TODO Auto-generated method stub
 			}
 		});
-
+		final Button test = new Button(composite, NONE);
+		test.setText("   TEST   ");
+		test.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// TODO Auto-generated method stub
+				Dialog_Portsetting.main(null);
+			}
+		});
 		setControl(composite);
 	}
 
@@ -372,7 +381,7 @@ class Step3_register extends WizardPage {
 
 		new Label(composite, SWT.LEFT).setText("Step 3 - Add Register Definitions");
 
-		Table reg_table = new Table(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		final Table reg_table = new Table(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		gd_table.heightHint = 120;
 		reg_table.setLayoutData(gd_table);
 		TableColumn reg_name = new TableColumn(reg_table, SWT.CENTER);
@@ -441,7 +450,7 @@ class Step4_parameter extends WizardPage {
 
 		new Label(composite, SWT.LEFT).setText("Step 4 - Add Parameter Definitions");
 
-		Table pa_table = new Table(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		final Table pa_table = new Table(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		gd_table.heightHint = 120;
 		pa_table.setLayoutData(gd_table);
 		TableColumn pa_name = new TableColumn(pa_table, SWT.CENTER);
