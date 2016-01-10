@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Text;
 public class CW_Wizard {
 	static {
 		System.setProperty("user.dir", "libBD_core");
-//		System.loadLibrary("libBD_core");
+		System.loadLibrary("libBD_core");
 		try {
             System.loadLibrary("libBD_core"); //$NON-NLS-1$
         } catch (Exception e) {
