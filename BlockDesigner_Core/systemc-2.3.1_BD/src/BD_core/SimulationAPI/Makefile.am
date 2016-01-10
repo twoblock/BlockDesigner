@@ -35,12 +35,10 @@ include $(top_srcdir)/config/Make-rules.sysc
 noinst_LTLIBRARIES = libBDSim.la
 
 H_FILES = \
-	BDSim.h \
-  Control_Signal.h
+	BDSim.h 
  
 CXX_FILES = \
-	BDSim.cpp \
-  Control_Signal.cpp
+	BDSim.cpp 
 
 localincludedir = $(includedir)/BD_core/SimulationAPI
 nobase_localinclude_HEADERS = $(H_FILES)

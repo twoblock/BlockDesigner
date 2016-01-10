@@ -32,30 +32,24 @@
 
 include $(top_srcdir)/config/Make-rules.sysc
 
-noinst_LTLIBRARIES = libBD_core.la
-
-SUBDIRS = \
-	manager \
-  SimulationAPI \
-  SimulationHandler \
-	gui
+noinst_LTLIBRARIES = libSimulationHandler.la
 
 H_FILES = \
-	BD_core.h
+	SimulationHandler.h \
+	CommandHandler.h \
+	ResponseHandler.h \
+	CommandQueue.h \
+	SimulationHandler_type.h
+	 
+CXX_FILES = \
+	SimulationHandler.cpp \
+	CommandHandler.cpp \
+	ResponseHandler.cpp \
+	CommandQueue.cpp
 
-CXX_FILES =
-
-localincludedir = $(includedir)/BD_core
+localincludedir = $(includedir)/BD_core/SimulationHandler
 nobase_localinclude_HEADERS = $(H_FILES)
 
-libBD_core_la_SOURCES = $(NO_H_FILES) $(CXX_FILES)
-# dummy C++ source to cause C++ linking
-nodist_EXTRA_libBD_core_la_SOURCES = BD_core_nonexistent.cpp
-
-libBD_core_la_LIBADD = \
-       SimulationAPI/libBDSim.la \
-       manager/libmanager.la \
-       SimulationHandler/libSimulationHandler.la \
-       gui/libgui.la 
+libSimulationHandler_la_SOURCES = $(NO_H_FILES) $(CXX_FILES)
 
 ## Taf!

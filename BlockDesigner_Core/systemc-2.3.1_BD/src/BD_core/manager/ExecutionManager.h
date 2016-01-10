@@ -19,16 +19,13 @@
  * design	    : Block Designer API 
  * description	: support analyzing ESL platform based on systemc
  */
-#include<iostream>
-
-using namespace std; 
 
 namespace BDapi
 {
-	#define BD_RUN   	0
-	#define BD_STOP  	1
-	#define BD_STEP  	2
-	#define BD_STEPN 	4
+	#define NOTHING 0
+	#define RUN   	1
+	#define STEP  	2
+	#define STOP  	3
 	
 /*
 	 * class		: ExecutionManager 
@@ -54,19 +51,16 @@ namespace BDapi
 		 * see		: 함수의 이해를 위해 참고할 만한 함수 혹은 라인을 표기
 		 */
 
-  			//static unsigned int GetExcutionFlag();
-		static void SetExecutionFlag(unsigned int ExecutionControlFlag);
-  		/*	
+			static void SetExecutionFlag(unsigned int Flag);
+			static unsigned int GetExecutionFlag();	
+
+			static void SetStepValue(unsigned int Value);
 			static unsigned int GetStepValue();
-  			static SetStepValue(unsigned int StepValue);
-	
+
 		private:
-			static unsigned int g_ExecutionControlFlag;
-			static unsigned int g_StepValue;
-*/
+			static unsigned int ExecutionControlFlag;
+			static unsigned int StepValue;
 	};
-
-
 } // namespace BDapi 
 
 #endif 

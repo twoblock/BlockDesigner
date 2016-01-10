@@ -11,19 +11,27 @@
 // Description	: This class provide Execution contol API
 // ----------------------------------------------------------------------------
 
-#include"ExecutionManager.h"
-#include<iostream>
-
-using namespace std;
+#include"BD_core/manager/ExecutionManager.h"
 
 namespace BDapi
-{
-	void ExecutionManager::SetExecutionFlag(unsigned int ExecutionControlFlag)
+{	
+
+	
+	void ExecutionManager::SetExecutionFlag(unsigned int Flag)
 	{
-		cout<<"Set Execution Flag"<<endl;
-		cout<<"Set Execution Flag"<<endl;
-		cout<<"Set Execution Flag"<<endl;
-		cout<<"Set Execution Flag"<<endl;
-		cout<<"Set Execution Flag"<<endl;
+		ExecutionControlFlag = Flag;
 	}
+	unsigned int ExecutionManager::GetExecutionFlag()
+	{
+		return ExecutionControlFlag;
+	}
+	void ExecutionManager::SetStepValue(unsigned int Value)
+	{
+		StepValue = Value;
+	}
+	unsigned int ExecutionManager::GetStepValue()
+	{
+		return StepValue;
+	}
+
 }

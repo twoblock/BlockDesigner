@@ -1,40 +1,38 @@
 //-----------------------------------------------------------------------------
-// Design								: Block Designer Command Queue 
+// Design								: Block Designer Simulator 
 // Autor								: Bryan.Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: CommandHandler.h
-// Date	       					: 2015/1/4
+// File		     					: BDSim.h
+// Date	       					: 2015/1/3
 // Reference            :
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015 TwoBlockTechinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: This class provide CommandHandler API 
+// Description	: This class provide Simulator API
 // ----------------------------------------------------------------------------
 
-#ifndef COMMANDHANDLER_H 
-#define COMMANDHANDLER_H 
+#ifndef BDSIM_H 
+#define BDSIM_H 
 
-#include "BD_core/SimulationHandler/SimulationHandler.h"	
+#include "BD_core/SimulationHandler/SimulationHandler_type.h"	
+#include "BD_core/SimulationHandler/CommandQueue.h"	
+#include "BD_core/manager/ExecutionManager.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 /*
  * namespace	: BDapi 
  * design	    : Block Designer API 
  * description	: support analyzing ESL platform based on systemc
  */
 
-using namespace std;
-
 namespace BDapi
 {
 
-/*
-	 * class		: ExecutionManager 
-	 * description	: Control Execution of simulation 
-	 * version	    : v1.0 
-	 */
-	class CommandHandler 
-	{
-		public:
-	
 
 		/*
 		 * function 	: 함수 명
@@ -48,15 +46,9 @@ namespace BDapi
 		 * callee		: 이 함수가 호출하는 함수 명 표기
 		 * see		: 함수의 이해를 위해 참고할 만한 함수 혹은 라인을 표기
 		 */
-			void SetCommand(GUI_COMMAND st_Command);
 
-			int Execute();
-			int PutOperation();
-			void ExcutionControl();
+extern void GUIThread();
 
-		private:
-			GUI_COMMAND st_GUIcommand;
-	};
 
 } // namespace BDapi 
 

@@ -1,4 +1,5 @@
 systemc-2.3.1_BD/autom4te.cache/
 *.swp
 *.o
+systemc-2.3.1_BD/objdir/
 config/

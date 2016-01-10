@@ -71,8 +71,9 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
-libBD_core_la_DEPENDENCIES = manager/libmanager.la \
-	SimulationAPI/libBDSim.la
+libBD_core_la_DEPENDENCIES = SimulationAPI/libBDSim.la \
+	manager/libmanager.la \
+	SimulationHandler/libSimulationHandler.la gui/libgui.la
 am__objects_1 =
 am_libBD_core_la_OBJECTS = $(am__objects_1)
 libBD_core_la_OBJECTS = $(am_libBD_core_la_OBJECTS)
@@ -344,7 +345,9 @@ EXTRA_DIST =
 noinst_LTLIBRARIES = libBD_core.la
 SUBDIRS = \
 	manager \
-  SimulationAPI 
+  SimulationAPI \
+  SimulationHandler \
+	gui
 
 H_FILES = \
 	BD_core.h
@@ -356,8 +359,10 @@ libBD_core_la_SOURCES = $(NO_H_FILES) $(CXX_FILES)
 # dummy C++ source to cause C++ linking
 nodist_EXTRA_libBD_core_la_SOURCES = BD_core_nonexistent.cpp
 libBD_core_la_LIBADD = \
+       SimulationAPI/libBDSim.la \
        manager/libmanager.la \
-       SimulationAPI/libBDSim.la 
+       SimulationHandler/libSimulationHandler.la \
+       gui/libgui.la 
 
 all: all-recursive
 
