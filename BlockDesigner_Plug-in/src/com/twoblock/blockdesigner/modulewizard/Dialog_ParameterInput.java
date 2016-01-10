@@ -41,11 +41,11 @@ public class Dialog_ParameterInput extends Dialog {
 	 * @return
 	 */
 	public Double open() {
-		Text name_text;
-		Text value_text;
+		final Text name_text;
+		final Text value_text;
 		Button create_btn;
 		Button cancel_btn;
-		Combo type_cmb;
+		final Combo type_cmb;
 		Label label;
 		Label seperator;
 		
@@ -140,8 +140,9 @@ public class Dialog_ParameterInput extends Dialog {
 
 		
 		shell.pack();
-		shell.open();
-
+		shell.getShell().open();
+//		shell;
+		
 		Display display = parent.getDisplay();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())

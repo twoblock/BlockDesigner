@@ -37,6 +37,7 @@ SUBDIRS = \
 	sysc \
 	tlm_core  \
 	tlm_utils \
+	BD_core \
 	.
 
 H_FILES = \

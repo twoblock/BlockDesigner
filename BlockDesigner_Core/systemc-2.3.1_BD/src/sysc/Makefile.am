@@ -44,7 +44,8 @@ SUBDIRS = \
 	tracing \
 	utils \
 	packages/boost \
-	datatypes
+	datatypes \
+  ../BD_core	
 
 H_FILES = 
 
@@ -71,7 +72,8 @@ libsystemc_la_LIBADD = \
        communication/libcommunication.la \
        tracing/libtracing.la \
        utils/libutils.la \
-       datatypes/libdatatypes.la
+       datatypes/libdatatypes.la\
+  		 ../BD_core/libBD_core.la
 
 # either for async_update locking or pthread processes
 if USES_PTHREADS_LIB

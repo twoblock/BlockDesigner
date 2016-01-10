@@ -5,7 +5,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 public class Perspective_BD_Sim implements IPerspectiveFactory {
-	public final static String BD_SIM_ID = "com.twoblock.blockdesigner.perspective.views.SimulationEnvironmentView";
+	public final static String BD_SIM_ID = "com.twoblock.blockdesigner.view.View_SimulationEnvironment";
 
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -17,7 +17,7 @@ public class Perspective_BD_Sim implements IPerspectiveFactory {
 	}
 
 	private void defineLayout(IPageLayout layout) {
-		// "new wizards"¿¡ Ãß°¡. File->New
+		// "new wizards"ï¿½ï¿½ ï¿½ß°ï¿½. File->New
 		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");// folder
 		layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");// file
 	}

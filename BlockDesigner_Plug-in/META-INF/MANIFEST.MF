@@ -8,7 +8,9 @@ Bundle-Vendor: TWOBLOCK
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.workbench
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Export-Package: com.twoblock.blockdesigner.modulewizard
-Bundle-NativeCode: libBD_core.dll; osname=win32; processor=x86
+Bundle-NativeCode: libBD_core.so;osname = Linux;processor = x86-64,
+ 						libBD_sim.so;osname = Linux;processor = x86-64,
+ 						libsystemc.so;osname = Linux;processor = x86-64

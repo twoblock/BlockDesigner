@@ -571,6 +571,11 @@ AC_OUTPUT(
  src/sysc/qt/Makefile 
  src/sysc/utils/Makefile 
  src/sysc/packages/boost/Makefile 
+ src/BD_core/Makefile 
+ src/BD_core/SimulationAPI/Makefile
+ src/BD_core/manager/Makefile
+ src/BD_core/SimulationHandler/Makefile
+ src/BD_core/gui/Makefile
  src/tlm_core/Makefile
  src/tlm_core/tlm.pc
  src/tlm_utils/Makefile

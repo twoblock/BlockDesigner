@@ -103,6 +103,8 @@
 
 #include "sysc/datatypes/misc/sc_concatref.h" 
 
+#include "BD_core/BD_core.h" 
+
 #ifdef SC_INCLUDE_FX
 #   include "sysc/datatypes/fx/fx.h"
 #endif // SC_INCLUDE_FX

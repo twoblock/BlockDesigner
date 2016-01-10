@@ -1,0 +1,61 @@
+{
+  "name": "conventional-changelog",
+  "version": "0.7.0",
+  "description": "Generate a changelog from git metadata",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/twoblock/BlockDesigner" },
+  "keywords": [
+    "conventional-changelog",
+    "conventional",
+    "changelog",
+    "log"
+  ],
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Brian Ford"
+    },
+    {
+      "name": "Vojta Jína"
+    },
+    {
+      "name": "Andrew Joslin"
+    }
+  ],
+  "dependencies": {
+    "add-stream": "^1.0.0",
+    "compare-func": "^1.3.1",
+    "conventional-changelog-writer": "^0.4.1",
+    "conventional-commits-parser": "^0.1.0",
+    "dateformat": "^1.0.11",
+    "get-pkg-repo": "^0.1.0",
+    "git-raw-commits": "^0.1.2",
+    "git-semver-tags": "^1.0.0",
+    "lodash": "^3.9.3",
+    "meow": "^3.3.0",
+    "q": "^1.4.1",
+    "read-pkg": "^1.1.0",
+    "read-pkg-up": "^1.0.1",
+    "semver": "^5.0.1",
+    "tempfile": "^1.1.1",
+    "through2": "^2.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "concat-stream": "^1.4.10",
+    "coveralls": "^2.11.2",
+    "git-tails": "^1.0.0",
+    "istanbul": "^0.4.0",
+    "jscs": "^2.0.0",
+    "jshint": "^2.8.0",
+    "mocha": "*",
+    "shelljs": "^0.5.1"
+  },
+  "scripts": {
+    "coverage": "istanbul cover _mocha -- -R spec && rm -rf ./coverage",
+    "lint": "jshint presets hosts test *.js --exclude node_modules && jscs presets hosts test *.js",
+    "test": "npm run-script lint && mocha --timeout 15000"
+  },
+  "bin": "cli.js"
+}
