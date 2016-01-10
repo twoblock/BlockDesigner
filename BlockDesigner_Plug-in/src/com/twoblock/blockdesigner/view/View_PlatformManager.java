@@ -40,9 +40,9 @@ public class View_PlatformManager extends ViewPart {
 //		shell.setSize(800, 400);
 //		shell.setText("SWT Application");
 		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
-		Button button[] = new Button[100];
+		final Button button[] = new Button[100];
 		
-		Canvas canvas = new Canvas(parent, SWT.NONE);
+		final Canvas canvas = new Canvas(parent, SWT.NONE);
 		//Image image = new Image(null, "src/twoblock_logo.png");
 		
 		
@@ -52,7 +52,7 @@ public class View_PlatformManager extends ViewPart {
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		
-		Button btnNewButton = new Button(composite, SWT.BORDER | SWT.CHECK | SWT.CENTER);
+		final Button btnNewButton = new Button(composite, SWT.BORDER | SWT.CHECK | SWT.CENTER);
 		btnNewButton.setText("button 1");
 		
 		Tree tree = new Tree(composite, SWT.CHECK|SWT.BORDER|SWT.V_SCROLL|SWT.H_SCROLL);

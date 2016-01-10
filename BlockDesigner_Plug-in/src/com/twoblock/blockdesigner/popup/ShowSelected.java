@@ -1,8 +1,6 @@
 package com.twoblock.blockdesigner.popup;
 //package com.twoblock.blockdesigner.perspective.popup;
 //
-//import java.util.Iterator;
-//
 //import org.eclipse.core.commands.AbstractHandler;
 //import org.eclipse.core.commands.ExecutionEvent;
 //import org.eclipse.core.commands.ExecutionException;

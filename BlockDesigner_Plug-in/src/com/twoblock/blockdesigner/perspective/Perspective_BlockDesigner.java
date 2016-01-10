@@ -5,7 +5,7 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
 public class Perspective_BlockDesigner implements IPerspectiveFactory {
-	public final static String PLATFORM_MANAGER_ID = "com.twoblock.blockdesigner.perspective.views.PlatformManagerView";
+	public final static String PLATFORM_MANAGER_ID = "com.twoblock.blockdesigner.view.View_PlatformManager";
 	public final static String CView_ID = "org.eclipse.cdt.ui.CView";
 	@Override
 	public void createInitialLayout(IPageLayout layout) {
@@ -18,11 +18,11 @@ public class Perspective_BlockDesigner implements IPerspectiveFactory {
 	}
 	 
 	private void defineLayout(IPageLayout layout) {
-	   // "new wizards"¿¡ Ãß°¡. File->New
+	   // "new wizards"ï¿½ï¿½ ï¿½ß°ï¿½. File->New
 	   layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder");// folder
 	   layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file");// file
 	 
-	   // "show views"¿¡ Ãß°¡.Window->Show View
+	   // "show views"ï¿½ï¿½ ï¿½ß°ï¿½.Window->Show View
 	   layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);
 	   layout.addShowViewShortcut(IPageLayout.ID_BOOKMARKS);// bookmark
 	   layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);// outline
@@ -35,7 +35,7 @@ public class Perspective_BlockDesigner implements IPerspectiveFactory {
 	   // Editors are placed for free.
 	   String editorArea = layout.getEditorArea();
 	 
-	   // navigator°ú outlineÀ» editor ¿·¿¡ Æú´õ ·¹ÀÌ¾Æ¿ô¾È¿¡ Ãß°¡ÇÑ´Ù.
+	   // navigatorï¿½ï¿½ outlineï¿½ï¿½ editor ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾Æ¿ï¿½ï¿½È¿ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	   IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT,(float) 0.2, editorArea);
 	   left.addView(CView_ID);
 	   left.addView(IPageLayout.ID_PROJECT_EXPLORER);

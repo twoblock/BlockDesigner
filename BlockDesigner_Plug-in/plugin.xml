@@ -11,14 +11,14 @@
             category="com.twoblock.blockdesigner.perspective"
             class="com.twoblock.blockdesigner.view.View_PlatformManager"
             icon="images/sample.gif"
-            id="com.twoblock.blockdesigner.view.PlatformManagerView"
+            id="com.twoblock.blockdesigner.view.View_PlatformManager"
             name="Platform Manager">
       </view>
       <view
             category="com.twoblock.blockdesigner.perspective"
             class="com.twoblock.blockdesigner.view.View_SimulationEnvironment"
             icon="images/Simulation_Environment.png"
-            id="com.twoblock.blockdesigner.view.SimulationEnvironmentView"
+            id="com.twoblock.blockdesigner.view.View_SimulationEnvironment"
             name="Simulation Environment">
       </view>
    </extension>
@@ -132,7 +132,7 @@
       <perspectiveExtension
             targetID="com.twoblock.blockdesigner.perspective.Perspective_BlockDesigner">
          <view
-               id="com.twoblock.blockdesigner.view.PlatformManagerView"
+               id="com.twoblock.blockdesigner.view.View_PlatformManager"
                minimized="false"
                ratio="1"
                relationship="stack"
@@ -144,7 +144,7 @@
       <perspectiveExtension
             targetID="com.twoblock.blockdesigner.perspective.Perspective_BD_Sim">
          <view
-               id="com.twoblock.blockdesigner.view.SimulationEnvironmentView"
+               id="com.twoblock.blockdesigner.view.View_SimulationEnvironment"
                minimized="false"
                ratio="1"
                relationship="stack"
