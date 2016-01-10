@@ -5,7 +5,7 @@ public class Handler_SimulationInitThread {
 		try {
 			System.load("/home/lucas/BlockDesigner.git/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so");
 		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load");
+			System.err.println("Native code library failed to load(start)");
 		}
 	}
 	public Handler_SimulationInitThread(){}
@@ -14,7 +14,6 @@ public class Handler_SimulationInitThread {
 	
 	static class SimInitThread_Func {
 		public static void main(String[] args) {
-			SimInitThread_Func();
 		}
 	}
 

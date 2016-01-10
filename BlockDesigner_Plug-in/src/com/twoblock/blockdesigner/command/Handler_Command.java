@@ -26,9 +26,9 @@ public class Handler_Command {
 
 	static {
 		try {
-			System.load("/home/lucas/workspace/BlockDesigner/libBD_sim.so");
+			System.load("/home/lucas/BlockDesigner.git/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so");
 		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load");
+			System.err.println("Native code library failed to load(command)");
 		}
 	}
 
@@ -36,13 +36,12 @@ public class Handler_Command {
 
 	static class Command_Func {
 		public static void main(String[] args) {
-			Command_Func();
 		}
 	}
 
-	public static void Command_Func() {
+	public static void Command_Func(int oper, int cmd, String argu1,String argu2,String argu3,String argu4,String argu5) {
 		// TODO Auto-generated method stub
-		Handler_Command pushcomm = new Handler_Command(0, 0, "argu1", "argu2", "argu3", "argu4", "argu5");
+		Handler_Command pushcomm = new Handler_Command(oper, cmd, argu1, argu2, argu3, argu4, argu5);
 		pushcomm.PushCommand();
 	}
 }

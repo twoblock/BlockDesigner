@@ -32,7 +32,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
-import com.twoblock.blockdesigner.command.Handler_Command;
 import com.twoblock.blockdesigner.command.Handler_ModuleWizard;
 
 /**
@@ -42,7 +41,7 @@ public class CW_Wizard extends Handler_ModuleWizard {
 	
 	static {
 //		try{
-			System.load("/home/lucas/workspace/BlockDesigner/libBD_core.so");
+			System.load("/home/lucas/BlockDesigner.git/BlockDesigner/BlockDesigner_Plug-in/libBD_core.so");
 //		}catch(Exception e) {
 //			System.setProperty("user.dir", "libBD_core");
 //			System.loadLibrary("libBD_core");
@@ -142,7 +141,6 @@ class Step1_name extends WizardPage {
 	 * Creates the page controls
 	 */
 	public void createControl(Composite parent) {
-		Handler_Command.Command_Func();
 		Label label;
 		final Text location_text;
 		Button Location_btn;
