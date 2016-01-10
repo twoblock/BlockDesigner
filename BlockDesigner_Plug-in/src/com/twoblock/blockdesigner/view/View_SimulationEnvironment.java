@@ -65,6 +65,7 @@ public class View_SimulationEnvironment extends ViewPart {
 //		Image imgStep = new Image(null, "images/step_btn.png");
 //		Image imgStep_n = new Image(null, "images/step_n_btn.png");
 		
+		 
 		
 		
 		Button btnOpen = new Button(parent, SWT.NONE);
