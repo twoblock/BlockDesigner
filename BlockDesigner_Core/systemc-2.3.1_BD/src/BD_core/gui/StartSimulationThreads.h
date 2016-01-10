@@ -2,7 +2,7 @@
 // Design								: Block Designer Simulator 
 // Autor								: Bryan.Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: test.h
+// File		     					: StartSimulationThreads.h
 // Date	       					: 2015/1/3
 // Reference            :
 // ----------------------------------------------------------------------------
@@ -11,18 +11,8 @@
 // Description	: This class provide Simulator API
 // ----------------------------------------------------------------------------
 
-#ifndef GUITHREAD_H 
-#define GUITHREAD_H 
-
-#include "BD_core/SimulationHandler/SimulationHandler_type.h"	
-#include "BD_core/SimulationHandler/CommandQueue.h"	
-#include "BD_core/manager/ExecutionManager.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#ifndef SIMULATION_INIT_THREAD_H 
+#define SIMULATION_INIT_THREAD_H
 
 /*
  * namespace	: BDapi 
@@ -46,9 +36,10 @@ namespace BDapi
 		 * callee		: 이 함수가 호출하는 함수 명 표기
 		 * see		: 함수의 이해를 위해 참고할 만한 함수 혹은 라인을 표기
 		 */
-extern void GUIThread();
 
-
+void *Simulation_Handler_routine( void *arg);
+void *Simulation_routine( void *arg);
+extern void StartSimulationThreads();
 } // namespace BDapi 
 
 #endif 

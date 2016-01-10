@@ -1,27 +1,27 @@
 /*****************************************************************************
 
-  The following code is derived, directly or indirectly, from the SystemC
-  source code Copyright (c) 1996-2014 by all Contributors.
-  All Rights reserved.
+	The following code is derived, directly or indirectly, from the SystemC
+	source code Copyright (c) 1996-2014 by all Contributors.
+	All Rights reserved.
 
-  The contents of this file are subject to the restrictions and limitations
-  set forth in the SystemC Open Source License (the "License");
-  You may not use this file except in compliance with such restrictions and
-  limitations. You may obtain instructions on how to receive a copy of the
-  License at http://www.accellera.org/. Software distributed by Contributors
-  under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF
-  ANY KIND, either express or implied. See the License for the specific
-  language governing rights and limitations under the License.
+	The contents of this file are subject to the restrictions and limitations
+	set forth in the SystemC Open Source License (the "License");
+	You may not use this file except in compliance with such restrictions and
+	limitations. You may obtain instructions on how to receive a copy of the
+	License at http://www.accellera.org/. Software distributed by Contributors
+	under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF
+	ANY KIND, either express or implied. See the License for the specific
+	language governing rights and limitations under the License.
 
  *****************************************************************************/
 
 /*****************************************************************************
 
-  sc_main.cpp - Wrapper around user's toplevel routine `sc_main'.
+	sc_main.cpp - Wrapper around user's toplevel routine `sc_main'.
 
-  Original Author: Stan Y. Liao, Synopsys, Inc.
+	Original Author: Stan Y. Liao, Synopsys, Inc.
 
- CHANGE LOG APPEARS AT THE END OF THE FILE
+	CHANGE LOG APPEARS AT THE END OF THE FILE
  *****************************************************************************/
 
 
@@ -29,66 +29,33 @@
 #include "sysc/kernel/sc_externs.h"
 #include <pthread.h>
 #include "BD_core/gui/test.h"
-#include "BD_core/SimulationHandler/SimulationHandler.h"	
+#include "BD_core/gui/StartSimulationThreads.h"
 
 using namespace BDapi;
 
 void *GUI_routine( void *arg)
 {
-    GUIThread();
-		return arg;
+	GUIThread();
+	return arg;
 }
 
-void *Simulation_Handler_routine( void *arg)
-{
-    SimulationHandler();
-		return arg;
-}
-
-void *Simulation_routine( void *arg)
-{
-	 sc_core::sc_elab_and_sim( NULL, NULL );
-   return arg;
-}
-
-int
+	int
 main( int argc, char* argv[] )
 {
-	
+
 	pthread_t GUI_Thread;
-	pthread_t SimulationHandler_Thread;
-	pthread_t Simulation_Thread;
-	
-  int GUIstatus;
-  int Handlerstatus;
-  int Simulationstatus;
+	int GUIstatus;
 
 	GUIstatus				 = pthread_create( &GUI_Thread, NULL, GUI_routine , NULL);
-	Simulationstatus = pthread_create( &Simulation_Thread, NULL, Simulation_routine, NULL);
-	Handlerstatus    = pthread_create( &SimulationHandler_Thread, NULL, Simulation_Handler_routine, NULL);
 
-    // 쓰레드가 종료되기를 기다린후 
-    // 쓰레드의 리턴값을 출력한다. 
-    pthread_join(SimulationHandler_Thread, (void **)&Handlerstatus);
-    pthread_join(Simulation_Thread, (void **)&Simulationstatus);
-    pthread_join(GUI_Thread, (void **)&GUIstatus);
-    
-    return 1;
+	StartSimulationThreads();
 
+	// 쓰레드가 종료되기를 기다린후 
+	// 쓰레드의 리턴값을 출력한다. 
+	pthread_join(GUI_Thread, (void **)&GUIstatus);
 
+	return 1;
 
-	//status = pthread_create( &Simulation_Thread, NULL, sc_core::sc_elab_and_sim , NULL);
-	//if(status != ) { printf("error!\n"); }
-
-	//status = pthread_create( &GUI_Thread, NULL, GUIThread , NULL);
-	//if(status != ) { printf("error!\n"); }
-
- // Simulation Thread
-
- // Command Thread
-
- // Simulation Thread
-	//ExecutionManager::SetExecutionFlag(1);
 	//return sc_core::sc_elab_and_sim( argc, argv );
 }
 
