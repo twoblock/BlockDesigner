@@ -21,7 +21,7 @@ namespace BDapi{
 	std::queue<GUI_COMMAND> CommandQueue::_CommandQueue;
 
 	void GUIThread(){
-    
+
 		GUI_COMMAND GUI_commnad;
 
 		int   Operation;

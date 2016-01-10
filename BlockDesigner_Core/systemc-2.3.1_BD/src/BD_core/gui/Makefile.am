@@ -35,12 +35,10 @@ include $(top_srcdir)/config/Make-rules.sysc
 noinst_LTLIBRARIES = libgui.la
 
 H_FILES = \
-	test.h \
-	StartSimulationThreads.h
+	test.h
  
 CXX_FILES = \
-	test.cpp \
-	StartSimulationThreads.cpp
+	test.cpp
 
 localincludedir = $(includedir)/BD_core/gui
 nobase_localinclude_HEADERS = $(H_FILES)

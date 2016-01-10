@@ -20,7 +20,8 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Handler_1Command_
 	jfieldID Argu5ID 		= env->GetFieldID(cls,"Argu5", "Ljava/lang/String;");
 
 	jint OperInt 			= env->GetIntField(ths, OperID);
-	jint CmdInt 			= env->GetIntField(cls, CmdID);
+	jint CmdInt 			= env->GetIntField(ths, CmdID);
+
 	jstring Argu1Str 		= (jstring) env->GetObjectField(ths,Argu1ID);
 	jstring Argu2Str 		= (jstring) env->GetObjectField(ths,Argu2ID);
 	jstring Argu3Str 		= (jstring) env->GetObjectField(ths,Argu3ID);
@@ -33,28 +34,11 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Handler_1Command_
 	const char *c_Argu4 = env->GetStringUTFChars(Argu4Str, NULL);
 	const char *c_Argu5 = env->GetStringUTFChars(Argu5Str, NULL);
 
-	cout<< OperInt << CmdInt << c_Argu1 << c_Argu2 << c_Argu3 << c_Argu4 << c_Argu5 << endl;
+	cout<< OperInt <<"/"<< CmdInt <<"/"<< c_Argu1 <<"/"<< c_Argu2 <<"/"<< c_Argu3 <<"/"<< c_Argu4 <<"/"<< c_Argu5 << endl;
 
 	env->ReleaseStringUTFChars(Argu1Str,c_Argu1);
 	env->ReleaseStringUTFChars(Argu2Str,c_Argu2);
 	env->ReleaseStringUTFChars(Argu3Str,c_Argu3);
 	env->ReleaseStringUTFChars(Argu4Str,c_Argu4);
 	env->ReleaseStringUTFChars(Argu5Str,c_Argu5);
-
 }
-
-//JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_CycleListener(JNIEnv *env, jobject ths)
-//{
-//	jclass cls = env->GetObjectClass(ths);
-//
-//	jmethodID mid = env->GetMethodID(cls, "CycleCallBack", "(J)V");
-//
-//	if (mid == NULL) {
-//		return; /*method not found*/
-//	}
-//	cout << "In C" << endl;
-//
-//	pub_long_cycle = 1000;
-//
-//	env->CallVoidMethod(ths, mid, pub_long_cycle);
-//}

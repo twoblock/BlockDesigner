@@ -1,7 +1,5 @@
 package com.twoblock.blockdesigner.command;
 
-import java.util.Map;
-
 /* --- use for simulation interface Command --- */
 public class Hanlder_CallBack {
 	static {
@@ -11,24 +9,12 @@ public class Hanlder_CallBack {
 			System.err.println("Native code library failed to load");
 		}
 	}
-	public enum ErrorCode{
-		aaa(1,"a1"),
-		bbb(2,"b1");
-		
-		private int code;
-		private String message;
-		
-		private static Map<integer, Status> codeToStatusMapping;
-		
-		private ErrorCode(int code, String message){
-			this.code =code;
-			this.message = message;
-		}
-	}
+	
 	
 	public long cycle;
 	public int status;
-	public int message;
+	public String message;
+	public int errorcode;
 	
 	public Hanlder_CallBack() {}
 	
@@ -54,11 +40,15 @@ public class Hanlder_CallBack {
 	private void ModuleInfoCallBack() {
 		System.out.println("receive ModuleInfo");
 	}
-	private void ErrorCallBack(int message) {
-		System.out.println("ErroCode = "+message);
-		System.err.println("ErroMessage = "+"ss");
+	private void ErrorCallBack(int errorcode) {
+		switch (errorcode) {
+		case 1:	message = "AAA Error"; break;
+		case 2:	message = "BBB Error"; break;
+		case 3:	message = "CCC Error"; break;
+		case 4:	message = "DDD Error"; break;
+		}
+		System.err.println("ErroCode = "+errorcode+" / Error Message = " + message);
 	}
-	
 	
 	static class CallBack_Func {
 		public static void main(String[] args) {
