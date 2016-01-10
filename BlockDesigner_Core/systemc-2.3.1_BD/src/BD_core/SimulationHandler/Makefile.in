@@ -56,7 +56,7 @@ DIST_COMMON = $(nobase_localinclude_HEADERS) $(srcdir)/Makefile.am \
 @ENABLE_CALLBACKS_TRUE@am__append_9 = -DSC_ENABLE_SIMULATION_PHASE_CALLBACKS
 @ENABLE_CALLBACKS_TRACING_TRUE@am__append_10 = -DSC_ENABLE_SIMULATION_PHASE_CALLBACKS_TRACING
 @WANT_PTHREADS_THREADS_TRUE@am__append_11 = -DSC_USE_PTHREADS
-subdir = src/BD_core/SimulationAPI
+subdir = src/BD_core/SimulationHandler
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/config/ax_check_define.m4 \
 	$(top_srcdir)/config/ax_pthread.m4 \
@@ -71,10 +71,12 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
-libBDSim_la_LIBADD =
-am__objects_1 = BDSim.lo
-am_libBDSim_la_OBJECTS = $(am__objects_1)
-libBDSim_la_OBJECTS = $(am_libBDSim_la_OBJECTS)
+libSimulationHandler_la_LIBADD =
+am__objects_1 = SimulationHandler.lo CommandHandler.lo \
+	ResponseHandler.lo CommandQueue.lo
+am_libSimulationHandler_la_OBJECTS = $(am__objects_1)
+libSimulationHandler_la_OBJECTS =  \
+	$(am_libSimulationHandler_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -104,8 +106,8 @@ am__v_CXXLD_0 = @echo "  CXXLD " $@;
 AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(libBDSim_la_SOURCES)
-DIST_SOURCES = $(libBDSim_la_SOURCES)
+SOURCES = $(libSimulationHandler_la_SOURCES)
+DIST_SOURCES = $(libSimulationHandler_la_SOURCES)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -301,16 +303,23 @@ EXTRA_DEFINES = -DSC_INCLUDE_FX $(am__append_8) $(am__append_9) \
 # initialize some useful variables (filled later)
 CLEANFILES = 
 EXTRA_DIST = 
-noinst_LTLIBRARIES = libBDSim.la
+noinst_LTLIBRARIES = libSimulationHandler.la
 H_FILES = \
-	BDSim.h 
+	SimulationHandler.h \
+	CommandHandler.h \
+	ResponseHandler.h \
+	CommandQueue.h \
+	SimulationHandler_type.h
 
 CXX_FILES = \
-	BDSim.cpp 
+	SimulationHandler.cpp \
+	CommandHandler.cpp \
+	ResponseHandler.cpp \
+	CommandQueue.cpp
 
-localincludedir = $(includedir)/BD_core/SimulationAPI
+localincludedir = $(includedir)/BD_core/SimulationHandler
 nobase_localinclude_HEADERS = $(H_FILES)
-libBDSim_la_SOURCES = $(NO_H_FILES) $(CXX_FILES)
+libSimulationHandler_la_SOURCES = $(NO_H_FILES) $(CXX_FILES)
 all: all-am
 
 .SUFFIXES:
@@ -324,9 +333,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(top_srcdir)/config/Make-rules.sy
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/BD_core/SimulationAPI/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/BD_core/SimulationHandler/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/BD_core/SimulationAPI/Makefile
+	  $(AUTOMAKE) --gnu src/BD_core/SimulationHandler/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -355,8 +364,8 @@ clean-noinstLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libBDSim.la: $(libBDSim_la_OBJECTS) $(libBDSim_la_DEPENDENCIES) $(EXTRA_libBDSim_la_DEPENDENCIES) 
-	$(AM_V_CXXLD)$(CXXLINK)  $(libBDSim_la_OBJECTS) $(libBDSim_la_LIBADD) $(LIBS)
+libSimulationHandler.la: $(libSimulationHandler_la_OBJECTS) $(libSimulationHandler_la_DEPENDENCIES) $(EXTRA_libSimulationHandler_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(CXXLINK)  $(libSimulationHandler_la_OBJECTS) $(libSimulationHandler_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -364,7 +373,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDSim.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CommandHandler.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CommandQueue.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ResponseHandler.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SimulationHandler.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

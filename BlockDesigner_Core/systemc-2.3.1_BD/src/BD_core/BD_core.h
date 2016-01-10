@@ -3,6 +3,8 @@
 
 #include"SimulationAPI/BDSim.h"
 #include"manager/ExecutionManager.h"
+#include"SimulationHandler/SimulationHandler.h"
+#include"gui/test.h"
 
 #endif 
 
