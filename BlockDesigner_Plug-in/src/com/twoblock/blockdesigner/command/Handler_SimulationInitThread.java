@@ -3,7 +3,7 @@ package com.twoblock.blockdesigner.command;
 public class Handler_SimulationInitThread {
 	static {
 		try {
-			System.load("/home/lucas/BlockDesigner.git/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so");
+			System.load("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so");
 		} catch (UnsatisfiedLinkError e) {
 			System.err.println("Native code library failed to load(start)");
 		}

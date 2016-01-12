@@ -6,7 +6,7 @@ import com.twoblock.blockdesigner.view.View_SimulationEnvironment;
 public class Hanlder_CallBack {
 	static {
 		try {
-			System.load("/home/lucas/BlockDesigner.git/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so");
+			System.load("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so");
 		} catch (UnsatisfiedLinkError e) {
 			System.err.println("Native code library failed to load(callback)");
 		}
@@ -35,13 +35,13 @@ public class Hanlder_CallBack {
 		View_SimulationEnvironment.lblCyclesCnt.setText(""+cycle);
 	}
 	private void StatusCallBack(int status) {
-		System.out.println("Status = "+status);
+		//System.out.println("Status = "+status);
 	}
 	private void OutputCallBack() {
-		System.out.println("receive Output");
+		//System.out.println("receive Output");
 	}
 	private void ModuleInfoCallBack() {
-		System.out.println("receive ModuleInfo");
+		//System.out.println("receive ModuleInfo");
 	}
 	private void ErrorCallBack(int errorcode) {
 		switch (errorcode) {
@@ -50,7 +50,7 @@ public class Hanlder_CallBack {
 		case 3:	message = "CCC Error"; break;
 		case 4:	message = "DDD Error"; break;
 		}
-		System.err.println("ErroCode = "+errorcode+" / Error Message = " + message);
+		//System.err.println("ErroCode = "+errorcode+" / Error Message = " + message);
 	}
 	
 	static class CallBack_Func {

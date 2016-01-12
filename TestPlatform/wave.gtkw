@@ -1,0 +1,11 @@
+[sst_width] 223
+[signals_width] 126
+[sst_expanded] 1
+[sst_vpaned_height] 160
+@22
+SystemC.HADDR[31:0]
+SystemC.HRDATA[31:0]
+SystemC.HWDATA[31:0]
+SystemC.PC[31:0]
+[pattern_trace] 1
+[pattern_trace] 0
