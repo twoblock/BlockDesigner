@@ -40,12 +40,11 @@ import com.twoblock.blockdesigner.command.Handler_ModuleWizard;
 public class CW_Wizard extends Handler_ModuleWizard {
 	
 	static {
-//		try{
-			System.load("/home/lucas/BlockDesigner.git/BlockDesigner/BlockDesigner_Plug-in/libBD_core.so");
-//		}catch(Exception e) {
-//			System.setProperty("user.dir", "libBD_core");
-//			System.loadLibrary("libBD_core");
-//		}
+		try{
+			System.load("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_core.so");
+		}catch (UnsatisfiedLinkError e) {
+			System.err.println("Native code library failed to load(MD_Wizard)");
+		}
 	}
 	public native String ComponentCreate(String msg);
 	public String component_name;

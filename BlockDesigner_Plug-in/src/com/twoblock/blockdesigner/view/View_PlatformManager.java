@@ -30,7 +30,7 @@ import org.eclipse.ui.part.ViewPart;
  */
 
 public class View_PlatformManager extends ViewPart {
-	//protected Shell shell;
+	//protected Shell shell;0,belp
 	protected int index=1;
 	private Text text;
 	
