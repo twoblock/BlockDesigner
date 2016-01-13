@@ -27,12 +27,11 @@ namespace BDapi
 		int SimState;
 		FILE *fp;
 	
-		//fp = popen("rm -rf wave.vcd", "r");
-		//fp = popen("mkfifo wave.vcd", "r");
+		fp = popen("rm -rf wave.vcd", "r");
+		fp = popen("mkfifo wave.vcd", "r");
 
 		usleep(SECOND_UNIT(1));
 
-		//fp = popen("shmidcat /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.vcd | gtkwave -v -I /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.gtkw", "r");				// Activate GTKWAVE Interactive Mode.
 		fp = popen("shmidcat wave.vcd | gtkwave -v -I /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.gtkw", "r");				// Activate GTKWAVE Interactive Mode.
 
 		if(fp == NULL)		printf("\n\033[31m Error : Can not open GTKWAVE\033[0m\n");

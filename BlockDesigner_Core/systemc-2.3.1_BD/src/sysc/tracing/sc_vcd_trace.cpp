@@ -1697,7 +1697,7 @@ vcd_trace_file::do_initialize()
     char buf[2000];
 
     //date:
-    std::fprintf(fp, "$date\n     %s\n$end\n\n", localtime_string().c_str() );
+    //std::fprintf(fp, "$date\n     %s\n$end\n\n", localtime_string().c_str() );
 
     //version:
     std::fprintf(fp, "$version\n %s\n$end\n\n", sc_version());

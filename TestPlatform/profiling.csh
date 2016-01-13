@@ -20,13 +20,13 @@ cp ../CM0DS.elf ./
 cp ../wave.gtkw ./
 cp ../CM0DS.txt ./
 
-filename="wave.vcd"
-if [ -e $filename ] ; then 
-rm -rf $filename
-mkfifo $filename
-else
-mkfifo $filename
-fi
+#filename="wave.vcd"
+#if [ -e $filename ] ; then 
+#rm -rf $filename
+#mkfifo $filename
+#else
+#mkfifo $filename
+#fi
 
 echo //////////////////////////////////////////////////////////////
 echo // Software profiling test configuration complete.            

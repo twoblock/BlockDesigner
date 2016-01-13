@@ -29,7 +29,7 @@ chown lucas: /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.txt
 chmod 777 /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.elf
 chown lucas: /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.elf
 
-#cd /home/lucas/
+#cd /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/
 
 #filename="wave.vcd"
 #if [ -e $filename ] ; then 
@@ -39,8 +39,8 @@ chown lucas: /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.elf
 #mkfifo $filename
 #fi
 
-#chmod 777 /home/lucas/wave.vcd
-#chown lucas: /home/lucas/wave.vcd
+#chmod 777 /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.vcd
+#chown lucas: /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.vcd
 
 echo //////////////////////////////////////////////////////////////
 echo // If you want to get libBD_core.so, move the 'obj_dir' directory,
