@@ -4,16 +4,21 @@
 #! /bin/csh -f
 
 verilator --sc CORTEXM0DS.v cortexm0ds_logic.v
-verilator --sc mem_interface.v
+
 cd obj_dir
 
-make CXXFLAGS+=' -g' -j -f VCORTEXM0DS.mk VCORTEXM0DS__ALL.a
-make CXXFLAGS+=' -g' -j -f Vmem_interface.mk Vmem_interface__ALL.a
-#make CXXFLAGS+=' -g' -j -f VCORTEXM0DS.mk Vmem_interface.mk  ../sc_main.o verilated.o ../Software_Profiler.o
+#make -j -f VCORTEXM0DS.mk VCORTEXM0DS__ALL.a
+#make -j -f VCORTEXM0DS.mk ../sc_main.o verilated.o ../AHBMUX.o ../AHBDCD.o ../AHB_Lite.o ../Software_Profiler.o
+make CXXFLAGS+=' -g ' -j -f VCORTEXM0DS.mk VCORTEXM0DS__ALL.a
+make CXXFLAGS+=' -g ' -j -f VCORTEXM0DS.mk ../sc_main.o verilated.o ../AHBMUX.o ../AHBDCD.o ../AHB_Lite.o ../Software_Profiler.o
 
-#g++  -fdiagnostics-color -g -L$SYSTEMC_LIBDIR ../sc_main.o VCORTEXM0DS__ALL*.o Vmem_interface__ALL*.o verilated.o ../Software_Profiler.o -o VCM0DS -lsystemc
-#cp ../CM0DS.hex ./
-#cp ../wave.gtkw ./
+
+#g++ -L$SYSTEMC_LIBDIR ../sc_main.o ../AHBMUX.o ../AHBDCD.o ../AHB_Lite.o VCORTEXM0DS__ALL*.o verilated.o ../Software_Profiler.o -o VCM0DS -lsystemc
+g++ -g -L$SYSTEMC_LIBDIR ../sc_main.o ../AHBMUX.o ../AHBDCD.o ../AHB_Lite.o VCORTEXM0DS__ALL*.o verilated.o ../Software_Profiler.o -o VCM0DS -lsystemc
+
+cp ../CM0DS.elf ./
+cp ../wave.gtkw ./
+cp ../CM0DS.txt ./
 
 #filename="wave.vcd"
 #if [ -e $filename ] ; then 
@@ -22,9 +27,6 @@ make CXXFLAGS+=' -g' -j -f Vmem_interface.mk Vmem_interface__ALL.a
 #else
 #mkfifo $filename
 #fi
-
-#cd obj_dir
-#./VCM0DS
 
 echo //////////////////////////////////////////////////////////////
 echo // Software profiling test configuration complete.            

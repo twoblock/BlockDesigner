@@ -73,7 +73,10 @@ module CORTEXM0DS (
   output wire        SLEEPING,          // Core and NVIC sleeping
 
   // SOFTWARE PROFILING TEST BY KO -----
-  output wire [31:0] EXTRACT_PC
+  output wire [31:0] EXTRACT_PC,
+  output wire [31:0] EXTRACT_R3,
+  output wire [31:0] EXTRACT_R4,
+  output wire [31:0] EXTRACT_R10
 );
 
 wire [15:0] IRQ;               
@@ -177,5 +180,8 @@ assign cm0_xpsr    = {vis_apsr[3:0],3'd0,vis_tbit,18'd0,vis_ipsr[5:0]};
 assign cm0_control = {30'd0,vis_control,1'b0};
 assign cm0_primask = {31'd0,vis_primask};
 assign EXTRACT_PC  = {vis_pc[30:0],1'b0}; // Software profiling test by Ko.
+assign EXTRACT_R3  = {cm0_r03[31:0]};
+assign EXTRACT_R4  = {cm0_r04[31:0]};
+assign EXTRACT_R10 = {cm0_r10[31:0]};
 
 endmodule

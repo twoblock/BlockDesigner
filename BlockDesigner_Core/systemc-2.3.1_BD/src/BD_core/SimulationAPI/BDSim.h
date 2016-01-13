@@ -55,6 +55,7 @@ namespace BDapi
 	extern void BD_start();
 	
 	extern long cycle;
+	extern sc_trace_file *wtf;
 	//void ExecuteOneCycle();
 
 

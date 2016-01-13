@@ -3,9 +3,35 @@
 [sst_expanded] 1
 [sst_vpaned_height] 160
 @22
-SystemC.HADDR[31:0]
-SystemC.HRDATA[31:0]
-SystemC.HWDATA[31:0]
 SystemC.PC[31:0]
+SystemC.EXTRACT_R3[31:0]
+SystemC.EXTRACT_R4[31:0]
+SystemC.EXTRACT_R10[31:0]
+SystemC.HCLK
+SystemC.HADDR[31:0]
+SystemC.HWDATA[31:0]
+SystemC.HTRANS[31:0]
+SystemC.HPROT[31:0]
+SystemC.HREADY
+SystemC.HWRITE
+SystemC.HSEL0
+SystemC.HSEL1
+SystemC.HRESP0
+SystemC.HRESP1
+SystemC.HREADY0
+SystemC.HREADY1
+SystemC.HRDATA0[31:0]
+SystemC.HRDATA1[31:0]
+SystemC.M_HADDR[31:0]
+SystemC.M_HTRANS[31:0]
+SystemC.M_HWRITE
+SystemC.M_HSIZE[31:0]
+SystemC.M_HBURST[31:0]
+SystemC.M_HPROT[31:0]
+SystemC.M_HWDATA[31:0]
+SystemC.M_HRDATA[31:0]
+SystemC.M_HRESP
+SystemC.M_HREADY
+
 [pattern_trace] 1
 [pattern_trace] 0
