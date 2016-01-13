@@ -18,12 +18,24 @@ namespace BDapi
 	long cycle = 0;
 	unsigned int ExecutionManager::ExecutionControlFlag;
 	unsigned int ExecutionManager::StepValue;
+	sc_trace_file *wtf;
 
 #define	 SECOND_UNIT(X)		((X)*1000000)
 	void BD_start()
 	{
 		unsigned int SimControl;
 		int SimState;
+		FILE *fp;
+	
+		//fp = popen("rm -rf wave.vcd", "r");
+		//fp = popen("mkfifo wave.vcd", "r");
+
+		usleep(SECOND_UNIT(1));
+
+		//fp = popen("shmidcat /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.vcd | gtkwave -v -I /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.gtkw", "r");				// Activate GTKWAVE Interactive Mode.
+		fp = popen("shmidcat wave.vcd | gtkwave -v -I /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.gtkw", "r");				// Activate GTKWAVE Interactive Mode.
+
+		if(fp == NULL)		printf("\n\033[31m Error : Can not open GTKWAVE\033[0m\n");
 
 		while(1)
 		{
@@ -50,6 +62,7 @@ namespace BDapi
 
 			if( sc_is_running() == false )	{
 				ExecutionManager::SetExecutionFlag(NOTHING);
+				sc_close_vcd_trace_file(wtf);
 				return -1; // Exit
 			}
 		}

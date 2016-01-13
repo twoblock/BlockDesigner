@@ -18,7 +18,7 @@ namespace BDapi
 
 	void CommandQueue::PushCommand(GUI_COMMAND Command){
 		_CommandQueue.push(Command);
-		printf("After Push Command\n");
+		//printf("After Push Command\n");
 	}	
 
 	bool CommandQueue::IsEmpty(){
@@ -29,8 +29,8 @@ namespace BDapi
 	GUI_COMMAND CommandQueue::PopCommand(){
 		GUI_COMMAND st_Command = _CommandQueue.front();
 		_CommandQueue.pop();
-		printf("Pop!\n");
-		printf("CMD Q!! Output %d %d %s %s\n", st_Command.Operation, st_Command.Command, st_Command.Argu1, st_Command.Argu2);
+		//printf("Pop!\n");
+		//printf("CMD Q!! Output %d %d %s %s\n", st_Command.Operation, st_Command.Command, st_Command.Argu1, st_Command.Argu2);
 			
 
 		return st_Command;
