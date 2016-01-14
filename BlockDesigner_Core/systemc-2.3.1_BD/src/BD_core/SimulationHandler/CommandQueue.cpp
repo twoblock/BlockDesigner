@@ -1,37 +1,43 @@
 //-----------------------------------------------------------------------------
 // Design								: Block Designer Command Queue 
-// Autor								: Bryan.Choi 
+// Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: CommandQueue.cpp
-// Date	       					: 2015/1/4
+// Date	       					: 2016/1/4
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: This class provide user interface 
+// Description	: This class provide Command queue 
 // ----------------------------------------------------------------------------
 
 #include "BD_core/SimulationHandler/CommandQueue.h"	
 
 namespace BDapi
-{	
-
+{
+	/*
+	 * function    	: PushCommand 
+	 * design	      : push command into command queue 
+	 */
 	void CommandQueue::PushCommand(GUI_COMMAND Command){
 		_CommandQueue.push(Command);
-		//printf("After Push Command\n");
 	}	
 
+	/*
+	 * function    	: IsEmpty 
+	 * design	      : check that queue is empty 
+	 */
 	bool CommandQueue::IsEmpty(){
-		//printf("Is Empty?\n");
 		return _CommandQueue.empty();
 	}
 
+	/*
+	 * function    	: PopCommand 
+	 * design	      : Pop command from command queue 
+	 */
 	GUI_COMMAND CommandQueue::PopCommand(){
 		GUI_COMMAND st_Command = _CommandQueue.front();
 		_CommandQueue.pop();
-		//printf("Pop!\n");
-		//printf("CMD Q!! Output %d %d %s %s\n", st_Command.Operation, st_Command.Command, st_Command.Argu1, st_Command.Argu2);
-			
 
 		return st_Command;
 	}	

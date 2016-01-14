@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
 // Design								: Block Designer Response Handler 
-// Autor								: Bryan.Choi 
+// Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: ResponseHandler.h
 // Date	       					: 2015/1/4
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
 // Description	: This class provide ResponseHandler API 
 // ----------------------------------------------------------------------------
@@ -15,12 +15,12 @@
 #define RESPONSEHANDLER_H
 
 #include "BD_core/SimulationHandler/SimulationHandler.h"	
+
 /*
- * namespace	: BDapi 
- * design	    : Block Designer API 
+ * namespace	  : BDapi 
+ * design	      : Block Designer API 
  * description	: support analyzing ESL platform based on systemc
  */
-
 using namespace std;
 
 namespace BDapi
@@ -34,8 +34,6 @@ namespace BDapi
 	class ResponseHandler 
 	{
 		public:
-	
-
 		/*
 		 * function 	: 함수 명
 		 * design	: 함수의 간략한 설명
@@ -49,8 +47,7 @@ namespace BDapi
 		 * see		: 함수의 이해를 위해 참고할 만한 함수 혹은 라인을 표기
 		 */
 	};
-
-} // namespace BDapi 
+}
 
 #endif 
 

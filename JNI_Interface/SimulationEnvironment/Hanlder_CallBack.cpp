@@ -16,7 +16,7 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 		return; /*method not found*/
 	}
 	pub_long_cycle = 1000;
-	env->CallVoidMethod(ths, mid, BDapi::cycle );
+	env->CallVoidMethod(ths, mid, BDapi::glw_Cycle );
 }
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_StatusListener(JNIEnv *env, jobject ths)
