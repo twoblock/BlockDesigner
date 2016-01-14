@@ -1,111 +1,92 @@
 //-----------------------------------------------------------------------------
-// Design								: Block Designer Execution Manager 
-// Autor								: Bryan.Choi 
+// Design								: test command setting 
+// Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: ExecutionManager.h
+// File		     					: test.cpp
 // Date	       					: 2015/12/29
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlockTechinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: This class provide Execution contol API
+// Description	: This class provide gui test API
 // ----------------------------------------------------------------------------
 
 #include "test.h"	
 
-namespace BDapi{
-
 #define	 SECOND_UNIT(X)		((X)*1000000)
 #define	 ArraySize 256 
 
+namespace BDapi{
+
+	// declare static variable
 	std::queue<GUI_COMMAND> CommandQueue::_CommandQueue;
 
+	/*
+	 * function   	: GUIThread 
+	 * design     	: DIY for test command
+	 * caller		    : StartSimulationThreads
+	 */
 	void GUIThread(){
-    
-		GUI_COMMAND GUI_commnad;
+
+		GUI_COMMAND st_GUICommand;
 
 		while(1){
-			usleep(SECOND_UNIT(0.5));			// Required to prevent the print output overlap.
 
-			// Get Command
-			printf("\n\n \033[34mOPTION MENU \n");
-			printf(" 0. Put \n");
-			printf("  1. ExecutionControl \n");
-			printf("   RUN \n");
-			printf("   STOP \n");
-			printf("   STEP with Cycle  \n\n");
-			printf(" Input Command : \033[0m");
+			st_GUICommand.Operation = 0;
+			st_GUICommand.Command   = 1;
+			strcpy( st_GUICommand.Argu1, "STEP");
+			strcpy( st_GUICommand.Argu2, "1000");
+			CommandQueue::PushCommand( st_GUICommand );
 
-			//scanf("Input %d \n", Operation);
-			//scanf("Input %d \n", Command);
-			//scanf("Input %s\n", Argu1);
-			//scanf("Input %s\n", Argu2);
+			usleep(SECOND_UNIT(1));		
 
-			//GUI_commnad.Operation = Operation;
-			//GUI_commnad.Command   = Command;
-			//strcpy( GUI_commnad.Argu1, Argu1 );
-			//strcpy( GUI_commnad.Argu2, Argu2);
-			//strcpy( GUI_commnad.Argu3, strtok(NULL," ") );
-			//strcpy( GUI_commnad.Argu4, strtok(NULL," ") );
-			//strcpy( GUI_commnad.Argu5, strtok(NULL," ") );
+			st_GUICommand.Operation = 0;
+			st_GUICommand.Command   = 1;
+			strcpy( st_GUICommand.Argu1, "STEP");
+			strcpy( st_GUICommand.Argu2, "1000");
+			CommandQueue::PushCommand( st_GUICommand );
 
-			GUI_commnad.Operation = 0;
-			GUI_commnad.Command   = 1;
-			strcpy( GUI_commnad.Argu1, "STEP");
-			strcpy( GUI_commnad.Argu2, "1000");
-			CommandQueue::PushCommand( GUI_commnad );
-			usleep(SECOND_UNIT(2));		
+			usleep(SECOND_UNIT(1));		
 
-			GUI_commnad.Operation = 0;
-			GUI_commnad.Command   = 1;
-			strcpy( GUI_commnad.Argu1, "STEP");
-			strcpy( GUI_commnad.Argu2, "1000");
-			CommandQueue::PushCommand( GUI_commnad );
-			usleep(SECOND_UNIT(2));		
+			st_GUICommand.Operation = 0;
+			st_GUICommand.Command   = 1;
+			strcpy( st_GUICommand.Argu1, "STEP");
+			strcpy( st_GUICommand.Argu2, "1000");
+			CommandQueue::PushCommand( st_GUICommand );
 
+			usleep(SECOND_UNIT(1));		
 
-			GUI_commnad.Operation = 0;
-			GUI_commnad.Command   = 1;
-			strcpy( GUI_commnad.Argu1, "STEP");
-			strcpy( GUI_commnad.Argu2, "1000");
-			CommandQueue::PushCommand( GUI_commnad );
-			usleep(SECOND_UNIT(2));		
+			st_GUICommand.Operation = 0;
+			st_GUICommand.Command   = 1;
+			strcpy( st_GUICommand.Argu1, "STEP");
+			strcpy( st_GUICommand.Argu2, "1000");
+			CommandQueue::PushCommand( st_GUICommand );
 
+			usleep(SECOND_UNIT(1));		
 
+			st_GUICommand.Operation = 0;
+			st_GUICommand.Command   = 1;
+			strcpy( st_GUICommand.Argu1, "STEP");
+			strcpy( st_GUICommand.Argu2, "1000");
+			CommandQueue::PushCommand( st_GUICommand );
 
-			GUI_commnad.Operation = 0;
-			GUI_commnad.Command   = 1;
-			strcpy( GUI_commnad.Argu1, "STEP");
-			strcpy( GUI_commnad.Argu2, "1000");
-			CommandQueue::PushCommand( GUI_commnad );
-			usleep(SECOND_UNIT(2));		
+			usleep(SECOND_UNIT(1));		
 
+			st_GUICommand.Operation = 0;
+			st_GUICommand.Command   = 1;
+			strcpy( st_GUICommand.Argu1, "STEP");
+			strcpy( st_GUICommand.Argu2, "1000");
+			CommandQueue::PushCommand( st_GUICommand );
 
+			usleep(SECOND_UNIT(1));		
 
-			GUI_commnad.Operation = 0;
-			GUI_commnad.Command   = 1;
-			strcpy( GUI_commnad.Argu1, "STEP");
-			strcpy( GUI_commnad.Argu2, "1000");
-			CommandQueue::PushCommand( GUI_commnad );
-			usleep(SECOND_UNIT(2));		
+			st_GUICommand.Operation = 0;
+			st_GUICommand.Command   = 1;
+			strcpy( st_GUICommand.Argu1, "STEP");
+			strcpy( st_GUICommand.Argu2, "1000");
+			CommandQueue::PushCommand( st_GUICommand );
 
-			GUI_commnad.Operation = 0;
-			GUI_commnad.Command   = 1;
-			strcpy( GUI_commnad.Argu1, "STEP");
-			strcpy( GUI_commnad.Argu2, "1000");
-			CommandQueue::PushCommand( GUI_commnad );
-			usleep(SECOND_UNIT(2));		
-
-/*			GUI_commnad.Operation = 0;
-			GUI_commnad.Command   = 1;
-			strcpy( GUI_commnad.Argu1, "RUN");
-			CommandQueue::PushCommand( GUI_commnad );
-			usleep(SECOND_UNIT(0.5));		
-
-*/
-
-
-
+			// protect input command
 			while(1);	
 		}
 	}

@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
 // Design								: Block Designer Command Queue 
-// Autor								: Bryan.Choi 
+// Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: CommandHandler.cpp
-// Date	       					: 2015/1/4
+// Date	       					: 2016/1/4
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
 // Description	: This class provide CommandHandler API 
 // ----------------------------------------------------------------------------
@@ -15,54 +15,71 @@
 
 namespace BDapi
 {	
-
-	void CommandHandler::SetCommand(GUI_COMMAND st_Command){
-
-		st_GUIcommand = st_Command;
+	/*
+	 * function    	: SetCommand 
+	 * design	      : set command
+	 * caller		    : SimulationHandler 
+	 */
+	void CommandHandler::SetCommand(GUI_COMMAND Command)
+	{
+		st_GUICommand = Command;
 	}	
 
-	int CommandHandler::Execute(){
-
-		if( st_GUIcommand.Operation	== PUT ){
+	/*
+	 * function    	: Execute 
+	 * design	      : check Operation( PUT or GET ) 
+	 * caller		    : SimulationHandler 
+	 * callee       : PutOperation, GetOperation 
+	 */
+	int CommandHandler::Execute()
+	{
+		if(st_GUICommand.Operation == PUT){
 			PutOperation();
 		}
-		else if( st_GUIcommand.Operation	== PUT ){
+		else if(st_GUICommand.Operation	== GET){
 			//GetOperation();
 		}
 		else; // Exeception
 
-		// Set Default
-
 		return 0;
 	}
 
-	int CommandHandler::PutOperation(){
-
-		if( st_GUIcommand.Command == ExecutionControl ){
-			ExcutionControl();
+	/*
+	 * function    	: PutOperation 
+	 * design	      : check command and perform command
+	 * description  : 
+	 * caller		    : Execute 
+	 * callee       : 
+	 */
+	int CommandHandler::PutOperation()
+	{
+		if(st_GUICommand.Command == ExecutionControl){
+			CmdExecutionControl();
 		}
-
 		return 0;
 	}
+	
+	/*
+	 * function    	: ExecutionControl
+	 * design	      : Set execution flag by using ExecutionManager 
+	 * caller		    : PutOperation 
+	 */
+	void CommandHandler::CmdExecutionControl(){
 
-	void CommandHandler::ExcutionControl(){
+		unsigned int dw_StepValue = 0;
 
-		unsigned int StepValue = 0;
-
-		if( strcmp( st_GUIcommand.Argu1,"RUN") == 0 ){
+		if(strcmp(st_GUICommand.Argu1,"RUN") == 0 ){
 			ExecutionManager::SetExecutionFlag(RUN);	
 		}	
-		else if( strcmp( st_GUIcommand.Argu1,"STEP") == 0 ){
-			StepValue  = atoi(st_GUIcommand.Argu2);
-			StepValue *= 10;
-			ExecutionManager::SetStepValue(StepValue);	
+		else if(strcmp(st_GUICommand.Argu1,"STEP") == 0 ){
+			dw_StepValue  = atoi(st_GUICommand.Argu2);
+			dw_StepValue *= 10;
+			ExecutionManager::SetStepValue(dw_StepValue);	
 			ExecutionManager::SetExecutionFlag(STEP);	
 		}
-		else if( strcmp( st_GUIcommand.Argu1,"STOP") == 0 ){
+		else if(strcmp(st_GUICommand.Argu1,"STOP") == 0 ){
 			ExecutionManager::SetExecutionFlag(STOP);	
 		}	
 		else;// Exeception	
-
 	}
-
 }
