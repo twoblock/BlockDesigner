@@ -14,7 +14,7 @@
 #ifndef RESPONSEHANDLER_H 
 #define RESPONSEHANDLER_H
 
-#include "BD_core/SimulationHandler/SimulationHandler.h"	
+#include "AllSimulationHandler.h"	
 
 /*
  * namespace	  : BDapi 

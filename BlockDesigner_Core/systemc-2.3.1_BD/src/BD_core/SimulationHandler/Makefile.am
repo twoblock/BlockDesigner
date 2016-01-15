@@ -39,7 +39,8 @@ H_FILES = \
 	CommandHandler.h \
 	ResponseHandler.h \
 	CommandQueue.h \
-	SimulationHandler_type.h
+	SimulationHandler_type.h \
+	AllSimulationHandler.h
 	 
 CXX_FILES = \
 	SimulationHandler.cpp \

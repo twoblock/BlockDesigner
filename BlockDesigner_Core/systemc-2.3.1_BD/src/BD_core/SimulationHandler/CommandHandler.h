@@ -14,10 +14,8 @@
 #ifndef COMMANDHANDLER_H 
 #define COMMANDHANDLER_H 
 
-#include "BD_core/SimulationHandler/SimulationHandler.h"	
-
-//for strcpy function
-using namespace std;
+#include "AllSimulationHandler.h"
+#include "BD_core/manager/AllManager.h"
 
 /*
  * namespace	: BDapi 
@@ -34,14 +32,19 @@ namespace BDapi
 	class CommandHandler 
 	{
 		public:
+			CommandHandler();
+			
 			void SetCommand(GUI_COMMAND st_Command);
 
 			int Execute();
 			int PutOperation();
-			void CmdExecutionControl();
+			int GetOperation();
+			void SetManagerForPutOperation(TopManagerBase *manager);
+			void SetManagerForGetOperation(TopManagerBase *manager);
 
 		private:
 			GUI_COMMAND st_GUICommand;
+			ExecutionManager* CmdExecutionManager;
 	};
 } 
 

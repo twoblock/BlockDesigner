@@ -19,6 +19,8 @@
 #define STEP  	2
 #define STOP  	3
 
+#include "TopManagerBase.h"
+
 /*
  * namespace	: BDapi 
  * design	    : Block Designer API 
@@ -31,18 +33,25 @@ namespace BDapi
 	 * design	      : Control Execution of simulation 
 	 * description	: Give Execution Control flag to Simulation thread, Simulation Handler thread 
 	 */
-	class ExecutionManager
+	class ExecutionManager : public TopManagerBase
 	{
 		public:
+			void PutOperationControl(GUI_COMMAND Command);
+			void GetOperationControl(GUI_COMMAND Command);
 			static void SetExecutionFlag(unsigned int Flag);
 			static unsigned int GetExecutionFlag();	
 
 			static void SetStepValue(unsigned int Value);
 			static unsigned int GetStepValue();
+			static ExecutionManager* GetInstance();
+
+			~ExecutionManager();
 
 		private:
 			static unsigned int dw_ExecutionControlFlag;
 			static unsigned int dw_StepValue;
+			static ExecutionManager *_ExecutionManager;
+		
 	};
 } // namespace BDapi 
 
