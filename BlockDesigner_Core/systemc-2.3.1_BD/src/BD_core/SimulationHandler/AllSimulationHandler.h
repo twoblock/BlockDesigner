@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Design								: Block Designer Simulation Handler 
+// Design								: Block Designer All Simulation Handler Header Files
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: SimulationHandler.h
@@ -8,23 +8,20 @@
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: This function is used for Simulator Handler thread
+// Description	: Block Designer All Simulation Handler Header Files
 // ----------------------------------------------------------------------------
 
-#ifndef SIMULATION_HANDLER_H
-#define SIMULATION_HANDLER_H
+#ifndef ALL_SIMULATION_HANDLER_H
+#define ALL_SIMULATION_HANDLER_H
 
-#include "AllSimulationHandler.h"
+#include "SimulationHandler_type.h"	
+#include "CommandHandler.h"	
+#include "CommandQueue.h"	
+#include "ResponseHandler.h"	
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "BD_core/manager/AllManager.h"
 
-/*
- * namespace	: BDapi 
- * design	    : Block Designer API 
- * description	: support analyzing ESL platform based on systemc
- */
-namespace BDapi
-{
-	extern void SimulationHandler();
-}
-
-#endif 
+#endif // ALL_SIMULATION_HANDLER_H
 

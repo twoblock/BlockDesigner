@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------- 
-// Design								: BD Core All header files
+// Design								: Block Designer All Manager Header Files
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: TopManagerBase.h
@@ -8,17 +8,13 @@
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: BD Core All header files
+// Description	: Block Designer All Manager Header Files
 // ----------------------------------------------------------------------------
 
-#ifndef BDCORE_H 
-#define BDCORE_H 
+#ifndef __ALLMANAGER_H__
+#define __ALLMANAGER_H__
 
-#include"SimulationAPI/BDSim.h"
-#include"manager/AllManager.h"
-#include"SimulationHandler/SimulationHandler.h"
-#include"gui/test.h"
-#include"gui/StartSimulationThreads.h"
+#include "TopManagerBase.h"
+#include "ExecutionManager.h"
 
-#endif 
-
+#endif	// __ALLMANAGER_H__

@@ -11,10 +11,22 @@
 // Description	: This class provide CommandHandler API 
 // ----------------------------------------------------------------------------
 
-#include "BD_core/SimulationHandler/CommandHandler.h"	
+#include "CommandHandler.h"	
 
 namespace BDapi
 {	
+	// Initialize Manager Instance
+	ExecutionManager* ExecutionManager::_ExecutionManager = NULL;
+	
+	/*
+	 * function    	: Constructor
+	 * design	      : get all mananger instances
+	 */
+	CommandHandler::CommandHandler()
+	{
+		CmdExecutionManager = ExecutionManager::GetInstance();
+	}
+
 	/*
 	 * function    	: SetCommand 
 	 * design	      : set command
@@ -37,7 +49,7 @@ namespace BDapi
 			PutOperation();
 		}
 		else if(st_GUICommand.Operation	== GET){
-			//GetOperation();
+			GetOperation();
 		}
 		else; // Exeception
 
@@ -54,32 +66,47 @@ namespace BDapi
 	int CommandHandler::PutOperation()
 	{
 		if(st_GUICommand.Command == ExecutionControl){
-			CmdExecutionControl();
+			SetManagerForPutOperation(CmdExecutionManager);
 		}
 		return 0;
 	}
-	
+
 	/*
-	 * function    	: ExecutionControl
-	 * design	      : Set execution flag by using ExecutionManager 
-	 * caller		    : PutOperation 
+	 * function    	: GetOperation 
+	 * design	      : check command and perform command
+	 * description  : 
+	 * caller		    : Execute 
+	 * callee       : 
 	 */
-	void CommandHandler::CmdExecutionControl(){
-
-		unsigned int dw_StepValue = 0;
-
-		if(strcmp(st_GUICommand.Argu1,"RUN") == 0 ){
-			ExecutionManager::SetExecutionFlag(RUN);	
-		}	
-		else if(strcmp(st_GUICommand.Argu1,"STEP") == 0 ){
-			dw_StepValue  = atoi(st_GUICommand.Argu2);
-			dw_StepValue *= 10;
-			ExecutionManager::SetStepValue(dw_StepValue);	
-			ExecutionManager::SetExecutionFlag(STEP);	
+	int CommandHandler::GetOperation()
+	{
+		if(st_GUICommand.Command == ExecutionControl){
+			SetManagerForGetOperation(CmdExecutionManager);
 		}
-		else if(strcmp(st_GUICommand.Argu1,"STOP") == 0 ){
-			ExecutionManager::SetExecutionFlag(STOP);	
-		}	
-		else;// Exeception	
+		return 0;
+	}
+
+	/*
+	 * function    	: SetManagerForPutOperation
+	 * design	      : set manager and perform put operation
+	 * description  : 
+	 * caller		    : PutOperation
+	 * callee       : 
+	 */
+	void CommandHandler::SetManagerForPutOperation(TopManagerBase *manager)
+	{
+		manager->PutOperationControl(st_GUICommand);	
+	}
+
+	/*
+	 * function    	: SetManagerForGetOperation 
+	 * design	      : set manager and perform get operation
+	 * description  : 
+	 * caller		    : GetOperation
+	 * callee       : 
+	 */
+	void CommandHandler::SetManagerForGetOperation(TopManagerBase *manager)
+	{
+		manager->GetOperationControl(st_GUICommand);	
 	}
 }

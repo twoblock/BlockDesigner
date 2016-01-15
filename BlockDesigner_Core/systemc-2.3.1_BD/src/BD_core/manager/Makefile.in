@@ -303,7 +303,10 @@ CLEANFILES =
 EXTRA_DIST = 
 noinst_LTLIBRARIES = libmanager.la
 H_FILES = \
-	ExecutionManager.h
+	ExecutionManager.h \
+	TopManager.h \
+	TopManagerBase.h \
+	AllManager.h
 
 CXX_FILES = \
 	ExecutionManager.cpp

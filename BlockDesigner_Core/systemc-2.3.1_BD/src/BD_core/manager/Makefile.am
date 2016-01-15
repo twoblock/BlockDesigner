@@ -35,7 +35,10 @@ include $(top_srcdir)/config/Make-rules.sysc
 noinst_LTLIBRARIES = libmanager.la
 
 H_FILES = \
-	ExecutionManager.h
+	ExecutionManager.h \
+	TopManager.h \
+	TopManagerBase.h \
+	AllManager.h
  
 CXX_FILES = \
 	ExecutionManager.cpp

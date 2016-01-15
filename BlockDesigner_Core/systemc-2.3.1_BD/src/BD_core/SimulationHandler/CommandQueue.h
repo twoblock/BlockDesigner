@@ -14,7 +14,7 @@
 #ifndef COMMANDQUEUE_H 
 #define COMMANDQUEUE_H 
 
-#include "BD_core/SimulationHandler/SimulationHandler.h"	
+#include "AllSimulationHandler.h"	
 #include <queue> 
 
 // for c++ STL queue

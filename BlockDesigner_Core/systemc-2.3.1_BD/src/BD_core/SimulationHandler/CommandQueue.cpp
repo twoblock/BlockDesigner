@@ -11,7 +11,7 @@
 // Description	: This class provide Command queue 
 // ----------------------------------------------------------------------------
 
-#include "BD_core/SimulationHandler/CommandQueue.h"	
+#include "CommandQueue.h"	
 
 namespace BDapi
 {

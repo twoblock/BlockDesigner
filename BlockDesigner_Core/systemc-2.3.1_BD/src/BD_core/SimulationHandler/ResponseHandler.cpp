@@ -11,7 +11,7 @@
 // Description	: This class provide ResponseHandler API 
 // ----------------------------------------------------------------------------
 
-#include "BD_core/SimulationHandler/ResponseHandler.h"	
+#include "ResponseHandler.h"	
 
 namespace BDapi
 {	
