@@ -154,6 +154,9 @@ public:
     // operator() is declared at the end of the class.
 
     const ::std::vector<sc_object*>& get_child_objects() const;
+    
+		// get port list for Block Designer
+		std::vector<sc_port_base*>* get_port_list();
 
 protected:
 

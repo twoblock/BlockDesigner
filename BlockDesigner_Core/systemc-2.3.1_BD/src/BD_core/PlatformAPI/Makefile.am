@@ -32,29 +32,22 @@
 
 include $(top_srcdir)/config/Make-rules.sysc
 
-noinst_LTLIBRARIES = libgui.la
+LIBS+= -ldl
+
+noinst_LTLIBRARIES = libBDPlatform.la
 
 H_FILES = \
-	test.h \
-	StartSimulationThreads.h \
-	StartPlatformManagerThreads.h \
-	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.h \
-	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.h \
-	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.h \
-	../../../../../JNI_Interface/jdk_h/jni.h  \
-	../../../../../JNI_Interface/jdk_h/jni_md.h 
+	BDPlatform.h \
+	json/json.h \
+	json/json-forwards.h
  
 CXX_FILES = \
-	test.cpp \
-	StartSimulationThreads.cpp \
-	StartPlatformManagerThreads.cpp \
-	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.cpp \
-	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.cpp \
-	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.cpp 
+	BDPlatform.cpp \
+	jsoncpp.cpp 
 
-localincludedir = $(includedir)/BD_core/gui
+localincludedir = $(includedir)/BD_core/PlatformAPI
 nobase_localinclude_HEADERS = $(H_FILES)
 
-libgui_la_SOURCES = $(NO_H_FILES) $(CXX_FILES)
+libBDPlatform_la_SOURCES = $(NO_H_FILES) $(CXX_FILES)
 
 ## Taf!

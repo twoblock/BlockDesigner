@@ -37,6 +37,7 @@ noinst_LTLIBRARIES = libBD_core.la
 SUBDIRS = \
 	manager \
   SimulationAPI \
+  PlatformAPI \
   SimulationHandler \
 	gui
 
@@ -54,6 +55,7 @@ nodist_EXTRA_libBD_core_la_SOURCES = BD_core_nonexistent.cpp
 
 libBD_core_la_LIBADD = \
        SimulationAPI/libBDSim.la \
+       PlatformAPI/libBDPlatform.la \
        manager/libmanager.la \
        SimulationHandler/libSimulationHandler.la \
        gui/libgui.la 
