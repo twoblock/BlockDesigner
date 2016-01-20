@@ -38,10 +38,12 @@ H_FILES = \
 	ExecutionManager.h \
 	TopManager.h \
 	TopManagerBase.h \
-	AllManager.h
+	AllManager.h \
+	BDDIManager.h
  
 CXX_FILES = \
-	ExecutionManager.cpp
+	ExecutionManager.cpp \
+	BDDIManager.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)

@@ -97,6 +97,14 @@ namespace BDapi
 	}
 
 	/*
+	 * function 	: Constructor
+	 * design	    : 
+	 */
+	ExecutionManager::ExecutionManager()
+	{
+	}
+
+	/*
 	 * function 	: Destructor
 	 * design	    : delete execution manager instance
 	 */

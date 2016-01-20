@@ -2,8 +2,8 @@
 // Design								: Block Designer Execution Manager 
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: ExecutionManager.h
-// Date	       					: 2015/12/29
+// File		     					: BDDIManager.h
+// Date	       					: 2015/1/19
 // Reference            :
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlockTechinologies Co.
@@ -11,13 +11,8 @@
 // Description	: This class provide Execution contol API
 // ----------------------------------------------------------------------------
 
-#ifndef EXECUTIONMANAGER_H 
-#define EXECUTIONMANAGER_H 
-
-#define NOTHING 0
-#define RUN   	1
-#define STEP  	2
-#define STOP  	3
+#ifndef __BDDI_MANAGER_H__
+#define __BDDI_MANAGER_H__
 
 #include "TopManagerBase.h"
 
@@ -29,35 +24,25 @@
 namespace BDapi
 {
 	/*
-	 * class		    : ExecutionManager 
-	 * design	      : Control Execution of simulation 
-	 * description	: Give Execution Control flag to Simulation thread, Simulation Handler thread 
+	 * class		    : 
+	 * design	      : 
+	 * description	: 
 	 */
-	class ExecutionManager : public TopManagerBase
+	class BDDIManager : public TopManagerBase
 	{
 		public:
 			void PutOperationControl(GUI_COMMAND Command);
 			void GetOperationControl(GUI_COMMAND Command);
-			static void SetExecutionFlag(unsigned int Flag);
-			static unsigned int GetExecutionFlag();	
+			static BDDIManager* GetInstance();
 
-			static void SetStepValue(unsigned int Value);
-			static unsigned int GetStepValue();
-			static ExecutionManager* GetInstance();
+			~BDDIManager();
 
-			~ExecutionManager();
-		
 		protected:
-			ExecutionManager();
+			BDDIManager();
 
 		private:
-			static unsigned int dw_ExecutionControlFlag;
-			static unsigned int dw_StepValue;
-			static ExecutionManager *_ExecutionManager;
-		
+			static BDDIManager *_BDDIManager;
 	};
 } // namespace BDapi 
 
-#endif 
-
-
+#endif	// __BDDI_MANAGER_H__
