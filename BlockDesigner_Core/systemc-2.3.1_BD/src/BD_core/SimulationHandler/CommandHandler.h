@@ -44,7 +44,10 @@ namespace BDapi
 
 		private:
 			GUI_COMMAND st_GUICommand;
+			
+			// declare all manager instance
 			ExecutionManager* CmdExecutionManager;
+			BDDIManager* CmdBDDIManager;
 	};
 } 
 

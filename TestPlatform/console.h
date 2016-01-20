@@ -19,6 +19,9 @@
 #include "type.h"
 #include <stdio.h>
 
+// for BDDI
+#include "console_BDDI.h"
+
 SC_MODULE(CONSOLE)	{
 	/********** [port] **********/
 	sc_in<bool>		HCLK;
@@ -59,6 +62,9 @@ SC_MODULE(CONSOLE)	{
 
 	sc_signal<UINT8>	NEXT_DATA;
 	sc_signal<bool>		NEXT_FLAG;
+
+	// for test of BDDI
+	UINT32						dw_LocalParam;
 
 	/********** [member function] **********/
 	UINT32 ByteEnable(UINT32 addr, UINT32 size)	{
@@ -176,6 +182,9 @@ SC_MODULE(CONSOLE)	{
 	}
 
 	SC_CTOR(CONSOLE)	{
+		// for BDDI
+		bddi = new CONSOLE_BDDI(this);
+
 		SC_METHOD(do_assign_addr_phase);
 		sensitive << HREADY;
 		sensitive << HSEL;

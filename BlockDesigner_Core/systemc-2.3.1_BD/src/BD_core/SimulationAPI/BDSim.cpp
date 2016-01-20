@@ -37,6 +37,18 @@ namespace BDapi
 		int dw_SimState = 0;
 		FILE *fp = NULL;
 
+		sc_object *find = sc_find_object("BD_CONSOLE");
+
+		sc_module *mdfind = static_cast<sc_module*>(find);
+
+		mdfind->bddi->BDDISetParameterValues(0, 10);
+		
+		unsigned int value;
+
+		mdfind->bddi->BDDIGetParameterValues(0, &value);
+
+		printf("get param value is : %d\n", value);
+
 		// create fifo wave file.
 		fp = popen("rm -rf wave.vcd", "r");
 		usleep(SECOND_UNIT(0.5));

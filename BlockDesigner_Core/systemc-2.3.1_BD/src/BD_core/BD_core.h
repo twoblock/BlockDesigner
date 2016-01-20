@@ -19,6 +19,9 @@
 #include"SimulationHandler/SimulationHandler.h"
 #include"gui/test.h"
 #include"gui/StartSimulationThreads.h"
+#include"SimulationAPI/BDDI.h"
+#include"SimulationAPI/BDDIBase.h"
+#include"SimulationAPI/BDDITypes.h"
 
 #endif 
 

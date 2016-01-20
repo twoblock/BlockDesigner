@@ -17,6 +17,7 @@ namespace BDapi
 {	
 	// Initialize Manager Instance
 	ExecutionManager* ExecutionManager::_ExecutionManager = NULL;
+	BDDIManager* BDDIManager::_BDDIManager = NULL;
 	
 	/*
 	 * function    	: Constructor
@@ -25,6 +26,7 @@ namespace BDapi
 	CommandHandler::CommandHandler()
 	{
 		CmdExecutionManager = ExecutionManager::GetInstance();
+		CmdBDDIManager = BDDIManager::GetInstance();
 	}
 
 	/*
@@ -68,6 +70,10 @@ namespace BDapi
 		if(st_GUICommand.Command == ExecutionControl){
 			SetManagerForPutOperation(CmdExecutionManager);
 		}
+		else if(st_GUICommand.Command == PutDebugInterface)	{
+			SetManagerForPutOperation(CmdBDDIManager);
+		} 
+
 		return 0;
 	}
 
@@ -83,6 +89,10 @@ namespace BDapi
 		if(st_GUICommand.Command == ExecutionControl){
 			SetManagerForGetOperation(CmdExecutionManager);
 		}
+		else if(st_GUICommand.Command == PutDebugInterface)	{
+			SetManagerForGetOperation(CmdBDDIManager);
+		}
+		
 		return 0;
 	}
 

@@ -72,7 +72,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libmanager_la_LIBADD =
-am__objects_1 = ExecutionManager.lo
+am__objects_1 = ExecutionManager.lo BDDIManager.lo
 am_libmanager_la_OBJECTS = $(am__objects_1)
 libmanager_la_OBJECTS = $(am_libmanager_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -306,10 +306,12 @@ H_FILES = \
 	ExecutionManager.h \
 	TopManager.h \
 	TopManagerBase.h \
-	AllManager.h
+	AllManager.h \
+	BDDIManager.h
 
 CXX_FILES = \
-	ExecutionManager.cpp
+	ExecutionManager.cpp \
+	BDDIManager.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -367,6 +369,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDDIManager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ExecutionManager.Plo@am__quote@
 
 .cpp.o:

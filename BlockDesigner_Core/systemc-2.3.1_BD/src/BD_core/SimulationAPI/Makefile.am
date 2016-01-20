@@ -35,7 +35,10 @@ include $(top_srcdir)/config/Make-rules.sysc
 noinst_LTLIBRARIES = libBDSim.la
 
 H_FILES = \
-	BDSim.h 
+	BDSim.h	\
+	BDDI.h	\
+	BDDIBase.h	\
+	BDDITypes.h
  
 CXX_FILES = \
 	BDSim.cpp 

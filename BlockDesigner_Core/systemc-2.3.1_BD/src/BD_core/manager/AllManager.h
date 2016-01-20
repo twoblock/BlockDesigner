@@ -16,5 +16,6 @@
 
 #include "TopManagerBase.h"
 #include "ExecutionManager.h"
+#include "BDDIManager.h"
 
 #endif	// __ALLMANAGER_H__
