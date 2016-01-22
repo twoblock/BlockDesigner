@@ -16,6 +16,9 @@
 
 #include "TopManagerBase.h"
 
+// for Debugging BDDI
+#include <stdio.h>
+
 /*
  * namespace	: BDapi 
  * design	    : Block Designer API 
@@ -24,9 +27,10 @@
 namespace BDapi
 {
 	/*
-	 * class		    : 
-	 * design	      : 
-	 * description	: 
+	 * class		    : BDDIManager
+	 * design	      : Control BDDI Function
+	 * description	: interface parameter, register,
+	 *								memory and assembly code by controlling BDDI function
 	 */
 	class BDDIManager : public TopManagerBase
 	{

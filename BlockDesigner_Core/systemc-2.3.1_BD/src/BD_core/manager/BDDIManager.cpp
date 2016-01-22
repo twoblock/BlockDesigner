@@ -1,5 +1,6 @@
 #include "BDDIManager.h"
 #include "systemc.h"
+#include "BD_core/SimulationAPI/BDDI.h"
 
 //#define NDEBUG
 // for debugging
@@ -12,7 +13,7 @@ namespace BDapi
 {	
 	/*
 	 * function    	: PutOperationControl
-	 * design	      : 
+	 * design	      : Transfer Debugging Information by Using BDDIManager
 	 * caller		    : CommandHandler::SetManagerForPutOperation
 	 */
 	void BDDIManager::PutOperationControl(GUI_COMMAND Command)
@@ -22,8 +23,7 @@ namespace BDapi
 
 		if(strcmp(Command.Argu2, "param") == 0)	{
 			if(strcmp(Command.Argu3, "write") == 0)	{
-				int dw_Index = atoi(Command.Argu4);
-				
+
 			}
 			else	{
 				// Invalid Command : Breakpoint of parameter is not supported.
@@ -31,7 +31,13 @@ namespace BDapi
 			}
 		}
 		else if(strcmp(Command.Argu2, "reg") == 0)	{
-
+			if(strcmp(Command.Argu3, "write") == 0)	{
+				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
+				p_Module->bddi->BDDISetRegisterValues(dw_Index, Command.Argu5);
+			}
+			else	{
+				assert(0);
+			}
 		}
 		else if(strcmp(Command.Argu2, "mem") == 0)	{
 		
@@ -47,7 +53,7 @@ namespace BDapi
 
 	/*
 	 * function    	: GetOperationControl
-	 * design	      : 
+	 * design	      : Receive Debugging Information by Using BDDIManager
 	 * caller		    : CommandHandler::SetManagerForGetOperation
 	 */
 	void BDDIManager::GetOperationControl(GUI_COMMAND Command)
@@ -55,6 +61,35 @@ namespace BDapi
 		sc_object *p_Object = sc_find_object(Command.Argu1);
 		sc_module *p_Module = static_cast<sc_module*>(p_Object);	
 
+		if(strcmp(Command.Argu2, "param") == 0)	{
+			if(strcmp(Command.Argu3, "read") == 0)	{
+
+			}
+			else	{
+				assert(0);
+			}
+		}
+		else if(strcmp(Command.Argu2, "reg") == 0)	{
+			if(strcmp(Command.Argu3, "read") == 0)	{
+				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
+				p_Module->bddi->BDDIGetRegisterValues(dw_Index, Command.Argu5);
+
+				printf("\nget register value : %s\n", Command.Argu5);
+			}
+			else	{
+				assert(0);
+			}
+		}
+		else if(strcmp(Command.Argu2, "mem") == 0)	{
+		
+		}
+		else if(strcmp(Command.Argu2, "assem") == 0)	{
+
+		}
+		else	{
+			// Invalid Command : This command does not exist.
+			assert(0);
+		}
 	}
 
 	/*
@@ -80,7 +115,7 @@ namespace BDapi
 
 	/*
 	 * function 	: Destructor
-	 * design	    : delete execution manager instance
+	 * design	    : delete BDDI manager instance
 	 */
 	BDDIManager::~BDDIManager()
 	{

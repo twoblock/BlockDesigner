@@ -37,18 +37,6 @@ namespace BDapi
 		int dw_SimState = 0;
 		FILE *fp = NULL;
 
-		sc_object *find = sc_find_object("BD_CONSOLE");
-
-		sc_module *mdfind = static_cast<sc_module*>(find);
-
-		mdfind->bddi->BDDISetParameterValues(0, 10);
-		
-		unsigned int value;
-
-		mdfind->bddi->BDDIGetParameterValues(0, &value);
-
-		printf("get param value is : %d\n", value);
-
 		// create fifo wave file.
 		fp = popen("rm -rf wave.vcd", "r");
 		usleep(SECOND_UNIT(0.5));
@@ -62,7 +50,7 @@ namespace BDapi
 		while(1){
 			dw_SimControl = ExecutionManager::GetExecutionFlag();
 			dw_SimState = Simulate(dw_SimControl);			
-			
+
 			if(dw_SimState == -1) break; // Simulation End 
 		}
 	}
@@ -77,7 +65,7 @@ namespace BDapi
 	int Simulate(unsigned int SimControl)
 	{
 		if(SimControl != NOTHING){
-			
+
 			switch(SimControl)
 			{
 				case    RUN  : Run();	  break;	
@@ -90,6 +78,7 @@ namespace BDapi
 			if(sc_is_running() == false){
 				ExecutionManager::SetExecutionFlag(NOTHING);
 				sc_close_vcd_trace_file(wtf);
+
 				return -1; // Exit
 			}
 		}

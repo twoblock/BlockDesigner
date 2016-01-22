@@ -23,20 +23,46 @@
  */
 namespace BDapi
 {
+	/*
+	 * class		    : BDDIBase
+	 * design	      : Provide Block Designer Debugging Interface Function
+	 * description	: this class provides to access parameter, register
+	 *								memory, assembly code by using BDDI function
+	 */
 	class BDDIBase : public BDDI
 	{
 		public:
-			
-			virtual BDDIReturn BDDIGetParameterValues(unsigned int ParamIndex, unsigned int *OutParam)
+
+			/*
+			 * function			: BDDIGetRegisterValues
+			 * design				: Get Register Value from Each Module 
+			 * description	: this function bring the current value of register value in each module
+			 *								to transfer the value to user
+			 * param				: RegIndex		- this parameter is	the real number of the register group
+			 *								OutValue		-	this parameter is the current value of register value in each module
+			 * return				: this function return status of success or failure
+			 * caller				: BDDIManager::GetOperationControl
+			 */
+			virtual BDDIReturn BDDIGetRegisterValues(unsigned int RegIndex, char *OutValue)
 			{
 				return BDDIStatusCmdNotSupported;
 			}
 
-			virtual BDDIReturn BDDISetParameterValues(unsigned int ParamIndex, unsigned int SetValue)
+			/*
+			 * function			: BDDISetRegisterValues
+			 * design				: Set Register Value to Each Module 
+			 * description	: this function set the value which is set by user to register in module
+			 * param				: RegIndex		- this parameter is	the real number of the register group
+			 *								SetValue		-	this parameter is set by user 
+			 * return				: this function return status of success or failure
+			 * caller				: BDDIManager::PutOperationControl
+			 */
+			virtual BDDIReturn BDDISetRegisterValues(unsigned int RegIndex, const char *SetValue)
 			{
 				return BDDIStatusCmdNotSupported;
 			}
 	};
+
 }
 
 #endif	// __BDDIBASE_H__

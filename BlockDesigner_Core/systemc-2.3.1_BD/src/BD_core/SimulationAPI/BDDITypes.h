@@ -13,8 +13,8 @@
 #ifndef __BDDITYPES_H__
 #define __BDDITYPES_H__
 
-#define BDDI_NAME_SIZE					1024
-#define BDDI_DESCRIPTION_SIZE		1024
+#define BDDI_NAME_SIZE			1024
+#define BDDI_STRING_SIZE		1024
 
 typedef unsigned char				UINT8;
 typedef unsigned short			UINT16;
@@ -76,17 +76,58 @@ namespace BDapi
 		BDDIParamType Type;
 	};
 
-	// BDDI Return Value Classification
+	// BDDI To Select Register Value Information
+	enum BDDISelectRegValue
+	{
+		BDDISelectRegBOOL,
+		BDDISelectRegSTRING,
+		BDDISelectRegBIT8,
+		BDDISelectRegBIT16,
+		BDDISelectRegBIT32,
+		BDDISelectRegBIT64,
+		BDDISelectRegHEX,
+		BDDISelectRegFLOAT,
+		BDDISelectRegDOUBLE,
+		BDDISelectRegPC,
+		BDDISelectRegMax = 0xFFFFFFFF
+	};	
+
+	// BDDI Return Register Value Classification
 	struct BDDIRegValue
 	{
-		bool BoolValue;
-		char StringValue[BDDI_DESCRIPTION_SIZE];
-		UINT8 Uint8Value;
-		UINT16 Uint16Value;
-		UINT32 Uint32Value;
-		UINT64 Uint64Value;
+		BDDIRegValue(bool b_Par = false,
+									UINT8 hw_Par = 0,
+									UINT16 w_Par = 0,
+									UINT32 dw_Par = 0,
+									UINT64 lw_Par = 0,
+									float f_Par = 0,
+									double df_Par = 0,
+									UINT32 pc_Par = 0,
+									BDDISelectRegValue e_Par = BDDISelectRegMax) :
+			b_Value(b_Par),
+			hw_Value(hw_Par),
+			w_Value(w_Par),
+			dw_Value(dw_Par),
+			lw_Value(lw_Par),
+			f_Value(f_Par),
+			df_Value(df_Par),
+			pc_Value(pc_Par),
+			Offset(e_Par)
+		{
+			a_Value[0] = '\0';
+		}
+
+		bool b_Value;
+		char a_Value[BDDI_STRING_SIZE];
+		UINT8 hw_Value;
+		UINT16 w_Value;
+		UINT32 dw_Value;
+		UINT64 lw_Value;
+		float f_Value;
+		double df_Value;
+		UINT32 pc_Value;
 		
-		UINT32 Offset;
+		BDDISelectRegValue Offset;
 	};
 	
 }
