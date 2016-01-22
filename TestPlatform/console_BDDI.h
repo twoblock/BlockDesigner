@@ -14,8 +14,8 @@ class CONSOLE_BDDI : public BDDIBase
 		virtual ~CONSOLE_BDDI();
 
 	public:
-		BDDIReturn BDDIGetParameterValues(unsigned int ParamIndex, unsigned int *OutParam);
-		BDDIReturn BDDISetParameterValues(unsigned int ParamIndex, unsigned int SetValue);
+		BDDIReturn BDDIGetRegisterValues(unsigned int RegIndex, char *OutValue);
+		BDDIReturn BDDISetRegisterValues(unsigned int RegIndex, const char *SetValue);
 
 	private:
 		CONSOLE *target;

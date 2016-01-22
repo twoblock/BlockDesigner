@@ -86,10 +86,10 @@ namespace BDapi
 	 */
 	int CommandHandler::GetOperation()
 	{
-		if(st_GUICommand.Command == ExecutionControl){
-			SetManagerForGetOperation(CmdExecutionManager);
+		if(st_GUICommand.Command == ModuleInfo){
+
 		}
-		else if(st_GUICommand.Command == PutDebugInterface)	{
+		else if(st_GUICommand.Command == GetDebugInterface)	{
 			SetManagerForGetOperation(CmdBDDIManager);
 		}
 		

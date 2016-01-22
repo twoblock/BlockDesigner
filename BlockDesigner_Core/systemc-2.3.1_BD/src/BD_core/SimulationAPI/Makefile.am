@@ -41,7 +41,8 @@ H_FILES = \
 	BDDITypes.h
  
 CXX_FILES = \
-	BDSim.cpp 
+	BDSim.cpp \
+	BDDI.cpp 
 
 localincludedir = $(includedir)/BD_core/SimulationAPI
 nobase_localinclude_HEADERS = $(H_FILES)

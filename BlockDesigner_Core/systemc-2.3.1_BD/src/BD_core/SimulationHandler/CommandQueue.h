@@ -17,6 +17,9 @@
 #include "AllSimulationHandler.h"	
 #include <queue> 
 
+// for debugging
+#include <stdio.h>
+
 // for c++ STL queue
 using namespace std;
 
