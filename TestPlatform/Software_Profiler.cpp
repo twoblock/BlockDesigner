@@ -119,10 +119,10 @@ void Software_Profiler::Summary_Display()
 			duration_Per      =  (float)m_Symbol_Table[k].Duration/(float)Global_Time ;
 			Sum_Of_self_duration_Per += self_duration_Per;
 
-			printf("\033[7m %-25s %10u %12u %20.5f %20u %25.5f         \033[0m\n",  m_Symbol_Table[k].Function_Name,  m_Symbol_Table[k].Call_Num,   m_Symbol_Table[k].Duration, duration_Per*100,  m_Symbol_Table[k].Self_Duration, self_duration_Per*100 );
+			printf("\033[7m %-25s %10lu %12lu %20.5f %20lu %25.5f         \033[0m\n",  m_Symbol_Table[k].Function_Name,  m_Symbol_Table[k].Call_Num,   m_Symbol_Table[k].Duration, duration_Per*100,  m_Symbol_Table[k].Self_Duration, self_duration_Per*100 );
 		}
 		// Summary Function Diaplay
-		printf("\033[7m Summary %28u %12u %20.5f %20u %25.5f         \033[0m\n",  Sum_Of_Call ,   Global_Time  , 100.0 ,  Sum_Of_SelfDuration_Cycle , Sum_Of_self_duration_Per*100);
+		printf("\033[7m Summary %28lu %12lu %20.5f %20lu %25.5f         \033[0m\n",  Sum_Of_Call ,   Global_Time  , 100.0 ,  Sum_Of_SelfDuration_Cycle , Sum_Of_self_duration_Per*100);
 	}
 }
 
