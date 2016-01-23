@@ -275,6 +275,11 @@ sc_port_base::~sc_port_base()
     delete m_bind_info;
 }
 
+// bind interface to this port for Block Designer
+void sc_port_base::BDbind( sc_interface& interface_ )
+{
+	bind(interface_);
+}
 
 // bind interface to this port
 

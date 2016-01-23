@@ -97,7 +97,9 @@ public:
 	
 		// get port name for Block Designer
 		const char* get_port_name();
-		
+
+		// bind interface to this port for Block Designer
+    void BDbind( sc_interface& interface_ );
 
 protected:
 
