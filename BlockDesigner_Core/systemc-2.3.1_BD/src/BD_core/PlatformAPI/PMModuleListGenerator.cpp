@@ -31,7 +31,7 @@ namespace BDapi
 	 * caller		    : 
 	 * callee		    : 
 	 */
-	string PMModuleListGenerator::GenerateJsonFile(list<sc_module*>* SCModuleList)
+	string PMModuleListGenerator::GenerateJsonFile(list<sc_module*> SCModuleList)
 	{
 		Json::Value Root;
 		Json::Value PMModuleList;
@@ -43,8 +43,8 @@ namespace BDapi
 		const char *p_ScPortType;
 		const char *p_DataType;
 
-		list<sc_module*>::iterator First = SCModuleList->begin();
-		list<sc_module*>::iterator End = SCModuleList->end();
+		list<sc_module*>::iterator First = SCModuleList.begin();
+		list<sc_module*>::iterator End = SCModuleList.end();
 		////////////////////////////////////////////////////////////////
 
 		// one module

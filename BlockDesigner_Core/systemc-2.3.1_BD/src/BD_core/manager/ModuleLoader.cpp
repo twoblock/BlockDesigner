@@ -29,8 +29,6 @@ namespace BDapi
 		void *p_Handle = NULL;
 		Function p_CreateInstance = NULL;
 
-		printf("d");
-
 		p_Handle = LoadSoFile(Path);
 		if(!p_Handle) 
 			printf("fail to load so file, %s\n", dlerror());
@@ -41,8 +39,6 @@ namespace BDapi
 			else
 				p_SCmodule =	p_CreateInstance(ModuleName);
 		}
-
-		printf("dd");
 
 		return p_SCmodule;
 	}

@@ -25,8 +25,7 @@ void AHB_Lite::do_transfer()	{
 	HREADY_S = HREADY_M;
 }
 
-void CreateInstance(const char *ModuleInstanceName)
+sc_module* CreateInstance(const char *ModuleInstanceName)
 {
-		AHB_Lite *p_AHBLite = NULL;
-		p_AHBLite = new AHB_Lite(ModuleInstanceName);
+		return new AHB_Lite(ModuleInstanceName);
 }

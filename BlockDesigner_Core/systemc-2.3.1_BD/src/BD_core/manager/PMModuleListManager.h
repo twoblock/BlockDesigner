@@ -52,7 +52,7 @@ namespace BDapi
 		private:
 			PMModuleListGenerator *p_PMModuleListGenerator;
 			ModuleLoader *p_ModuleLoader;
-			list<sc_module*>* ModuleList;	
+			list<sc_module*> ModuleList;	
 			
 			static PMModuleListManager *_PMModuleListManager;
 	};
