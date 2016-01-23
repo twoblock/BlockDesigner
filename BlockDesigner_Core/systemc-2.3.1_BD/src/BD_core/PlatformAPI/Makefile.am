@@ -37,12 +37,12 @@ LIBS+= -ldl
 noinst_LTLIBRARIES = libBDPlatform.la
 
 H_FILES = \
-	BDPlatform.h \
+	PMModuleListGenerator.h \
 	json/json.h \
 	json/json-forwards.h
  
 CXX_FILES = \
-	BDPlatform.cpp \
+	PMModuleListGenerator.cpp \
 	jsoncpp.cpp 
 
 localincludedir = $(includedir)/BD_core/PlatformAPI

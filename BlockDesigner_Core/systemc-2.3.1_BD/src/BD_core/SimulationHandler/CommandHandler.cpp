@@ -18,7 +18,8 @@ namespace BDapi
 	// Initialize Manager Instance
 	ExecutionManager* ExecutionManager::_ExecutionManager = NULL;
 	BDDIManager* BDDIManager::_BDDIManager = NULL;
-	
+	PMModuleListManager* PMModuleListManager::_PMModuleListManager= NULL;
+
 	/*
 	 * function    	: Constructor
 	 * design	      : get all mananger instances
@@ -27,6 +28,7 @@ namespace BDapi
 	{
 		CmdExecutionManager = ExecutionManager::GetInstance();
 		CmdBDDIManager = BDDIManager::GetInstance();
+		CmdPMModuleListManager = PMModuleListManager::GetInstance();
 	}
 
 	/*
@@ -72,7 +74,12 @@ namespace BDapi
 		}
 		else if(st_GUICommand.Command == PutDebugInterface)	{
 			SetManagerForPutOperation(CmdBDDIManager);
+		}		
+		else if(st_GUICommand.Command == LoadModule)	{
+			SetManagerForPutOperation(CmdPMModuleListManager);
 		} 
+
+
 
 		return 0;
 	}
@@ -89,10 +96,13 @@ namespace BDapi
 		if(st_GUICommand.Command == ExecutionControl){
 			SetManagerForGetOperation(CmdExecutionManager);
 		}
-		else if(st_GUICommand.Command == PutDebugInterface)	{
+		else if(st_GUICommand.Command == PutDebugInterface){
 			SetManagerForGetOperation(CmdBDDIManager);
 		}
-		
+		else if(st_GUICommand.Command == ModuleInfo){
+			SetManagerForGetOperation(CmdPMModuleListManager);
+		} 
+
 		return 0;
 	}
 

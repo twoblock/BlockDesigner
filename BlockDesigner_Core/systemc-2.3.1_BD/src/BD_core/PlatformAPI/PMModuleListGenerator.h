@@ -14,10 +14,12 @@
 #ifndef __BDPLATFORM_H__
 #define __BDPLATFORM_H__
 
-#include "systemc.h"	
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#include "systemc.h"
+#include <string>
+#include <list>
+
+using namespace std;
+using namespace sc_core;
 
 /*
  * namespace	: BDapi 
@@ -26,17 +28,14 @@
  */
 namespace BDapi
 {
-	extern void PlatformManagerCore();
+	class PMModuleListGenerator{
 
-	//int Simulate(unsigned int SimControl);
+		public:
+			string GenerateJsonFile(list<sc_module*>* SCModuleList);
 
-	//void Run();
-	//void Step();
-	//void Stop();
-
-	//extern long long glw_Cycle;
-	//extern sc_trace_file *wtf;
-} 
-
+		private:
+			string JsonFileOfPMModuleList;
+	}; 
+}
 #endif 
 

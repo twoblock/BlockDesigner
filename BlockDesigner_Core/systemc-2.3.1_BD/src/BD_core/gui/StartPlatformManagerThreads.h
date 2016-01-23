@@ -23,7 +23,6 @@
 namespace BDapi
 {
 	void *PlatformManagerHandlerRoutine( void *arg);
-	void *PlatformManagerRoutine( void *arg);
 	extern void StartPlatformManagerThreads();
 } 
 

@@ -16,6 +16,9 @@
 
 #include "AllSimulationHandler.h"
 #include "BD_core/manager/AllManager.h"
+#include "../manager/PMModuleListManager.h"	
+
+class PMModuleListManager;
 
 /*
  * namespace	: BDapi 
@@ -48,6 +51,7 @@ namespace BDapi
 			// declare all manager instance
 			ExecutionManager* CmdExecutionManager;
 			BDDIManager* CmdBDDIManager;
+			PMModuleListManager* CmdPMModuleListManager;
 	};
 } 
 
