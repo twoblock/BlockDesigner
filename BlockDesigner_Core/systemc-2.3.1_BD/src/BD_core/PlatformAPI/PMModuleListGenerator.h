@@ -31,7 +31,7 @@ namespace BDapi
 	class PMModuleListGenerator{
 
 		public:
-			string GenerateJsonFile(list<sc_module*>* SCModuleList);
+			string GenerateJsonFile(list<sc_module*> SCModuleList);
 
 		private:
 			string JsonFileOfPMModuleList;

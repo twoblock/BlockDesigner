@@ -23,38 +23,8 @@ namespace BDapi
 	 */
 	void PMModuleListManager::PutOperationControl(GUI_COMMAND Command)
 	{
-		char p_PortTypeInfo[128];
-		const char *p_ScPortType;
-		const char *p_DataType;
-		printf("1");	
-		
-		sc_module *p_SCmodule =	p_ModuleLoader->GetSCmodule(Command.Argu1,"AHB_Lite");
-/*
-		printf("1");	
-		// one module
-		// get portlist from sc_module
-		std::vector<sc_port_base*>* TestPortList = NULL;
-		TestPortList = p_SCmodule->get_port_list();	
-
-		printf("2");	
-		// make iterator to get all port information
-		std::vector<sc_port_base*>::const_iterator
-		it  = TestPortList->begin(), end = TestPortList->end();
-
-		printf("3");	
-		for( ; it != end; ++it  ){   
-		// parse port information
-		strcpy(p_PortTypeInfo, (*it)->kind());
-		p_DataType = (strtok(p_PortTypeInfo, "\n"));
-		printf("%s\n",p_DataType);
-		p_ScPortType = strtok(NULL,"\n");
-		printf("%s\n",p_ScPortType);
-		}   
-*/
-		printf("4");	
-  	//ModuleList->push_front(p_SCmodule);		
-	  //p_PMModuleListGenerator->GenerateJsonFile(ModuleList);
-		//ModuleList->push_front(*p_SCmodule);		
+		sc_module *p_SCmodule = p_ModuleLoader->GetSCmodule(Command.Argu1,"AHB_Lite");
+  	ModuleList.push_front(p_SCmodule);		
 	}
 
 	/*
@@ -64,7 +34,7 @@ namespace BDapi
 	 */
 	void PMModuleListManager::GetOperationControl(GUI_COMMAND Command)
 	{
-	  //p_PMModuleListGenerator->GenerateJsonFile(ModuleList);
+	  p_PMModuleListGenerator->GenerateJsonFile(ModuleList);
 	}
 
 	/*
