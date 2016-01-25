@@ -14,6 +14,7 @@
 // ----------------------------------------------------------------------------
 
 #include "ModuleLoader.h"
+#include "../../sysc/kernel/sc_module.h"
 
 namespace BDapi
 {		

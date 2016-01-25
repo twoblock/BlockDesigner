@@ -1,93 +1,97 @@
 //-----------------------------------------------------------------------------
-// Design								: Platform Manager Core 
+// Design								: json file generator for sc_module List 
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: BDSim.cpp
+// File		     					: PMModuleListGenerator.cpp
 // Date	       					: 2016/1/19
 // Reference            :
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: load module and give that information to load manager
+// Description	: get sc_module list and make json formate file 
 // ----------------------------------------------------------------------------
 
 #include "PMModuleListGenerator.h"
 
 #include <string.h>
-
+#include "json/json.h"
 #include <iostream>
 #include <vector>
-#include <list>
-#include "json/json.h"
 
 #define Size 128
 
 namespace BDapi
 {
 	/*
-	 * function    	: 
-	 * design	      : 
-	 * description	: 
-	 * caller		    : 
-	 * callee		    : 
+	 * function    	: GenerateJsonFile
+	 * design	      :  
+	 * param        : list<sc_module*> - sc_module list to parse informations
+	 *                ( module name, type, port list, parameters ) 
+	 * return       : string - string(json format) to pass them to GUI 
+	 * caller		    : PMModuleListManager::GetOperationControl
 	 */
 	string PMModuleListGenerator::GenerateJsonFile(list<sc_module*> SCModuleList)
 	{
+		// json format entities
 		Json::Value Root;
 		Json::Value PMModuleList;
 		Json::Value Module;
 		Json::Value PortList;
 		Json::Value Port;
 
-		char p_PortTypeInfo[Size];
-		const char *p_ScPortType;
-		const char *p_DataType;
+		// Port list pointer from sc_module
+		std::vector<sc_port_base*>* p_PortList = NULL;
 
-		list<sc_module*>::iterator First = SCModuleList.begin();
-		list<sc_module*>::iterator End = SCModuleList.end();
-		////////////////////////////////////////////////////////////////
+		// variable to parse port list
+		char p_PortTypeInfo[Size] = {0};
+		const char *p_PortName= NULL;
+		const char *p_ScPortType = NULL;
+		const char *p_DataType = NULL;
 
-		// one module
-		// get portlist from sc_module
-		std::vector<sc_port_base*>* TestPortList = NULL;
-		TestPortList = (*First)->get_port_list();	
+		list<sc_module*>::iterator FirstModule = SCModuleList.begin();
+		list<sc_module*>::iterator LastModule = SCModuleList.end();
+		list<sc_module*>::iterator IndexOfModule = FirstModule;
 
-		// make iterator to get all port information
-		std::vector<sc_port_base*>::const_iterator
-		it  = TestPortList->begin(), end = TestPortList->end();
+		/********************************************
+		 * Iterate sc_modules in sc_module list
+		 ********************************************/
+		for(IndexOfModule = FirstModule; IndexOfModule != LastModule; ++IndexOfModule){   
 
-		for( ; it != end; ++it  ){   
-		// parse port information
-		strcpy(p_PortTypeInfo, (*it)->kind());
-		p_DataType = (strtok(p_PortTypeInfo, "\n"));
-		p_ScPortType = strtok(NULL,"\n");
+			p_PortList = (*IndexOfModule)->get_port_list();	
 
-		// add port to port list
-		Port["port_name"] = (*it)->get_port_name();
-		Port["sc_type"]   = p_ScPortType; 
-		Port["data_type"] = p_DataType;
-		PortList.append(Port);	
-		}   
+			std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
+			std::vector<sc_port_base*>::iterator LastPort = p_PortList->end(); 
+			std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;
 
-		// make module info
-		Module["module_name"] = "AHB_Lite";
-		Module["module_type"] = "bus";
-		Module["port"] = PortList;
+			/********************************************
+			 * Iterate ports in sc_module
+			 ********************************************/
+			for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
+				// parse port information
+				strcpy(p_PortTypeInfo, (*IndexOfPort)->kind());
+				p_DataType = strtok(p_PortTypeInfo, "\n");
+				p_ScPortType = strtok(NULL,"\n");
+				p_PortName = (*IndexOfPort)->get_port_name();
 
-		// add module to Platform Manager Module List
-		PMModuleList.append(Module);
+				// add Port to PortList in json format
+				Port["port_name"] = p_PortName;
+				Port["sc_type"]   = p_ScPortType; 
+				Port["data_type"] = p_DataType;
+				PortList.append(Port);	
+			}   
 
-		//////////////////////////////////////////////////////////
-
+			// add Module to PMModuleList in json format
+			Module["module_name"] = "AHB_Lite";
+			Module["module_type"] = "bus";
+			Module["port"] = PortList;
+			PMModuleList.append(Module);
+		}
 
 		Root["PMML"] = PMModuleList;
 
 		Json::StyledWriter writer;
-		string strJSON = writer.write(Root);
-
-		cout<< endl << "JSON WriteTest" << endl << strJSON << endl; 
-
-		return strJSON;
+		JsonFileOfPMModuleList = writer.write(Root);
+		cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
 
 		return JsonFileOfPMModuleList;
 	}

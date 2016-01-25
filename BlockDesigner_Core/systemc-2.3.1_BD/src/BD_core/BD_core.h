@@ -14,9 +14,8 @@
 #ifndef BDCORE_H 
 #define BDCORE_H 
 
+// Simulator header file
 #include"SimulationAPI/BDSim.h"
-#include"PlatformAPI/PMModuleListGenerator.h"
-#include"manager/PMModuleListManager.h"
 #include"manager/AllManager.h"
 #include"SimulationHandler/SimulationHandler.h"
 #include"gui/test.h"
@@ -24,6 +23,9 @@
 #include"SimulationAPI/BDDI.h"
 #include"SimulationAPI/BDDIBase.h"
 #include"SimulationAPI/BDDITypes.h"
+
+// PlatformManager header file
+#include"manager/PMModuleListManager.h"
 
 #endif 
 

@@ -8,39 +8,41 @@
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: 
+// Description	: manage sc_module list and
+//                transfer them to json format to deliver GUI thread 
 // ----------------------------------------------------------------------------
 
 #ifndef __PM_MODULE_LIST_MANAGER_H 
 #define __PM_MODULE_LIST_MANAGER_H  
 
 #include "TopManagerBase.h"
-#include "ModuleLoader.h"
-#include "systemc.h"
 #include <list> 
 
-class PMModuleListGenerator;
-
-using namespace sc_core;
+namespace sc_core
+{	class sc_module; }
+using sc_core::sc_module;
 
 /*
- * namespace	: BDapi 
- * design	    : Block Designer API 
+ * namespace	  : BDapi 
+ * design	      : Block Designer API 
  * description	: support analyzing ESL platform based on systemc
  */
 namespace BDapi
 {
+	class PMModuleListGenerator;
+	class ModuleLoader;
+
 	/*
-	 * class		    : 
-	 * design	      : 
-	 * description	: 
+	 * class		    : PMModuleListManager 
+	 * design	      : manage sc_module list and                           
+	 *                transfer them to json format to deliver GUI thread 
 	 */
 	class PMModuleListManager: public TopManagerBase
 	{
 		public:
 			void PutOperationControl(GUI_COMMAND Command);
 			void GetOperationControl(GUI_COMMAND Command);
-			void AddModule();
+			void AddModule(const char *SoFilePath, const char *ModuleName);
 			void GetJsonFile();
 			
 			static PMModuleListManager* GetInstance();
@@ -59,5 +61,3 @@ namespace BDapi
 } // namespace BDapi 
 
 #endif 
-
-

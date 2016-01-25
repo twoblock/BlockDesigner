@@ -17,12 +17,12 @@
 #define LOADMANGER_H 
 
 #include <dlfcn.h>
-#include "../../sysc/kernel/sc_module.h"
 
-typedef sc_core::sc_module sc_module;
+namespace sc_core
+{	class sc_module; }
+using sc_core::sc_module;
 
 typedef sc_module* (*Function)(const char*);
-
 /*
  * namespacei 	: BDapi 
  * design	      : Block Designer API 
