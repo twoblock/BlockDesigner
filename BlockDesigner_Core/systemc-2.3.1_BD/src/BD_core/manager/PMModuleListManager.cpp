@@ -8,55 +8,60 @@
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: 
+// Description	: manage sc_module list and
+//                transfer them to json format to deliver GUI thread 
 // ----------------------------------------------------------------------------
 
 #include "PMModuleListManager.h"
 #include "../PlatformAPI/PMModuleListGenerator.h"
+#include "ModuleLoader.h"
 
 namespace BDapi
 {	
 	/*
 	 * function    	: PutOperationControl
-	 * design	      : 
+	 * design	      : add sc_module to sc_module list
+	 * param	      : GUI_COMMAND - command from user
+	 *							  Argu1 - so file path 
+	 *							  Argu2 - module name
 	 * caller		    : PMCommandHandler::SetManagerForPutOperation
 	 */
 	void PMModuleListManager::PutOperationControl(GUI_COMMAND Command)
 	{
-		sc_module *p_SCmodule = p_ModuleLoader->GetSCmodule(Command.Argu1,"AHB_Lite");
-  	ModuleList.push_front(p_SCmodule);		
+		AddModule(Command.Argu1, Command.Argu2);
 	}
 
 	/*
 	 * function    	: GetOperationControl
-	 * design	      : 
+	 * design	      : get sc_module list json file 
 	 * caller		    : PMCommandHandler::SetManagerForGetOperation
 	 */
 	void PMModuleListManager::GetOperationControl(GUI_COMMAND Command)
 	{
-	  p_PMModuleListGenerator->GenerateJsonFile(ModuleList);
+		GetJsonFile();
 	}
 
 	/*
 	 * function    	: AddModule 
-	 * design	      : 
+	 * design	      : get sc_module instance and push it to sc_module list
+	 * param	      : const char * ( so file path )
+	 * param	      : const char * ( sc_module instace name)
 	 * caller		    : 
 	 */
-	void PMModuleListManager::AddModule()
+	void PMModuleListManager::AddModule(const char *SoFilePath, const char *ModuleName)
 	{
-
-
+		sc_module *p_SCmodule = p_ModuleLoader->GetSCmodule(SoFilePath, ModuleName);
+		ModuleList.push_front(p_SCmodule);		
 	}
 
 	/*
 	 * function    	: GetJsonFile 
-	 * design	      : 
+	 * design	      : generate sc_module list json file 
 	 * caller		    : 
 	 */
 	void PMModuleListManager::GetJsonFile()
 	{
-
-
+		p_PMModuleListGenerator->GenerateJsonFile(ModuleList);
 	}
 
 	/*
