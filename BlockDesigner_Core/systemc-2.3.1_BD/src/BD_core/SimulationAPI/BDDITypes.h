@@ -51,13 +51,14 @@ namespace BDapi
 	};
 
 	// BDDI Parameter Type
-	enum BDDIParamType
+	enum BDDIParType
 	{
-		BDDIParamTypeUINT,
-		BDDIParamTypeBOOL,
-		BDDIParamTypeSTRING,
-		BDDIParamTypeINT,
-		BDDIParamTypeMax = 0xFFFFFFFF
+		BDDIParTypeUINT,
+		BDDIParTypeBOOL,
+		BDDIParTypeFLOAT,
+		BDDIParTypeSTRING,
+		BDDIParTypeINT,
+		BDDIParTypeMax = 0xFFFFFFFF
 	};
 
 	// BDDI Register Information
@@ -69,11 +70,11 @@ namespace BDapi
 	};
 
 	// BDDI Parameter Information
-	struct BDDIParamInfo
+	struct BDDIParInfo
 	{
 		char Name[BDDI_NAME_SIZE];
 		unsigned int Bitswide;
-		BDDIParamType Type;
+		BDDIParType Type;
 	};
 
 	// BDDI To Select Register Value Information
@@ -90,20 +91,38 @@ namespace BDapi
 		BDDISelectRegDOUBLE,
 		BDDISelectRegPC,
 		BDDISelectRegMax = 0xFFFFFFFF
+	};
+
+	// BDDI To Select Parameter Value Information
+	enum BDDISelectParValue
+	{
+		BDDISelectParBOOL,
+		BDDISelectParSTRING,
+		BDDISelectParBIT8,
+		BDDISelectParBIT16,
+		BDDISelectParBIT32,
+		BDDISelectParBIT64,
+		BDDISelectParBIT8U,
+		BDDISelectParBIT16U,
+		BDDISelectParBIT32U,
+		BDDISelectParBIT64U,
+		BDDISelectParFLOAT,
+		BDDISelectParDOUBLE,
+		BDDISelectParMax = 0xFFFFFFFF
 	};	
 
 	// BDDI Return Register Value Classification
 	struct BDDIRegValue
 	{
 		BDDIRegValue(bool b_Par = false,
-									UINT8 hw_Par = 0,
-									UINT16 w_Par = 0,
-									UINT32 dw_Par = 0,
-									UINT64 lw_Par = 0,
-									float f_Par = 0,
-									double df_Par = 0,
-									UINT32 pc_Par = 0,
-									BDDISelectRegValue e_Par = BDDISelectRegMax) :
+				UINT8 hw_Par = 0,
+				UINT16 w_Par = 0,
+				UINT32 dw_Par = 0,
+				UINT64 lw_Par = 0,
+				float f_Par = 0,
+				double df_Par = 0,
+				UINT32 pc_Par = 0,
+				BDDISelectRegValue e_Par = BDDISelectRegMax) :
 			b_Value(b_Par),
 			hw_Value(hw_Par),
 			w_Value(w_Par),
@@ -126,10 +145,56 @@ namespace BDapi
 		float f_Value;
 		double df_Value;
 		UINT32 pc_Value;
-		
+
 		BDDISelectRegValue Offset;
 	};
-	
+
+	// BDDI Return Parameter Value Classification
+	struct BDDIParValue
+	{
+		BDDIParValue(bool b_Par = false,
+				char hw_Par = 0,
+				short w_Par = 0,
+				int dw_Par = 0,
+				long long lw_Par = 0,
+				UINT8 hw_ParU = 0,
+				UINT16 w_ParU = 0,
+				UINT32 dw_ParU = 0,
+				UINT64 lw_ParU = 0,
+				float f_Par = 0,
+				double df_Par = 0,
+				BDDISelectParValue e_Par = BDDISelectParMax) :
+			b_Value(b_Par),
+			hw_Value(hw_Par),
+			w_Value(w_Par),
+			dw_Value(dw_Par),
+			lw_Value(lw_Par),
+			hw_ValueU(hw_ParU),
+			w_ValueU(w_ParU),
+			dw_ValueU(dw_ParU),
+			lw_ValueU(lw_ParU),
+			f_Value(f_Par),
+			df_Value(df_Par),
+			Offset(e_Par)
+		{
+			a_Value[0] = '\0';
+		}
+
+		bool b_Value;
+		char a_Value[BDDI_STRING_SIZE];
+		char hw_Value;
+		short w_Value;
+		int dw_Value;
+		long long lw_Value;
+		UINT8 hw_ValueU;
+		UINT16 w_ValueU;
+		UINT32 dw_ValueU;
+		UINT64 lw_ValueU;
+		float f_Value;
+		double df_Value;
+
+		BDDISelectParValue Offset;
+	};
 }
 
 #endif	// __BDDITYPES_H__

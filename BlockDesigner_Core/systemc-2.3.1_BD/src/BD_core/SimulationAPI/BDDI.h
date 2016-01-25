@@ -44,8 +44,14 @@ namespace BDapi
 			virtual BDDIReturn BDDIGetRegisterValues(unsigned int RegIndex, char *OutValue) = 0;
 			virtual BDDIReturn BDDISetRegisterValues(unsigned int RegIndex, const char *SetValue) = 0;
 
+			virtual BDDIReturn BDDIGetParameterValues(unsigned int ParIndex, char *OutValue) = 0;
+			virtual BDDIReturn BDDISetParameterValues(unsigned int ParIndex, const char *SetValue) = 0;
+
 			BDDIReturn BDDIConvertStringToRegisterValue(BDDIRegValue *ReturnValue, BDDIRegInfo *RegInfo, const char *Value);
 			BDDIReturn BDDIConvertRegisterValueToString(BDDIRegValue *ReturnValue, char *Value);
+
+			BDDIReturn BDDIConvertStringToParameterValue(BDDIParValue *ReturnValue, BDDIParInfo *ParInfo, const char *Value);
+			BDDIReturn BDDIConvertParameterValueToString(BDDIParValue *ReturnValue, char *Value);
 
 			/*
 			 * function			: BDDIExtractRegisterValue
@@ -68,7 +74,6 @@ namespace BDapi
 				switch(ReturnValue->Offset)
 				{
 					case BDDISelectRegBOOL:		*TempBuf = ReturnValue->b_Value;		break;
-					//case BDDISelectRegSTRING: return BDDIStatusCmdNotSupported;
 					case BDDISelectRegBIT8:		*TempBuf = ReturnValue->hw_Value;		break;
 					case BDDISelectRegBIT16:	*TempBuf = ReturnValue->w_Value;		break;
 					case BDDISelectRegBIT32:	*TempBuf = ReturnValue->dw_Value;		break;
@@ -76,6 +81,7 @@ namespace BDapi
 					case BDDISelectRegHEX:		*TempBuf = ReturnValue->dw_Value;		break;
 					case BDDISelectRegFLOAT:	*TempBuf = ReturnValue->f_Value;		break;
 					case BDDISelectRegDOUBLE:	*TempBuf = ReturnValue->df_Value;		break;
+					case BDDISelectRegSTRING: return BDDIStatusCmdNotSupported;
 					case BDDISelectRegPC:			return BDDIStatusCmdNotSupported;
 					case BDDISelectRegMax:		return BDDIStatusError;
 					default:									return BDDIStatusError;
@@ -154,9 +160,143 @@ namespace BDapi
 
 						break;
 
-					//case BDDIRegTypeSTRING: return BDDIStatusCmdNotSupported;
+					case BDDIRegTypeSTRING: return BDDIStatusCmdNotSupported;
 					case BDDIRegTypePC:	return BDDIStatusCmdNotSupported;
 					case BDDIRegTypeMax:	return BDDIStatusError;
+					default:	return BDDIStatusError;
+				}
+
+				return BDDIStatusOK;
+			}
+
+			/*
+			 * function			: BDDIExtractParameterValue
+			 * design				: Extract Parameter Value from Structure of BDDIParValue
+			 * description	: this function extract parameter value from structure of BDDIParValue
+			 *								by checking offset in structure of BDDIParValue
+			 * param				: ReturnValue - this parameter is already set parameter value and offset
+			 *															by BDDIConvertStringToParameterValue function
+			 *								TempBuf			-	this parameter is template type to deal with standard types
+			 *															and this include the real value of register
+			 * return				: this function return status of success or failure
+			 * caller				: BDDISetParameterValues
+			 * see					: if you want to know more information
+			 *								see enum and structure in BDDITypes.h
+			 */
+			template <typename T>
+			BDDIReturn BDDIExtractParameterValue(BDDIParValue *ReturnValue, T *TempBuf)
+			{
+
+				switch(ReturnValue->Offset)
+				{
+					case BDDISelectParBOOL:		*TempBuf = ReturnValue->b_Value;		break;
+					case BDDISelectParBIT8:		*TempBuf = ReturnValue->hw_Value;		break;
+					case BDDISelectParBIT16:	*TempBuf = ReturnValue->w_Value;		break;
+					case BDDISelectParBIT32:	*TempBuf = ReturnValue->dw_Value;		break;
+					case BDDISelectParBIT64:	*TempBuf = ReturnValue->lw_Value;		break;
+					case BDDISelectParBIT8U:	*TempBuf = ReturnValue->hw_ValueU;	break;
+					case BDDISelectParBIT16U:	*TempBuf = ReturnValue->w_ValueU;		break;
+					case BDDISelectParBIT32U:	*TempBuf = ReturnValue->dw_ValueU;	break;
+					case BDDISelectParBIT64U:	*TempBuf = ReturnValue->lw_ValueU;	break;
+					case BDDISelectParFLOAT:	*TempBuf = ReturnValue->f_Value;		break;
+					case BDDISelectParDOUBLE:	*TempBuf = ReturnValue->df_Value;		break;
+					case BDDISelectParSTRING: return BDDIStatusCmdNotSupported;
+					case BDDISelectParMax:		return BDDIStatusError;
+					default:									return BDDIStatusError;
+				}
+
+				return BDDIStatusOK;
+			}
+
+			/*
+			 * function			: BDDIPutInParameterValue
+			 * design				: Put into Parameter Value to Structure of BDDIParValue
+			 * description	: this function put into parameter value to structure of BDDIParValue
+			 *								by checking parameter information in structure of BDDIParInfo
+			 * param				: ReturnValue - this parameter is set parameter value and offset
+			 *															for preparing to transfer parameter's value	from module to user
+			 *								TempBuf			-	this parameter is template type to deal with standard types
+			 *															and this include the current value of register in each module
+			 * return				: this function return status of success or failure
+			 * caller				: BDDIGetParameterValues
+			 * see					: if you want to know more information
+			 *								see enum and structure in BDDITypes.h
+			 */
+			template <typename T>
+			BDDIReturn BDDIPutInParameterValue(BDDIParValue *ReturnValue, BDDIParInfo *ParInfo, T *TempBuf)
+			{
+				switch(ParInfo->Type)
+				{
+
+					case BDDIParTypeINT:
+						if(ParInfo->Bitswide == 8)	{
+							ReturnValue->hw_Value = *TempBuf;
+							ReturnValue->Offset = BDDISelectParBIT8;
+						}
+						else if(ParInfo->Bitswide == 16)	{
+							ReturnValue->w_Value = *TempBuf;
+							ReturnValue->Offset = BDDISelectParBIT16;
+						}
+						else if(ParInfo->Bitswide == 32)	{
+							ReturnValue->dw_Value = *TempBuf;
+							ReturnValue->Offset = BDDISelectParBIT32;
+						}
+						else if(ParInfo->Bitswide == 64)	{
+							ReturnValue->lw_Value = *TempBuf;
+							ReturnValue->Offset = BDDISelectParBIT64;
+						}
+						else	{
+							return BDDIStatusError;
+						}
+
+						break;
+
+					case BDDIParTypeUINT:
+						if(ParInfo->Bitswide == 8)	{
+							ReturnValue->hw_ValueU = *TempBuf;
+							ReturnValue->Offset = BDDISelectParBIT8U;
+						}
+						else if(ParInfo->Bitswide == 16)	{
+							ReturnValue->w_ValueU = *TempBuf;
+							ReturnValue->Offset = BDDISelectParBIT16U;
+						}
+						else if(ParInfo->Bitswide == 32)	{
+							ReturnValue->dw_ValueU = *TempBuf;
+							ReturnValue->Offset = BDDISelectParBIT32U;
+						}
+						else if(ParInfo->Bitswide == 64)	{
+							ReturnValue->lw_ValueU = *TempBuf;
+							ReturnValue->Offset = BDDISelectParBIT64U;
+						}
+						else	{
+							return BDDIStatusError;
+						}
+
+						break;
+
+					case BDDIParTypeBOOL:
+						ReturnValue->b_Value = *TempBuf;
+						ReturnValue->Offset = BDDISelectParBOOL;
+
+						break;
+
+					case BDDIParTypeFLOAT:
+						if(ParInfo->Bitswide == 32)	{
+							ReturnValue->f_Value = *TempBuf;
+							ReturnValue->Offset = BDDISelectParFLOAT;
+						}
+						else if(ParInfo->Bitswide == 64)	{
+							ReturnValue->df_Value = *TempBuf;
+							ReturnValue->Offset = BDDISelectParDOUBLE;
+						}
+						else	{
+							return BDDIStatusError;
+						}
+
+						break;
+
+					case BDDIParTypeSTRING: return BDDIStatusCmdNotSupported;
+					case BDDIParTypeMax:	return BDDIStatusError;
 					default:	return BDDIStatusError;
 				}
 

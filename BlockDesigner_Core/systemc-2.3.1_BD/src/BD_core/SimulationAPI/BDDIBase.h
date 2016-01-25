@@ -61,6 +61,35 @@ namespace BDapi
 			{
 				return BDDIStatusCmdNotSupported;
 			}
+
+			/*
+			 * function			: BDDIGetParameterValues
+			 * design				: Get Parameter Value from Each Module 
+			 * description	: this function bring the current value of parameter value in each module
+			 *								to transfer the value to user
+			 * param				: ParIndex		- this parameter is	the real number of the parameter group
+			 *								OutValue		-	this parameter is the current value of parameter value in each module
+			 * return				: this function return status of success or failure
+			 * caller				: BDDIManager::GetOperationControl
+			 */
+			virtual BDDIReturn BDDIGetParameterValues(unsigned int ParIndex, char *OutValue)
+			{
+				return BDDIStatusCmdNotSupported;
+			}
+
+			/*
+			 * function			: BDDISetParameterValues
+			 * design				: Set Parameter Value to Each Module 
+			 * description	: this function set the value which is set by user to parameter in module
+			 * param				: RegIndex		- this parameter is	the real number of the parameter group
+			 *								SetValue		-	this parameter is set by user 
+			 * return				: this function return status of success or failure
+			 * caller				: BDDIManager::PutOperationControl
+			 */
+			virtual BDDIReturn BDDISetParameterValues(unsigned int ParIndex, const char *SetValue)
+			{
+				return BDDIStatusCmdNotSupported;
+			}
 	};
 
 }

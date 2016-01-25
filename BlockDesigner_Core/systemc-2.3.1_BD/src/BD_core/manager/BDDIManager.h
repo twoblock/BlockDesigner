@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
-// Design								: Block Designer Execution Manager 
-// Author								: Bryan Choi 
-// Email								: bryan.choi@twoblocktech.com 
+// Design								: Block Designer Debugging Interface Manager 
+// Author								: Harold Ko
+// Email								: harold.ko@twoblocktech.com 
 // File		     					: BDDIManager.h
-// Date	       					: 2015/1/19
+// Date	       					: 2016/1/19
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015-2016 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: This class provide Execution contol API
+// Description	: This class provides debugging interface contol API
 // ----------------------------------------------------------------------------
 
 #ifndef __BDDI_MANAGER_H__
