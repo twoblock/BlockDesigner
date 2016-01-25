@@ -1,3 +1,16 @@
+//-----------------------------------------------------------------------------
+// Design								: Block Designer Debugging Interface Manager 
+// Author								: Harold Ko
+// Email								: harold.ko@twoblocktech.com 
+// File		     					: BDDIManager.cpp
+// Date	       					: 2016/1/19
+// Reference            :
+// ----------------------------------------------------------------------------
+// Copyright (c) 2015-2016 TwoBlock Techinologies Co.
+// ----------------------------------------------------------------------------
+// Description	: This class provides debugging interface contol API
+// ----------------------------------------------------------------------------
+
 #include "BDDIManager.h"
 #include "systemc.h"
 #include "BD_core/SimulationAPI/BDDI.h"
@@ -21,9 +34,10 @@ namespace BDapi
 		sc_object *p_Object = sc_find_object(Command.Argu1);
 		sc_module *p_Module = static_cast<sc_module*>(p_Object);
 
-		if(strcmp(Command.Argu2, "param") == 0)	{
+		if(strcmp(Command.Argu2, "par") == 0)	{
 			if(strcmp(Command.Argu3, "write") == 0)	{
-
+				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
+				p_Module->bddi->BDDISetParameterValues(dw_Index, Command.Argu5);
 			}
 			else	{
 				// Invalid Command : Breakpoint of parameter is not supported.
@@ -61,9 +75,12 @@ namespace BDapi
 		sc_object *p_Object = sc_find_object(Command.Argu1);
 		sc_module *p_Module = static_cast<sc_module*>(p_Object);	
 
-		if(strcmp(Command.Argu2, "param") == 0)	{
+		if(strcmp(Command.Argu2, "par") == 0)	{
 			if(strcmp(Command.Argu3, "read") == 0)	{
+				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
+				p_Module->bddi->BDDIGetParameterValues(dw_Index, Command.Argu5);
 
+				printf("\nget parameter value : %s\n", Command.Argu5);
 			}
 			else	{
 				assert(0);

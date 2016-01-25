@@ -17,5 +17,6 @@
 #include "TopManagerBase.h"
 #include "ExecutionManager.h"
 #include "BDDIManager.h"
+#include "PMModuleListManager.h"
 
 #endif	// __ALLMANAGER_H__

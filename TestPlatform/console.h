@@ -64,7 +64,7 @@ SC_MODULE(CONSOLE)	{
 	sc_signal<UINT8>	NEXT_DATA;
 	sc_signal<bool>		NEXT_FLAG;
 
-	// for test of BDDI
+	/////// for test of BDDI ///////
 	UINT8						hw_reg;
 	UINT16					w_reg;
 	UINT32					dw_reg;
@@ -74,6 +74,17 @@ SC_MODULE(CONSOLE)	{
 	float						f_reg;
 	double					df_reg;
 	char						a_reg[128];
+
+	char						hw_par;
+	short						w_par;
+	int							dw_par;
+	long long				lw_par;
+	bool						b_par;
+	UINT32					dw_paru;	// hex
+	float						f_par;
+	double					df_par;
+	char						a_par[128];
+	////////////////////////////////
 
 	/********** [member function] **********/
 	UINT32 ByteEnable(UINT32 addr, UINT32 size)	{
@@ -194,6 +205,7 @@ SC_MODULE(CONSOLE)	{
 		// for BDDI
 		bddi = new CONSOLE_BDDI(this);
 
+		/////// for test of BDDI ///////
 		hw_reg = 0;
 		w_reg = 0;
 		dw_reg = 0;
@@ -203,6 +215,17 @@ SC_MODULE(CONSOLE)	{
 		f_reg = 0;
 		df_reg = 0;
 		memset(a_reg, 0, sizeof(a_reg));
+
+		hw_par = 0;
+		w_par = 0;
+		dw_par = 0;
+		lw_par = 0;
+		b_par = false;
+		dw_paru = 0;
+		f_par = 0;
+		df_par = 0;
+		memset(a_par, 0, sizeof(a_par));
+		////////////////////////////////
 
 		SC_METHOD(do_assign_addr_phase);
 		sensitive << HREADY;

@@ -16,9 +16,13 @@ class CONSOLE_BDDI : public BDDIBase
 	public:
 		BDDIReturn BDDIGetRegisterValues(unsigned int RegIndex, char *OutValue);
 		BDDIReturn BDDISetRegisterValues(unsigned int RegIndex, const char *SetValue);
+		BDDIReturn BDDIGetParameterValues(unsigned int ParIndex, char *OutValue);
+		BDDIReturn BDDISetParameterValues(unsigned int ParIndex, const char *SetValue);
 
 	private:
 		CONSOLE *target;
+		BDDIRegInfo *OutRegInfo;
+		BDDIParInfo *OutParInfo;
 };
 
 #endif	// __CONSOLE_BDDI_H__
