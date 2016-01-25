@@ -1,20 +1,19 @@
 //-----------------------------------------------------------------------------
-// Design								: test command setting 
+// Design								: User command parser 
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: test.cpp
-// Date	       					: 20.05/12/29
+// Date	       					: 2015/12/29
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 20.05-2016 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlockTechinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: This class provide gui test API
+// Description	: This Thread provide user command test 
 // ----------------------------------------------------------------------------
 
 #include "test.h"	
 
-#define	 SECOND_UNIT(X)		((X)*1000000)
-#define	 ArraySize 256 
+using namespace std;
 
 namespace BDapi{
 
@@ -26,223 +25,201 @@ namespace BDapi{
 	 * design     	: DIY for test command
 	 * caller		    : StartSimulationThreads
 	 */
-	void GUIThread(){
+	void GUIThread()
+	{
+		ifstream CommandFile;
+		CommandFile.open("../bd_command_script.sh");
 
-		GUI_COMMAND st_GUICommand;
+		char UserCommand[SIZE] = {0,};
+		ScriptReturn ScriptLine;	
 
-		while(1){
+		while(CommandFile.getline(UserCommand, SIZE) != NULL){		
+			ScriptLine =	CheckScriptLine(UserCommand);
 
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command   = 1;
-			strcpy( st_GUICommand.Argu1, "STEP");
-			strcpy( st_GUICommand.Argu2, "1000");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(1));		
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command   = 1;
-			strcpy( st_GUICommand.Argu1, "STEP");
-			strcpy( st_GUICommand.Argu2, "1000");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(1));		
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command   = 1;
-			strcpy( st_GUICommand.Argu1, "STEP");
-			strcpy( st_GUICommand.Argu2, "1000");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(1));		
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command   = 1;
-			strcpy( st_GUICommand.Argu1, "STEP");
-			strcpy( st_GUICommand.Argu2, "1000");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(1));		
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command   = 1;
-			strcpy( st_GUICommand.Argu1, "STEP");
-			strcpy( st_GUICommand.Argu2, "1000");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(1));		
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command   = 1;
-			strcpy( st_GUICommand.Argu1, "STEP");
-			strcpy( st_GUICommand.Argu2, "1000");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(1));
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command		= 2;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "write");
-			strcpy(st_GUICommand.Argu4, "8");
-			strcpy(st_GUICommand.Argu5, "hello Harold Ko!");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 1;
-			st_GUICommand.Command		= 1;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "read");
-			strcpy(st_GUICommand.Argu4, "8");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command		= 2;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "write");
-			strcpy(st_GUICommand.Argu4, "5");
-			strcpy(st_GUICommand.Argu5, "FFFF");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 1;
-			st_GUICommand.Command		= 1;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "read");
-			strcpy(st_GUICommand.Argu4, "5");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command		= 2;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "write");
-			strcpy(st_GUICommand.Argu4, "2");
-			strcpy(st_GUICommand.Argu5, "0xFFFFFFFF");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 1;
-			st_GUICommand.Command		= 1;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "read");
-			strcpy(st_GUICommand.Argu4, "2");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command		= 2;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "write");
-			strcpy(st_GUICommand.Argu4, "3");
-			strcpy(st_GUICommand.Argu5, "0xFFFFFFFFFFFFFFFF");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 1;
-			st_GUICommand.Command		= 1;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "read");
-			strcpy(st_GUICommand.Argu4, "3");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command		= 2;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "write");
-			strcpy(st_GUICommand.Argu4, "4");
-			strcpy(st_GUICommand.Argu5, "true");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 1;
-			st_GUICommand.Command		= 1;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "read");
-			strcpy(st_GUICommand.Argu4, "4");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command		= 2;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "write");
-			strcpy(st_GUICommand.Argu4, "4");
-			strcpy(st_GUICommand.Argu5, "false");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 1;
-			st_GUICommand.Command		= 1;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "read");
-			strcpy(st_GUICommand.Argu4, "4");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command		= 2;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "write");
-			strcpy(st_GUICommand.Argu4, "7");
-			strcpy(st_GUICommand.Argu5, "2016.012219");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(0.005));
-
-			st_GUICommand.Operation = 1;
-			st_GUICommand.Command		= 1;
-			strcpy(st_GUICommand.Argu1, "BD_CONSOLE");
-			strcpy(st_GUICommand.Argu2, "reg");
-			strcpy(st_GUICommand.Argu3, "read");
-			strcpy(st_GUICommand.Argu4, "7");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(1));		
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command   = 1;
-			strcpy( st_GUICommand.Argu1, "STEP");
-			strcpy( st_GUICommand.Argu2, "1000");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			usleep(SECOND_UNIT(1));		
-
-			st_GUICommand.Operation = 0;
-			st_GUICommand.Command   = 1;
-			strcpy( st_GUICommand.Argu1, "STEP");
-			strcpy( st_GUICommand.Argu2, "1000");
-			CommandQueue::PushCommand( st_GUICommand );
-
-			// protect input command
-			while(1);	
+			if(ScriptLine == _NO_COMMAND)
+				continue;
+			else if(ScriptLine == _SLEEP)
+				Sleep(UserCommand);
+			else
+				PushCommand(UserCommand);	
 		}
+		while(1);
+	}
+
+	/*
+	 * function   	: PushCommand 
+	 * design     	: Parse user command and push command
+	 * param        : const char* one line of bd_command_script.sh
+	 * caller		    : GUIThread 
+	 */
+	void PushCommand(char *p_UserCommand)
+	{	
+		char UserCommand[SIZE] = {0,}; 
+		char *p_CommnadToken = NULL; 
+
+		strcpy(UserCommand,p_UserCommand);
+
+		GUI_COMMAND st_Command;
+		InitializeCommand(st_Command);
+
+		// Operation
+		p_CommnadToken = strtok(UserCommand, " ");				
+		if(p_CommnadToken == NULL) 
+			return;
+		else{
+			if(strcmp(p_CommnadToken,"PUT") == 0 || p_CommnadToken[0] == '0'){
+				st_Command.Operation = PUT;
+
+				// Command 
+				p_CommnadToken = strtok(NULL, " ");					
+				if(p_CommnadToken == NULL) 
+					return;	
+				else{
+					if(strcmp(p_CommnadToken,"SoftwareLoad") == 0 || p_CommnadToken[0] == '0')
+						st_Command.Command = SoftwareLoad; 
+					else if(strcmp(p_CommnadToken,"ExecutionControl") == 0 || p_CommnadToken[0] == '1')
+						st_Command.Command = ExecutionControl; 
+					else if(strcmp(p_CommnadToken,"PutDebugInterface") == 0 || p_CommnadToken[0] == '2')
+						st_Command.Command = PutDebugInterface; 
+					else if(strcmp(p_CommnadToken,"PutMemoryMap") == 0 || p_CommnadToken[0] == '3')
+						st_Command.Command = PutMemoryMap; 
+					else if(strcmp(p_CommnadToken,"WireTraceControl") == 0 || p_CommnadToken[0] == '4')
+						st_Command.Command = WireTraceControl; 
+					else if(strcmp(p_CommnadToken,"RegisterCallBack") == 0 || p_CommnadToken[0] == '5')
+						st_Command.Command = RegisterCallBack; 
+					else if(strcmp(p_CommnadToken,"LoadModule") == 0 || p_CommnadToken[0] == '6')
+						st_Command.Command = LoadModule; 
+					else 
+						return;
+				}
+			}
+			else if(strcmp(p_CommnadToken,"GET") == 0 || p_CommnadToken[0] == '1'){
+				st_Command.Operation = GET;
+
+				// Command 
+				p_CommnadToken = strtok(NULL, " ");					
+				if(p_CommnadToken == NULL) 
+					return;	
+				else{
+					if(strcmp(p_CommnadToken,"ModuleInfo") == 0 || p_CommnadToken[0] == '0')
+						st_Command.Command = ModuleInfo; 
+					else if(strcmp(p_CommnadToken,"GetDebugInterface") == 0 || p_CommnadToken[0] == '1')
+						st_Command.Command = GetDebugInterface; 
+					else if(strcmp(p_CommnadToken,"GetMemoryMap") == 0 || p_CommnadToken[0] == '2')
+						st_Command.Command = GetMemoryMap; 
+					else 
+						return;
+				}
+			}
+			else
+				return;
+
+			// Argument 1 
+			p_CommnadToken = strtok(NULL, " ");
+			if(p_CommnadToken == NULL){ 
+				CommandQueue::PushCommand( st_Command );
+				return;	
+			}
+			else
+				strcpy(st_Command.Argu1, p_CommnadToken);
+
+			// Argument 2
+			p_CommnadToken = strtok(NULL, " ");
+			if(p_CommnadToken == NULL){ 
+				CommandQueue::PushCommand( st_Command );
+				return;	
+			}
+			else
+				strcpy(st_Command.Argu2, p_CommnadToken);
+
+			// Argument 3
+			p_CommnadToken = strtok(NULL, " ");
+			if(p_CommnadToken == NULL){ 
+				CommandQueue::PushCommand( st_Command );
+				return;	
+			}
+			else
+				strcpy(st_Command.Argu3, p_CommnadToken);
+
+			// Argument 4
+			p_CommnadToken = strtok(NULL, " ");
+			if(p_CommnadToken == NULL){ 
+				CommandQueue::PushCommand( st_Command );
+				return;	
+			}
+			else
+				strcpy(st_Command.Argu4, p_CommnadToken);
+
+			// Argument 5
+			p_CommnadToken = strtok(NULL, " ");
+			if(p_CommnadToken == NULL){ 
+				CommandQueue::PushCommand( st_Command );
+				return;	
+			}
+			else
+				strcpy(st_Command.Argu5, p_CommnadToken);
+
+			CommandQueue::PushCommand( st_Command );
+		}
+	}
+
+	/*
+	 * function   	: Sleep 
+	 * design       : sleep command 
+	 */
+	void Sleep(char *p_UserCommand)
+	{
+		char UserCommand[SIZE] = {0,}; 
+		char *p_CommnadToken = NULL; 
+		double time = 0; 
+
+		GUI_COMMAND st_Command;
+		strcpy(UserCommand,p_UserCommand);
+
+		InitializeCommand(st_Command);
+
+		// sleep 
+		p_CommnadToken = strtok(UserCommand, " ");				
+		if(p_CommnadToken == NULL) 
+			return;
+
+		// time 
+		p_CommnadToken = strtok(NULL, " ");					
+		if(p_CommnadToken == NULL) 
+			return;	
+		time = atof(p_CommnadToken);
+
+		usleep(SECOND_UNIT(time));
+	}
+
+	/*
+	 * function   	: InitializeCommand 
+	 * design       : Initialize command struct
+	 */
+	void InitializeCommand(GUI_COMMAND &Command)
+	{
+		Command.Operation = NO_OPERATION;
+		Command.Command = NO_COMMAND;
+		Command.Argu1[0] = NO_ARGUMENT;
+		Command.Argu2[0] = NO_ARGUMENT;
+		Command.Argu3[0] = NO_ARGUMENT;
+		Command.Argu4[0] = NO_ARGUMENT;
+		Command.Argu5[0] = NO_ARGUMENT;
+	}
+
+	/*
+	 * function   	: CheckScriptLine 
+	 * design     	: check if it is command or not
+	 */
+	ScriptReturn CheckScriptLine(char *p_UserCommand)
+	{
+		//  0  : blanck
+		// '#' : comment
+		if(p_UserCommand[0] == 0 || p_UserCommand[0] == '#')
+			return _NO_COMMAND;
+		else if(p_UserCommand[0] == 's')
+			return _SLEEP;
+		else
+			return _COMMAND;
 	}
 }
