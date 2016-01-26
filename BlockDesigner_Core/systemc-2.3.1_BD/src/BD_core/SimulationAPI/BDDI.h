@@ -47,6 +47,11 @@ namespace BDapi
 			virtual BDDIReturn BDDIGetParameterValues(unsigned int ParIndex, char *OutValue) = 0;
 			virtual BDDIReturn BDDISetParameterValues(unsigned int ParIndex, const char *SetValue) = 0;
 
+			virtual char* BDDIGetModuleType() = 0;
+
+			virtual BDDIRegInfo* BDDIGetModuleRegInfo() = 0;
+			virtual BDDIParInfo* BDDIGetModuleParInfo() = 0;
+
 			BDDIReturn BDDIConvertStringToRegisterValue(BDDIRegValue *ReturnValue, BDDIRegInfo *RegInfo, const char *Value);
 			BDDIReturn BDDIConvertRegisterValueToString(BDDIRegValue *ReturnValue, char *Value);
 
