@@ -12,8 +12,9 @@
 // ----------------------------------------------------------------------------
 
 #include "PMModuleListGenerator.h"
-
+#include "../SimulationAPI/BDDITypes.h"
 #include <string.h>
+#include <stdlib.h>
 #include "json/json.h"
 #include <iostream>
 #include <vector>
@@ -38,6 +39,10 @@ namespace BDapi
 		Json::Value Module;
 		Json::Value PortList;
 		Json::Value Port;
+		Json::Value ParameterList;
+		Json::Value Parameter;
+		Json::Value RegisterList;
+		Json::Value Register;
 
 		// Port list pointer from sc_module
 		std::vector<sc_port_base*>* p_PortList = NULL;
@@ -79,11 +84,47 @@ namespace BDapi
 				Port["data_type"] = p_DataType;
 				PortList.append(Port);	
 			}   
+			/********************************************
+			 * Iterate parameter in sc_module
+			 ********************************************/
 
+			int i = 0;
+			int parameter_num = (*IndexOfModule)->bddi->BDDIGetModuleTotalParNum();		
+			char p_Temp[1024];
+	
+			for(i=0; i < parameter_num; i++){
+			
+			BDDIParInfo *pst_ParInfo = (*IndexOfModule)->bddi->BDDIGetModuleParInfo(); 
+			Parameter["parameter_name"] = pst_ParInfo[i].Name;	
+			sprintf(p_Temp, "%u", pst_ParInfo[i].Bitswide);
+			Parameter["bits_wide"] = p_Temp;
+			sprintf(p_Temp, "%d", (int)pst_ParInfo[i].Type);	
+			Parameter["type"] = p_Temp;
+			Parameter["value"] = pst_ParInfo[i].Value;
+			ParameterList.append(Parameter);
+			}	
+			/********************************************
+			 * Iterate register in sc_module
+			 ********************************************/
+			int register_num = (*IndexOfModule)->bddi->BDDIGetModuleTotalRegNum();		
+	
+			for(i=0; i < register_num; i++){
+			
+			BDDIRegInfo *pst_RegInfo = (*IndexOfModule)->bddi->BDDIGetModuleRegInfo(); 
+			Register["register_name"] = pst_RegInfo[i].Name;	
+			sprintf(p_Temp, "%u", pst_RegInfo[i].Bitswide);
+			Register["bits_wide"] = p_Temp;
+			sprintf(p_Temp, "%d", (int)pst_RegInfo[i].Type);	
+			Register["type"] = p_Temp;
+			RegisterList.append(Register);
+			}	
+		
 			// add Module to PMModuleList in json format
-			Module["module_name"] = "AHB_Lite";
-			Module["module_type"] = "bus";
+			Module["module_name"] = "CONSOLE";
+			Module["module_type"] = (*IndexOfModule)->bddi->BDDIGetModuleType();
 			Module["port"] = PortList;
+			Module["parameter"] = ParameterList;
+			Module["register"] = RegisterList;
 			PMModuleList.append(Module);
 		}
 
