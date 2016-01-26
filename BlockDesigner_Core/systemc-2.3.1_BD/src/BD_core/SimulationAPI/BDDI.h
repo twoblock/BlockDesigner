@@ -52,6 +52,9 @@ namespace BDapi
 			virtual BDDIRegInfo* BDDIGetModuleRegInfo() = 0;
 			virtual BDDIParInfo* BDDIGetModuleParInfo() = 0;
 
+			virtual unsigned int BDDIGetModuleTotalRegNum() = 0;
+			virtual unsigned int BDDIGetModuleTotalParNum() = 0;
+
 			BDDIReturn BDDIConvertStringToRegisterValue(BDDIRegValue *ReturnValue, BDDIRegInfo *RegInfo, const char *Value);
 			BDDIReturn BDDIConvertRegisterValueToString(BDDIRegValue *ReturnValue, char *Value);
 

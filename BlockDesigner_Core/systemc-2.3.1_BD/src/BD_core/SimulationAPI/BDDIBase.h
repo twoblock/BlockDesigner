@@ -120,6 +120,17 @@ namespace BDapi
 			{
 				return NULL;
 			}
+
+			virtual unsigned int BDDIGetModuleTotalRegNum()
+			{
+				return 0;
+			}
+
+			virtual unsigned int BDDIGetModuleTotalParNum()
+			{
+				return 0;
+			}
+
 	};
 
 }
