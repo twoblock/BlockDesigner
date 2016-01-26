@@ -30,6 +30,7 @@
 #include <pthread.h>
 #include "BD_core/gui/test.h"
 #include "BD_core/gui/StartSimulationThreads.h"
+#include "BD_core/gui/StartPlatformManagerThreads.h"
 
 using namespace BDapi;
 
@@ -49,6 +50,7 @@ main( int argc, char* argv[] )
 	GUIstatus				 = pthread_create( &GUI_Thread, NULL, GUI_routine , NULL);
 
 	StartSimulationThreads();
+	//StartPlatformManagerThreads();
 
 	// 쓰레드가 종료되기를 기다린후 
 	// 쓰레드의 리턴값을 출력한다. 

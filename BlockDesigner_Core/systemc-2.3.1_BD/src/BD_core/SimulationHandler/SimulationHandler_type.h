@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
 // Design								: define srtuct enum for SimulationHandler
-// Autor								: Bryan.Choi 
+// Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: SimulationHandler_type.h
-// Date	       					: 2015/1/4
+// Date	       					: 2016/1/4
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
 // Description	: These struct, enum is used for Simulator Handler thread
 // ----------------------------------------------------------------------------
@@ -14,14 +14,6 @@
 #ifndef SIMULATIONHANDLER_TYPE_H
 #define SIMULATIONHANDLER_TYPE_H
 
-/*
- * namespace	: BDapi 
- * design	    : Block Designer API 
- * description	: support analyzing ESL platform based on systemc
- */
-
-namespace BDapi
-{
 // Operation way
 #define PUT 0 
 #define GET 1
@@ -40,19 +32,25 @@ namespace BDapi
 #define GetDebugInterface  1 
 #define GetMemoryMap       2
 
-#define ArumentSize        128
+#define ArgumentSize        128
 
+/*
+ * namespace	  : BDapi 
+ * design	      : Block Designer API 
+ * description	: support analyzing ESL platform based on systemc
+ */
+namespace BDapi
+{
 	typedef struct GUI_commnad{
 		int Operation;
 		int Command;
-		char Argu1[ArumentSize];
-		char Argu2[ArumentSize];
-		char Argu3[ArumentSize];
-		char Argu4[ArumentSize];
-		char Argu5[ArumentSize];
+		char Argu1[ArgumentSize];
+		char Argu2[ArgumentSize];
+		char Argu3[ArgumentSize];
+		char Argu4[ArgumentSize];
+		char Argu5[ArgumentSize];
 	}GUI_COMMAND;
-
-} // namespace BDapi 
+}
 
 #endif 
 

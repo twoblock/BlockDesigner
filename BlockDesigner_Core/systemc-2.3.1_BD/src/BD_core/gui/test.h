@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
-// Design								: Block Designer Simulator 
-// Autor								: Bryan.Choi 
+// Design								: User command parser 
+// Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: test.h
-// Date	       					: 2015/1/3
+// Date	       					: 2015/12/29
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlockTechinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: This class provide Simulator API
+// Description	: This Thread provide user command test 
 // ----------------------------------------------------------------------------
 
 #ifndef GUITHREAD_H 
@@ -17,39 +17,43 @@
 #include "BD_core/SimulationHandler/SimulationHandler_type.h"	
 #include "BD_core/SimulationHandler/CommandQueue.h"	
 #include "BD_core/manager/ExecutionManager.h"
-#include <stdio.h>
+
+#include <fstream>
+#include <iostream>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#define	 SECOND_UNIT(X)		((X)*1000000)
+#define	 SIZE 256 
+#define	 NO_OPERATION -1
+#define	 NO_COMMAND -1
+#define	 NO_ARGUMENT 0
+
 /*
- * namespace	: BDapi 
- * design	    : Block Designer API 
+ * namespace   	: BDapi 
+ * design	      : Block Designer API 
  * description	: support analyzing ESL platform based on systemc
  */
 
 namespace BDapi
 {
+	// Script line Return Type
+	enum ScriptReturn
+	{
+		_NO_COMMAND,
+		_COMMAND,	
+		_SLEEP
+	};
 
-
-		/*
-		 * function 	: 함수 명
-		 * design	: 함수의 간략한 설명
-		 * description	: 함수의 자세한 설명
-		 * param	: 함수의 인자에 대한 설명 / void 시 줄 삭제
-		 * return	: 함수의 반환 값에 대한 설명 / void 시 줄 삭제
-		 * issue		: 함수의 필요성 혹은 함수에서 발견된 문제점 
-		 * todo		: 함수의 수정이 필요한 부분 기술
-		 * caller		: 이 함수를 호출하는 함수 명 표기
-		 * callee		: 이 함수가 호출하는 함수 명 표기
-		 * see		: 함수의 이해를 위해 참고할 만한 함수 혹은 라인을 표기
-		 */
-extern void GUIThread();
-
-
-} // namespace BDapi 
+	extern void GUIThread();
+	void PushCommand(char *p_UserCommand);
+	void Sleep(char *p_UserCommand);
+	void InitializeCommand(GUI_COMMAND &Command);
+	ScriptReturn CheckScriptLine(char *p_UserCommand);
+}
 
 #endif 
 

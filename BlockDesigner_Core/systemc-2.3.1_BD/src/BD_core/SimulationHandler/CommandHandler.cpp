@@ -1,68 +1,129 @@
 //-----------------------------------------------------------------------------
 // Design								: Block Designer Command Queue 
-// Autor								: Bryan.Choi 
+// Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: CommandHandler.cpp
-// Date	       					: 2015/1/4
+// Date	       					: 2016/1/4
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
 // Description	: This class provide CommandHandler API 
 // ----------------------------------------------------------------------------
 
-#include "BD_core/SimulationHandler/CommandHandler.h"	
+#include "CommandHandler.h"	
 
 namespace BDapi
 {	
+	// Initialize Manager Instance
+	ExecutionManager* ExecutionManager::_ExecutionManager = NULL;
+	BDDIManager* BDDIManager::_BDDIManager = NULL;
+	PMModuleListManager* PMModuleListManager::_PMModuleListManager= NULL;
 
-	void CommandHandler::SetCommand(GUI_COMMAND st_Command){
+	/*
+	 * function    	: Constructor
+	 * design	      : get all mananger instances
+	 */
+	CommandHandler::CommandHandler()
+	{
+		CmdExecutionManager = ExecutionManager::GetInstance();
+		CmdBDDIManager = BDDIManager::GetInstance();
+		CmdPMModuleListManager = PMModuleListManager::GetInstance();
+	}
 
-		st_GUIcommand = st_Command;
+	/*
+	 * function    	: SetCommand 
+	 * design	      : set command
+	 * caller		    : SimulationHandler 
+	 */
+	void CommandHandler::SetCommand(GUI_COMMAND Command)
+	{
+		st_GUICommand = Command;
 	}	
 
-	int CommandHandler::Execute(){
-
-		if( st_GUIcommand.Operation	== PUT ){
+	/*
+	 * function    	: Execute 
+	 * design	      : check Operation( PUT or GET ) 
+	 * caller		    : SimulationHandler 
+	 * callee       : PutOperation, GetOperation 
+	 */
+	int CommandHandler::Execute()
+	{
+		if(st_GUICommand.Operation == PUT){
 			PutOperation();
 		}
-		else if( st_GUIcommand.Operation	== PUT ){
-			//GetOperation();
+		else if(st_GUICommand.Operation	== GET){
+			GetOperation();
 		}
 		else; // Exeception
 
-		// Set Default
+		return 0;
+	}
+
+	/*
+	 * function    	: PutOperation 
+	 * design	      : check command and perform command
+	 * description  : 
+	 * caller		    : Execute 
+	 * callee       : 
+	 */
+	int CommandHandler::PutOperation()
+	{
+		if(st_GUICommand.Command == ExecutionControl){
+			SetManagerForPutOperation(CmdExecutionManager);
+		}
+		else if(st_GUICommand.Command == PutDebugInterface)	{
+			SetManagerForPutOperation(CmdBDDIManager);
+		}		
+		else if(st_GUICommand.Command == LoadModule)	{
+			SetManagerForPutOperation(CmdPMModuleListManager);
+		} 
+
+
 
 		return 0;
 	}
 
-	int CommandHandler::PutOperation(){
-
-		if( st_GUIcommand.Command == ExecutionControl ){
-			ExcutionControl();
+	/*
+	 * function    	: GetOperation 
+	 * design	      : check command and perform command
+	 * description  : 
+	 * caller		    : Execute 
+	 * callee       : 
+	 */
+	int CommandHandler::GetOperation()
+	{
+		if(st_GUICommand.Command == ModuleInfo){
+			SetManagerForGetOperation(CmdPMModuleListManager);
+		}
+		else if(st_GUICommand.Command == GetDebugInterface){
+			SetManagerForGetOperation(CmdBDDIManager);
 		}
 
 		return 0;
 	}
 
-	void CommandHandler::ExcutionControl(){
-
-		unsigned int StepValue = 0;
-
-		if( strcmp( st_GUIcommand.Argu1,"RUN") == 0 ){
-			ExecutionManager::SetExecutionFlag(RUN);	
-		}	
-		else if( strcmp( st_GUIcommand.Argu1,"STEP") == 0 ){
-			StepValue  = atoi(st_GUIcommand.Argu2);
-			StepValue *= 10;
-			ExecutionManager::SetStepValue(StepValue);	
-			ExecutionManager::SetExecutionFlag(STEP);	
-		}
-		else if( strcmp( st_GUIcommand.Argu1,"STOP") == 0 ){
-			ExecutionManager::SetExecutionFlag(STOP);	
-		}	
-		else;// Exeception	
-
+	/*
+	 * function    	: SetManagerForPutOperation
+	 * design	      : set manager and perform put operation
+	 * description  : 
+	 * caller		    : PutOperation
+	 * callee       : 
+	 */
+	void CommandHandler::SetManagerForPutOperation(TopManagerBase *manager)
+	{
+		manager->PutOperationControl(st_GUICommand);	
 	}
 
+	/*
+	 * function    	: SetManagerForGetOperation 
+	 * design	      : set manager and perform get operation
+	 * description  : 
+	 * caller		    : GetOperation
+	 * callee       : 
+	 */
+	void CommandHandler::SetManagerForGetOperation(TopManagerBase *manager)
+	{
+		manager->GetOperationControl(st_GUICommand);	
+	}
 }

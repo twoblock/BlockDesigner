@@ -72,7 +72,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libmanager_la_LIBADD =
-am__objects_1 = ExecutionManager.lo
+am__objects_1 = ExecutionManager.lo BDDIManager.lo \
+	PMModuleListManager.lo ModuleLoader.lo
 am_libmanager_la_OBJECTS = $(am__objects_1)
 libmanager_la_OBJECTS = $(am_libmanager_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -186,7 +187,7 @@ LDFLAGS = @LDFLAGS@
 LDFLAG_RPATH = @LDFLAG_RPATH@
 LIBCONFIG_DEFINES = @LIBCONFIG_DEFINES@
 LIBOBJS = @LIBOBJS@
-LIBS = @LIBS@
+LIBS = @LIBS@ -ldl
 LIBTOOL = @LIBTOOL@
 LIB_ARCH_SUFFIX = @LIB_ARCH_SUFFIX@
 LIPO = @LIPO@
@@ -303,10 +304,19 @@ CLEANFILES =
 EXTRA_DIST = 
 noinst_LTLIBRARIES = libmanager.la
 H_FILES = \
-	ExecutionManager.h
+	ExecutionManager.h \
+	TopManager.h \
+	TopManagerBase.h \
+	AllManager.h \
+	BDDIManager.h \
+	PMModuleListManager.h \
+  ModuleLoader.h
 
 CXX_FILES = \
-	ExecutionManager.cpp
+	ExecutionManager.cpp \
+	BDDIManager.cpp \
+	PMModuleListManager.cpp \
+	ModuleLoader.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -364,7 +374,10 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDDIManager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ExecutionManager.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ModuleLoader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PMModuleListManager.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

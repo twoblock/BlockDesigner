@@ -74,6 +74,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libgui_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_1 = test.lo StartSimulationThreads.lo \
+	StartPlatformManagerThreads.lo \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.lo \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.lo \
 	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.lo
@@ -309,6 +310,7 @@ noinst_LTLIBRARIES = libgui.la
 H_FILES = \
 	test.h \
 	StartSimulationThreads.h \
+	StartPlatformManagerThreads.h \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.h \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.h \
 	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.h \
@@ -318,6 +320,7 @@ H_FILES = \
 CXX_FILES = \
 	test.cpp \
 	StartSimulationThreads.cpp \
+	StartPlatformManagerThreads.cpp \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.cpp \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.cpp \
 	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.cpp 
@@ -399,6 +402,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/Handler_Command.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/Handler_SimulationInitThread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../../../../../JNI_Interface/SimulationEnvironment/$(DEPDIR)/Hanlder_CallBack.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/StartPlatformManagerThreads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/StartSimulationThreads.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test.Plo@am__quote@
 

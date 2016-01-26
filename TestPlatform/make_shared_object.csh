@@ -8,9 +8,9 @@ cd obj_dir
 
 # make all object file here, -fPIC option make speed up for loading so.file
 make CXXFLAGS+='-fPIC ' -j -f VCORTEXM0DS.mk VCORTEXM0DS__ALL.a
-make CXXFLAGS+='-fPIC'  -j -f VCORTEXM0DS.mk ../sc_main.o verilated.o ../Software_Profiler.o ../AHBDCD.o ../AHBMUX.o ../AHB_Lite.o
+make CXXFLAGS+='-fPIC'  -j -f VCORTEXM0DS.mk ../sc_main.o verilated.o ../Software_Profiler.o ../AHBDCD.o ../AHBMUX.o ../AHB_Lite.o ../console_BDDI.o
 
-g++ -shared -o libBD_sim.so ../sc_main.o ../AHBMUX.o ../AHBDCD.o ../AHB_Lite.o VCORTEXM0DS__ALL*.o verilated.o ../Software_Profiler.o /usr/local/systemc231/lib-linux64/libsystemc-2.3.1.so
+g++ -shared -o libBD_sim.so ../sc_main.o ../AHBMUX.o ../AHBDCD.o ../AHB_Lite.o ../console_BDDI.o VCORTEXM0DS__ALL*.o verilated.o ../Software_Profiler.o /usr/local/systemc231/lib-linux64/libsystemc-2.3.1.so
 
 cp libBD_sim.so /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/
 chmod 777 /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so

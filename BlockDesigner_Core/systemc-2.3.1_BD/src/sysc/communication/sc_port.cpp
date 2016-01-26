@@ -191,6 +191,18 @@ sc_bind_info::size() const
 //  Abstract base class for class sc_port_b.
 // ----------------------------------------------------------------------------
 
+// set port name for Block Designer
+void sc_port_base::set_port_name( const char* port_name )
+{
+	m_port_name = port_name;
+}
+
+// get port name for Block Designer
+const char* sc_port_base::get_port_name()
+{
+  return m_port_name;
+}
+
 // This method exists to get around a problem in VCC 6.0 where you cannot
 // have  a friend class that is templated. So sc_port_b<IF> calls this class
 // instead of sc_process_b::add_static_event.
@@ -263,6 +275,11 @@ sc_port_base::~sc_port_base()
     delete m_bind_info;
 }
 
+// bind interface to this port for Block Designer
+void sc_port_base::BDbind( sc_interface& interface_ )
+{
+	bind(interface_);
+}
 
 // bind interface to this port
 

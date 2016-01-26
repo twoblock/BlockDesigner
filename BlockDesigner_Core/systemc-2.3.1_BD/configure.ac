@@ -83,6 +83,7 @@ EXTRA_CXXFLAGS="-Wall"
 DEBUG_CXXFLAGS="-g"
 OPT_CXXFLAGS="-O3"
 EXPLICIT_LPTHREAD="-lpthread"
+="-ldl"
 LDFLAG_RPATH="-Wl,-rpath="
 
 case "$target" in
@@ -573,6 +574,7 @@ AC_OUTPUT(
  src/sysc/packages/boost/Makefile 
  src/BD_core/Makefile 
  src/BD_core/SimulationAPI/Makefile
+ src/BD_core/PlatformAPI/Makefile
  src/BD_core/manager/Makefile
  src/BD_core/SimulationHandler/Makefile
  src/BD_core/gui/Makefile

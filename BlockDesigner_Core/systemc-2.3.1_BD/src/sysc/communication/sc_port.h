@@ -91,6 +91,15 @@ public:
 
     virtual const char* kind() const
         { return "sc_port_base"; }
+		    
+		// set port name for Block Designer
+		void set_port_name( const char* port_name );
+	
+		// get port name for Block Designer
+		const char* get_port_name();
+
+		// bind interface to this port for Block Designer
+    void BDbind( sc_interface& interface_ );
 
 protected:
 
@@ -115,7 +124,7 @@ protected:
 
     // called by complete_binding (for internal use only)
     virtual void add_interface( sc_interface* ) = 0;
-	virtual int interface_count() = 0;
+		virtual int interface_count() = 0;
     virtual const char* if_typename() const = 0;
 
     // called by construction_done (does nothing by default)
@@ -172,6 +181,9 @@ protected:
 
 private:
 
+		// port name for Block Designer
+		const char *m_port_name;
+	
     // disabled
     sc_port_base();
     sc_port_base( const this_type& );

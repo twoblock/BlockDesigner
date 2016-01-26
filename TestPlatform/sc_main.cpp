@@ -312,7 +312,7 @@ int sc_main(int argc, char **argv) {
 	sc_trace(wtf, EXTRACT_R3, "EXTRACT_R3");		sc_trace(wtf, EXTRACT_R4, "EXTRACT_R4");
 	sc_trace(wtf, EXTRACT_R10, "EXTRACT_R10");
 
-	BD_start();
+	BDStart();
 	BD_TB->SP->Summary_Display();
 
 	delete BD_CORTEXM0DS;

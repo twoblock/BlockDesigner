@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Handler_1Command_PushCommand(JNIEnv *env, jobject ths)
 {
 	jclass cls = env->GetObjectClass(ths);

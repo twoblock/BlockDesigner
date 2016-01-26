@@ -40,6 +40,12 @@
 #include "sysc/kernel/sc_process_handle.h"
 #include "sysc/utils/sc_list.h"
 
+// for Block Designer Debugging Interface
+#include "BD_core/SimulationAPI/BDDI.h"
+
+//typedef BDapi::BDDI 		BDDI;
+using BDapi::BDDI;
+
 namespace sc_core {
 
 class sc_name_gen;
@@ -85,6 +91,9 @@ class sc_module
     friend class sc_simcontext;
 
 public:
+
+		// for Block Designer Debugging Interface
+		BDDI *bddi;
 
     sc_simcontext* sc_get_curr_simcontext()
 	{ return simcontext(); }
@@ -145,6 +154,9 @@ public:
     // operator() is declared at the end of the class.
 
     const ::std::vector<sc_object*>& get_child_objects() const;
+    
+		// get port list for Block Designer
+		std::vector<sc_port_base*>* get_port_list();
 
 protected:
 

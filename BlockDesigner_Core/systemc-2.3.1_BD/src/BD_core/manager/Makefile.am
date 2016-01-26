@@ -32,13 +32,24 @@
 
 include $(top_srcdir)/config/Make-rules.sysc
 
+LIBS+= -ldl
+
 noinst_LTLIBRARIES = libmanager.la
 
 H_FILES = \
-	ExecutionManager.h
+	ExecutionManager.h \
+	TopManager.h \
+	TopManagerBase.h \
+	AllManager.h \
+	BDDIManager.h \
+	PMModuleListManager.h \
+  ModuleLoader.h
  
 CXX_FILES = \
-	ExecutionManager.cpp
+	ExecutionManager.cpp \
+	BDDIManager.cpp \
+	PMModuleListManager.cpp \
+	ModuleLoader.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)

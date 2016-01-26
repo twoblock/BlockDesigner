@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
 // Design								: Simulation InitThread 
-// Autor								: Bryan Choi 
+// Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: StartSimulationThreads.h
+// File		     					: StartSimulationThreads.cpp
 // Date	       					: 2015/12/29
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: This class provide Execution contol API
+// Description	: This class provide api to create essential threads 
 // ----------------------------------------------------------------------------
 
 #include "sysc/kernel/sc_cmnhdr.h"
@@ -18,43 +18,61 @@
 #include "BD_core/SimulationHandler/SimulationHandler.h"	
 #include "StartSimulationThreads.h"	
 
+/*
+ * namespace  	: BDapi 
+ * design	      : Block Designer API 
+ * description	: support analyzing ESL platform based on systemc
+ */
+
 namespace BDapi
 {
 
-	void *Simulation_Handler_routine( void *arg)
+	/*
+	 * function 	: SimulationHandlerRoutine
+	 * design	    : make SimulationHandler thread 
+	 */
+
+	void *SimulationHandlerRoutine( void *arg)
 	{
 		SimulationHandler();
 		return arg;
 	}
 
-	void *Simulation_routine( void *arg)
+	/*
+	 * function 	: SimulationRoutine
+	 * design	    : make Simulation thread
+	 */
+	void *SimulationRoutine( void *arg)
 	{
 		sc_core::sc_elab_and_sim( 0, NULL );
 		return arg;
 	}
 
+	/*
+	 * function 	: StartSimulationThreads
+	 * design	    : make essential threads
+	 */
 	void StartSimulationThreads()
 	{
-		pthread_t SimulationHandler_Thread;
-		pthread_t Simulation_Thread;
+		pthread_t SimulationHandlerThread;
+		pthread_t SimulationThread;
 
-		int Handlerstatus    = 0;
-		int Simulationstatus = 0;
+		int dw_HandlerStatus    = 0;
+		int dw_SimulationStatus = 0;
 
-		Simulationstatus = pthread_create( &Simulation_Thread, NULL, Simulation_routine, NULL);
-		if( Simulationstatus < 0){
-        perror("Simulation thread create error:");
-        exit(0);
-    }
-		Handlerstatus    = pthread_create( &SimulationHandler_Thread, NULL, Simulation_Handler_routine, NULL);
-		if( Handlerstatus < 0){
-        perror("Handler thread create error:");
-        exit(0);
-    }
-		// 쓰레드가 종료되기를 기다린후 
-		// 쓰레드의 리턴값을 출력한다. 
-		//pthread_join(SimulationHandler_Thread, (void **)&Handlerstatus);
-		//pthread_join(Simulation_Thread, (void **)&Simulationstatus);
+		// create Simulation Thread
+		dw_SimulationStatus = pthread_create( &SimulationThread, NULL, SimulationRoutine, NULL);
+		if( dw_SimulationStatus < 0){
+			perror("Simulation thread create error:");
+			exit(0);
+		}
+
+		// create SimulationHandler Thread
+		dw_HandlerStatus    = pthread_create( &SimulationHandlerThread, NULL, SimulationHandlerRoutine, NULL);
+		if( dw_HandlerStatus < 0){
+			perror("Handler thread create error:");
+			exit(0);
+		}
 
 	}
 

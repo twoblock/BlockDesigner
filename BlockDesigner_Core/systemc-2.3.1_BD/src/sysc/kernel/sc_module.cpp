@@ -281,6 +281,12 @@ sc_module::get_child_objects() const
     return m_child_objects;
 }
 
+std::vector<sc_port_base*>* 
+sc_module::get_port_list()
+{
+	  return m_port_vec;
+}
+
 // set SC_THREAD asynchronous reset sensitivity
 
 void

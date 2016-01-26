@@ -1,17 +1,17 @@
 //-----------------------------------------------------------------------------
 // Design								: Block Designer Response Handler
-// Autor								: Bryan.Choi 
+// Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
 // File		     					: ResponseHandler.cpp
-// Date	       					: 2015/1/4
+// Date	       					: 2016/1/4
 // Reference            :
 // ----------------------------------------------------------------------------
-// Copyright (c) 2015 TwoBlockTechinologies Co.
+// Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
 // Description	: This class provide ResponseHandler API 
 // ----------------------------------------------------------------------------
 
-#include "BD_core/SimulationHandler/ResponseHandler.h"	
+#include "ResponseHandler.h"	
 
 namespace BDapi
 {	

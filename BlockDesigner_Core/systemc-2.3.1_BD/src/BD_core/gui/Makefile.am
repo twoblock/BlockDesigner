@@ -37,6 +37,7 @@ noinst_LTLIBRARIES = libgui.la
 H_FILES = \
 	test.h \
 	StartSimulationThreads.h \
+	StartPlatformManagerThreads.h \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.h \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.h \
 	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.h \
@@ -46,6 +47,7 @@ H_FILES = \
 CXX_FILES = \
 	test.cpp \
 	StartSimulationThreads.cpp \
+	StartPlatformManagerThreads.cpp \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_Command.cpp \
 	../../../../../JNI_Interface/SimulationEnvironment/Handler_SimulationInitThread.cpp \
 	../../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.cpp 
