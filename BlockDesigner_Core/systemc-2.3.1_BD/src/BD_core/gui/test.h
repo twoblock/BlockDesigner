@@ -18,6 +18,7 @@
 #include "BD_core/SimulationHandler/CommandQueue.h"	
 #include "BD_core/manager/ExecutionManager.h"
 
+#include <fstream>
 #include <iostream>
 #include <string.h>
 #include <stdlib.h>
