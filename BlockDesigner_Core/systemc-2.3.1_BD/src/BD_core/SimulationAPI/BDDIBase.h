@@ -90,6 +90,36 @@ namespace BDapi
 			{
 				return BDDIStatusCmdNotSupported;
 			}
+
+			/*
+			 * function			: BDDIGetModuleType
+			 * design				: Get Module Type 
+			 * caller				: 
+			 */
+			virtual char* BDDIGetModuleType()
+			{
+				return NULL;
+			}
+
+			/*
+			 * function			: BDDIGetModuleRegInfo
+			 * design				: Get All Parameter Informations in Each Module 
+			 * caller				: 
+			 */
+			virtual BDDIRegInfo* BDDIGetModuleRegInfo()
+			{
+				return NULL;
+			}
+
+			/*
+			 * function			: BDDIGetModuleParInfo
+			 * design				: Get All Parameter Informations in Each Module 
+			 * caller				: 
+			 */
+			virtual BDDIParInfo* BDDIGetModuleParInfo()
+			{
+				return NULL;
+			}
 	};
 
 }

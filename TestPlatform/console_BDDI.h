@@ -19,10 +19,15 @@ class CONSOLE_BDDI : public BDDIBase
 		BDDIReturn BDDIGetParameterValues(unsigned int ParIndex, char *OutValue);
 		BDDIReturn BDDISetParameterValues(unsigned int ParIndex, const char *SetValue);
 
+		char* BDDIGetModuleType();
+
+		BDDIRegInfo* BDDIGetModuleRegInfo();
+		BDDIParInfo* BDDIGetModuleParInfo();
+
 	private:
-		CONSOLE *target;
-		BDDIRegInfo *OutRegInfo;
-		BDDIParInfo *OutParInfo;
+		CONSOLE *p_Target;
+		BDDIRegInfo *pst_OutRegInfo;
+		BDDIParInfo *pst_OutParInfo;
 };
 
 #endif	// __CONSOLE_BDDI_H__

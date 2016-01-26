@@ -202,9 +202,6 @@ SC_MODULE(CONSOLE)	{
 	}
 
 	SC_CTOR(CONSOLE)	{
-		// for BDDI
-		bddi = new CONSOLE_BDDI(this);
-
 		/////// for test of BDDI ///////
 		hw_reg = 0;
 		w_reg = 0;
@@ -226,6 +223,9 @@ SC_MODULE(CONSOLE)	{
 		df_par = 0;
 		memset(a_par, 0, sizeof(a_par));
 		////////////////////////////////
+
+		// for BDDI
+		bddi = new CONSOLE_BDDI(this);
 
 		SC_METHOD(do_assign_addr_phase);
 		sensitive << HREADY;

@@ -16,25 +16,49 @@ BDDIRegInfo ast_ConsoleRegInfo[] =
 
 BDDIParInfo ast_ConsoleParInfo[] = 
 {
-	{"hw_par", 8, BDDIParTypeINT},
-	{"w_par", 16, BDDIParTypeINT},
-	{"dw_par", 32, BDDIParTypeINT},
-	{"lw_par", 64, BDDIParTypeINT},
-	{"b_par", 8, BDDIParTypeBOOL},
-	{"dw_paru", 32, BDDIParTypeUINT},
-	{"f_par", 32, BDDIParTypeFLOAT},
-	{"df_par", 64, BDDIParTypeFLOAT},
-	{"a_par", 8, BDDIParTypeSTRING}
+	{"hw_par", 8, BDDIParTypeINT, ""},
+	{"w_par", 16, BDDIParTypeINT, ""},
+	{"dw_par", 32, BDDIParTypeINT, ""},
+	{"lw_par", 64, BDDIParTypeINT, ""},
+	{"b_par", 8, BDDIParTypeBOOL, ""},
+	{"dw_paru", 32, BDDIParTypeUINT, ""},
+	{"f_par", 32, BDDIParTypeFLOAT, ""},
+	{"df_par", 64, BDDIParTypeFLOAT, ""},
+	{"a_par", 8, BDDIParTypeSTRING, ""}
 };
 
-CONSOLE_BDDI::CONSOLE_BDDI(CONSOLE *c) : target(c)
-{
+static const UINT32 dw_RegCnt = sizeof(ast_ConsoleRegInfo) / sizeof(ast_ConsoleRegInfo[0]);
+static const UINT32 dw_ParCnt = sizeof(ast_ConsoleParInfo) / sizeof(ast_ConsoleParInfo[0]);
 
+CONSOLE_BDDI::CONSOLE_BDDI(CONSOLE *c) : p_Target(c)
+{
+	UINT32 dw_Index = 0;
+	char a_Temp[BDDI_STRING_SIZE];
+
+	pst_OutRegInfo = new BDDIRegInfo[dw_RegCnt];
+	pst_OutParInfo = new BDDIParInfo[dw_ParCnt];
+
+	for(dw_Index=0; dw_Index<dw_RegCnt; dw_Index++)	{
+		strcpy(pst_OutRegInfo[dw_Index].Name,					ast_ConsoleRegInfo[dw_Index].Name);
+		pst_OutRegInfo[dw_Index].Bitswide						= ast_ConsoleRegInfo[dw_Index].Bitswide;
+		pst_OutRegInfo[dw_Index].Type								= ast_ConsoleRegInfo[dw_Index].Type;
+	}
+
+	for(dw_Index=0; dw_Index<dw_ParCnt; dw_Index++)	{
+		strcpy(pst_OutParInfo[dw_Index].Name,					ast_ConsoleParInfo[dw_Index].Name);
+		pst_OutParInfo[dw_Index].Bitswide						= ast_ConsoleParInfo[dw_Index].Bitswide;
+		pst_OutParInfo[dw_Index].Type								= ast_ConsoleParInfo[dw_Index].Type;
+
+		BDDIGetParameterValues(dw_Index, a_Temp);
+	
+		strcpy(pst_OutParInfo[dw_Index].Value,				a_Temp);
+	}
 }
 
 CONSOLE_BDDI::~CONSOLE_BDDI()
 {
-
+	if(pst_OutRegInfo)	delete [] pst_OutRegInfo;
+	if(pst_OutParInfo)	delete [] pst_OutParInfo;
 }
 
 // regsiter access function
@@ -55,63 +79,63 @@ BDDIReturn CONSOLE_BDDI::BDDIGetRegisterValues(unsigned int RegIndex, char *OutV
 	switch(RegIndex)
 	{
 		case 0:
-			hw_Temp = target->hw_reg;
+			hw_Temp = p_Target->hw_reg;
 			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &hw_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 1:
-			w_Temp = target->w_reg;
+			w_Temp = p_Target->w_reg;
 			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &w_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 2:
-			dw_Temp = target->dw_reg;
+			dw_Temp = p_Target->dw_reg;
 			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &dw_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 3:
-			lw_Temp = target->lw_reg;
+			lw_Temp = p_Target->lw_reg;
 			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &lw_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 4:
-			b_Temp = target->b_reg;
+			b_Temp = p_Target->b_reg;
 			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &b_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 5:
-			h_Temp = target->h_reg;
+			h_Temp = p_Target->h_reg;
 			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &h_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 6:
-			f_Temp = target->f_reg;
+			f_Temp = p_Target->f_reg;
 			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &f_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 7:
-			df_Temp = target->df_reg;
+			df_Temp = p_Target->df_reg;
 			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &df_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 8:
-			strcpy(a_Temp, target->a_reg);
+			strcpy(a_Temp, p_Target->a_reg);
 			strcpy(OutValue, a_Temp);
 
 			break;
@@ -143,62 +167,62 @@ BDDIReturn CONSOLE_BDDI::BDDISetRegisterValues(unsigned int RegIndex, const char
 		case 0:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
 			BDDIExtractRegisterValue(&st_Temp, &hw_Temp);
-			target->hw_reg = hw_Temp;
+			p_Target->hw_reg = hw_Temp;
 
 			break;
 
 		case 1:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
 			BDDIExtractRegisterValue(&st_Temp, &w_Temp);
-			target->w_reg = w_Temp;
+			p_Target->w_reg = w_Temp;
 
 			break;
 
 		case 2:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
 			BDDIExtractRegisterValue(&st_Temp, &dw_Temp);
-			target->dw_reg = dw_Temp;
+			p_Target->dw_reg = dw_Temp;
 
 			break;
 
 		case 3:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
 			BDDIExtractRegisterValue(&st_Temp, &lw_Temp);
-			target->lw_reg = lw_Temp;
+			p_Target->lw_reg = lw_Temp;
 
 			break;
 
 		case 4:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
 			BDDIExtractRegisterValue(&st_Temp, &b_Temp);
-			target->b_reg = b_Temp;
+			p_Target->b_reg = b_Temp;
 
 			break;
 
 		case 5:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
 			BDDIExtractRegisterValue(&st_Temp, &h_Temp);
-			target->h_reg = h_Temp;
+			p_Target->h_reg = h_Temp;
 
 			break;
 
 		case 6:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
 			BDDIExtractRegisterValue(&st_Temp, &f_Temp);
-			target->f_reg = f_Temp;
+			p_Target->f_reg = f_Temp;
 
 			break;
 
 		case 7:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
 			BDDIExtractRegisterValue(&st_Temp, &df_Temp);
-			target->df_reg = df_Temp;
+			p_Target->df_reg = df_Temp;
 
 			break;
 
 		case 8:
 			strcpy(a_Temp, SetValue);
-			strcpy(target->a_reg, a_Temp);
+			strcpy(p_Target->a_reg, a_Temp);
 
 			break;
 
@@ -227,63 +251,63 @@ BDDIReturn CONSOLE_BDDI::BDDIGetParameterValues(unsigned int ParIndex, char *Out
 	switch(ParIndex)
 	{
 		case 0:
-			hw_Temp = target->hw_par;
+			hw_Temp = p_Target->hw_par;
 			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &hw_Temp);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 1:
-			w_Temp = target->w_par;
+			w_Temp = p_Target->w_par;
 			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &w_Temp);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 2:
-			dw_Temp = target->dw_par;
+			dw_Temp = p_Target->dw_par;
 			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &dw_Temp);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 3:
-			lw_Temp = target->lw_par;
+			lw_Temp = p_Target->lw_par;
 			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &lw_Temp);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 4:
-			b_Temp = target->b_par;
+			b_Temp = p_Target->b_par;
 			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &b_Temp);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 5:
-			dw_TempU = target->dw_paru;
+			dw_TempU = p_Target->dw_paru;
 			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &dw_TempU);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 6:
-			f_Temp = target->f_par;
+			f_Temp = p_Target->f_par;
 			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &f_Temp);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 7:
-			df_Temp = target->df_par;
+			df_Temp = p_Target->df_par;
 			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &df_Temp);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 8:
-			strcpy(a_Temp, target->a_par);
+			strcpy(a_Temp, p_Target->a_par);
 			strcpy(OutValue, a_Temp);
 
 			break;
@@ -315,62 +339,62 @@ BDDIReturn CONSOLE_BDDI::BDDISetParameterValues(unsigned int ParIndex, const cha
 		case 0:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
 			BDDIExtractParameterValue(&st_Temp, &hw_Temp);
-			target->hw_par = hw_Temp;
+			p_Target->hw_par = hw_Temp;
 
 			break;
 
 		case 1:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
 			BDDIExtractParameterValue(&st_Temp, &w_Temp);
-			target->w_par = w_Temp;
+			p_Target->w_par = w_Temp;
 
 			break;
 
 		case 2:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
 			BDDIExtractParameterValue(&st_Temp, &dw_Temp);
-			target->dw_par = dw_Temp;
+			p_Target->dw_par = dw_Temp;
 
 			break;
 
 		case 3:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
 			BDDIExtractParameterValue(&st_Temp, &lw_Temp);
-			target->lw_par = lw_Temp;
+			p_Target->lw_par = lw_Temp;
 
 			break;
 
 		case 4:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
 			BDDIExtractParameterValue(&st_Temp, &b_Temp);
-			target->b_par = b_Temp;
+			p_Target->b_par = b_Temp;
 
 			break;
 
 		case 5:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
 			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
-			target->dw_paru = dw_TempU;
+			p_Target->dw_paru = dw_TempU;
 
 			break;
 
 		case 6:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
 			BDDIExtractParameterValue(&st_Temp, &f_Temp);
-			target->f_par = f_Temp;
+			p_Target->f_par = f_Temp;
 
 			break;
 
 		case 7:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
 			BDDIExtractParameterValue(&st_Temp, &df_Temp);
-			target->df_par = df_Temp;
+			p_Target->df_par = df_Temp;
 
 			break;
 
 		case 8:
 			strcpy(a_Temp, SetValue);
-			strcpy(target->a_par, a_Temp);
+			strcpy(p_Target->a_par, a_Temp);
 
 			break;
 
@@ -379,4 +403,19 @@ BDDIReturn CONSOLE_BDDI::BDDISetParameterValues(unsigned int ParIndex, const cha
 	}
 
 	return BDDIStatusOK;
+}
+
+char* CONSOLE_BDDI::BDDIGetModuleType()
+{
+	return (char*)"semihost";
+}
+
+BDDIRegInfo* CONSOLE_BDDI::BDDIGetModuleRegInfo()
+{
+	return pst_OutRegInfo;
+}
+
+BDDIParInfo* CONSOLE_BDDI::BDDIGetModuleParInfo()
+{
+	return pst_OutParInfo;
 }

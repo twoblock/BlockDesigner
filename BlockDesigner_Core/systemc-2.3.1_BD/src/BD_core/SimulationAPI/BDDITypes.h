@@ -75,6 +75,7 @@ namespace BDapi
 		char Name[BDDI_NAME_SIZE];
 		unsigned int Bitswide;
 		BDDIParType Type;
+		char Value[BDDI_STRING_SIZE];
 	};
 
 	// BDDI To Select Register Value Information
