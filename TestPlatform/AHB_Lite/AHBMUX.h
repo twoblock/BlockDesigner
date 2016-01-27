@@ -15,7 +15,6 @@
 #define __AHBMUX_H__
 
 #include "systemc.h"
-#include "type.h"
 
 SC_MODULE(AHBMUX)	{
 	// Global Clock & Reset

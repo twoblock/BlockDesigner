@@ -4,5 +4,17 @@ BlockDesigner_Core/JNI_Interface/
 TestPlatform/*.o
 TestPlatform/*.d
 TestPlatform/obj_dir/
+TestPlatform/AHB_Lite/*.o
+TestPlatform/AHB_Lite/*.so
+TestPlatform/ahbl2mem/*.o
+TestPlatform/ahbl2mem/*.so
+TestPlatform/ahbl2mem_1/*.o
+TestPlatform/ahbl2mem_1/*.so
 TestPlatform/console/*.o
 TestPlatform/console/*.so
+TestPlatform/tb/*.o
+TestPlatform/tb/*.so
+TestPlatform/VCORTEXM0DS/*.o
+TestPlatform/VCORTEXM0DS/*.so
+TestPlatform/VCORTEXM0DS/*.d
+

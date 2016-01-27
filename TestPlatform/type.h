@@ -1,11 +1,11 @@
 //-------------------------------------------------------------
 // Design	: Type
 // Author	: Harold Ko
-// Email	: harold.ko@twoblocktech.com
+// Email	: harold.ko@twoblock.co
 // File		: type.h
 // Date		: 2015. 11. 20
 //-------------------------------------------------------------
-// Copyright (C) 2015-2016 TwoBlock Technologies Co.
+// Copyright (C) 2015 TwoBlock Co.
 //-------------------------------------------------------------
 // Description	: Common Type Definition
 //-------------------------------------------------------------
