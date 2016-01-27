@@ -94,14 +94,14 @@ namespace BDapi
 	
 			for(i=0; i < parameter_num; i++){
 			
-			BDDIParInfo *pst_ParInfo = (*IndexOfModule)->GetBDDI()->BDDIGetModuleParInfo(); 
-			Parameter["parameter_name"] = pst_ParInfo[i].Name;	
-			sprintf(p_Temp, "%u", pst_ParInfo[i].Bitswide);
-			Parameter["bits_wide"] = p_Temp;
-			sprintf(p_Temp, "%d", (int)pst_ParInfo[i].Type);	
-			Parameter["type"] = p_Temp;
-			Parameter["value"] = pst_ParInfo[i].Value;
-			ParameterList.append(Parameter);
+				BDDIParInfo *pst_ParInfo = (*IndexOfModule)->GetBDDI()->BDDIGetModuleParInfo(); 
+				Parameter["parameter_name"] = pst_ParInfo[i].Name;	
+				sprintf(p_Temp, "%u", pst_ParInfo[i].Bitswide);
+				Parameter["bits_wide"] = p_Temp;
+				sprintf(p_Temp, "%d", (int)pst_ParInfo[i].Type);	
+				Parameter["type"] = p_Temp;
+				Parameter["value"] = pst_ParInfo[i].Value;
+				ParameterList.append(Parameter);
 			}	
 			/********************************************
 			 * Iterate register in sc_module
@@ -110,13 +110,13 @@ namespace BDapi
 	
 			for(i=0; i < register_num; i++){
 			
-			BDDIRegInfo *pst_RegInfo = (*IndexOfModule)->GetBDDI()->BDDIGetModuleRegInfo(); 
-			Register["register_name"] = pst_RegInfo[i].Name;	
-			sprintf(p_Temp, "%u", pst_RegInfo[i].Bitswide);
-			Register["bits_wide"] = p_Temp;
-			sprintf(p_Temp, "%d", (int)pst_RegInfo[i].Type);	
-			Register["type"] = p_Temp;
-			RegisterList.append(Register);
+				BDDIRegInfo *pst_RegInfo = (*IndexOfModule)->GetBDDI()->BDDIGetModuleRegInfo(); 
+				Register["register_name"] = pst_RegInfo[i].Name;	
+				sprintf(p_Temp, "%u", pst_RegInfo[i].Bitswide);
+				Register["bits_wide"] = p_Temp;
+				sprintf(p_Temp, "%d", (int)pst_RegInfo[i].Type);	
+				Register["type"] = p_Temp;
+				RegisterList.append(Register);
 			}	
 		
 			// add Module to PMModuleList in json format

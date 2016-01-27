@@ -2,6 +2,7 @@
 # Cortex-M0DS Software Profiling Test.
 
 #! /bin/csh -f
+./remove_test.csh
 
 verilator --sc CORTEXM0DS.v cortexm0ds_logic.v
 
