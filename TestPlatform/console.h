@@ -5,7 +5,7 @@
 // File		: console.h
 // Date		: 2016. 1. 6
 //-------------------------------------------------------------
-// Copyright (C) 2015-2016 TwoBlock Technologies Co.
+// Copyright (C) 2015 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: Console for Test System.v.1.0.1
 //-------------------------------------------------------------
@@ -27,7 +27,7 @@ SC_MODULE(CONSOLE)	{
 	/********** [port] **********/
 	sc_in<bool>		HCLK;
 	sc_in<bool>		HRESETn;
-	
+
 	sc_in<bool>		HSEL;
 	sc_in<bool>		HREADY;
 	sc_in<UINT32>		HADDR;
@@ -86,6 +86,10 @@ SC_MODULE(CONSOLE)	{
 	char						a_par[128];
 
 	BDDI*						bddi;
+	
+	BDDI* GetBDDI();
+	char* GetModuleName();
+	void BDInit();
 	////////////////////////////////
 
 	/********** [member function] **********/
@@ -120,10 +124,6 @@ SC_MODULE(CONSOLE)	{
 		}
 	}
 
-	// for test of BDDI
-	BDDI* GetBDDI();
-	char* GetModuleName();
-
 	/********** [process function] **********/
 	void do_assign_addr_phase()	{
 		if(HREADY && HSEL)	{
@@ -141,7 +141,7 @@ SC_MODULE(CONSOLE)	{
 			NEXT_ADDR_PHASE_HSIZE = 0x0;
 		}
 	}
-	
+
 	void do_pos_hclk_neg_hresetn()	{
 		while(1)	{
 			if(!HRESETn)	{
@@ -150,11 +150,11 @@ SC_MODULE(CONSOLE)	{
 				REG_ADDR_PHASE_HTRANS = 0x0;
 				REG_ADDR_PHASE_HADDR = 0x0;
 				REG_ADDR_PHASE_HSIZE = 0x0;
-				
+
 				HREADYOUT = 1;
 				HRESP = 0;
 				HRDATA = 0x0;
-				
+
 				REG_FLAG = 0;
 				REG_DATA = 0x0;
 			}
@@ -208,30 +208,7 @@ SC_MODULE(CONSOLE)	{
 	}
 
 	SC_CTOR(CONSOLE)	{
-		/////// for test of BDDI ///////
-		hw_reg = 0;
-		w_reg = 0;
-		dw_reg = 0;
-		lw_reg = 0;
-		b_reg = false;
-		h_reg = 0;
-		f_reg = 0;
-		df_reg = 0;
-		memset(a_reg, 0, sizeof(a_reg));
-
-		hw_par = 0;
-		w_par = 0;
-		dw_par = 0;
-		lw_par = 0;
-		b_par = false;
-		dw_paru = 0;
-		f_par = 0;
-		df_par = 0;
-		memset(a_par, 0, sizeof(a_par));
-		////////////////////////////////
-
-		// for BDDI
-		bddi = new CONSOLE_BDDI(this);
+		BDInit();
 
 		SC_METHOD(do_assign_addr_phase);
 		sensitive << HREADY;
@@ -249,7 +226,7 @@ SC_MODULE(CONSOLE)	{
 		SC_METHOD(do_assign_we);
 		sensitive << REG_ADDR_PHASE_HADDR;
 		sensitive << REG_ADDR_PHASE_HSIZE;
-		
+
 		SC_METHOD(do_transfer_console_data);
 		sensitive << REG_ADDR_PHASE_HSEL;
 		sensitive << REG_ADDR_PHASE_HWRITE;
@@ -262,5 +239,7 @@ SC_MODULE(CONSOLE)	{
 		sensitive << REG_DATA;
 	}
 };
+
+extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
 
 #endif	// __CONSOLE_H__

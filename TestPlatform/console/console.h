@@ -84,6 +84,12 @@ SC_MODULE(CONSOLE)	{
 	float						f_par;
 	double					df_par;
 	char						a_par[128];
+
+	BDDI*						bddi;
+	
+	BDDI* GetBDDI();
+	char* GetModuleName();
+	void BDInit();
 	////////////////////////////////
 
 	/********** [member function] **********/
@@ -202,49 +208,7 @@ SC_MODULE(CONSOLE)	{
 	}
 
 	SC_CTOR(CONSOLE)	{
-
-		/********** [port] **********/
-		HCLK.set_port_name("HCLK");
-		HRESETn.set_port_name("HRESETn");
-	
-		HSEL.set_port_name("HSEL");
-		HREADY.set_port_name("HREADY");
-		HADDR.set_port_name("HADDR");
-		HBURST.set_port_name("HBURST");
-		HPROT.set_port_name("HPROT");
-		HTRANS.set_port_name("HTRANS");
-		HWRITE.set_port_name("HWRITE");
-		HSIZE.set_port_name("HSIZE");
-		HWDATA.set_port_name("HWDATA");
-
-		HREADYOUT.set_port_name("HREADYOUT");	// Always High.
-		HRDATA.set_port_name("HRDATA");
-		HRESP.set_port_name("HRESP");		// Always Low.
-
-		/////// for test of BDDI ///////
-		hw_reg = 0;
-		w_reg = 0;
-		dw_reg = 0;
-		lw_reg = 0;
-		b_reg = false;
-		h_reg = 0;
-		f_reg = 0;
-		df_reg = 0;
-		memset(a_reg, 0, sizeof(a_reg));
-
-		hw_par = 0;
-		w_par = 0;
-		dw_par = 0;
-		lw_par = 0;
-		b_par = false;
-		dw_paru = 0;
-		f_par = 0;
-		df_par = 0;
-		memset(a_par, 0, sizeof(a_par));
-		////////////////////////////////
-
-		// for BDDI
-		bddi = new CONSOLE_BDDI(this);
+		BDInit();
 
 		SC_METHOD(do_assign_addr_phase);
 		sensitive << HREADY;
@@ -276,9 +240,6 @@ SC_MODULE(CONSOLE)	{
 	}
 };
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
-{
-	return new CONSOLE(ModuleInstanceName);
-}
+extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
 
 #endif	// __CONSOLE_H__

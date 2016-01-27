@@ -2,11 +2,12 @@
 PACKAGE    = console
 BUILDFLAGS = -g3 -fPIC  -Wall -W -pedantic -Wno-long-long -Wwrite-strings -Wpointer-arith 
 CXX        = g++ 
-CXXFLAGS = -I$(SYSTEMC_INCLUDE)
+CXXFLAGS = -fPIC -I$(SYSTEMC_INCLUDE)
 LDFLAGS  = -Wl,--export-dynamic
 COMMON_LIBS = -L$(SYSTEMC_LIBDIR) -lsystemc
 
-PACKAGE_SOURCES =   console_BDDI.cpp 
+PACKAGE_SOURCES = console_BDDI.cpp \
+									console.cpp
 
 SO = lib$(PACKAGE).so
 
