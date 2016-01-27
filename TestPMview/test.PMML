@@ -1,0 +1,200 @@
+{
+  "PMML": [
+    {
+      "module_name": "ModuelA",
+      "module_type": "Core",
+      "port": [
+        {
+          "port_name": "p1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "p2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        }
+      ]
+    },
+    {
+      "module_name": "ModuelB",
+      "module_type": "Mem",
+      "port": [
+        {
+          "port_name": "pp1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "pp2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        }
+      ]
+    },
+    {
+      "module_name": "ModuelC",
+      "module_type": "Bus",
+      "port": [
+        {
+          "port_name": "Bp1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "Bp2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        },
+        {
+          "port_name": "Bp3",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        }
+      ]
+    },
+    {
+      "module_name": "ModuelD",
+      "module_type": "Core",
+      "port": [
+        {
+          "port_name": "p1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "p2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        }
+      ]
+    },
+    {
+      "module_name": "ModuelE",
+      "module_type": "Mem",
+      "port": [
+        {
+          "port_name": "pp1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "pp2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        }
+      ]
+    },
+    {
+      "module_name": "ModuelF",
+      "module_type": "Mem",
+      "port": [
+        {
+          "port_name": "Bp1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "Bp2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        },
+        {
+          "port_name": "Bp3",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        }
+      ]
+    },
+    {
+      "module_name": "ModuelG",
+      "module_type": "Mem",
+      "port": [
+        {
+          "port_name": "p1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "p2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        }
+      ]
+    },
+    {
+      "module_name": "ModuelH",
+      "module_type": "Core",
+      "port": [
+        {
+          "port_name": "pp1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "pp2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        }
+      ]
+    },
+    {
+      "module_name": "ModuelI",
+      "module_type": "Bus",
+      "port": [
+        {
+          "port_name": "Bp1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "Bp2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        },
+        {
+          "port_name": "Bp3",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        }
+      ]
+    },
+    {
+      "module_name": "Moduel_etc_1",
+      "module_type": "etc",
+      "port": [
+        {
+          "port_name": "pp1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "pp2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        }
+      ]
+    },
+    {
+      "module_name": "Moduel_etc_2",
+      "module_type": "etc",
+      "port": [
+        {
+          "port_name": "Bp1",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        },
+        {
+          "port_name": "Bp2",
+          "sc_type": "sc_out",
+          "data_type": "int"
+        },
+        {
+          "port_name": "Bp3",
+          "sc_type": "sc_in",
+          "data_type": "bool"
+        }
+      ]
+    }
+  ]
+}
