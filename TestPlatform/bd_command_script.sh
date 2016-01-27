@@ -20,22 +20,23 @@
 #  sleep time  
 #
 #
-PUT ExecutionControl STEP 3000
-sleep 0.5
-PUT ExecutionControl STEP 1000
-sleep 0.5
-PUT ExecutionControl STEP 1000
-
-sleep 0.05
-PUT PutDebugInterface BD_CONSOLE reg write 5 0xFFFF
-sleep 0.05
-GET GetDebugInterface BD_CONSOLE reg read 5
-
-sleep 1.5
-PUT ExecutionControl STEP 2000
-sleep 1
-PUT ExecutionControl STEP 4000
-sleep 1.5
+#
+#PUT ExecutionControl STEP 3000
+#sleep 0.5
+#PUT ExecutionControl STEP 1000
+#sleep 0.5
+#PUT ExecutionControl STEP 1000
+#
+#sleep 0.05
+#PUT PutDebugInterface BD_CONSOLE reg write 5 0xFFFF
+#sleep 0.05
+#GET GetDebugInterface BD_CONSOLE reg read 5
+#
+#sleep 1.5
+#PUT ExecutionControl STEP 2000
+#sleep 1
+#PUT ExecutionControl STEP 4000
+#sleep 1.5
 #
 #
 ##0 1 STEP 1000
@@ -52,10 +53,16 @@ sleep 1.5
 #sleep 2
 #0 1 STEP 3000
 
-#sleep 5
+#sleep 3
 
-#0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/console/libconsole.so BD_CONSOLEee
-#1 0
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/console/libconsole.so BD_CONSOLEee
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/AHB_Lite/libAHB_Lite.so BD_AHB_Lite
+
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/ahbl2mem/libahbl2mem.so BD_AHBL2MEM
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/ahbl2mem_1/libahbl2mem_1.so BD_AHBL2MEM_1
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/tb/libtb.so BD_TB
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
+1 0
 
 
 

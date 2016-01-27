@@ -16,7 +16,6 @@
 
 #include "systemc.h"
 #include "memory_map.h"
-#include "type.h"
 
 SC_MODULE(AHBDCD)	{
 	sc_in<UINT32>		HADDR;

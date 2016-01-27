@@ -16,7 +16,6 @@
 #define	ENDIAN_BIG	0
 
 #include "systemc.h"
-#include "type.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -86,7 +85,7 @@ SC_MODULE(CONSOLE)	{
 	char						a_par[128];
 
 	BDDI*						bddi;
-	
+
 	BDDI* GetBDDI();
 	char* GetModuleName();
 	void BDInit();

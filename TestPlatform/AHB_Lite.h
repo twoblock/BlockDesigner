@@ -1,12 +1,12 @@
 //-------------------------------------------------------------
 // Design	: AHB_Lite
 // Author	: Harold Ko
-// Email	: harold.ko@twoblocktech.com
+// Email	: harold.ko@twoblock.co
 // File		: AHB_Lite.h
 // Date		: 2015. 11. 20
 // Reference	: AHB_Lite.v (by Changwon Choi)
 //------------------------------------------------------------
-// Copyright (C) 2015-2016 TwoBlock Technologies Co.
+// Copyright (C) 2015 TwoBlock Co.
 //-------------------------------------------------------------
 // Description	: AHB Lite for processor
 //-------------------------------------------------------------
@@ -23,7 +23,7 @@ SC_MODULE(AHB_Lite)	{
 	// Global Clock & Resetn
 	sc_in<bool>		HCLK;
 	sc_in<bool>		HRESETn;
-	
+
 	// Master(Cortex-M0DS) Interface
 	sc_in<UINT32>		HADDR_M;
 	sc_in<UINT32>		HBURST_M;
@@ -111,13 +111,22 @@ SC_MODULE(AHB_Lite)	{
 	sc_out<bool>		HSEL_NOMAP;
 
 	sc_signal<UINT32>	MUX_SEL;
-	
+
 	AHBDCD*	BD_AHBDCD;
 	AHBMUX* BD_AHBMUX;
-	
+
+	BDDI*						bddi;
+
+	BDDI* GetBDDI();
+	char* GetModuleName();
+	void BDInit();
+
 	void do_transfer();
-		
+
 	SC_CTOR(AHB_Lite)	{
+	
+		BDInit();
+
 		// AHBDCD Port Connection
 		BD_AHBDCD = new AHBDCD("ahbdcd");
 		BD_AHBDCD->HADDR		(HADDR_M);
@@ -172,7 +181,7 @@ SC_MODULE(AHB_Lite)	{
 		BD_AHBMUX->HREADY		(HREADY_M);
 		BD_AHBMUX->HRDATA		(HRDATA_M);
 		BD_AHBMUX->HRESP		(HRESP_M);
-	
+
 		SC_METHOD(do_transfer);
 		sensitive << HADDR_M;
 		sensitive << HBURST_M;
@@ -185,5 +194,7 @@ SC_MODULE(AHB_Lite)	{
 		sensitive << HREADY_M;
 	}
 };
+
+extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
 
 #endif	// __AHB_LITE_H___
