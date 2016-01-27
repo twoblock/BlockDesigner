@@ -5,7 +5,7 @@
 // File		: console.h
 // Date		: 2016. 1. 6
 //-------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Technologies Co.
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: Console for Test System.v.1.0.1
 //-------------------------------------------------------------
@@ -84,6 +84,8 @@ SC_MODULE(CONSOLE)	{
 	float						f_par;
 	double					df_par;
 	char						a_par[128];
+
+	BDDI*						bddi;
 	////////////////////////////////
 
 	/********** [member function] **********/
@@ -117,6 +119,10 @@ SC_MODULE(CONSOLE)	{
 			default :	return 0x0;
 		}
 	}
+
+	// for test of BDDI
+	BDDI* GetBDDI();
+	char* GetModuleName();
 
 	/********** [process function] **********/
 	void do_assign_addr_phase()	{

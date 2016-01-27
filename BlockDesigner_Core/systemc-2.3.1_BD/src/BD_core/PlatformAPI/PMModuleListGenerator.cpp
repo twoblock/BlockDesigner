@@ -89,12 +89,12 @@ namespace BDapi
 			 ********************************************/
 
 			int i = 0;
-			int parameter_num = (*IndexOfModule)->bddi->BDDIGetModuleTotalParNum();		
+			int parameter_num = (*IndexOfModule)->GetBDDI()->BDDIGetModuleTotalParNum();		
 			char p_Temp[1024];
 	
 			for(i=0; i < parameter_num; i++){
 			
-			BDDIParInfo *pst_ParInfo = (*IndexOfModule)->bddi->BDDIGetModuleParInfo(); 
+			BDDIParInfo *pst_ParInfo = (*IndexOfModule)->GetBDDI()->BDDIGetModuleParInfo(); 
 			Parameter["parameter_name"] = pst_ParInfo[i].Name;	
 			sprintf(p_Temp, "%u", pst_ParInfo[i].Bitswide);
 			Parameter["bits_wide"] = p_Temp;
@@ -106,11 +106,11 @@ namespace BDapi
 			/********************************************
 			 * Iterate register in sc_module
 			 ********************************************/
-			int register_num = (*IndexOfModule)->bddi->BDDIGetModuleTotalRegNum();		
+			int register_num = (*IndexOfModule)->GetBDDI()->BDDIGetModuleTotalRegNum();		
 	
 			for(i=0; i < register_num; i++){
 			
-			BDDIRegInfo *pst_RegInfo = (*IndexOfModule)->bddi->BDDIGetModuleRegInfo(); 
+			BDDIRegInfo *pst_RegInfo = (*IndexOfModule)->GetBDDI()->BDDIGetModuleRegInfo(); 
 			Register["register_name"] = pst_RegInfo[i].Name;	
 			sprintf(p_Temp, "%u", pst_RegInfo[i].Bitswide);
 			Register["bits_wide"] = p_Temp;
@@ -121,7 +121,7 @@ namespace BDapi
 		
 			// add Module to PMModuleList in json format
 			Module["module_name"] = "CONSOLE";
-			Module["module_type"] = (*IndexOfModule)->bddi->BDDIGetModuleType();
+			Module["module_type"] = (*IndexOfModule)->GetBDDI()->BDDIGetModuleType();
 			Module["port"] = PortList;
 			Module["parameter"] = ParameterList;
 			Module["register"] = RegisterList;

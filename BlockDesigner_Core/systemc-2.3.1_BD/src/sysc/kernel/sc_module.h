@@ -93,7 +93,16 @@ class sc_module
 public:
 
 		// for Block Designer Debugging Interface
-		BDDI *bddi;
+		virtual BDDI* GetBDDI()
+		{
+			return NULL;
+		}
+
+		// for Block Designer Information
+		virtual char* GetModuleName()
+		{
+			return NULL;
+		}
 
     sc_simcontext* sc_get_curr_simcontext()
 	{ return simcontext(); }

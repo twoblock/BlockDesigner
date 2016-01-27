@@ -1,12 +1,12 @@
 //-------------------------------------------------------------
 // Design	: AHB_Lite
 // Author	: Harold Ko
-// Email	: harold.ko@twoblock.co
+// Email	: harold.ko@twoblocktech.com
 // File		: AHB_Lite.cpp
 // Date		: 2015. 11. 20
 // Reference	: AHB_Lite.v (by Changwon Choi)
 //------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Co.
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: AHB Lite for processor
 //-------------------------------------------------------------

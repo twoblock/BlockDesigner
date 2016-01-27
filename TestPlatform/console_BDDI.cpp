@@ -33,7 +33,7 @@ static const UINT32 dw_ParCnt = sizeof(ast_ConsoleParInfo) / sizeof(ast_ConsoleP
 CONSOLE_BDDI::CONSOLE_BDDI(CONSOLE *c) : p_Target(c)
 {
 	UINT32 dw_Index = 0;
-	char a_Temp[BDDI_STRING_SIZE];
+	char a_Temp[BDDI_STRING_SIZE] = {0,};
 
 	pst_OutRegInfo = new BDDIRegInfo[dw_RegCnt];
 	pst_OutParInfo = new BDDIParInfo[dw_ParCnt];

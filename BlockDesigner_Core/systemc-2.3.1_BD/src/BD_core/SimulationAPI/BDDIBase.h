@@ -121,11 +121,21 @@ namespace BDapi
 				return NULL;
 			}
 
+			/*
+			 * function			: BDDIGetModuleTotalRegNum
+			 * design				: Get the Number of Register in Each Module 
+			 * caller				: 
+			 */
 			virtual unsigned int BDDIGetModuleTotalRegNum()
 			{
 				return 0;
 			}
 
+			/*
+			 * function			: BDDIGetModuleTotalParNum
+			 * design				: Get the Number of Parameter in Each Module 
+			 * caller				: 
+			 */
 			virtual unsigned int BDDIGetModuleTotalParNum()
 			{
 				return 0;

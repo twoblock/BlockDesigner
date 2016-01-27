@@ -37,7 +37,7 @@ namespace BDapi
 		if(strcmp(Command.Argu2, "par") == 0)	{
 			if(strcmp(Command.Argu3, "write") == 0)	{
 				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
-				p_Module->bddi->BDDISetParameterValues(dw_Index, Command.Argu5);
+				p_Module->GetBDDI()->BDDISetParameterValues(dw_Index, Command.Argu5);
 			}
 			else	{
 				// Invalid Command : Breakpoint of parameter is not supported.
@@ -47,7 +47,7 @@ namespace BDapi
 		else if(strcmp(Command.Argu2, "reg") == 0)	{
 			if(strcmp(Command.Argu3, "write") == 0)	{
 				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
-				p_Module->bddi->BDDISetRegisterValues(dw_Index, Command.Argu5);
+				p_Module->GetBDDI()->BDDISetRegisterValues(dw_Index, Command.Argu5);
 			}
 			else	{
 				assert(0);
@@ -78,7 +78,7 @@ namespace BDapi
 		if(strcmp(Command.Argu2, "par") == 0)	{
 			if(strcmp(Command.Argu3, "read") == 0)	{
 				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
-				p_Module->bddi->BDDIGetParameterValues(dw_Index, Command.Argu5);
+				p_Module->GetBDDI()->BDDIGetParameterValues(dw_Index, Command.Argu5);
 
 				printf("\nget parameter value : %s\n", Command.Argu5);
 			}
@@ -89,7 +89,7 @@ namespace BDapi
 		else if(strcmp(Command.Argu2, "reg") == 0)	{
 			if(strcmp(Command.Argu3, "read") == 0)	{
 				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
-				p_Module->bddi->BDDIGetRegisterValues(dw_Index, Command.Argu5);
+				p_Module->GetBDDI()->BDDIGetRegisterValues(dw_Index, Command.Argu5);
 
 				printf("\nget register value : %s\n", Command.Argu5);
 			}

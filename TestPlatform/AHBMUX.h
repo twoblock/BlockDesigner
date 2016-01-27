@@ -1,12 +1,12 @@
 //-------------------------------------------------------------
 // Design	: AHBMUX
 // Author	: Harold Ko
-// Email	: harold.ko@twoblock.co
+// Email	: harold.ko@twoblocktech.com
 // File		: AHBMUX.h
 // Date		: 2015. 11. 20
 // Reference	: AHBMUX.v (by Changwon Choi)
 //-------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Co.
+// Copyright (C) 2015 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: Multiplexer of AHB-Lite for processor
 //-------------------------------------------------------------

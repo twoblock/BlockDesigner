@@ -20,23 +20,22 @@
 #  sleep time  
 #
 #
-#
-#PUT ExecutionControl STEP 3000
-#sleep 0.5
-#PUT ExecutionControl STEP 1000
-#sleep 0.5
-#PUT ExecutionControl STEP 1000
-#
-#sleep 0.05
-#PUT PutDebugInterface BD_CONSOLE reg write 5 0xFFFF
-#sleep 0.05
-#GET GetDebugInterface BD_CONSOLE reg read 5
-#
-#sleep 1.5
-#PUT ExecutionControl STEP 2000
-#sleep 1
-#PUT ExecutionControl STEP 4000
-#sleep 1.5
+PUT ExecutionControl STEP 3000
+sleep 0.5
+PUT ExecutionControl STEP 1000
+sleep 0.5
+PUT ExecutionControl STEP 1000
+
+sleep 0.05
+PUT PutDebugInterface BD_CONSOLE reg write 5 0xFFFF
+sleep 0.05
+GET GetDebugInterface BD_CONSOLE reg read 5
+
+sleep 1.5
+PUT ExecutionControl STEP 2000
+sleep 1
+PUT ExecutionControl STEP 4000
+sleep 1.5
 #
 #
 ##0 1 STEP 1000
@@ -55,8 +54,8 @@
 
 #sleep 5
 
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/console/libconsole.so BD_CONSOLEee
-1 0
+#0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/console/libconsole.so BD_CONSOLEee
+#1 0
 
 
 

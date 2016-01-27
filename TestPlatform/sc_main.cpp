@@ -3,9 +3,9 @@
 // Author	: Harold Ko
 // Email	: harold.ko@twoblocktech.com
 // File		: sc_main.cpp
-// Date		: 2015. 1. 5
+// Date		: 2016. 1. 5
 //-------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Technologies Co.
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: sc_main for Test System v.1.0.1
 //-------------------------------------------------------------
@@ -27,7 +27,7 @@ int sc_main(int argc, char **argv) {
 	sc_set_time_resolution(1, SC_NS);
 
 	Verilated::commandArgs(argc, argv);
-/*
+
 	sc_clock 			HCLK ("HCLK", 10, SC_NS);
 	sc_signal<bool> 		HRESETn;
 
@@ -321,6 +321,6 @@ int sc_main(int argc, char **argv) {
 	delete BD_SRAM;
 	delete BD_CONSOLE;
 	delete BD_TB;
-*/while(1);
+
 	exit(0);
 }

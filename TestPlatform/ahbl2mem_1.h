@@ -5,7 +5,7 @@
 // File		: ahbl2mem_1.h
 // Date		: 2016. 1. 5
 //-------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Technologies Co.
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: 1MB Behavioral Memory
 //-------------------------------------------------------------
