@@ -7,7 +7,7 @@ BDDI* CONSOLE::GetBDDI()
 
 char* CONSOLE::GetModuleName()
 {
-	return (char*)"twoblock";
+	return (char*)"CONSOLE";
 }
 
 void CONSOLE::BDInit()
