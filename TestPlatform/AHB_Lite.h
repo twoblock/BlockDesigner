@@ -1,12 +1,12 @@
 //-------------------------------------------------------------
 // Design	: AHB_Lite
 // Author	: Harold Ko
-// Email	: harold.ko@twoblock.co
+// Email	: harold.ko@twoblocktech.com
 // File		: AHB_Lite.h
 // Date		: 2015. 11. 20
 // Reference	: AHB_Lite.v (by Changwon Choi)
 //------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Co.
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: AHB Lite for processor
 //-------------------------------------------------------------
@@ -15,9 +15,9 @@
 #define __AHB_LITE_H__
 
 #include "systemc.h"
-#include "type.h"
 #include "AHBDCD.h"
 #include "AHBMUX.h"
+#include "AHB_Lite_BDDI.h"
 
 SC_MODULE(AHB_Lite)	{
 	// Global Clock & Resetn
@@ -124,7 +124,7 @@ SC_MODULE(AHB_Lite)	{
 	void do_transfer();
 
 	SC_CTOR(AHB_Lite)	{
-	
+
 		BDInit();
 
 		// AHBDCD Port Connection

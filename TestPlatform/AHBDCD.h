@@ -1,12 +1,12 @@
 //-------------------------------------------------------------
 // Design	: AHBDCD
 // Author	: Harold Ko
-// Email	: harold.ko@twoblock.co
+// Email	: harold.ko@twoblocktech.com
 // File		: AHBDCD.h
 // Date		: 2015. 11. 20
 // Reference	: AHBDCD.v (by Changwon Choi)
 //-------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Co.
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: Decoder of AHB-Lite for processor
 //-------------------------------------------------------------
@@ -16,7 +16,6 @@
 
 #include "systemc.h"
 #include "memory_map.h"
-#include "type.h"
 
 SC_MODULE(AHBDCD)	{
 	sc_in<UINT32>		HADDR;

@@ -1,11 +1,11 @@
 //-------------------------------------------------------------
 // Design	: Type
 // Author	: Harold Ko
-// Email	: harold.ko@twoblock.co
+// Email	: harold.ko@twoblocktech.com
 // File		: type.h
 // Date		: 2015. 11. 20
 //-------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Co.
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: Common Type Definition
 //-------------------------------------------------------------
@@ -17,7 +17,7 @@
 //typedef unsigned int		UINT32;
 //typedef unsigned long long	UINT64;
 
-#define UINT8		unsigned char
+#define UINT8			unsigned char
 #define UINT32		unsigned int
 #define UINT64		unsigned long long
 

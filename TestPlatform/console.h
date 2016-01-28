@@ -5,7 +5,7 @@
 // File		: console.h
 // Date		: 2016. 1. 6
 //-------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Technologies Co.
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: Console for Test System.v.1.0.1
 //-------------------------------------------------------------
@@ -16,7 +16,6 @@
 #define	ENDIAN_BIG	0
 
 #include "systemc.h"
-#include "type.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -86,7 +85,7 @@ SC_MODULE(CONSOLE)	{
 	char						a_par[128];
 
 	BDDI*						bddi;
-	
+
 	BDDI* GetBDDI();
 	char* GetModuleName();
 	void BDInit();

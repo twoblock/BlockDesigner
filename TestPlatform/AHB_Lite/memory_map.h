@@ -1,12 +1,12 @@
 //-------------------------------------------------------------
 // Design	: Memory_Map
 // Author	: Harold Ko
-// Email	: harold.ko@twoblock.co
+// Email	: harold.ko@twoblocktech.com
 // File		: memory_map.h
 // Date		: 2015. 11. 20
 // Reference	: AHBDCD.v (by Changwon Choi)
 //-------------------------------------------------------------
-// Copyright (C) 2015 TwoBlock Co.
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
 // Description	: Memory Map of Cortex-M0DS based sub-system
 //-------------------------------------------------------------

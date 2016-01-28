@@ -12,7 +12,7 @@ PACKAGE_SOURCES =   VCORTEXM0DS.cpp \
 SO = lib$(PACKAGE).so
 
 $(SO) : $(PACKAGE_SOURCES:.cpp=.o)
-	make CXXFLAGS+=' -g ' -j -f VCORTEXM0DS.mk verilated.o 
+	make CXXFLAGS+=' -g -fPIC ' -j -f VCORTEXM0DS.mk verilated.o 
 	$(CXX) $(CXXFLAGS) -o $@ -shared $^ verilated.o $(COMMON_LIBS) $(LDFLAGS) 
 
 clean: 

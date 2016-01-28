@@ -31,10 +31,10 @@
 #define BASE_ADDR_1MB		0x00000000
 
 #include "systemc.h"
-#include "type.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ahbl2mem_BDDI.h"
 
 SC_MODULE(AHBL2MEM)	{
 	/********** [port] **********/
@@ -91,6 +91,12 @@ SC_MODULE(AHBL2MEM)	{
 
 	// Memory Array
 	UINT32			memory[MEM_ADDR_1MB_WIDTH];
+
+	BDDI*						bddi;
+
+	BDDI* GetBDDI();
+	char* GetModuleName();
+	void BDInit();
 
 	/********** [member function] **********/
 	UINT32 ByteEnable(UINT32 addr, UINT32 size)	{
@@ -361,6 +367,9 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)REG_A
 	}
 
 	SC_CTOR(AHBL2MEM)	{
+
+		BDInit();
+
 		/***** [initial condition] *****/
 		//BinaryLoadingAndInitialize("CM0DS.txt");
 		BinaryLoadingAndInitialize("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.txt");
@@ -405,5 +414,7 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)REG_A
 		sensitive << REG_ADDR_PHASE_HADDR;
 	}
 };
+
+extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
 
 #endif	// __AHBL2MEM_H__

@@ -41,7 +41,6 @@ SC_MODULE(TB)	{
 
 	SC_CTOR(TB)	{
 		SP = new Software_Profiler( (char *)("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.elf") );
-		//SP = new Software_Profiler( (char *)("../CM0DS.elf") );
 
 		BDInit();
 

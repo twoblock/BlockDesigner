@@ -30,10 +30,10 @@
 #define BASE_ADDR		0x20000000
 
 #include "systemc.h"
-#include "type.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ahbl2mem_1_BDDI.h"
 
 SC_MODULE(AHBL2MEM_1)	{
 	/********** [port] **********/
@@ -90,6 +90,12 @@ SC_MODULE(AHBL2MEM_1)	{
 
 	// Memory Array
 	UINT32			memory[MEM_ADDR_1MB_WIDTH];
+
+	BDDI*						bddi;
+
+	BDDI* GetBDDI();
+	char* GetModuleName();
+	void BDInit();
 
 	/********** [member function] **********/
 	UINT32 ByteEnable(UINT32 addr, UINT32 size)	{
@@ -351,6 +357,9 @@ SC_MODULE(AHBL2MEM_1)	{
 	}
 
 	SC_CTOR(AHBL2MEM_1)	{
+			
+		BDInit();
+
 		/***** [initial condition] *****/
 		//BinaryLoadingAndInitialize("CM0DS.txt");
 		
@@ -394,5 +403,7 @@ SC_MODULE(AHBL2MEM_1)	{
 		sensitive << REG_ADDR_PHASE_HADDR;
 	}
 };
+
+extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
 
 #endif	// __AHBL2MEM_1_H__

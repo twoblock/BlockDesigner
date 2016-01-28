@@ -11,8 +11,8 @@
 //-------------------------------------------------------------
 
 #include "systemc.h"
-#include "type.h"
 #include "Software_Profiler.h"
+#include "tb_BDDI.h"
 
 SC_MODULE(TB)	{
 	sc_in<bool>		HCLK;
@@ -21,6 +21,12 @@ SC_MODULE(TB)	{
 	sc_in<UINT32>		EXTRACT_PC;
 
 	Software_Profiler *SP;
+
+	BDDI*						bddi;
+
+	BDDI* GetBDDI();
+	char* GetModuleName();
+	void BDInit();
 
 	void do_test() {
 		HRESETn.write(0);
@@ -35,7 +41,8 @@ SC_MODULE(TB)	{
 
 	SC_CTOR(TB)	{
 		SP = new Software_Profiler( (char *)("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.elf") );
-		//SP = new Software_Profiler( (char *)("../CM0DS.elf") );
+
+		BDInit();
 
 		SC_CTHREAD(do_test, HCLK.pos());
 	}
