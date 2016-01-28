@@ -404,6 +404,4 @@ SC_MODULE(AHBL2MEM_1)	{
 	}
 };
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
-
 #endif	// __AHBL2MEM_1_H__

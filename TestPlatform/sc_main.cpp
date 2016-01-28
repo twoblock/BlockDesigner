@@ -27,7 +27,7 @@ int sc_main(int argc, char **argv) {
 	sc_set_time_resolution(1, SC_NS);
 
 	Verilated::commandArgs(argc, argv);
-/*
+
 	sc_clock 			HCLK ("HCLK", 10, SC_NS);
 	sc_signal<bool> 		HRESETn;
 
@@ -321,6 +321,6 @@ int sc_main(int argc, char **argv) {
 	delete BD_SRAM;
 	delete BD_CONSOLE;
 	delete BD_TB;
-*/ while(1);
+
 	exit(0);
 }

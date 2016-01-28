@@ -2454,6 +2454,4 @@ SC_MODULE(VCORTEXM0DS) {
     static void	_settle__TOP__8(VCORTEXM0DS__Syms* __restrict vlSymsp);
 } VL_ATTR_ALIGNED(128);
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
-
 #endif  /*guard*/

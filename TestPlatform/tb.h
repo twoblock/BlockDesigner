@@ -47,3 +47,5 @@ SC_MODULE(TB)	{
 		SC_CTHREAD(do_test, HCLK.pos());
 	}
 };
+
+//extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
