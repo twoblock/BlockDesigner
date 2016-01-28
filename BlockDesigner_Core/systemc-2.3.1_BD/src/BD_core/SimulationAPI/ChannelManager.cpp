@@ -83,7 +83,7 @@ namespace BDapi
 		if(strcmp(DataType, "bool") == 0)
 			p_SCinterface =	new sc_signal<bool>(ChannelName);
 		else if(strcmp(DataType, "UINT32") == 0)
-			p_SCinterface =	new sc_signal<bool>(ChannelName);
+			p_SCinterface =	new sc_signal<unsigned int>(ChannelName);
 		else
 			return;
 

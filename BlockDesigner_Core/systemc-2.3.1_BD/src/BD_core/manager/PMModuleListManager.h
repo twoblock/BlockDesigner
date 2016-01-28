@@ -43,6 +43,7 @@ namespace BDapi
 			void PutOperationControl(GUI_COMMAND Command);
 			void GetOperationControl(GUI_COMMAND Command);
 			void AddModule(const char *SoFilePath, const char *ModuleName);
+			sc_module* FindModule(const char *ModuleName);
 			void GetJsonFile();
 			
 			static PMModuleListManager* GetInstance();

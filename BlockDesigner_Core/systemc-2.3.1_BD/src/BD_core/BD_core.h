@@ -24,8 +24,5 @@
 #include"SimulationAPI/BDDIBase.h"
 #include"SimulationAPI/BDDITypes.h"
 
-// PlatformManager header file
-#include"manager/PMModuleListManager.h"
-
 #endif 
 

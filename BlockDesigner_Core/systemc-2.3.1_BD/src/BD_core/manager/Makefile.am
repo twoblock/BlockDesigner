@@ -43,13 +43,15 @@ H_FILES = \
 	AllManager.h \
 	BDDIManager.h \
 	PMModuleListManager.h \
-  ModuleLoader.h
+  ModuleLoader.h \
+  ModuleConnectionManager.h
  
 CXX_FILES = \
 	ExecutionManager.cpp \
 	BDDIManager.cpp \
 	PMModuleListManager.cpp \
-	ModuleLoader.cpp
+	ModuleLoader.cpp \
+  ModuleConnectionManager.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)

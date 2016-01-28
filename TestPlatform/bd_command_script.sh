@@ -55,15 +55,18 @@
 
 #sleep 3
 
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/console/libconsole.so BD_CONSOLEee
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/AHB_Lite/libAHB_Lite.so BD_AHB_Lite
-
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/ahbl2mem/libahbl2mem.so BD_AHBL2MEM
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/ahbl2mem_1/libahbl2mem_1.so BD_AHBL2MEM_1
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/console/libconsole.so BD_CONSOLE
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/AHB_Lite/libAHB_Lite.so BD_AHB_LITE
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/ahbl2mem/libahbl2mem.so BD_ROM
+0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/ahbl2mem_1/libahbl2mem_1.so BD_SRAM
 0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/tb/libtb.so BD_TB
 0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
-1 0
+#1 0
+0 7
 
+#sleep 5
+
+0 1 STEP 7000
 
 
 ################ Block Designer command set #########################
