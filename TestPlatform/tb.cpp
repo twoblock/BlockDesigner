@@ -19,7 +19,7 @@ void TB::BDInit()
 	bddi = new TB_BDDI(this);
 }
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
-{
-	return new TB(ModuleInstanceName);
-}
+//extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
+//{
+	//return new TB(ModuleInstanceName);
+//}

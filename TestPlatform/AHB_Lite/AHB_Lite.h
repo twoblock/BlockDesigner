@@ -195,6 +195,4 @@ SC_MODULE(AHB_Lite)	{
 	}
 };
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
-
 #endif	// __AHB_LITE_H___

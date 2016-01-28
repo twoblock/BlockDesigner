@@ -130,7 +130,7 @@ void AHB_Lite::BDInit()
 	bddi = new AHB_Lite_BDDI(this);
 }
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
-{
-	return new AHB_Lite(ModuleInstanceName);
-}
+//extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
+//{
+	//return new AHB_Lite(ModuleInstanceName);
+//}

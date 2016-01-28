@@ -30,7 +30,7 @@ void AHBL2MEM_1::BDInit()
 	bddi = new AHBL2MEM_1_BDDI(this);
 }
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
-{
-	return new AHBL2MEM_1(ModuleInstanceName);
-}
+//extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
+//{
+	//return new AHBL2MEM_1(ModuleInstanceName);
+//}

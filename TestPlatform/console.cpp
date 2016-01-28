@@ -53,7 +53,7 @@ void CONSOLE::BDInit()
 	bddi = new CONSOLE_BDDI(this);
 }
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
-{
-	return new CONSOLE(ModuleInstanceName);
-}
+//extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
+//{
+	//return new CONSOLE(ModuleInstanceName);
+//}

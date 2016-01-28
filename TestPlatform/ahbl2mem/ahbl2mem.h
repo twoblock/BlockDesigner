@@ -415,6 +415,4 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)REG_A
 	}
 };
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
-
 #endif	// __AHBL2MEM_H__

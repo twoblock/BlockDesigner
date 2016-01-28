@@ -239,6 +239,6 @@ SC_MODULE(CONSOLE)	{
 	}
 };
 
-extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
+//extern "C" sc_module* CreateInstance(const char *ModuleInstanceName);
 
 #endif	// __CONSOLE_H__
