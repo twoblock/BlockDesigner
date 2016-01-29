@@ -1,24 +1,25 @@
 //-------------------------------------------------------------
-// Design	: Type
+// Design	: sc_main
 // Author	: Harold Ko
 // Email	: harold.ko@twoblocktech.com
-// File		: type.h
-// Date		: 2015. 11. 20
+// File		: sc_main.cpp
+// Date		: 2016. 1. 5
 //-------------------------------------------------------------
 // Copyright (C) 2015-2016 TwoBlock Technologies Co.
 //-------------------------------------------------------------
-// Description	: Common Type Definition
+// Description	: sc_main for Test System v.1.0.1
 //-------------------------------------------------------------
 
-#ifndef __TYPE_H__
-#define __TYPE_H__
+#include "systemc.h"
 
-//typedef unsigned char		UINT8;
-//typedef unsigned int		UINT32;
-//typedef unsigned long long	UINT64;
+using namespace BDapi;
 
-#define UINT8			unsigned char
-#define UINT32		unsigned int
-#define UINT64		unsigned long long
+int sc_main(int argc, char **argv) 
+{
+	sc_set_time_resolution(1, SC_NS);
 
-#endif	// __TYPE_H__
+	BDStart();
+  while(1);
+
+	exit(0);
+}

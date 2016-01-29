@@ -55,6 +55,35 @@ namespace BDapi
 	}
 
 	/*
+	 * function    	: FindModule 
+	 * design	      : find module in sc_module list 
+	 * param        : const char * - Module name
+	 * return       : sc_module * - module pointer 
+	 * caller		    : 
+	 */
+	sc_module* PMModuleListManager::FindModule(const char *ModuleName)
+	{
+		sc_module *p_SCmodule;
+
+		list<sc_module*>::iterator FirstModule = ModuleList.begin();
+		list<sc_module*>::iterator LastModule = ModuleList.end();
+		list<sc_module*>::iterator IndexOfModule = FirstModule;
+
+		/********************************************
+		 * Iterate sc_modules in sc_module list
+		 ********************************************/
+		for(IndexOfModule = FirstModule; IndexOfModule != LastModule; ++IndexOfModule){  		
+			// compare name 
+			if(strcmp((*IndexOfModule)->name(), ModuleName) == 0){
+				p_SCmodule = (*IndexOfModule);
+				return p_SCmodule;
+			}
+		}
+		return NULL;
+	}
+
+
+	/*
 	 * function    	: GetJsonFile 
 	 * design	      : generate sc_module list json file 
 	 * caller		    : 

@@ -19,6 +19,7 @@ namespace BDapi
 	ExecutionManager* ExecutionManager::_ExecutionManager = NULL;
 	BDDIManager* BDDIManager::_BDDIManager = NULL;
 	PMModuleListManager* PMModuleListManager::_PMModuleListManager= NULL;
+	ModuleConnectionManager* ModuleConnectionManager::_ModuleConnectionManager= NULL;
 
 	/*
 	 * function    	: Constructor
@@ -29,6 +30,7 @@ namespace BDapi
 		CmdExecutionManager = ExecutionManager::GetInstance();
 		CmdBDDIManager = BDDIManager::GetInstance();
 		CmdPMModuleListManager = PMModuleListManager::GetInstance();
+		CmdModuleConnectionManager = ModuleConnectionManager::GetInstance();
 	}
 
 	/*
@@ -72,14 +74,15 @@ namespace BDapi
 		if(st_GUICommand.Command == ExecutionControl){
 			SetManagerForPutOperation(CmdExecutionManager);
 		}
-		else if(st_GUICommand.Command == PutDebugInterface)	{
+		else if(st_GUICommand.Command == PutDebugInterface){
 			SetManagerForPutOperation(CmdBDDIManager);
 		}		
-		else if(st_GUICommand.Command == LoadModule)	{
+		else if(st_GUICommand.Command == LoadModule){
 			SetManagerForPutOperation(CmdPMModuleListManager);
 		} 
-
-
+		else if(st_GUICommand.Command == ModuleConnection){
+			SetManagerForPutOperation(CmdModuleConnectionManager);
+		} 
 
 		return 0;
 	}

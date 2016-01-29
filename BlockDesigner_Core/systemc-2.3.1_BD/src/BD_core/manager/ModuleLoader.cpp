@@ -31,11 +31,11 @@ namespace BDapi
 		Function p_CreateInstance = NULL;
 
 		p_Handle = LoadSoFile(Path);
-		if(!p_Handle) 
+		if(p_Handle == NULL) 
 			printf("fail to load so file, %s\n", dlerror());
 		else{
 			p_CreateInstance = FindSymbol(p_Handle);
-			if ( dlerror() != NULL )
+			if(dlerror() != NULL)
 				printf("fail to load function symbol, %s\n", dlerror());
 			else
 				p_SCmodule =	p_CreateInstance(ModuleName);
