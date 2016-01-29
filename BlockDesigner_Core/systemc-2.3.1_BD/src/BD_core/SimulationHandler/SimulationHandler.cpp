@@ -40,7 +40,7 @@ namespace BDapi
 		p_CommandHandler = new CommandHandler();
 
 		while(1){
-			if(CommandQueue::IsEmpty() == false){
+			if(CommandQueue::IsEmpty() == false && ExecutionManager::GetExecutionFlag() == NOTHING){
 				st_Command = CommandQueue::PopCommand();
 				p_CommandHandler->SetCommand(st_Command);
 				p_CommandHandler->Execute();
