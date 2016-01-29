@@ -14,6 +14,18 @@
           "sc_type": "sc_out",
           "data_type": "int"
         }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
+        }
       ]
     },
     {
@@ -29,6 +41,18 @@
           "port_name": "pp2",
           "sc_type": "sc_out",
           "data_type": "int"
+        }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
         }
       ]
     },
@@ -51,6 +75,18 @@
           "sc_type": "sc_in",
           "data_type": "bool"
         }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
+        }
       ]
     },
     {
@@ -67,6 +103,18 @@
           "sc_type": "sc_out",
           "data_type": "int"
         }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
+        }
       ]
     },
     {
@@ -82,6 +130,18 @@
           "port_name": "pp2",
           "sc_type": "sc_out",
           "data_type": "int"
+        }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
         }
       ]
     },
@@ -104,6 +164,18 @@
           "sc_type": "sc_in",
           "data_type": "bool"
         }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
+        }
       ]
     },
     {
@@ -120,6 +192,18 @@
           "sc_type": "sc_out",
           "data_type": "int"
         }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
+        }
       ]
     },
     {
@@ -135,6 +219,18 @@
           "port_name": "pp2",
           "sc_type": "sc_out",
           "data_type": "int"
+        }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
         }
       ]
     },
@@ -157,6 +253,18 @@
           "sc_type": "sc_in",
           "data_type": "bool"
         }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
+        }
       ]
     },
     {
@@ -172,6 +280,18 @@
           "port_name": "pp2",
           "sc_type": "sc_out",
           "data_type": "int"
+        }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
         }
       ]
     },
@@ -193,6 +313,18 @@
           "port_name": "Bp3",
           "sc_type": "sc_in",
           "data_type": "bool"
+        }
+      ],
+      "parameter": [
+        {
+          "par_name": "para1",
+          "par_type": "UINT",
+          "default_value": "0"
+        },
+        {
+          "par_name": "para2",
+          "par_type": "FLOAT",
+          "default_value": "0"
         }
       ]
     }
