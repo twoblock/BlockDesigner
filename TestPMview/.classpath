@@ -5,5 +5,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="/home/lucas/Downloads/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="/home/lucas/Downloads/swing2swt.jar"/>
+	<classpathentry kind="lib" path="/home/harold/다운로드/eclipse/plugins/org.eclipse.swt_3.104.1.v20150825-0743.jar"/>
+	<classpathentry kind="lib" path="/home/harold/다운로드/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.104.1.v20150825-0743.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

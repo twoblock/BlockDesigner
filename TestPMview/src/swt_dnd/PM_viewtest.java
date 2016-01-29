@@ -53,9 +53,9 @@ public class PM_viewtest {
 	private Button[] btnCheckButton = new Button[10];
 	private Composite[] composite_ExpandItem = new Composite[10];
 	private Device device = Display.getCurrent();
-	private Color color_gray = new Color(device,150,150,150);
-	private Color color_skyblue = new Color(device,204,204,255);
-	
+	private Color color_gray = new Color(device, 150, 150, 150);
+	private Color color_skyblue = new Color(device, 204, 204, 255);
+
 	private ExpandItem[] Expanditem = new ExpandItem[10];
 
 	private JSONParser parser = new JSONParser();
@@ -64,6 +64,7 @@ public class PM_viewtest {
 	private JSONArray ModuleInfoList;
 	private JSONObject ModuleObject;
 	private JSONArray PortInfoList;
+	private JSONArray RegisterInfoList;
 	private JSONArray ParameterInfoList;
 	private int list_Cnt = 0;
 	private ArrayList<String> DrawModuleList = new ArrayList<String>();
@@ -103,7 +104,7 @@ public class PM_viewtest {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-//		Theme a =a;
+		// Theme a =a;
 		shell.setSize(1200, 600);
 		shell.setText("SWT Application");
 		shell.setLayout(new GridLayout(3, false));
@@ -344,17 +345,16 @@ public class PM_viewtest {
 		// Draw??紐⑤뱢?꾩씠??list?????
 		DrawModuleList.add(Module_Name);
 		DrawModuleIndex = DrawModuleList.size() - 1;
-		
+
 		Expanditem[DrawModuleIndex] = new ExpandItem(expandBar, SWT.NONE);
 		Expanditem[DrawModuleIndex].setExpanded(true);
 
 		Expanditem[DrawModuleIndex].setText(Module_Title);
 
 		composite_ExpandItem[DrawModuleIndex] = new Composite(expandBar, SWT.NONE);
-		
-		
+
 		composite_ExpandItem[DrawModuleIndex].setBackground(color_gray);
-		
+
 		composite_ExpandItem[DrawModuleIndex].setLayout(new GridLayout(2, false));
 		Expanditem[DrawModuleIndex].setControl(composite_ExpandItem[DrawModuleIndex]);
 		Expanditem[DrawModuleIndex]
@@ -464,7 +464,8 @@ public class PM_viewtest {
 					}
 				});
 
-				// DestModule?좏깮???댁쟾 DestModule怨?鍮꾧탳?댁꽌 DestPort媛믪쓽 ?좎? ?щ? 寃곗젙.
+				// DestModule?좏깮???댁쟾 DestModule怨?鍮꾧탳?댁꽌 DestPort媛믪쓽 ?좎? ?щ?
+				// 寃곗젙.
 				cmb_DestModule.addSelectionListener(new SelectionListener() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
@@ -487,7 +488,7 @@ public class PM_viewtest {
 
 		{/* --- para table --- */
 			table_par = new Table(composite_ExpandItem[DrawModuleIndex], SWT.BORDER | SWT.FULL_SELECTION);
-			table_par.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+			table_par.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 			table_par.setHeaderVisible(true);
 			table_par.setLinesVisible(true);
 
@@ -502,65 +503,92 @@ public class PM_viewtest {
 			TableColumn tb_clmn_type = new TableColumn(table_par, SWT.NONE);
 			tb_clmn_type.setWidth(150);
 			tb_clmn_type.setText("Type");
-			
+
 			TableColumn tb_clmn_TypeWide = new TableColumn(table_par, SWT.NONE);
 			tb_clmn_TypeWide.setWidth(50);
 			tb_clmn_TypeWide.setText("Wide");
-			
+
 			int par_Cnt = 0;
-			ParameterInfoList = (JSONArray) ModuleObject.get("parameter");
-			par_Cnt = ParameterInfoList.size();
-			
-			
-			for (int i = 0; i < par_Cnt; i++) {
-				new TableItem(table_par, SWT.NONE);
+			try {
+				ParameterInfoList = (JSONArray) ModuleObject.get("parameter");
+				par_Cnt = ParameterInfoList.size();
+
+				for (int i = 0; i < par_Cnt; i++) {
+					new TableItem(table_par, SWT.NONE);
+				}
+
+				TableItem[] items = table_par.getItems();
+				for (int par_index = 0; par_index < items.length; par_index++) {
+					// ?ы듃由ъ뒪?몄뿉???대떦 index???ы듃?뺣낫 -> PortObject
+					JSONObject ParameterObject = (JSONObject) ParameterInfoList.get(par_index);
+
+					// TableEditor??clmn??諛붾붾븣留덈떎 ?덈줈 ?앹꽦?댁쨾?쇳븿.
+					TableEditor editor_par_table = new TableEditor(table_par);
+					editor_par_table = new TableEditor(table_par);
+					Text txt_ParameterName = new Text(table_par, SWT.READ_ONLY);
+					txt_ParameterName.setTouchEnabled(true);
+					txt_ParameterName.setText((String) ParameterObject.get("parameter_name"));
+					editor_par_table.grabHorizontal = true;
+					editor_par_table.setEditor(txt_ParameterName, items[par_index], 0);
+
+					editor_par_table = new TableEditor(table_par);
+					Text txt_ParameterValue = new Text(table_par, SWT.NONE);
+					editor_par_table.grabHorizontal = true;
+					txt_ParameterValue.setText((String) ParameterObject.get("value"));
+					editor_par_table.setEditor(txt_ParameterValue, items[par_index], 1);
+
+					editor_par_table = new TableEditor(table_par);
+					Text txt_ParameterType = new Text(table_par, SWT.READ_ONLY);
+					txt_ParameterType.setTouchEnabled(true);
+					switch ((String)ParameterObject.get("type")) {
+					case "0":
+						txt_ParameterType.setText("UINT");
+						break;
+					case "1":
+						txt_ParameterType.setText("BOOL");
+						break;
+					case "2":
+						txt_ParameterType.setText("FLOAT");
+						break;
+					case "3":
+						txt_ParameterType.setText("STRING");
+						break;
+					case "4":
+						txt_ParameterType.setText("INT");
+						break;
+					}
+					
+					editor_par_table.grabHorizontal = true;
+					editor_par_table.setEditor(txt_ParameterType, items[par_index], 2);
+					
+					editor_par_table = new TableEditor(table_par);
+					Text txt_ParameterWide = new Text(table_par, SWT.READ_ONLY);
+					txt_ParameterWide.setTouchEnabled(true);
+					txt_ParameterWide.setText((String) ParameterObject.get("bits_wide"));
+					editor_par_table.grabHorizontal = true;
+					editor_par_table.setEditor(txt_ParameterWide, items[par_index], 3);
+				}
+			} catch (NullPointerException e) {
+				System.err.println(e);
 			}
 
-			TableItem[] items = table_par.getItems();
-			for (int par_index = 0; par_index < items.length; par_index++) {
-				// ?ы듃由ъ뒪?몄뿉???대떦 index???ы듃?뺣낫 -> PortObject
-				JSONObject ParameterObject = (JSONObject) ParameterInfoList.get(par_index);
-				
-				//TableEditor??clmn??諛붾붾븣留덈떎 ?덈줈 ?앹꽦?댁쨾?쇳븿.
-				TableEditor editor_par_table = new TableEditor(table_par);
-				editor_par_table = new TableEditor(table_par);
-				Text txt_ParameterName = new Text(table_par, SWT.READ_ONLY);
-				txt_ParameterName.setTouchEnabled(true);
-				txt_ParameterName.setText((String) ParameterObject.get("par_name"));
-				editor_par_table.grabHorizontal = true;
-				editor_par_table.setEditor(txt_ParameterName, items[par_index], 0);
-
-				editor_par_table = new TableEditor(table_par);
-				Text txt_ParameterValue = new Text(table_par, SWT.NONE);
-				editor_par_table.grabHorizontal = true;
-				txt_ParameterValue.setText((String) ParameterObject.get("default_value"));
-				editor_par_table.setEditor(txt_ParameterValue, items[par_index], 1);
-				
-				editor_par_table = new TableEditor(table_par);
-				Text txt_ParameterType = new Text(table_par, SWT.READ_ONLY);
-				txt_ParameterType.setTouchEnabled(true);
-				txt_ParameterType.setText((String) ParameterObject.get("par_type"));
-				editor_par_table.grabHorizontal = true;
-				editor_par_table.setEditor(txt_ParameterType, items[par_index], 2);
-			}
 		}
+
 		String type;
-		int padding=0;
+		int padding = 0;
 		type = (String) ModuleObject.get("module_type");
 		if (type.equals("Bus") == true) {
 			Button btnMemoryMapSetting = new Button(composite_ExpandItem[DrawModuleIndex], SWT.FLAT);
 			btnMemoryMapSetting.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 			btnMemoryMapSetting.setBackground(color_skyblue);
 			btnMemoryMapSetting.setText("Memory Map Setting");
-			padding=25;
-		}
-		else{
+			padding = 25;
+		} else {
 			Label lbl_null = new Label(composite_ExpandItem[DrawModuleIndex], SWT.NONE);
 			lbl_null.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 			lbl_null.setBackground(color_gray);
-			padding=10;
+			padding = 10;
 		}
-		
 
 		btnCheckButton[DrawModuleIndex] = new Button(composite_ExpandItem[DrawModuleIndex], SWT.CHECK);
 		btnCheckButton[DrawModuleIndex].addSelectionListener(new SelectionAdapter() {
@@ -572,39 +600,40 @@ public class PM_viewtest {
 		btnCheckButton[DrawModuleIndex].setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false, 1, 1));
 		btnCheckButton[DrawModuleIndex].setText("Delete  ");
 		btnCheckButton[DrawModuleIndex].setBackground(color_gray);
-		
+
 		btnCheckButton[DrawModuleIndex].pack();
 		table_port.pack();
 
-		Expanditem[DrawModuleIndex].setHeight(table_port.getSize().y + btnCheckButton[DrawModuleIndex].getSize().y + padding);
+		Expanditem[DrawModuleIndex]
+				.setHeight(table_port.getSize().y + btnCheckButton[DrawModuleIndex].getSize().y + padding);
 
 	}
 
 	protected void DeleteModuleSelected() {
 		// TODO Auto-generated method stub
-		System.err.println("DrawModuleList="+DrawModuleList);
-		System.err.println("DrawModuleList.size()="+DrawModuleList.size());
+		System.err.println("DrawModuleList=" + DrawModuleList);
+		System.err.println("DrawModuleList.size()=" + DrawModuleList.size());
 		try {
-			for (int delete_index = DrawModuleList.size()-1; delete_index >= 0; delete_index--) {
-				System.err.println("delete_index="+delete_index);
+			for (int delete_index = DrawModuleList.size() - 1; delete_index >= 0; delete_index--) {
+				System.err.println("delete_index=" + delete_index);
 				if (btnCheckButton[delete_index].getSelection() == true) {
-					System.err.println("set="+delete_index);
-					
+					System.err.println("set=" + delete_index);
+
 					DrawModuleList.remove(delete_index);
-					
+
 					btnCheckButton[delete_index].dispose();
 					for (int mover_index = delete_index; mover_index < DrawModuleList.size(); mover_index++) {
-						btnCheckButton[delete_index]=btnCheckButton[delete_index+1];
+						btnCheckButton[delete_index] = btnCheckButton[delete_index + 1];
 					}
 					composite_ExpandItem[delete_index].dispose();
 					for (int mover_index = delete_index; mover_index < DrawModuleList.size(); mover_index++) {
-						composite_ExpandItem[delete_index]=composite_ExpandItem[delete_index+1];
+						composite_ExpandItem[delete_index] = composite_ExpandItem[delete_index + 1];
 					}
 					Expanditem[delete_index].dispose();
 					for (int mover_index = delete_index; mover_index < DrawModuleList.size(); mover_index++) {
-						Expanditem[delete_index]=Expanditem[delete_index+1];
+						Expanditem[delete_index] = Expanditem[delete_index + 1];
 					}
-					
+
 				}
 			}
 		} catch (SWTException e) {
@@ -619,7 +648,7 @@ public class PM_viewtest {
 		String module = null;
 		String type = null;
 		try {
-			obj = parser.parse(new FileReader("test.PMML"));
+			obj = parser.parse(new FileReader("modulelist.PMML"));
 			jsonObject = (JSONObject) obj;
 			ModuleInfoList = (JSONArray) jsonObject.get("PMML");
 			list_Cnt = ModuleInfoList.size();
@@ -655,43 +684,38 @@ public class PM_viewtest {
 	void ModuleDoubleClicked(List SelectedTab) {
 		String SelectedModule = SelectedTab.getItem(SelectedTab.getSelectionIndex());
 		/* --- Parser --- */
-		int list_Cnt = 0;
+
 		int port_Cnt = 0;
 		int Selected_Index = 0;
 		String module = null;
 		JSONParser parser = new JSONParser();
-		try {
-			obj = parser.parse(new FileReader("test.PMML"));
-			jsonObject = (JSONObject) obj;
-			ModuleInfoList = (JSONArray) jsonObject.get("PMML");
-			list_Cnt = ModuleInfoList.size();
+		// obj = parser.parse(new FileReader("modulelist.PMML"));
+		// jsonObject = (JSONObject) obj;
+		// ModuleInfoList = (JSONArray) jsonObject.get("PMML");
+		list_Cnt = ModuleInfoList.size();
 
-			// ?좏깮??紐⑤뱢 李얘린.
-			for (Selected_Index = 0; Selected_Index < list_Cnt; Selected_Index++) {
-				ModuleObject = (JSONObject) ModuleInfoList.get(Selected_Index);
-				module = (String) ModuleObject.get("module_name");
-				if (SelectedModule.equals(module) == true)
-					break;
-			}
-			// ?좏깮??紐⑤뱢?먯꽌 ?ы듃 媛?몄삤湲?
+		// ?좏깮??紐⑤뱢 李얘린.
+		for (Selected_Index = 0; Selected_Index < list_Cnt; Selected_Index++) {
 			ModuleObject = (JSONObject) ModuleInfoList.get(Selected_Index);
-			PortInfoList = (JSONArray) ModuleObject.get("port");
-			port_Cnt = PortInfoList.size();
-
-			System.err.println("********* Port Info *********");
-			for (int port_index = 0; port_index < port_Cnt; port_index++) {
-				JSONObject PortObject = (JSONObject) PortInfoList.get(port_index);
-				System.out.println("port_name =" + PortObject.get("port_name"));
-				System.out.println("sc_type =" + PortObject.get("sc_type"));
-				System.out.println("data_type =" + PortObject.get("data_type"));
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
+			module = (String) ModuleObject.get("module_name");
+			if (SelectedModule.equals(module) == true)
+				break;
 		}
-		/* --- Parser --- */
+		// ?좏깮??紐⑤뱢?먯꽌 ?ы듃 媛?몄삤湲?
+		ModuleObject = (JSONObject) ModuleInfoList.get(Selected_Index);
+		PortInfoList = (JSONArray) ModuleObject.get("port");
+		ParameterInfoList = (JSONArray) ModuleObject.get("parameter");
+		RegisterInfoList = (JSONArray) ModuleObject.get("register");
+
+		port_Cnt = PortInfoList.size();
+
+		System.err.println("********* Port Info *********");
+		for (int port_index = 0; port_index < port_Cnt; port_index++) {
+			JSONObject PortObject = (JSONObject) PortInfoList.get(port_index);
+			System.out.println("port_name =" + PortObject.get("port_name"));
+			System.out.println("sc_type =" + PortObject.get("sc_type"));
+			System.out.println("data_type =" + PortObject.get("data_type"));
+			System.err.println("----------------------------");
+		}
 	}
 }
