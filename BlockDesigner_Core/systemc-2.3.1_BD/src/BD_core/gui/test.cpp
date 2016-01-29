@@ -28,7 +28,7 @@ namespace BDapi{
 	void GUIThread()
 	{
 		ifstream CommandFile;
-		CommandFile.open("../bd_command_script.sh");
+		CommandFile.open("bd_command_script.sh");
 
 		char UserCommand[SIZE] = {0,};
 		ScriptReturn ScriptLine;	

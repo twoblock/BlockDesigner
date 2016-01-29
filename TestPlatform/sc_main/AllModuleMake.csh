@@ -1,9 +1,8 @@
 # 2015.10.01 harold.Ko
 # Cortex-M0DS Software Profiling Test.
-
 #! /bin/csh -f
 
-cd AHB_Lite
+cd ../AHB_Lite
 make clean
 make
 cd ..
@@ -31,5 +30,5 @@ cd ..
 cd VCORTEXM0DS 
 make clean
 make
-cd ..
+cd ../sc_main
 
