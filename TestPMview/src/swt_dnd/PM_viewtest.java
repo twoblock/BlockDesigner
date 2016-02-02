@@ -1,5 +1,4 @@
 package swt_dnd;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,7 +8,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -39,7 +37,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class PM_viewtest {
+import swt_dnd.ModuleInfo.Module;
+import swt_dnd.ModuleInfo.Parameter;
+import swt_dnd.ModuleInfo.Port;
+
+public class PM_viewtest{
 	protected Shell shell;
 	private List list_All;
 	private List list_Core;
@@ -50,13 +52,12 @@ public class PM_viewtest {
 	private ExpandBar expandBar;
 	private Table table_port;
 	private Table table_par;
-	private Button[] btnCheckButton = new Button[10];
-	private Composite[] composite_ExpandItem = new Composite[10];
+	private ArrayList<Button> btnCheckButton = new ArrayList<Button>();
+	private ArrayList<Composite> composite_ExpandItem = new ArrayList<Composite>();
 	private Device device = Display.getCurrent();
 	private Color color_gray = new Color(device, 150, 150, 150);
 	private Color color_skyblue = new Color(device, 204, 204, 255);
-
-	private ExpandItem[] Expanditem = new ExpandItem[10];
+	private ArrayList<ExpandItem> Expanditem = new ArrayList<ExpandItem>();
 
 	private JSONParser parser = new JSONParser();
 	private Object obj;
@@ -69,6 +70,9 @@ public class PM_viewtest {
 	private int list_Cnt = 0;
 	private ArrayList<String> DrawModuleList = new ArrayList<String>();
 	private String PastItem;
+	private ModuleInfo ModuleInfoData;
+	private Module ModuleData;
+	private int Selected_Index;
 
 	/**
 	 * Launch the application.
@@ -106,7 +110,7 @@ public class PM_viewtest {
 		shell = new Shell();
 		// Theme a =a;
 		shell.setSize(1200, 600);
-		shell.setText("SWT Application");
+		shell.setText("Platform Manager");
 		shell.setLayout(new GridLayout(3, false));
 
 		Composite composite_Toolbar = new Composite(shell, SWT.NONE);
@@ -337,77 +341,80 @@ public class PM_viewtest {
 
 	protected void AddModuleSelected(final String Module_Name) {
 		// TODO Auto-generated method stub
-
 		String Module_Title = null;
 		int DrawModuleIndex = 0;
 		Module_Title = Module_Name + " (" + Module_Name + ")";
 
-		// Draw??紐⑤뱢?꾩씠??list?????
+		// make Drawed module list. 
 		DrawModuleList.add(Module_Name);
 		DrawModuleIndex = DrawModuleList.size() - 1;
 
-		Expanditem[DrawModuleIndex] = new ExpandItem(expandBar, SWT.NONE);
-		Expanditem[DrawModuleIndex].setExpanded(true);
+		Expanditem.add(new ExpandItem(expandBar, SWT.NONE));
+		Expanditem.get(DrawModuleIndex).setExpanded(true);
+		Expanditem.get(DrawModuleIndex).setText(Module_Title);
 
-		Expanditem[DrawModuleIndex].setText(Module_Title);
+		// make composite, divide (port&par) grid
+		composite_ExpandItem.add(new Composite(expandBar, SWT.NONE));
+		composite_ExpandItem.get(DrawModuleIndex).setBackground(color_gray);
+		composite_ExpandItem.get(DrawModuleIndex).setLayout(new GridLayout(2, false));
+		
+		Expanditem.get(DrawModuleIndex).setControl(composite_ExpandItem.get(DrawModuleIndex));
+		Expanditem.get(DrawModuleIndex)
+				.setHeight(Expanditem.get(DrawModuleIndex).getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 
-		composite_ExpandItem[DrawModuleIndex] = new Composite(expandBar, SWT.NONE);
-
-		composite_ExpandItem[DrawModuleIndex].setBackground(color_gray);
-
-		composite_ExpandItem[DrawModuleIndex].setLayout(new GridLayout(2, false));
-		Expanditem[DrawModuleIndex].setControl(composite_ExpandItem[DrawModuleIndex]);
-		Expanditem[DrawModuleIndex]
-				.setHeight(Expanditem[DrawModuleIndex].getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-
+		
 		{/* --- port table --- */
-			table_port = new Table(composite_ExpandItem[DrawModuleIndex], SWT.BORDER | SWT.FULL_SELECTION);
-			table_port.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
+			table_port = new Table(composite_ExpandItem.get(DrawModuleIndex), SWT.BORDER | SWT.FULL_SELECTION);
+			table_port.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
 			table_port.setHeaderVisible(true);
 			table_port.setLinesVisible(true);
-			TableColumn tblclmnNewColumn = new TableColumn(table_port, SWT.NONE);
+			TableColumn tblclmnNewColumn = new TableColumn(table_port, SWT.CENTER);
 			tblclmnNewColumn.setWidth(140);
 			tblclmnNewColumn.setText("Port Name");
 
-			TableColumn tblclmnNewColumn_1 = new TableColumn(table_port, SWT.NONE);
+			TableColumn tblclmnNewColumn_1 = new TableColumn(table_port, SWT.CENTER);
 			tblclmnNewColumn_1.setWidth(120);
 			tblclmnNewColumn_1.setText("dest Module");
 
-			TableColumn tblclmnNewColumn_4 = new TableColumn(table_port, SWT.NONE);
+			TableColumn tblclmnNewColumn_4 = new TableColumn(table_port, SWT.CENTER);
 			tblclmnNewColumn_4.setWidth(140);
 			tblclmnNewColumn_4.setText("dest Port");
 
-			int Selected_Index = 0;
 			int port_Cnt = 0;
 			String module = null;
-			// ?좏깮??紐⑤뱢 李얘린.
-			for (Selected_Index = 0; Selected_Index < list_Cnt; Selected_Index++) {
-				JSONObject ModuleObject = (JSONObject) ModuleInfoList.get(Selected_Index);
-				module = (String) ModuleObject.get("module_name");
+			
+			
+			
+			
+			// find selected module(Index) for get info(ModuleInfo.java)
+			for (Selected_Index = 0; Selected_Index < ModuleInfoData.mList.size(); Selected_Index++) {
+				module = ModuleInfoData.mList.get(Selected_Index).module_name;
 				if (Module_Name.equals(module) == true)
 					break;
 			}
-			// ?좏깮??紐⑤뱢?먯꽌 ?ы듃 媛?몄삤湲?
-			ModuleObject = (JSONObject) ModuleInfoList.get(Selected_Index);
-			PortInfoList = (JSONArray) ModuleObject.get("port");
-			port_Cnt = PortInfoList.size();
-
+			
+			ModuleData = ModuleInfoData.mList.get(Selected_Index);
+			ArrayList<Port> PortData = ModuleData.Port_List;
+			
+			
+			port_Cnt = PortData.size();
+			
 			for (int i = 0; i < port_Cnt; i++) {
 				new TableItem(table_port, SWT.NONE);
 			}
 
 			TableItem[] items = table_port.getItems();
 			for (int port_index = 0; port_index < items.length; port_index++) {
-				// ?ы듃由ъ뒪?몄뿉???대떦 index???ы듃?뺣낫 -> PortObject
-				JSONObject PortObject = (JSONObject) PortInfoList.get(port_index);
 
 				TableEditor editor = new TableEditor(table_port);
 
 				editor = new TableEditor(table_port);
 				Text text = new Text(table_port, SWT.READ_ONLY);
 				text.setTouchEnabled(true);
-				text.setText((String) PortObject.get("sc_type") + "<" + (String) PortObject.get("data_type") + ">"
-						+ (String) PortObject.get("port_name"));
+				
+				text.setText((String)PortData.get(port_index).sc_type + "<" + PortData.get(port_index).data_type + ">"
+								+ PortData.get(port_index).port_name);
+				
 				editor.grabHorizontal = true;
 				editor.setEditor(text, items[port_index], 0);
 
@@ -435,6 +442,7 @@ public class PM_viewtest {
 				editor = new TableEditor(table_port);
 				final CCombo cmb_DestPort = new CCombo(table_port, SWT.READ_ONLY);
 				cmb_DestPort.setText("");
+				// when you click dropdown, show destmodule in port
 				cmb_DestPort.addListener(SWT.DROP_DOWN, new Listener() {
 					@Override
 					public void handleEvent(Event event) {
@@ -444,28 +452,28 @@ public class PM_viewtest {
 								&& (cmb_DestModule.getText().equals("") == false)) {
 							String module = null;
 							int port_Cnt = 0;
-							for (int DestModule_Index = 0; DestModule_Index < list_Cnt; DestModule_Index++) {
-								ModuleObject = (JSONObject) ModuleInfoList.get(DestModule_Index);
-								module = (String) ModuleObject.get("module_name");
+							int DestModule_Index = 0;
+							for (DestModule_Index = 0; DestModule_Index < list_Cnt; DestModule_Index++) {
+								module = ModuleInfoData.mList.get(DestModule_Index).module_name;
 								if (cmb_DestModule.getText().equals(module) == true)
 									break;
 							}
-							PortInfoList = (JSONArray) ModuleObject.get("port");
-							port_Cnt = PortInfoList.size();
-
+							port_Cnt = ModuleInfoData.mList.get(DestModule_Index).Port_List.size();
+							
 							cmb_DestPort.removeAll();
 							for (int destPort = 0; destPort < port_Cnt; destPort++) {
-								JSONObject PortObject = (JSONObject) PortInfoList.get(destPort);
 								cmb_DestPort.add(
-										(String) PortObject.get("sc_type") + "<" + (String) PortObject.get("data_type")
-												+ ">" + (String) PortObject.get("port_name"));
+										ModuleInfoData.mList.get(DestModule_Index).Port_List.get(destPort).sc_type
+										+ "<" + 
+										ModuleInfoData.mList.get(DestModule_Index).Port_List.get(destPort).data_type
+												+ ">" + 
+										ModuleInfoData.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
 							}
 						}
 					}
 				});
 
-				// DestModule?좏깮???댁쟾 DestModule怨?鍮꾧탳?댁꽌 DestPort媛믪쓽 ?좎? ?щ?
-				// 寃곗젙.
+				// if you select DestModule, Compare (past DestModule) to (selection DestModule) 
 				cmb_DestModule.addSelectionListener(new SelectionListener() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
@@ -486,8 +494,9 @@ public class PM_viewtest {
 			}
 		}
 
+		
 		{/* --- para table --- */
-			table_par = new Table(composite_ExpandItem[DrawModuleIndex], SWT.BORDER | SWT.FULL_SELECTION);
+			table_par = new Table(composite_ExpandItem.get(DrawModuleIndex), SWT.BORDER | SWT.FULL_SELECTION);
 			table_par.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 			table_par.setHeaderVisible(true);
 			table_par.setLinesVisible(true);
@@ -507,40 +516,37 @@ public class PM_viewtest {
 			TableColumn tb_clmn_TypeWide = new TableColumn(table_par, SWT.NONE);
 			tb_clmn_TypeWide.setWidth(50);
 			tb_clmn_TypeWide.setText("Wide");
-
+			
 			int par_Cnt = 0;
 			try {
-				ParameterInfoList = (JSONArray) ModuleObject.get("parameter");
-				par_Cnt = ParameterInfoList.size();
-
+				ArrayList<Parameter> ParameteData = ModuleInfoData.mList.get(Selected_Index).Parameter_List;
+				par_Cnt = ParameteData.size();
+				
 				for (int i = 0; i < par_Cnt; i++) {
 					new TableItem(table_par, SWT.NONE);
 				}
 
 				TableItem[] items = table_par.getItems();
 				for (int par_index = 0; par_index < items.length; par_index++) {
-					// ?ы듃由ъ뒪?몄뿉???대떦 index???ы듃?뺣낫 -> PortObject
-					JSONObject ParameterObject = (JSONObject) ParameterInfoList.get(par_index);
 
-					// TableEditor??clmn??諛붾붾븣留덈떎 ?덈줈 ?앹꽦?댁쨾?쇳븿.
 					TableEditor editor_par_table = new TableEditor(table_par);
 					editor_par_table = new TableEditor(table_par);
 					Text txt_ParameterName = new Text(table_par, SWT.READ_ONLY);
 					txt_ParameterName.setTouchEnabled(true);
-					txt_ParameterName.setText((String) ParameterObject.get("parameter_name"));
+					txt_ParameterName.setText(ParameteData.get(par_index).par_name);
 					editor_par_table.grabHorizontal = true;
 					editor_par_table.setEditor(txt_ParameterName, items[par_index], 0);
 
 					editor_par_table = new TableEditor(table_par);
 					Text txt_ParameterValue = new Text(table_par, SWT.NONE);
 					editor_par_table.grabHorizontal = true;
-					txt_ParameterValue.setText((String) ParameterObject.get("value"));
+					txt_ParameterValue.setText(ParameteData.get(par_index).default_value);
 					editor_par_table.setEditor(txt_ParameterValue, items[par_index], 1);
 
 					editor_par_table = new TableEditor(table_par);
 					Text txt_ParameterType = new Text(table_par, SWT.READ_ONLY);
 					txt_ParameterType.setTouchEnabled(true);
-					switch ((String)ParameterObject.get("type")) {
+					switch (ParameteData.get(par_index).data_type) {
 					case "0":
 						txt_ParameterType.setText("UINT");
 						break;
@@ -564,7 +570,7 @@ public class PM_viewtest {
 					editor_par_table = new TableEditor(table_par);
 					Text txt_ParameterWide = new Text(table_par, SWT.READ_ONLY);
 					txt_ParameterWide.setTouchEnabled(true);
-					txt_ParameterWide.setText((String) ParameterObject.get("bits_wide"));
+					txt_ParameterWide.setText(ParameteData.get(par_index).bits_wide);
 					editor_par_table.grabHorizontal = true;
 					editor_par_table.setEditor(txt_ParameterWide, items[par_index], 3);
 				}
@@ -576,64 +582,56 @@ public class PM_viewtest {
 
 		String type;
 		int padding = 0;
-		type = (String) ModuleObject.get("module_type");
+		type = ModuleData.module_type;
 		if (type.equals("Bus") == true) {
-			Button btnMemoryMapSetting = new Button(composite_ExpandItem[DrawModuleIndex], SWT.FLAT);
+			Button btnMemoryMapSetting = new Button(composite_ExpandItem.get(DrawModuleIndex), SWT.FLAT);
 			btnMemoryMapSetting.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 			btnMemoryMapSetting.setBackground(color_skyblue);
 			btnMemoryMapSetting.setText("Memory Map Setting");
 			padding = 25;
 		} else {
-			Label lbl_null = new Label(composite_ExpandItem[DrawModuleIndex], SWT.NONE);
+			Label lbl_null = new Label(composite_ExpandItem.get(DrawModuleIndex), SWT.NONE);
 			lbl_null.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 			lbl_null.setBackground(color_gray);
 			padding = 10;
 		}
 
-		btnCheckButton[DrawModuleIndex] = new Button(composite_ExpandItem[DrawModuleIndex], SWT.CHECK);
-		btnCheckButton[DrawModuleIndex].addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
+		btnCheckButton.add(new Button(composite_ExpandItem.get(DrawModuleIndex), SWT.CHECK));
+		btnCheckButton.get(DrawModuleIndex).setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false, 1, 1));
+		btnCheckButton.get(DrawModuleIndex).setText("Delete  ");
+		btnCheckButton.get(DrawModuleIndex).setBackground(color_gray);
 
-		btnCheckButton[DrawModuleIndex].setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false, 1, 1));
-		btnCheckButton[DrawModuleIndex].setText("Delete  ");
-		btnCheckButton[DrawModuleIndex].setBackground(color_gray);
-
-		btnCheckButton[DrawModuleIndex].pack();
+		btnCheckButton.get(DrawModuleIndex).pack();
+		table_par.pack();
 		table_port.pack();
-
-		Expanditem[DrawModuleIndex]
-				.setHeight(table_port.getSize().y + btnCheckButton[DrawModuleIndex].getSize().y + padding);
+		if(table_par.getSize().y >=table_port.getSize().y){
+			Expanditem.get(DrawModuleIndex)
+			.setHeight(table_par.getSize().y + btnCheckButton.get(DrawModuleIndex).getSize().y + padding);
+		}else{
+			Expanditem.get(DrawModuleIndex)
+			.setHeight(table_port.getSize().y + btnCheckButton.get(DrawModuleIndex).getSize().y + padding);
+		}
+		
 
 	}
 
 	protected void DeleteModuleSelected() {
 		// TODO Auto-generated method stub
-		System.err.println("DrawModuleList=" + DrawModuleList);
-		System.err.println("DrawModuleList.size()=" + DrawModuleList.size());
 		try {
 			for (int delete_index = DrawModuleList.size() - 1; delete_index >= 0; delete_index--) {
-				System.err.println("delete_index=" + delete_index);
-				if (btnCheckButton[delete_index].getSelection() == true) {
-					System.err.println("set=" + delete_index);
+				if (btnCheckButton.get(delete_index).getSelection() == true) {
 
 					DrawModuleList.remove(delete_index);
-
-					btnCheckButton[delete_index].dispose();
-					for (int mover_index = delete_index; mover_index < DrawModuleList.size(); mover_index++) {
-						btnCheckButton[delete_index] = btnCheckButton[delete_index + 1];
-					}
-					composite_ExpandItem[delete_index].dispose();
-					for (int mover_index = delete_index; mover_index < DrawModuleList.size(); mover_index++) {
-						composite_ExpandItem[delete_index] = composite_ExpandItem[delete_index + 1];
-					}
-					Expanditem[delete_index].dispose();
-					for (int mover_index = delete_index; mover_index < DrawModuleList.size(); mover_index++) {
-						Expanditem[delete_index] = Expanditem[delete_index + 1];
-					}
-
+					
+					Expanditem.get(delete_index).dispose();
+					Expanditem.remove(delete_index);
+					
+					btnCheckButton.get(delete_index).dispose();
+					btnCheckButton.remove(delete_index);
+					
+					composite_ExpandItem.get(delete_index).dispose();
+					composite_ExpandItem.remove(delete_index);
+					
 				}
 			}
 		} catch (SWTException e) {
@@ -651,11 +649,16 @@ public class PM_viewtest {
 			obj = parser.parse(new FileReader("modulelist.PMML"));
 			jsonObject = (JSONObject) obj;
 			ModuleInfoList = (JSONArray) jsonObject.get("PMML");
-			list_Cnt = ModuleInfoList.size();
+			
+			ModuleInfoData = new ModuleInfo(ModuleInfoList);
+			
+			
+			list_Cnt = ModuleInfoData.mList.size();
 			for (int i = 0; i < list_Cnt; i++) {
-				ModuleObject = (JSONObject) ModuleInfoList.get(i);
-				module = (String) ModuleObject.get("module_name");
-				type = (String) ModuleObject.get("module_type");
+				Module m =ModuleInfoData.mList.get(i);
+				
+				module = m.module_name;
+				type 	= m.module_type;
 				list_All.add(module);
 				if (type.equals("Core") == true)
 					list_Core.add(module);
@@ -674,6 +677,7 @@ public class PM_viewtest {
 			e.printStackTrace();
 		}
 		/* --- Parser --- */
+		
 	}
 
 	void ModuleClicked(List SelectedTab) {
@@ -683,39 +687,6 @@ public class PM_viewtest {
 
 	void ModuleDoubleClicked(List SelectedTab) {
 		String SelectedModule = SelectedTab.getItem(SelectedTab.getSelectionIndex());
-		/* --- Parser --- */
-
-		int port_Cnt = 0;
-		int Selected_Index = 0;
-		String module = null;
-		JSONParser parser = new JSONParser();
-		// obj = parser.parse(new FileReader("modulelist.PMML"));
-		// jsonObject = (JSONObject) obj;
-		// ModuleInfoList = (JSONArray) jsonObject.get("PMML");
-		list_Cnt = ModuleInfoList.size();
-
-		// ?좏깮??紐⑤뱢 李얘린.
-		for (Selected_Index = 0; Selected_Index < list_Cnt; Selected_Index++) {
-			ModuleObject = (JSONObject) ModuleInfoList.get(Selected_Index);
-			module = (String) ModuleObject.get("module_name");
-			if (SelectedModule.equals(module) == true)
-				break;
-		}
-		// ?좏깮??紐⑤뱢?먯꽌 ?ы듃 媛?몄삤湲?
-		ModuleObject = (JSONObject) ModuleInfoList.get(Selected_Index);
-		PortInfoList = (JSONArray) ModuleObject.get("port");
-		ParameterInfoList = (JSONArray) ModuleObject.get("parameter");
-		RegisterInfoList = (JSONArray) ModuleObject.get("register");
-
-		port_Cnt = PortInfoList.size();
-
-		System.err.println("********* Port Info *********");
-		for (int port_index = 0; port_index < port_Cnt; port_index++) {
-			JSONObject PortObject = (JSONObject) PortInfoList.get(port_index);
-			System.out.println("port_name =" + PortObject.get("port_name"));
-			System.out.println("sc_type =" + PortObject.get("sc_type"));
-			System.out.println("data_type =" + PortObject.get("data_type"));
-			System.err.println("----------------------------");
-		}
+		AddModuleSelected(SelectedModule);
 	}
 }

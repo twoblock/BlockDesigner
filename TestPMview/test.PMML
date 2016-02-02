@@ -16,16 +16,24 @@
         }
       ],
       "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "1",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "2",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "4",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -43,17 +51,25 @@
           "data_type": "int"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+          "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "3",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "1",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "1",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -76,17 +92,25 @@
           "data_type": "bool"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+            "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "2",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "3",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "4",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -104,17 +128,25 @@
           "data_type": "int"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+            "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "0",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "1",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "1",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -132,17 +164,25 @@
           "data_type": "int"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+            "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "2",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "3",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "0",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -165,17 +205,25 @@
           "data_type": "bool"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+            "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "3",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "4",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "0",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -193,17 +241,25 @@
           "data_type": "int"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+            "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "2",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "3",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "1",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -221,17 +277,25 @@
           "data_type": "int"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+            "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "0",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "0",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "1",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -254,17 +318,25 @@
           "data_type": "bool"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+            "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "3",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "2",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "4",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -282,17 +354,25 @@
           "data_type": "int"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+       "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "0",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "3",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "1",
+               "value" : "0"
+            }
       ]
     },
     {
@@ -315,17 +395,25 @@
           "data_type": "bool"
         }
       ],
-      "parameter": [
-        {
-          "par_name": "para1",
-          "par_type": "UINT",
-          "default_value": "0"
-        },
-        {
-          "par_name": "para2",
-          "par_type": "FLOAT",
-          "default_value": "0"
-        }
+       "parameter": [
+       		{
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "3",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "0",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "4",
+               "value" : "0"
+            }
       ]
     }
   ]
