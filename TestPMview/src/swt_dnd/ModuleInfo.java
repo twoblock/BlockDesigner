@@ -100,7 +100,6 @@ public class ModuleInfo {
 			
 			mList.add(module);
 		}
-		System.err.println("s");
 	}
 
 	public class Module {

@@ -1,6 +1,9 @@
 package swt_dnd;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -8,6 +11,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -18,10 +22,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
@@ -183,7 +189,7 @@ public class PM_viewtest{
 						Module_Name = list_etc.getItem(list_etc.getSelectionIndex());
 						AddModuleSelected(Module_Name);
 					}
-
+					
 				}
 
 				@Override
@@ -335,6 +341,25 @@ public class PM_viewtest{
 		Button btn_AddModule = new Button(composite_ModuleList, SWT.NONE);
 		btn_AddModule.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		btn_AddModule.setText("Add Module");
+		btn_AddModule.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog file_dlg = new FileDialog(shell, SWT.OPEN);
+				file_dlg.setText("Load Block Designer Module.");
+				
+				String[] filterExt={"*.PMML"};
+				file_dlg.setFilterExtensions(filterExt);
+				
+				file_dlg.setFilterPath(System.getProperty("user.home")+"/BlockDesigner");
+				String Module_Location = file_dlg.open();
+				
+				if (Module_Location != null) {
+					// File directory = new File(saveTarget);
+					Module_Location = Module_Location.replace("\\", "/");
+					System.err.println(Module_Location);
+				}
+			}
+		});
+		
 
 		viewsetting();
 	}
@@ -583,6 +608,7 @@ public class PM_viewtest{
 		String type;
 		int padding = 0;
 		type = ModuleData.module_type;
+		// set padding value from grid height.
 		if (type.equals("Bus") == true) {
 			Button btnMemoryMapSetting = new Button(composite_ExpandItem.get(DrawModuleIndex), SWT.FLAT);
 			btnMemoryMapSetting.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
@@ -648,6 +674,14 @@ public class PM_viewtest{
 		try {
 			obj = parser.parse(new FileReader("modulelist.PMML"));
 			jsonObject = (JSONObject) obj;
+
+			File file = new File(System.getProperty("user.home")+"/BlockDesigner");
+			file.mkdir();
+			BufferedWriter out = new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/BlockDesigner/modulelist.PMML"));
+			String Script = jsonObject.toJSONString();
+			out.write(Script);
+			out.close();
+			
 			ModuleInfoList = (JSONArray) jsonObject.get("PMML");
 			
 			ModuleInfoData = new ModuleInfo(ModuleInfoList);
@@ -660,6 +694,7 @@ public class PM_viewtest{
 				module = m.module_name;
 				type 	= m.module_type;
 				list_All.add(module);
+				System.err.println(type);
 				if (type.equals("Core") == true)
 					list_Core.add(module);
 				else if (type.equals("Bus") == true)

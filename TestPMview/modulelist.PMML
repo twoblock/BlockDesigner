@@ -3,6 +3,7 @@
       {
          "module_name" : "VCORTEXM0DS",
          "module_type" : "Core",
+         "module_location" : "C:/Desktop/*.so",
          "parameter" : null,
          "port" : [
             {
@@ -201,1604 +202,99 @@
                "sc_type" : "sc_out"
             }
          ],
-         "register" : null
+         "register" : [
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r00",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r01",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r02",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r03",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r04",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r05",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r06",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r07",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r08",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r09",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r10",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r11",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r12",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r14",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_msp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_psp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_pc",
+               "type" : "0"
+            }
+         ]
       },
       {
          "module_name" : "TB",
-         "module_type" : "other",
-         "parameter" : null,
-         "port" : [
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HMASTLOCK",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "NMI",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ00",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ01",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ02",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ03",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ04",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ05",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ06",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ07",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ08",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ09",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ10",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ11",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ12",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ13",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ14",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ15",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "TXEV",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "RXEV",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "LOCKUP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SYSRESETREQ",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SLEEPING",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_PC",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R3",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R4",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R10",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_PC",
-               "sc_type" : "sc_in"
-            }
-         ],
-         "register" : null
-      },
-      {
-         "module_name" : "AHBL2Mem_1",
-         "module_type" : "Mem",
-         "parameter" : null,
-         "port" : [
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HMASTLOCK",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "NMI",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ00",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ01",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ02",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ03",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ04",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ05",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ06",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ07",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ08",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ09",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ10",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ11",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ12",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ13",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ14",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ15",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "TXEV",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "RXEV",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "LOCKUP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SYSRESETREQ",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SLEEPING",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_PC",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R3",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R4",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R10",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_PC",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_out"
-            }
-         ],
-         "register" : null
-      },
-      {
-         "module_name" : "AHBL2Mem",
-         "module_type" : "Mem",
-         "parameter" : null,
-         "port" : [
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HMASTLOCK",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "NMI",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ00",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ01",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ02",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ03",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ04",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ05",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ06",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ07",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ08",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ09",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ10",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ11",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ12",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ13",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ14",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ15",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "TXEV",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "RXEV",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "LOCKUP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SYSRESETREQ",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SLEEPING",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_PC",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R3",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R4",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R10",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_PC",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_out"
-            }
-         ],
-         "register" : null
-      },
-      {
-         "module_name" : "AHB_Lite",
-         "module_type" : "Bus",
-         "parameter" : null,
-         "port" : [
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HMASTLOCK",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "NMI",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ00",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ01",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ02",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ03",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ04",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ05",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ06",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ07",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ08",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ09",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ10",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ11",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ12",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ13",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ14",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ15",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "TXEV",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "RXEV",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "LOCKUP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SYSRESETREQ",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SLEEPING",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_PC",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R3",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R4",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R10",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_PC",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HLOCK_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_M",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY_M",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_M",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR_S",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST_S",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HLOCK_S",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT_S",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE_S",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS_S",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA_S",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE_S",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY_S",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S0",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S0",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S0",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S0",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S1",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S1",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S1",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S1",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S2",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S2",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S2",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S2",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S3",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S3",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S3",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S3",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S4",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S4",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S4",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S4",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S5",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S5",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S5",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S5",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S6",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S6",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S6",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S6",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S7",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S7",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S7",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S7",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S8",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S8",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S8",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S8",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S9",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S9",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S9",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S9",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_NOMAP",
-               "sc_type" : "sc_out"
-            }
-         ],
-         "register" : null
-      },
-      {
-         "module_name" : "CONSOLE",
          "module_type" : "etc",
-         "parameter" : [
-            {
-               "bits_wide" : "8",
-               "parameter_name" : "hw_par",
-               "type" : "4",
-               "value" : "0"
-            },
-            {
-               "bits_wide" : "16",
-               "parameter_name" : "w_par",
-               "type" : "4",
-               "value" : "0"
-            },
-            {
-               "bits_wide" : "32",
-               "parameter_name" : "dw_par",
-               "type" : "4",
-               "value" : "0"
-            },
-            {
-               "bits_wide" : "64",
-               "parameter_name" : "lw_par",
-               "type" : "4",
-               "value" : "0"
-            },
-            {
-               "bits_wide" : "8",
-               "parameter_name" : "b_par",
-               "type" : "1",
-               "value" : "false"
-            },
-            {
-               "bits_wide" : "32",
-               "parameter_name" : "dw_paru",
-               "type" : "0",
-               "value" : "0"
-            },
-            {
-               "bits_wide" : "32",
-               "parameter_name" : "f_par",
-               "type" : "2",
-               "value" : "0.000000"
-            },
-            {
-               "bits_wide" : "64",
-               "parameter_name" : "df_par",
-               "type" : "2",
-               "value" : "0.000000"
-            },
-            {
-               "bits_wide" : "8",
-               "parameter_name" : "a_par",
-               "type" : "3",
-               "value" : ""
-            }
-         ],
+         "module_location" : "C:/Desktop/*.so",
+         "parameter" : null,
          "port" : [
             {
                "data_type" : "bool",
@@ -1808,663 +304,108 @@
             {
                "data_type" : "bool",
                "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HMASTLOCK",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "NMI",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ00",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ01",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ02",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ03",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ04",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ05",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ06",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ07",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ08",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ09",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ10",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ11",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ12",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ13",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ14",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "IRQ15",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "TXEV",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "RXEV",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "LOCKUP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SYSRESETREQ",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "SLEEPING",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_PC",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R3",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R4",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "EXTRACT_R10",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
                "sc_type" : "sc_out"
             },
             {
                "data_type" : "unsigned int",
                "port_name" : "EXTRACT_PC",
                "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADY",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HWRITE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HCLK",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HLOCK_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS_M",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA_M",
-               "sc_type" : "sc_in"
-            },
+            }
+         ],
+         "register" : [
             {
-               "data_type" : "bool",
-               "port_name" : "HWRITE_M",
-               "sc_type" : "sc_in"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r00",
+               "type" : "0"
             },
             {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_M",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r01",
+               "type" : "0"
             },
             {
-               "data_type" : "bool",
-               "port_name" : "HREADY_M",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r02",
+               "type" : "0"
             },
             {
-               "data_type" : "bool",
-               "port_name" : "HRESP_M",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r03",
+               "type" : "0"
             },
             {
-               "data_type" : "unsigned int",
-               "port_name" : "HADDR_S",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r04",
+               "type" : "0"
             },
             {
-               "data_type" : "unsigned int",
-               "port_name" : "HBURST_S",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r05",
+               "type" : "0"
             },
             {
-               "data_type" : "bool",
-               "port_name" : "HLOCK_S",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r06",
+               "type" : "0"
             },
             {
-               "data_type" : "unsigned int",
-               "port_name" : "HPROT_S",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r07",
+               "type" : "0"
             },
             {
-               "data_type" : "unsigned int",
-               "port_name" : "HSIZE_S",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r08",
+               "type" : "0"
             },
             {
-               "data_type" : "unsigned int",
-               "port_name" : "HTRANS_S",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r09",
+               "type" : "0"
             },
             {
-               "data_type" : "unsigned int",
-               "port_name" : "HWDATA_S",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r10",
+               "type" : "0"
             },
             {
-               "data_type" : "bool",
-               "port_name" : "HWRITE_S",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r11",
+               "type" : "0"
             },
             {
-               "data_type" : "bool",
-               "port_name" : "HREADY_S",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r12",
+               "type" : "0"
             },
             {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S0",
-               "sc_type" : "sc_out"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r14",
+               "type" : "0"
             },
             {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S0",
-               "sc_type" : "sc_in"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_msp",
+               "type" : "0"
             },
             {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S0",
-               "sc_type" : "sc_in"
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_psp",
+               "type" : "0"
             },
             {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S0",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S1",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S1",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S1",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S1",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S2",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S2",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S2",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S2",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S3",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S3",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S3",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S3",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S4",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S4",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S4",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S4",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S5",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S5",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S5",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S5",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S6",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S6",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S6",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S6",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S7",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S7",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S7",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S7",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S8",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S8",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S8",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S8",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_S9",
-               "sc_type" : "sc_out"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HREADYOUT_S9",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HRESP_S9",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "unsigned int",
-               "port_name" : "HRDATA_S9",
-               "sc_type" : "sc_in"
-            },
-            {
-               "data_type" : "bool",
-               "port_name" : "HSEL_NOMAP",
-               "sc_type" : "sc_out"
-            },
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_pc",
+               "type" : "0"
+            }
+         ]
+      },
+      {
+         "module_name" : "AHBL2MEM_1",
+         "module_type" : "Mem",
+         "module_location" : "C:/Desktop/*.so",
+         "parameter" : null,
+         "port" : [
             {
                "data_type" : "bool",
                "port_name" : "HCLK",
@@ -2538,6 +479,886 @@
          ],
          "register" : [
             {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r00",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r01",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r02",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r03",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r04",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r05",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r06",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r07",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r08",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r09",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r10",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r11",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r12",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r14",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_msp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_psp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_pc",
+               "type" : "0"
+            }
+         ]
+      },
+      {
+         "module_name" : "AHBL2MEM",
+         "module_type" : "Mem",
+         "module_location" : "C:/Desktop/*.so",
+         "parameter" : null,
+         "port" : [
+            {
+               "data_type" : "bool",
+               "port_name" : "HCLK",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESETn",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADY",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HADDR",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HBURST",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HPROT",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HTRANS",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HWRITE",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HSIZE",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HWDATA",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP",
+               "sc_type" : "sc_out"
+            }
+         ],
+         "register" : [
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r00",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r01",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r02",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r03",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r04",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r05",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r06",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r07",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r08",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r09",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r10",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r11",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r12",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r14",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_msp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_psp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_pc",
+               "type" : "0"
+            }
+         ]
+      },
+      {
+         "module_name" : "AHB_Lite",
+         "module_type" : "Bus",
+         "module_location" : "C:/Desktop/*.so",
+         "parameter" : null,
+         "port" : [
+            {
+               "data_type" : "bool",
+               "port_name" : "HCLK",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESETn",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HADDR_M",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HBURST_M",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HLOCK_M",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HPROT_M",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HSIZE_M",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HTRANS_M",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HWDATA_M",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HWRITE_M",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_M",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADY_M",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_M",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HADDR_S",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HBURST_S",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HLOCK_S",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HPROT_S",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HSIZE_S",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HTRANS_S",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HWDATA_S",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HWRITE_S",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADY_S",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S0",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S0",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S0",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S0",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S1",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S1",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S1",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S1",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S2",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S2",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S2",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S2",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S3",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S3",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S3",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S3",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S4",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S4",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S4",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S4",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S5",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S5",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S5",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S5",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S6",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S6",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S6",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S6",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S7",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S7",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S7",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S7",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S8",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S8",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S8",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S8",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_S9",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT_S9",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP_S9",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA_S9",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL_NOMAP",
+               "sc_type" : "sc_out"
+            }
+         ],
+         "register" : [
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r00",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r01",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r02",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r03",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r04",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r05",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r06",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r07",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r08",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r09",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r10",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r11",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r12",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r14",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_msp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_psp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_pc",
+               "type" : "0"
+            }
+         ]
+      },
+      {
+         "module_name" : "CONSOLE",
+         "module_type" : "etc",
+         "module_location" : "C:/Desktop/*.so",
+         "parameter" : [
+            {
+               "bits_wide" : "8",
+               "parameter_name" : "hw_par",
+               "type" : "4",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "16",
+               "parameter_name" : "w_par",
+               "type" : "4",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_par",
+               "type" : "4",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "64",
+               "parameter_name" : "lw_par",
+               "type" : "4",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "8",
+               "parameter_name" : "b_par",
+               "type" : "1",
+               "value" : "false"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "dw_paru",
+               "type" : "0",
+               "value" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "parameter_name" : "f_par",
+               "type" : "2",
+               "value" : "0.000000"
+            },
+            {
+               "bits_wide" : "64",
+               "parameter_name" : "df_par",
+               "type" : "2",
+               "value" : "0.000000"
+            },
+            {
+               "bits_wide" : "8",
+               "parameter_name" : "a_par",
+               "type" : "3",
+               "value" : ""
+            }
+         ],
+         "port" : [
+            {
+               "data_type" : "bool",
+               "port_name" : "HCLK",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESETn",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HSEL",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADY",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HADDR",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HBURST",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HPROT",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HTRANS",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HWRITE",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HSIZE",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HWDATA",
+               "sc_type" : "sc_in"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HREADYOUT",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "unsigned int",
+               "port_name" : "HRDATA",
+               "sc_type" : "sc_out"
+            },
+            {
+               "data_type" : "bool",
+               "port_name" : "HRESP",
+               "sc_type" : "sc_out"
+            }
+         ],
+         "register" : [
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r00",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r01",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r02",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r03",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r04",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r05",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r06",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r07",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r08",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r09",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r10",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r11",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r12",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__cm0_r14",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_msp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_psp",
+               "type" : "0"
+            },
+            {
+               "bits_wide" : "32",
+               "register_name" : "v__DOT__vis_pc",
+               "type" : "0"
+            },
+            {
                "bits_wide" : "8",
                "register_name" : "hw_reg",
                "type" : "1"
@@ -2586,4 +1407,3 @@
       }
    ]
 }
-
