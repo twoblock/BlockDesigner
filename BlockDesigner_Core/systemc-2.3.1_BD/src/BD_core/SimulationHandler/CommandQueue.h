@@ -16,6 +16,7 @@
 
 #include "AllSimulationHandler.h"	
 #include <queue> 
+#include <pthread.h>
 
 // for debugging
 #include <stdio.h>
@@ -38,12 +39,24 @@ namespace BDapi
 	class CommandQueue 
 	{
 		public:
-			static void PushCommand(GUI_COMMAND Command);	
-			static bool IsEmpty();	
-			static GUI_COMMAND PopCommand();	
+			void PushCommand(GUI_COMMAND Command);	
+			bool IsEmpty();	
+			GUI_COMMAND PopCommand();	
+
+			static CommandQueue* GetInstance();
+			static void DeleteInstance();
+
+		protected:
+			CommandQueue();
 
 		private:
-			static queue<GUI_COMMAND> _CommandQueue; // c++ STL queue 
+			static CommandQueue *_CommandQueue; 
+			// c++ STL queue 
+			queue<GUI_COMMAND> RealCommandQueue; 
+			// mutex for singleton pattern 
+			static pthread_mutex_t InstanceMutex;   
+			// command queue mutex to synchronize threads( GUI thread and SimulationHandler thread )
+			pthread_mutex_t CommandQueueMutex;   
 	};
 }
 

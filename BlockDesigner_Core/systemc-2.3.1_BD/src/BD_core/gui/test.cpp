@@ -17,9 +17,6 @@ using namespace std;
 
 namespace BDapi{
 
-	// declare static variable
-	std::queue<GUI_COMMAND> CommandQueue::_CommandQueue;
-
 	/*
 	 * function   	: GUIThread 
 	 * design     	: DIY for test command
@@ -57,6 +54,9 @@ namespace BDapi{
 	{	
 		char UserCommand[SIZE] = {0,}; 
 		char *p_CommnadToken = NULL; 
+
+		CommandQueue *p_CommandQueue = NULL;
+		p_CommandQueue = CommandQueue::GetInstance();
 
 		strcpy(UserCommand,p_UserCommand);
 
@@ -120,7 +120,7 @@ namespace BDapi{
 			// Argument 1 
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
@@ -129,7 +129,7 @@ namespace BDapi{
 			// Argument 2
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
@@ -138,7 +138,7 @@ namespace BDapi{
 			// Argument 3
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
@@ -147,7 +147,7 @@ namespace BDapi{
 			// Argument 4
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
@@ -156,13 +156,13 @@ namespace BDapi{
 			// Argument 5
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
 				strcpy(st_Command.Argu5, p_CommnadToken);
 
-			CommandQueue::PushCommand( st_Command );
+			p_CommandQueue->PushCommand( st_Command );
 		}
 	}
 
