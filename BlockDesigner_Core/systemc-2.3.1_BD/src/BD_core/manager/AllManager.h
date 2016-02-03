@@ -17,10 +17,7 @@
 #include "TopManagerBase.h"
 #include "ExecutionManager.h"
 #include "BDDIManager.h"
-#include "PMModuleListManager.h"
 #include "ModuleConnectionManager.h"
-
-// PlatformManager header file
 #include "PMModuleListManager.h"
 
 #endif	// __ALLMANAGER_H__

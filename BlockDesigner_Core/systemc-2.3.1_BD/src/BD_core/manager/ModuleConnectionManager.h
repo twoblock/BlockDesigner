@@ -17,6 +17,8 @@
 
 #include "TopManagerBase.h"
 
+#define BIND_STR_SIZE			128
+
 /*
  * namespace  	: BDapi 
  * design	      : Block Designer API 
@@ -26,6 +28,14 @@ namespace BDapi
 {
 	class ChannelManager;
 	class PMModuleListManager;
+	class PMInfoJsonParser;
+
+	struct BindingInfo
+	{
+		const char *ModuleName;
+		const char *ModulePortName;
+		const char *ChannelName;
+	};
 
 	/*
 	 * class		    : 
@@ -45,10 +55,7 @@ namespace BDapi
 					const char *SecondModuleName, 
 					const char *SecondModulePortName);
 
-			void BindChannel(
-					const char *ModuleName, 
-					const char *ModulePortName, 
-					const char *ChannelName);
+			void BindChannel(BindingInfo *BindingObject);
 
 			static ModuleConnectionManager* GetInstance();
 
@@ -59,6 +66,7 @@ namespace BDapi
 		private:
 			ChannelManager *p_ChannelManager;
 			PMModuleListManager *p_PMModuleListManager;
+			PMInfoJsonParser *p_PMInfoJsonParser;
 			static ModuleConnectionManager *_ModuleConnectionManager;
 	};
 } // namespace BDapi 

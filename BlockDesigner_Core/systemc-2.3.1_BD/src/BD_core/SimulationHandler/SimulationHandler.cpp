@@ -35,6 +35,7 @@ namespace BDapi
 			 new CommandHander    --> 
 			 new ResponseHander   <-- 
 			 */
+
 		GUI_COMMAND st_Command;
 		CommandHandler *p_CommandHandler;
 		p_CommandHandler = new CommandHandler();
@@ -45,7 +46,6 @@ namespace BDapi
 				p_CommandHandler->SetCommand(st_Command);
 				p_CommandHandler->Execute();
 			}
-
 			/*
 				 if( ResponseQueue->IsEmpty() )
 				 Response = ResponseQueue->GetResponse(); 
