@@ -39,11 +39,13 @@ noinst_LTLIBRARIES = libBDPlatform.la
 H_FILES = \
 	PMModuleListGenerator.h \
 	json/json.h \
-	json/json-forwards.h
+	json/json-forwards.h \
+	PMInfoJsonParser.h
  
 CXX_FILES = \
 	PMModuleListGenerator.cpp \
-	jsoncpp.cpp 
+	jsoncpp.cpp \
+	PMInfoJsonParser.cpp
 
 localincludedir = $(includedir)/BD_core/PlatformAPI
 nobase_localinclude_HEADERS = $(H_FILES)

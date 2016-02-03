@@ -16,7 +16,13 @@
 
 #include "systemc.h"
 #include "string.h"
+#include <iostream>
+#include <string>
 #include <map>
+
+using namespace std;
+
+#define CHANNEL_STR_SIZE		128
 
 /*
  * namespace  	: BDapi 
@@ -25,6 +31,14 @@
  */
 namespace BDapi
 {
+
+	struct ChannelInfo
+	{
+		const char *ChannelType;
+		const char *ChannelName;
+		const char *DataType;
+	};
+	
 	/*
 	 * class		    : 
 	 * design	      :
@@ -33,7 +47,7 @@ namespace BDapi
 	class ChannelManager
 	{
 		public:
-		  void AddChannel(const char *ChannelType, const char *ChannelName, const char *DataType);
+		  void AddChannel(ChannelInfo *ChannelObject);
 			void DeleteChannels();
 		  sc_interface* FindChannel(const char *ChannelName);
 			

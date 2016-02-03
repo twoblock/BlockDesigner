@@ -17,8 +17,6 @@
 #include "AllSimulationHandler.h"
 #include "BD_core/manager/AllManager.h"
 
-class PMModuleListManager;
-
 /*
  * namespace	: BDapi 
  * design	    : Block Designer API 

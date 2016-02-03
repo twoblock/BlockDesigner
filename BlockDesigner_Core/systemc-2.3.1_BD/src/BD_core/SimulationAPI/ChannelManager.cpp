@@ -23,12 +23,12 @@ namespace BDapi
 	 * param       : char * - data type
 	 * caller      :  
 	 */
-	void ChannelManager::AddChannel(const char *ChannelType, const char *ChannelName, const char *DataType)
+	void ChannelManager::AddChannel(ChannelInfo *ChannelObject)
 	{
-		if(strcmp(ChannelType, "sc_signal") == 0)
-			AddSCsignal(ChannelName, DataType);
-		else if(strcmp(ChannelType, "sc_clock") == 0)
-			AddSCclock(ChannelName, DataType);
+		if(strcmp(ChannelObject->ChannelType, "sc_signal") == 0)
+			AddSCsignal(ChannelObject->ChannelName, ChannelObject->DataType);
+		else if(strcmp(ChannelObject->ChannelType, "sc_clock") == 0)
+			AddSCclock(ChannelObject->ChannelName, ChannelObject->DataType);
 		else
 			return;
 	}
@@ -50,7 +50,6 @@ namespace BDapi
 			p_SCinterface = IndexOfChannel->second;
 			delete p_SCinterface;
 		}
-
 	}
 
 	/*
@@ -100,10 +99,7 @@ namespace BDapi
 	{
 		sc_interface *p_SCinterface = NULL;
 
-		//if(strcmp(DataType, "bool") == 0)
-			p_SCinterface =	new sc_clock(ChannelName, 10, SC_NS);
-		//else
-			//return;
+		p_SCinterface =	new sc_clock(ChannelName, 10, SC_NS);
 
 		ChannelMap.insert(map<const char*, sc_interface*>::value_type(ChannelName, p_SCinterface));	
 	}

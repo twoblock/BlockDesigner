@@ -43,6 +43,7 @@ namespace BDapi{
 			else
 				PushCommand(UserCommand);	
 		}
+
 		while(1);
 	}
 

@@ -52,13 +52,11 @@ main( int argc, char* argv[] )
 	StartSimulationThreads();
 	//StartPlatformManagerThreads();
 
-	// 쓰레드가 종료되기를 기다린후 
-	// 쓰레드의 리턴값을 출력한다. 
+	// Wait for thread termination, 
+	// And output the return value of the thread.
 	pthread_join(GUI_Thread, (void **)&GUIstatus);
 
 	return 1;
-
-	//return sc_core::sc_elab_and_sim( argc, argv );
 }
 
 // $Log: sc_main.cpp,v $
