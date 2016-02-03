@@ -16,13 +16,7 @@
 
 #include "systemc.h"
 #include "string.h"
-#include <iostream>
-#include <string>
 #include <map>
-
-using namespace std;
-
-#define CHANNEL_STR_SIZE		128
 
 /*
  * namespace  	: BDapi 

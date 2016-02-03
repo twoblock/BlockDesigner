@@ -17,8 +17,6 @@
 
 #include "TopManagerBase.h"
 
-#define BIND_STR_SIZE			128
-
 /*
  * namespace  	: BDapi 
  * design	      : Block Designer API 
