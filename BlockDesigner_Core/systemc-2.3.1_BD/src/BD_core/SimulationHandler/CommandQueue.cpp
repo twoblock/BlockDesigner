@@ -15,12 +15,20 @@
 
 namespace BDapi
 {
+	// initialize mutex 
+	pthread_mutex_t CommandQueue::InstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+	
 	/*
 	 * function    	: PushCommand 
 	 * design	      : push command into command queue 
 	 */
 	void CommandQueue::PushCommand(GUI_COMMAND Command){
-		_CommandQueue.push(Command);
+		// lock
+		pthread_mutex_lock(&CommandQueueMutex); 
+		// push command 
+		RealCommandQueue.push(Command);
+		// unlock
+		pthread_mutex_unlock(&CommandQueueMutex); 
 	}	
 
 	/*
@@ -28,7 +36,16 @@ namespace BDapi
 	 * design	      : check that queue is empty 
 	 */
 	bool CommandQueue::IsEmpty(){
-		return _CommandQueue.empty();
+		
+		bool IsEmpty;
+		// lock
+		pthread_mutex_lock(&CommandQueueMutex); 
+		// Check Queue is empty
+		IsEmpty = RealCommandQueue.empty();	
+		// unlock
+		pthread_mutex_unlock(&CommandQueueMutex);
+	
+		return IsEmpty; 
 	}
 
 	/*
@@ -36,10 +53,53 @@ namespace BDapi
 	 * design	      : Pop command from command queue 
 	 */
 	GUI_COMMAND CommandQueue::PopCommand(){
-		GUI_COMMAND st_Command = _CommandQueue.front();
-		_CommandQueue.pop();
+		// lock
+		pthread_mutex_lock(&CommandQueueMutex); 
+		// pop command 
+		GUI_COMMAND st_Command = RealCommandQueue.front();
+		RealCommandQueue.pop();
+		// unlock
+		pthread_mutex_unlock(&CommandQueueMutex);
 
 		return st_Command;
 	}	
+
+	/*
+	 * function 	: GetInstance
+	 * design	    : Allocate CommandQueue instance and return it
+	 */
+	CommandQueue* CommandQueue::GetInstance()
+	{
+		// lock
+		pthread_mutex_lock(&InstanceMutex); 
+	  	
+		if( _CommandQueue == NULL ){
+			_CommandQueue = new CommandQueue();
+		}
+		// unlock
+		pthread_mutex_unlock(&InstanceMutex);
+		
+		return _CommandQueue;
+	}
+
+	/*
+	 * function 	: GetInstance
+	 * design	    : Delete CommandQueue instance 
+	 */
+	void CommandQueue::DeleteInstance()
+	{
+		delete _CommandQueue;
+		_CommandQueue = NULL;
+	}
+
+	/*
+	 * function 	: CommandQueue 
+	 * design	    : Constructor 
+	 */
+	CommandQueue::CommandQueue()
+	{
+		// initialize mutex 
+		pthread_mutex_init(&CommandQueueMutex, NULL);
+	}
 
 }
