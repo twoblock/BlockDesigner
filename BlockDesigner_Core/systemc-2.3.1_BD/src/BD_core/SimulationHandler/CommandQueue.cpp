@@ -15,8 +15,10 @@
 
 namespace BDapi
 {
+	// declare static variable for linker 
+	CommandQueue* CommandQueue::_CommandQueue = NULL;
 	// initialize mutex 
-	pthread_mutex_t CommandQueue::InstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+	pthread_mutex_t CommandQueue::CommandQueueInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
 	
 	/*
 	 * function    	: PushCommand 
@@ -24,11 +26,11 @@ namespace BDapi
 	 */
 	void CommandQueue::PushCommand(GUI_COMMAND Command){
 		// lock
-		pthread_mutex_lock(&CommandQueueMutex); 
+		pthread_mutex_lock(&RealCommandQueueMutex); 
 		// push command 
 		RealCommandQueue.push(Command);
 		// unlock
-		pthread_mutex_unlock(&CommandQueueMutex); 
+		pthread_mutex_unlock(&RealCommandQueueMutex); 
 	}	
 
 	/*
@@ -39,11 +41,11 @@ namespace BDapi
 		
 		bool IsEmpty;
 		// lock
-		pthread_mutex_lock(&CommandQueueMutex); 
+		pthread_mutex_lock(&RealCommandQueueMutex); 
 		// Check Queue is empty
 		IsEmpty = RealCommandQueue.empty();	
 		// unlock
-		pthread_mutex_unlock(&CommandQueueMutex);
+		pthread_mutex_unlock(&RealCommandQueueMutex);
 	
 		return IsEmpty; 
 	}
@@ -54,12 +56,12 @@ namespace BDapi
 	 */
 	GUI_COMMAND CommandQueue::PopCommand(){
 		// lock
-		pthread_mutex_lock(&CommandQueueMutex); 
+		pthread_mutex_lock(&RealCommandQueueMutex); 
 		// pop command 
 		GUI_COMMAND st_Command = RealCommandQueue.front();
 		RealCommandQueue.pop();
 		// unlock
-		pthread_mutex_unlock(&CommandQueueMutex);
+		pthread_mutex_unlock(&RealCommandQueueMutex);
 
 		return st_Command;
 	}	
@@ -71,19 +73,19 @@ namespace BDapi
 	CommandQueue* CommandQueue::GetInstance()
 	{
 		// lock
-		pthread_mutex_lock(&InstanceMutex); 
+		pthread_mutex_lock(&CommandQueueInstanceMutex); 
 	  	
 		if( _CommandQueue == NULL ){
 			_CommandQueue = new CommandQueue();
 		}
 		// unlock
-		pthread_mutex_unlock(&InstanceMutex);
+		pthread_mutex_unlock(&CommandQueueInstanceMutex);
 		
 		return _CommandQueue;
 	}
 
 	/*
-	 * function 	: GetInstance
+	 * function 	: DeleteInstance 
 	 * design	    : Delete CommandQueue instance 
 	 */
 	void CommandQueue::DeleteInstance()
@@ -99,7 +101,7 @@ namespace BDapi
 	CommandQueue::CommandQueue()
 	{
 		// initialize mutex 
-		pthread_mutex_init(&CommandQueueMutex, NULL);
+		pthread_mutex_init(&RealCommandQueueMutex, NULL);
 	}
 
 }

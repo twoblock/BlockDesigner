@@ -54,9 +54,9 @@ namespace BDapi
 			// c++ STL queue 
 			queue<GUI_COMMAND> RealCommandQueue; 
 			// mutex for singleton pattern 
-			static pthread_mutex_t InstanceMutex;   
+			static pthread_mutex_t CommandQueueInstanceMutex;   
 			// command queue mutex to synchronize threads( GUI thread and SimulationHandler thread )
-			pthread_mutex_t CommandQueueMutex;   
+			pthread_mutex_t RealCommandQueueMutex;   
 	};
 }
 

@@ -16,6 +16,7 @@
 #define __PM_MODULE_LIST_MANAGER_H  
 
 #include "TopManagerBase.h"
+#include <pthread.h>
 #include <list> 
 
 namespace sc_core
@@ -47,10 +48,11 @@ namespace BDapi
 			void GetJsonFile();
 			
 			static PMModuleListManager* GetInstance();
+			static void DeleteInstance();
 
 		protected:
 			PMModuleListManager();
-		  ~PMModuleListManager();
+		  virtual ~PMModuleListManager();
 
 		private:
 			PMModuleListGenerator *p_PMModuleListGenerator;
@@ -58,6 +60,8 @@ namespace BDapi
 			list<sc_module*> ModuleList;	
 			
 			static PMModuleListManager *_PMModuleListManager;
+			// mutex for singleton pattern 
+			static pthread_mutex_t PMModuleListManagerInstanceMutex;   
 	};
 } // namespace BDapi 
 

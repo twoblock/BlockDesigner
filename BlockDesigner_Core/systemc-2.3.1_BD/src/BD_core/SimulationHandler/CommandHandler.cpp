@@ -15,12 +15,6 @@
 
 namespace BDapi
 {	
-	// Initialize Manager Instance
-	ExecutionManager* ExecutionManager::_ExecutionManager = NULL;
-	BDDIManager* BDDIManager::_BDDIManager = NULL;
-	PMModuleListManager* PMModuleListManager::_PMModuleListManager= NULL;
-	ModuleConnectionManager* ModuleConnectionManager::_ModuleConnectionManager= NULL;
-
 	/*
 	 * function    	: Constructor
 	 * design	      : get all mananger instances

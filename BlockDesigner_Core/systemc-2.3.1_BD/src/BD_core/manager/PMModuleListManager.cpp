@@ -18,6 +18,11 @@
 
 namespace BDapi
 {	
+	// declare static variable for linker 
+	PMModuleListManager* PMModuleListManager::_PMModuleListManager= NULL;
+	// initialize mutex 
+	pthread_mutex_t PMModuleListManager::PMModuleListManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+
 	/*
 	 * function    	: PutOperationControl
 	 * design	      : add sc_module to sc_module list
@@ -99,16 +104,31 @@ namespace BDapi
 	 */
 	PMModuleListManager* PMModuleListManager::GetInstance()
 	{
+		// lock
+		pthread_mutex_lock(&PMModuleListManagerInstanceMutex); 
+
 		if( _PMModuleListManager == NULL ){
 			_PMModuleListManager = new PMModuleListManager();
 		}
+		// unlock
+		pthread_mutex_unlock(&PMModuleListManagerInstanceMutex);
 
 		return _PMModuleListManager;
 	}
 
 	/*
-	 * function 	: Constructor
-	 * design	    : 
+	 * function 	: DeleteInstance 
+	 * design	    : Delete PMModuleListManager instance 
+	 */
+	void PMModuleListManager::DeleteInstance()
+	{	
+		delete _PMModuleListManager;
+		_PMModuleListManager = NULL;
+	}
+
+	/*
+	 * function 	: PMModuleListManager 
+	 * design	    : Constructor 
 	 */
 	PMModuleListManager::PMModuleListManager()
 	{
@@ -117,13 +137,15 @@ namespace BDapi
 	}
 
 	/*
-	 * function 	: Destructor
-	 * design	    : delete execution manager instance
+	 * function 	: ~PMModuleListManager
+	 * design	    : Destructor
 	 */
 	PMModuleListManager::~PMModuleListManager()
 	{
 		delete p_PMModuleListGenerator;
+	  p_PMModuleListGenerator = NULL;
+
 		delete p_ModuleLoader;
-		delete _PMModuleListManager;
+		p_ModuleLoader = NULL;
 	}
 }

@@ -16,6 +16,7 @@
 #define __MODULE_CONNECTION_MANAGER_H__
 
 #include "TopManagerBase.h"
+#include <pthread.h>
 
 /*
  * namespace  	: BDapi 
@@ -56,16 +57,20 @@ namespace BDapi
 			void BindChannel(BindingInfo *BindingObject);
 
 			static ModuleConnectionManager* GetInstance();
+			static void DeleteInstance();
 
 		protected:
 			ModuleConnectionManager();		
-			~ModuleConnectionManager();		
+			virtual ~ModuleConnectionManager();		
 
 		private:
 			ChannelManager *p_ChannelManager;
 			PMModuleListManager *p_PMModuleListManager;
 			PMInfoJsonParser *p_PMInfoJsonParser;
+
 			static ModuleConnectionManager *_ModuleConnectionManager;
+			// mutex for singleton pattern 
+			static pthread_mutex_t ModuleConnectionManagerInstanceMutex;   
 	};
 } // namespace BDapi 
 
