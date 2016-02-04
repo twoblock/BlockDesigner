@@ -26,14 +26,13 @@
  */
 namespace BDapi
 {
-
 	struct ChannelInfo
 	{
 		const char *ChannelType;
 		const char *ChannelName;
 		const char *DataType;
 	};
-	
+
 	/*
 	 * class		    : 
 	 * design	      :

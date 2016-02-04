@@ -18,5 +18,6 @@
 #include "ExecutionManager.h"
 #include "BDDIManager.h"
 #include "PMModuleListManager.h"
+#include "BDPMDInitManager.h"
 
 #endif	// __ALLMANAGER_H__

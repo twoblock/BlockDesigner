@@ -91,7 +91,7 @@ namespace BDapi{
 					else if(strcmp(p_CommnadToken,"LoadModule") == 0 || p_CommnadToken[0] == '6')
 						st_Command.Command = LoadModule; 
 					else if(strcmp(p_CommnadToken,"ModuleConnection") == 0 || p_CommnadToken[0] == '7')
-						st_Command.Command = ModuleConnection; 
+						st_Command.Command = BDPMDInit; 
 					else 
 						return;
 				}

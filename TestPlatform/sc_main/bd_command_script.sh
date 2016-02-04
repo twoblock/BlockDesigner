@@ -21,13 +21,13 @@
 ##                                              ##
 ##################################################
 
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/console/libconsole.so BD_CONSOLE
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/AHB_Lite/libAHB_Lite.so BD_AHB_LITE
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/ahbl2mem/libahbl2mem.so BD_ROM
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/ahbl2mem_1/libahbl2mem_1.so BD_SRAM
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/tb/libtb.so BD_TB
-0 6 /home/bryan/workspace/BlockDesigner/TestPlatform/VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
-0 7 
+0 6 /home/harold/workspace/BlockDesigner/TestPlatform/console/libconsole.so BD_CONSOLE
+0 6 /home/harold/workspace/BlockDesigner/TestPlatform/AHB_Lite/libAHB_Lite.so BD_AHB_LITE
+0 6 /home/harold/workspace/BlockDesigner/TestPlatform/ahbl2mem/libahbl2mem.so BD_ROM
+0 6 /home/harold/workspace/BlockDesigner/TestPlatform/ahbl2mem_1/libahbl2mem_1.so BD_SRAM
+0 6 /home/harold/workspace/BlockDesigner/TestPlatform/tb/libtb.so BD_TB
+0 6 /home/harold/workspace/BlockDesigner/TestPlatform/VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
+0 7 /home/harold/BDPMD.json
 
 PUT ExecutionControl STEP 2000
 #PUT ExecutionControl STOP 
