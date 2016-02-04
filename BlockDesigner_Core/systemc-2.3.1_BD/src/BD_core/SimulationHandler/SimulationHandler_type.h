@@ -26,7 +26,7 @@
 #define WireTraceControl   4 
 #define RegisterCallBack   5 
 #define LoadModule         6 
-#define ModuleConnection   7
+#define BDPMDInit					 7
 
 // Get Command
 #define ModuleInfo         0
