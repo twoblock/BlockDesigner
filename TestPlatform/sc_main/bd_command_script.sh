@@ -7,7 +7,7 @@
 ##			 Command 4 WireTraceControl             ##
 ##			 Command 5 RegisterCallBack             ##
 ##			 Command 6 LoadModule                   ##
-##			 Command 7 ModuleConnection             ##
+##			 Command 7 BDPMDInit                    ##
 ##                                              ##
 #################### Way 1 GET ###################   
 ##                                              ##
@@ -215,7 +215,7 @@ PUT ExecutionControl STEP 4000
 ##   arg1 so file path                                                     ##
 ##   arg2 module name                                                      ##
 ##                                                                         ##
-##  Command 7 connect modules                                              ##
+##  Command 7 BDPMD Initialization                                         ##
 ##                                                                         ##
 ##	 arg1 json file path                                                   ##
 ##                                                                         ##

@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------------
-// Design								: Module connection manager 
+// Design								: give module connection api 
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: ModuleConnectionManager.h
+// File		     					: ModuleConnector.h
 // Date	       					: 2016/1/27
 // Reference            :
 // ----------------------------------------------------------------------------
@@ -25,9 +25,8 @@
  */
 namespace BDapi
 {
-	class ChannelManager;
+	class ChannelMap;
 	class PMModuleListManager;
-	class PMInfoJsonParser;
 
 	struct BindingInfo
 	{
@@ -41,12 +40,9 @@ namespace BDapi
 	 * design	      :
 	 * description	: 
 	 */
-	class ModuleConnectionManager : public TopManagerBase
+	class ModuleConnector 
 	{
 		public:
-			void PutOperationControl(GUI_COMMAND Command);
-			void GetOperationControl(GUI_COMMAND Command);
-
 			void ConnectModules(
 					const char *FirstModuleName,
 					const char *FirstModulePortName, 
@@ -56,21 +52,20 @@ namespace BDapi
 
 			void BindChannel(BindingInfo *BindingObject);
 
-			static ModuleConnectionManager* GetInstance();
+			static ModuleConnector* GetInstance();
 			static void DeleteInstance();
 
 		protected:
-			ModuleConnectionManager();		
-			virtual ~ModuleConnectionManager();		
+			ModuleConnector();		
+			virtual ~ModuleConnector();		
 
 		private:
-			ChannelManager *p_ChannelManager;
+			ChannelMap *p_ChannelMap;
 			PMModuleListManager *p_PMModuleListManager;
-			PMInfoJsonParser *p_PMInfoJsonParser;
 
-			static ModuleConnectionManager *_ModuleConnectionManager;
+			static ModuleConnector *_ModuleConnector;
 			// mutex for singleton pattern 
-			static pthread_mutex_t ModuleConnectionManagerInstanceMutex;   
+			static pthread_mutex_t ModuleConnectorInstanceMutex;   
 	};
 } // namespace BDapi 
 

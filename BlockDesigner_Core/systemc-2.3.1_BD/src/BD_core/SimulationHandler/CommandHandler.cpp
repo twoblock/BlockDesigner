@@ -24,7 +24,6 @@ namespace BDapi
 		CmdExecutionManager = ExecutionManager::GetInstance();
 		CmdBDDIManager = BDDIManager::GetInstance();
 		CmdPMModuleListManager = PMModuleListManager::GetInstance();
-		CmdModuleConnectionManager = ModuleConnectionManager::GetInstance();
 	}
 
 	/*
@@ -73,9 +72,6 @@ namespace BDapi
 		}		
 		else if(st_GUICommand.Command == LoadModule){
 			SetManagerForPutOperation(CmdPMModuleListManager);
-		} 
-		else if(st_GUICommand.Command == ModuleConnection){
-			SetManagerForPutOperation(CmdModuleConnectionManager);
 		} 
 
 		return 0;

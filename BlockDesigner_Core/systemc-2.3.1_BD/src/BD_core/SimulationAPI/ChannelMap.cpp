@@ -2,7 +2,7 @@
 // Design								: Channel manager 
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: ChannelManager.cpp
+// File		     					: ChannelMap.cpp
 // Date	       					: 2016/1/26
 // Reference            :
 // ----------------------------------------------------------------------------
@@ -11,10 +11,15 @@
 // Description	: manager all channels to connect sc_module
 // ----------------------------------------------------------------------------
 
-#include "ChannelManager.h"
+#include "ChannelMap.h"
 
 namespace BDapi
 {
+	// declare static variable for linker 
+	ChannelMap* ChannelMap::_ChannelMap = NULL;
+	// initialize mutex 
+	pthread_mutex_t ChannelMap::ChannelMapInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+	
 	/*
 	 * function    : AddChannel 
 	 * design      : add channel to channel map
@@ -23,7 +28,7 @@ namespace BDapi
 	 * param       : char * - data type
 	 * caller      :  
 	 */
-	void ChannelManager::AddChannel(ChannelInfo *ChannelObject)
+	void ChannelMap::AddChannel(ChannelInfo *ChannelObject)
 	{
 		if(strcmp(ChannelObject->ChannelType, "sc_signal") == 0)
 			AddSCsignal(ChannelObject->ChannelName, ChannelObject->DataType);
@@ -38,12 +43,12 @@ namespace BDapi
 	 * design      : release all channel that is allocated 
 	 * caller      : 
 	 */
-	void ChannelManager::DeleteChannels()
+	void ChannelMap::DeleteChannels()
 	{
 		sc_interface *p_SCinterface = NULL;
 
-		std::map<const char*, sc_interface*>::iterator FirstChannel = ChannelMap.begin();
-		std::map<const char*, sc_interface*>::iterator LastChannel = ChannelMap.end();
+		std::map<const char*, sc_interface*>::iterator FirstChannel = RealChannelMap.begin();
+		std::map<const char*, sc_interface*>::iterator LastChannel = RealChannelMap.end();
 		std::map<const char*, sc_interface*>::iterator IndexOfChannel = FirstChannel;
 
 		for(IndexOfChannel = FirstChannel; IndexOfChannel != LastChannel; ++IndexOfChannel){
@@ -59,11 +64,11 @@ namespace BDapi
 	 * return      : sc_interface * - channel pointer
 	 * caller      : 
 	 */
-	sc_interface* ChannelManager::FindChannel(const char *ChannelName)
+	sc_interface* ChannelMap::FindChannel(const char *ChannelName)
 	{
-		ChannelFinder = ChannelMap.find(ChannelName);
+		ChannelFinder = RealChannelMap.find(ChannelName);
 
-		if( ChannelFinder != ChannelMap.end() )  
+		if( ChannelFinder != RealChannelMap.end() )  
 			return ChannelFinder->second;
 		else
 			return NULL;
@@ -75,7 +80,7 @@ namespace BDapi
 	 * param       : char * - channel name
 	 * param       : char * - data type
 	 */
-	void ChannelManager::AddSCsignal(const char *ChannelName, const char *DataType)
+	void ChannelMap::AddSCsignal(const char *ChannelName, const char *DataType)
 	{
 		sc_interface *p_SCinterface = NULL;
 
@@ -86,7 +91,7 @@ namespace BDapi
 		else
 			return;
 
-		ChannelMap.insert(map<const char*, sc_interface*>::value_type(ChannelName, p_SCinterface));	
+		RealChannelMap.insert(map<const char*, sc_interface*>::value_type(ChannelName, p_SCinterface));	
 	}
 
 	/*
@@ -95,13 +100,49 @@ namespace BDapi
 	 * param       : char * - channel name
 	 * param       : char * - data type
 	 */
-	void ChannelManager::AddSCclock(const char *ChannelName, const char *DataType)
+	void ChannelMap::AddSCclock(const char *ChannelName, const char *DataType)
 	{
 		sc_interface *p_SCinterface = NULL;
 
 		p_SCinterface =	new sc_clock(ChannelName, 10, SC_NS);
 
-		ChannelMap.insert(map<const char*, sc_interface*>::value_type(ChannelName, p_SCinterface));	
+		RealChannelMap.insert(map<const char*, sc_interface*>::value_type(ChannelName, p_SCinterface));	
+	}
+	
+  /*
+	 * function 	: GetInstance
+	 * design	    : Allocate ChannelMap instance and return it
+	 */
+	ChannelMap* ChannelMap::GetInstance()
+	{
+		// lock
+		pthread_mutex_lock(&ChannelMapInstanceMutex); 
+	  	
+		if( _ChannelMap == NULL ){
+			_ChannelMap = new ChannelMap();
+		}
+		// unlock
+		pthread_mutex_unlock(&ChannelMapInstanceMutex);
+		
+		return _ChannelMap;
+	}
+
+	/*
+	 * function 	: DeleteInstance 
+	 * design	    : Delete ChannelMap instance 
+	 */
+	void ChannelMap::DeleteInstance()
+	{
+		delete _ChannelMap;
+		_ChannelMap = NULL;
+	}
+
+	/*
+	 * function 	: ChannelMap 
+	 * design	    : Constructor 
+	 */
+	ChannelMap::ChannelMap()
+	{
 	}
 }
 

@@ -2,7 +2,7 @@
 // Design								: Module connection manager 
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: ModuleConnectionManager.cpp
+// File		     					: ModuleConnector.cpp
 // Date	       					: 2016/1/27
 // Reference            :
 // ----------------------------------------------------------------------------
@@ -12,46 +12,17 @@
 //                connect all modules by using channels
 // ----------------------------------------------------------------------------
 
-#include "ModuleConnectionManager.h"
+#include "ModuleConnector.h"
 #include "PMModuleListManager.h"
-#include "../SimulationAPI/ChannelManager.h"
-#include "../PlatformAPI/PMInfoJsonParser.h"
+#include "../SimulationAPI/ChannelMap.h"
 
 namespace BDapi
 {	
 	// declare static variable for linker 
-	ModuleConnectionManager* ModuleConnectionManager::_ModuleConnectionManager= NULL;
+	ModuleConnector* ModuleConnector::_ModuleConnector= NULL;
 	// initialize mutex 
-	pthread_mutex_t ModuleConnectionManager::ModuleConnectionManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+	pthread_mutex_t ModuleConnector::ModuleConnectorInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
 
-	void ModuleConnectionManager::PutOperationControl(GUI_COMMAND Command)
-	{
-		ChannelInfo st_ChannelInfo = {NULL, NULL, NULL};
-		BindingInfo st_BindingInfo = {NULL, NULL, NULL};
-
-		p_PMInfoJsonParser->ParsingPlatformManagerInformation("/home/harold/BDPMD.json");
-
-		for(unsigned int dw_PIndex = 0; ; dw_PIndex++)	{
-			if(p_PMInfoJsonParser->ParsingChannelInformation(dw_PIndex, &st_ChannelInfo) == PMInfoReturnStatusError)	break;
-			else	{
-				p_ChannelManager->AddChannel(&st_ChannelInfo);
-
-				p_PMInfoJsonParser->ParsingOwnConnectionInformation(dw_PIndex, &st_BindingInfo);
-				BindChannel(&st_BindingInfo);
-
-				for(unsigned int dw_CIndex = 0; ; dw_CIndex++)	{
-					if(p_PMInfoJsonParser->ParsingConnectionInformation(dw_PIndex, dw_CIndex, &st_BindingInfo) == PMInfoReturnStatusError)	break;
-					else	{
-						BindChannel(&st_BindingInfo);
-					}
-				}
-			}
-		}
-	}
-	void ModuleConnectionManager::GetOperationControl(GUI_COMMAND Command)
-	{
-
-	}
 	/*
 	 * function    : ConnectModules 
 	 * design      : each module port bind this channel, which means to make connection 
@@ -62,7 +33,7 @@ namespace BDapi
 	 * param       : char * - Second module port name 
 	 * caller      :  
 	 */
-	void ModuleConnectionManager::ConnectModules(
+	void ModuleConnector::ConnectModules(
 			const char *FirstModuleName,
 			const char *FirstModulePortName, 
 			const char *ChannelName,
@@ -92,7 +63,7 @@ namespace BDapi
 	 * param       : char * - Channel name 
 	 * caller      :  
 	 */
-	void ModuleConnectionManager::BindChannel(BindingInfo *BindingObject)
+	void ModuleConnector::BindChannel(BindingInfo *BindingObject)
 	{
 		sc_module *p_SCmodule = NULL;
 		p_SCmodule = p_PMModuleListManager->FindModule(BindingObject->ModuleName);
@@ -102,7 +73,7 @@ namespace BDapi
 
 		// find channel
 		sc_interface *p_SCinterface = NULL;
-		p_SCinterface = p_ChannelManager->FindChannel(BindingObject->ChannelName);
+		p_SCinterface = p_ChannelMap->FindChannel(BindingObject->ChannelName);
 
 		// find port
 		sc_port_base *p_SCportbase = NULL;
@@ -123,51 +94,45 @@ namespace BDapi
 	 * function 	: GetInstance
 	 * design	    : singleton design
 	 */
-	ModuleConnectionManager* ModuleConnectionManager::GetInstance()
+	ModuleConnector* ModuleConnector::GetInstance()
 	{
 		// lock
-		pthread_mutex_lock(&ModuleConnectionManagerInstanceMutex); 
+		pthread_mutex_lock(&ModuleConnectorInstanceMutex); 
 
-		if( _ModuleConnectionManager == NULL ){
-			_ModuleConnectionManager = new ModuleConnectionManager();
+		if( _ModuleConnector == NULL ){
+			_ModuleConnector = new ModuleConnector();
 		}
 		// unlock
-		pthread_mutex_unlock(&ModuleConnectionManagerInstanceMutex);
+		pthread_mutex_unlock(&ModuleConnectorInstanceMutex);
 
-		return _ModuleConnectionManager;
+		return _ModuleConnector;
 	}
 
 	/*
 	 * function 	: DeleteInstance 
-	 * design	    : Delete ModuleConnectionManager instance 
+	 * design	    : Delete ModuleConnector instance 
 	 */
-	void ModuleConnectionManager::DeleteInstance()
+	void ModuleConnector::DeleteInstance()
 	{	
-		delete _ModuleConnectionManager;
-		_ModuleConnectionManager = NULL;
+		delete _ModuleConnector;
+		_ModuleConnector = NULL;
 	}
 
 	/*
-	 * function 	: ModuleConnectionManager 
+	 * function 	: ModuleConnector 
 	 * design	    : Constructor 
 	 */
-	ModuleConnectionManager::ModuleConnectionManager()
+	ModuleConnector::ModuleConnector()
 	{
 		p_PMModuleListManager = PMModuleListManager::GetInstance();
-		p_ChannelManager = new ChannelManager();
-		p_PMInfoJsonParser = new PMInfoJsonParser();
+		p_ChannelMap = ChannelMap::GetInstance();
 	}
 
 	/*
-	 * function 	: ~ModuleConnectionManager 
+	 * function 	: ~ModuleConnector 
 	 * design	    : Destructor
 	 */
-	ModuleConnectionManager::~ModuleConnectionManager()
+	ModuleConnector::~ModuleConnector()
 	{
-		delete p_ChannelManager;
-		p_ChannelManager = NULL;
-
-		delete p_PMInfoJsonParser;
-		p_PMInfoJsonParser = NULL;
 	}
 }

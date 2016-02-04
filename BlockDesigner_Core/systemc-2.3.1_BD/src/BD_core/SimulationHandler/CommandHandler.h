@@ -49,7 +49,6 @@ namespace BDapi
 			ExecutionManager* CmdExecutionManager;
 			BDDIManager* CmdBDDIManager;
 			PMModuleListManager* CmdPMModuleListManager;
-		  ModuleConnectionManager* CmdModuleConnectionManager;
 	};
 } 
 
