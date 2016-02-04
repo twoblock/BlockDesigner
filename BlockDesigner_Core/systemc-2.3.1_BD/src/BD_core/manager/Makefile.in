@@ -73,8 +73,7 @@ CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libmanager_la_LIBADD =
 am__objects_1 = ExecutionManager.lo BDDIManager.lo \
-	PMModuleListManager.lo ModuleLoader.lo \
-	ModuleConnectionManager.lo
+	PMModuleListManager.lo ModuleLoader.lo ModuleConnector.lo
 am_libmanager_la_OBJECTS = $(am__objects_1)
 libmanager_la_OBJECTS = $(am_libmanager_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -312,14 +311,14 @@ H_FILES = \
 	BDDIManager.h \
 	PMModuleListManager.h \
   ModuleLoader.h \
-  ModuleConnectionManager.h
+  ModuleConnector.h
 
 CXX_FILES = \
 	ExecutionManager.cpp \
 	BDDIManager.cpp \
 	PMModuleListManager.cpp \
 	ModuleLoader.cpp \
-  ModuleConnectionManager.cpp
+  ModuleConnector.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -379,7 +378,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDDIManager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ExecutionManager.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ModuleConnectionManager.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ModuleConnector.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ModuleLoader.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PMModuleListManager.Plo@am__quote@
 

@@ -16,8 +16,8 @@
 #include "json/json.h"
 #include <iostream>
 #include <fstream>
-#include "../manager/ModuleConnectionManager.h"
-#include "../SimulationAPI/ChannelManager.h"
+#include "../manager/ModuleConnector.h"
+#include "../SimulationAPI/ChannelMap.h"
 
 using namespace std;
 

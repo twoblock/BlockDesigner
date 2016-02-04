@@ -72,7 +72,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libBDSim_la_LIBADD =
-am__objects_1 = BDSim.lo BDDI.lo ChannelManager.lo
+am__objects_1 = BDSim.lo BDDI.lo ChannelMap.lo
 am_libBDSim_la_OBJECTS = $(am__objects_1)
 libBDSim_la_OBJECTS = $(am_libBDSim_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -307,12 +307,12 @@ H_FILES = \
 	BDDI.h	\
 	BDDIBase.h	\
 	BDDITypes.h \
-	ChannelManager.h
+	ChannelMap.h
 
 CXX_FILES = \
 	BDSim.cpp \
 	BDDI.cpp \
-	ChannelManager.cpp
+	ChannelMap.cpp
 
 localincludedir = $(includedir)/BD_core/SimulationAPI
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -372,7 +372,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDDI.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDSim.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ChannelManager.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ChannelMap.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
