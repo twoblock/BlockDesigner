@@ -15,6 +15,13 @@
 
 namespace BDapi
 {	
+	// declare static variable for linker 
+	ExecutionManager* ExecutionManager::_ExecutionManager = NULL;
+	unsigned int ExecutionManager::dw_ExecutionControlFlag;
+	unsigned int ExecutionManager::dw_StepValue;
+	// initialize mutex 
+	pthread_mutex_t ExecutionManager::ExecutionManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+
 	/*
 	 * function    	: PutOperationControl
 	 * design	      : Set execution flag by using ExecutionManager 
@@ -89,24 +96,39 @@ namespace BDapi
 	 */
 	ExecutionManager* ExecutionManager::GetInstance()
 	{
+		// lock
+		pthread_mutex_lock(&ExecutionManagerInstanceMutex); 
+		
 		if( _ExecutionManager == NULL ){
 			_ExecutionManager = new ExecutionManager();
 		}
+		// unlock
+		pthread_mutex_unlock(&ExecutionManagerInstanceMutex);
 
 		return _ExecutionManager;
 	}
 
 	/*
-	 * function 	: Constructor
-	 * design	    : 
+	 * function 	: DeleteInstance 
+	 * design	    : Delete ExecutionManager instance 
+	 */
+	void ExecutionManager::DeleteInstance()
+	{	
+		delete _ExecutionManager;
+		_ExecutionManager= NULL;
+	}
+
+	/*
+	 * function 	: ExecutionManager 
+	 * design	    : Constructor 
 	 */
 	ExecutionManager::ExecutionManager()
 	{
 	}
 
 	/*
-	 * function 	: Destructor
-	 * design	    : delete execution manager instance
+	 * function 	: ExecutionManager 
+	 * design	    : Destructor 
 	 */
 	ExecutionManager::~ExecutionManager()
 	{

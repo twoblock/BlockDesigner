@@ -4573,7 +4573,6 @@ EXTRA_CXXFLAGS="-Wall"
 DEBUG_CXXFLAGS="-g"
 OPT_CXXFLAGS="-O3"
 EXPLICIT_LPTHREAD="-lpthread"
-="-ldl"
 LDFLAG_RPATH="-Wl,-rpath="
 
 case "$target" in

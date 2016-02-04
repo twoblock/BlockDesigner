@@ -24,6 +24,11 @@ using namespace sc_core;
 
 namespace BDapi
 {	
+	// declare static variable for linker 
+	BDDIManager* BDDIManager::_BDDIManager = NULL;
+	// initialize mutex 
+	pthread_mutex_t BDDIManager::BDDIManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+
 	/*
 	 * function    	: PutOperationControl
 	 * design	      : Transfer Debugging Information by Using BDDIManager
@@ -115,27 +120,42 @@ namespace BDapi
 	 */
 	BDDIManager* BDDIManager::GetInstance()
 	{
+		// lock
+		pthread_mutex_lock(&BDDIManagerInstanceMutex); 
+
 		if( _BDDIManager == NULL ){
 			_BDDIManager = new BDDIManager();
 		}
+		// unlock
+		pthread_mutex_unlock(&BDDIManagerInstanceMutex);
 
 		return _BDDIManager;
 	}
 
 	/*
-	 * function 	: Constructor
-	 * design	    : 
+	 * function 	: DeleteInstance 
+	 * design	    : Delete BDDIManager instance 
+	 */
+	void BDDIManager::DeleteInstance()
+	{	
+		delete _BDDIManager;
+		_BDDIManager = NULL;
+	}
+
+
+	/*
+	 * function 	: BDDIManager 
+	 * design	    : Constructor 
 	 */
 	BDDIManager::BDDIManager()
 	{
 	}
 
 	/*
-	 * function 	: Destructor
-	 * design	    : delete BDDI manager instance
+	 * function 	: ~BDDIManager 
+	 * design	    : Destructor 
 	 */
 	BDDIManager::~BDDIManager()
 	{
-		delete _BDDIManager;
 	}
 }

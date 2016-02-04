@@ -16,8 +16,6 @@
 
 namespace BDapi
 {
-	CommandQueue* CommandQueue::_CommandQueue = NULL;
-
 	/*
 	 * function    	: SimulationHandler 
 	 * design	      : Thread for command handler and response handler
@@ -39,8 +37,10 @@ namespace BDapi
 			 */
 
 		GUI_COMMAND st_Command;
+
 		CommandQueue *p_CommandQueue = NULL;
 		p_CommandQueue = CommandQueue::GetInstance();
+
 		CommandHandler *p_CommandHandler = NULL;
 		p_CommandHandler = new CommandHandler();
 

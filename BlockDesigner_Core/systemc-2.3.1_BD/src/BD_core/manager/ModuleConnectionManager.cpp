@@ -19,13 +19,18 @@
 
 namespace BDapi
 {	
+	// declare static variable for linker 
+	ModuleConnectionManager* ModuleConnectionManager::_ModuleConnectionManager= NULL;
+	// initialize mutex 
+	pthread_mutex_t ModuleConnectionManager::ModuleConnectionManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+
 	void ModuleConnectionManager::PutOperationControl(GUI_COMMAND Command)
 	{
 		ChannelInfo st_ChannelInfo = {NULL, NULL, NULL};
 		BindingInfo st_BindingInfo = {NULL, NULL, NULL};
 
 		p_PMInfoJsonParser->ParsingPlatformManagerInformation("/home/harold/BDPMD.json");
-		
+
 		for(unsigned int dw_PIndex = 0; ; dw_PIndex++)	{
 			if(p_PMInfoJsonParser->ParsingChannelInformation(dw_PIndex, &st_ChannelInfo) == PMInfoReturnStatusError)	break;
 			else	{
@@ -74,7 +79,7 @@ namespace BDapi
 		st_SecondBindingInfo.ModuleName = SecondModuleName;
 		st_SecondBindingInfo.ModulePortName = SecondModulePortName;
 		st_SecondBindingInfo.ChannelName = ChannelName;
-		
+
 		BindChannel(&st_FirstBindingInfo);
 		BindChannel(&st_SecondBindingInfo);
 	}
@@ -94,7 +99,7 @@ namespace BDapi
 
 		std::vector<sc_port_base*>* p_PortList = NULL;
 		p_PortList = p_SCmodule->get_port_list();	
-		
+
 		// find channel
 		sc_interface *p_SCinterface = NULL;
 		p_SCinterface = p_ChannelManager->FindChannel(BindingObject->ChannelName);
@@ -120,16 +125,31 @@ namespace BDapi
 	 */
 	ModuleConnectionManager* ModuleConnectionManager::GetInstance()
 	{
+		// lock
+		pthread_mutex_lock(&ModuleConnectionManagerInstanceMutex); 
+
 		if( _ModuleConnectionManager == NULL ){
 			_ModuleConnectionManager = new ModuleConnectionManager();
 		}
+		// unlock
+		pthread_mutex_unlock(&ModuleConnectionManagerInstanceMutex);
 
 		return _ModuleConnectionManager;
 	}
 
 	/*
-	 * function 	: Constructor
-	 * design	    : 
+	 * function 	: DeleteInstance 
+	 * design	    : Delete ModuleConnectionManager instance 
+	 */
+	void ModuleConnectionManager::DeleteInstance()
+	{	
+		delete _ModuleConnectionManager;
+		_ModuleConnectionManager = NULL;
+	}
+
+	/*
+	 * function 	: ModuleConnectionManager 
+	 * design	    : Constructor 
 	 */
 	ModuleConnectionManager::ModuleConnectionManager()
 	{
@@ -139,13 +159,15 @@ namespace BDapi
 	}
 
 	/*
-	 * function 	: Destructor
-	 * design	    : delete execution manager instance
+	 * function 	: ~ModuleConnectionManager 
+	 * design	    : Destructor
 	 */
 	ModuleConnectionManager::~ModuleConnectionManager()
 	{
 		delete p_ChannelManager;
-		delete _ModuleConnectionManager;
+		p_ChannelManager = NULL;
+
 		delete p_PMInfoJsonParser;
+		p_PMInfoJsonParser = NULL;
 	}
 }

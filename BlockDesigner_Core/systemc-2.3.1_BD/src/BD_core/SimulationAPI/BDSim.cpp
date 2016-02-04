@@ -18,9 +18,6 @@
 namespace BDapi
 {
 
-	unsigned int ExecutionManager::dw_ExecutionControlFlag;
-	unsigned int ExecutionManager::dw_StepValue;
-
 	long long glw_Cycle = 0;
 	sc_trace_file *wtf = NULL;
 
