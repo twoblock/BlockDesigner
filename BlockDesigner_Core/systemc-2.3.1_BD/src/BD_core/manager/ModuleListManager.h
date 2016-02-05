@@ -1,19 +1,18 @@
 //-----------------------------------------------------------------------------
-// Design								: Block Designer Platform Manager module list Manager
+// Design								: sc_module list Manager
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: PMModuleListManager.h
+// File		     					: ModuleListManager.h
 // Date	       					: 2016/1/22
 // Reference            :
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: manage sc_module list and
-//                transfer them to json format to deliver GUI thread 
+// Description	: manage sc_module list 
 // ----------------------------------------------------------------------------
 
-#ifndef __PM_MODULE_LIST_MANAGER_H 
-#define __PM_MODULE_LIST_MANAGER_H  
+#ifndef __MODULE_LIST_MANAGER_H 
+#define __MODULE_LIST_MANAGER_H  
 
 #include "TopManagerBase.h"
 #include <pthread.h>
@@ -30,38 +29,37 @@ using sc_core::sc_module;
  */
 namespace BDapi
 {
-	class PMModuleListGenerator;
 	class ModuleLoader;
 
 	/*
-	 * class		    : PMModuleListManager 
+	 * class		    : ModuleListManager 
 	 * design	      : manage sc_module list and                           
 	 *                transfer them to json format to deliver GUI thread 
 	 */
-	class PMModuleListManager: public TopManagerBase
+	class ModuleListManager: public TopManagerBase
 	{
 		public:
 			void PutOperationControl(GUI_COMMAND Command);
-			void GetOperationControl(GUI_COMMAND Command);
+
 			void AddModule(const char *SoFilePath, const char *ModuleName);
 			sc_module* FindModule(const char *ModuleName);
-			void GetJsonFile();
+
+			list<sc_module*> GetModuleList();
 			
-			static PMModuleListManager* GetInstance();
+			static ModuleListManager* GetInstance();
 			static void DeleteInstance();
 
 		protected:
-			PMModuleListManager();
-		  virtual ~PMModuleListManager();
+			ModuleListManager();
+		  virtual ~ModuleListManager();
 
 		private:
-			PMModuleListGenerator *p_PMModuleListGenerator;
 			ModuleLoader *p_ModuleLoader;
 			list<sc_module*> ModuleList;	
 			
-			static PMModuleListManager *_PMModuleListManager;
+			static ModuleListManager *_ModuleListManager;
 			// mutex for singleton pattern 
-			static pthread_mutex_t PMModuleListManagerInstanceMutex;   
+			static pthread_mutex_t ModuleListManagerInstanceMutex;   
 	};
 } // namespace BDapi 
 

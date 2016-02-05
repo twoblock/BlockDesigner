@@ -23,8 +23,9 @@ namespace BDapi
 	{
 		CmdExecutionManager = ExecutionManager::GetInstance();
 		CmdBDDIManager = BDDIManager::GetInstance();
-		CmdPMModuleListManager = PMModuleListManager::GetInstance();
+		CmdModuleListManager = ModuleListManager::GetInstance();
 		CmdBDPMDInitManager = BDPMDInitManager::GetInstance();
+		CmdPMMLGenerationManager = PMMLGenerationManager::GetInstance();
 	}
 
 	/*
@@ -72,7 +73,7 @@ namespace BDapi
 			SetManagerForPutOperation(CmdBDDIManager);
 		}		
 		else if(st_GUICommand.Command == LoadModule){
-			SetManagerForPutOperation(CmdPMModuleListManager);
+			SetManagerForPutOperation(CmdModuleListManager);
 		}
 		else if(st_GUICommand.Command == BDPMDInit)	{
 			SetManagerForPutOperation(CmdBDPMDInitManager);
@@ -91,7 +92,7 @@ namespace BDapi
 	int CommandHandler::GetOperation()
 	{
 		if(st_GUICommand.Command == ModuleInfo){
-			SetManagerForGetOperation(CmdPMModuleListManager);
+			SetManagerForGetOperation(CmdPMMLGenerationManager);
 		}
 		else if(st_GUICommand.Command == GetDebugInterface){
 			SetManagerForGetOperation(CmdBDDIManager);

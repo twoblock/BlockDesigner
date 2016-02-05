@@ -1,27 +1,26 @@
 //-----------------------------------------------------------------------------
-// Design								: Block Designer Platform Manager module list Manager
+// Design								: sc_module list Manager
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: PMModuleListManager.cpp
+// File		     					: ModuleListManager.cpp
 // Date	       					: 2016/1/22
 // Reference            :
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: manage sc_module list and
-//                transfer them to json format to deliver GUI thread 
+// Description	: manage sc_module list 
 // ----------------------------------------------------------------------------
 
-#include "PMModuleListManager.h"
-#include "../PlatformAPI/PMModuleListGenerator.h"
+#include "ModuleListManager.h"
 #include "ModuleLoader.h"
+#include "systemc.h"
 
 namespace BDapi
 {	
 	// declare static variable for linker 
-	PMModuleListManager* PMModuleListManager::_PMModuleListManager= NULL;
+	ModuleListManager* ModuleListManager::_ModuleListManager= NULL;
 	// initialize mutex 
-	pthread_mutex_t PMModuleListManager::PMModuleListManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+	pthread_mutex_t ModuleListManager::ModuleListManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
 
 	/*
 	 * function    	: PutOperationControl
@@ -31,19 +30,9 @@ namespace BDapi
 	 *							  Argu2 - module name
 	 * caller		    : PMCommandHandler::SetManagerForPutOperation
 	 */
-	void PMModuleListManager::PutOperationControl(GUI_COMMAND Command)
+	void ModuleListManager::PutOperationControl(GUI_COMMAND Command)
 	{
 		AddModule(Command.Argu1, Command.Argu2);
-	}
-
-	/*
-	 * function    	: GetOperationControl
-	 * design	      : get sc_module list json file 
-	 * caller		    : PMCommandHandler::SetManagerForGetOperation
-	 */
-	void PMModuleListManager::GetOperationControl(GUI_COMMAND Command)
-	{
-		GetJsonFile();
 	}
 
 	/*
@@ -53,7 +42,7 @@ namespace BDapi
 	 * param	      : const char * ( sc_module instace name)
 	 * caller		    : 
 	 */
-	void PMModuleListManager::AddModule(const char *SoFilePath, const char *ModuleName)
+	void ModuleListManager::AddModule(const char *SoFilePath, const char *ModuleName)
 	{
 		sc_module *p_SCmodule = p_ModuleLoader->GetSCmodule(SoFilePath, ModuleName);
 		ModuleList.push_front(p_SCmodule);		
@@ -66,7 +55,7 @@ namespace BDapi
 	 * return       : sc_module * - module pointer 
 	 * caller		    : 
 	 */
-	sc_module* PMModuleListManager::FindModule(const char *ModuleName)
+	sc_module* ModuleListManager::FindModule(const char *ModuleName)
 	{
 		sc_module *p_SCmodule;
 
@@ -87,64 +76,59 @@ namespace BDapi
 		return NULL;
 	}
 
-
 	/*
-	 * function    	: GetJsonFile 
-	 * design	      : generate sc_module list json file 
-	 * caller		    : 
+	 * function    	: GetModuleList 
+	 * design	      : get sc_module list
+	 * return       : list<sc_module*>
 	 */
-	void PMModuleListManager::GetJsonFile()
+	list<sc_module*> ModuleListManager::GetModuleList()
 	{
-		p_PMModuleListGenerator->GenerateJsonFile(ModuleList);
+		return ModuleList;
 	}
 
 	/*
 	 * function 	: GetInstance
 	 * design	    : singleton design
 	 */
-	PMModuleListManager* PMModuleListManager::GetInstance()
+	ModuleListManager* ModuleListManager::GetInstance()
 	{
 		// lock
-		pthread_mutex_lock(&PMModuleListManagerInstanceMutex); 
+		pthread_mutex_lock(&ModuleListManagerInstanceMutex); 
 
-		if( _PMModuleListManager == NULL ){
-			_PMModuleListManager = new PMModuleListManager();
+		if( _ModuleListManager == NULL ){
+			_ModuleListManager = new ModuleListManager();
 		}
 		// unlock
-		pthread_mutex_unlock(&PMModuleListManagerInstanceMutex);
+		pthread_mutex_unlock(&ModuleListManagerInstanceMutex);
 
-		return _PMModuleListManager;
+		return _ModuleListManager;
 	}
 
 	/*
 	 * function 	: DeleteInstance 
-	 * design	    : Delete PMModuleListManager instance 
+	 * design	    : Delete ModuleListManager instance 
 	 */
-	void PMModuleListManager::DeleteInstance()
+	void ModuleListManager::DeleteInstance()
 	{	
-		delete _PMModuleListManager;
-		_PMModuleListManager = NULL;
+		delete _ModuleListManager;
+		_ModuleListManager = NULL;
 	}
 
 	/*
-	 * function 	: PMModuleListManager 
+	 * function 	: ModuleListManager 
 	 * design	    : Constructor 
 	 */
-	PMModuleListManager::PMModuleListManager()
+	ModuleListManager::ModuleListManager()
 	{
-		p_PMModuleListGenerator = new PMModuleListGenerator();
 		p_ModuleLoader = new ModuleLoader();
 	}
 
 	/*
-	 * function 	: ~PMModuleListManager
+	 * function 	: ~ModuleListManager
 	 * design	    : Destructor
 	 */
-	PMModuleListManager::~PMModuleListManager()
+	ModuleListManager::~ModuleListManager()
 	{
-		delete p_PMModuleListGenerator;
-	  p_PMModuleListGenerator = NULL;
-
 		delete p_ModuleLoader;
 		p_ModuleLoader = NULL;
 	}

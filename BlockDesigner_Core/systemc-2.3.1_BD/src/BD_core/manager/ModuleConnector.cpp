@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------
 
 #include "ModuleConnector.h"
-#include "PMModuleListManager.h"
+#include "ModuleListManager.h"
 #include "../SimulationAPI/ChannelMap.h"
 
 namespace BDapi
@@ -66,7 +66,7 @@ namespace BDapi
 	void ModuleConnector::BindChannel(BindingInfo *BindingObject)
 	{
 		sc_module *p_SCmodule = NULL;
-		p_SCmodule = p_PMModuleListManager->FindModule(BindingObject->ModuleName);
+		p_SCmodule = p_ModuleListManager->FindModule(BindingObject->ModuleName);
 
 		std::vector<sc_port_base*>* p_PortList = NULL;
 		p_PortList = p_SCmodule->get_port_list();	
@@ -124,7 +124,7 @@ namespace BDapi
 	 */
 	ModuleConnector::ModuleConnector()
 	{
-		p_PMModuleListManager = PMModuleListManager::GetInstance();
+		p_ModuleListManager = ModuleListManager::GetInstance();
 		p_ChannelMap = ChannelMap::GetInstance();
 	}
 
