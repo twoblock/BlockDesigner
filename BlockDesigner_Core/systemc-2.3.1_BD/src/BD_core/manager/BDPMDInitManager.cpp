@@ -92,14 +92,13 @@ namespace BDapi
 	BDPMDReturnStatus BDPMDInitManager::ParsingOwnConnectionInformation(unsigned int Index, BindingInfo* BindingObject)
 	{
 		char *phw_TempBuf = NULL;
-		char *phw_TokBuf = NULL;
 
 		if(Index == InfoChannel.size())	return BDPMDReturnStatusError;
 		else	{
-			phw_TokBuf = (char *)InfoChannel[Index]["name"].asCString();
+			strcpy(a_TokBuf, (char *)InfoChannel[Index]["name"].asCString());
 
 			BindingObject->ChannelName = InfoChannel[Index]["name"].asCString();
-			phw_TempBuf = strtok(phw_TokBuf, "$");
+			phw_TempBuf = strtok(a_TokBuf, "$");
 			BindingObject->ModuleName = phw_TempBuf;
 			phw_TempBuf = strtok(NULL, "$");
 			BindingObject->ModulePortName = phw_TempBuf;

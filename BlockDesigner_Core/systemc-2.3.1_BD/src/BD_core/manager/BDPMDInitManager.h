@@ -20,6 +20,8 @@
 #include <fstream>
 #include "../PlatformAPI/json/json.h"
 
+#define BUFFUR_SIZE				128
+
 /*
  * namespace	: BDapi 
  * design	    : Block Designer API 
@@ -73,6 +75,8 @@ namespace BDapi
 			Json::Reader InfoReader;
 			Json::Value InfoRoot;
 			Json::Value InfoChannel;
+
+			char a_TokBuf[BUFFUR_SIZE];
 
 			// mutex for singleton pattern 
 			static pthread_mutex_t BDPMDInitManagerInstanceMutex;   
