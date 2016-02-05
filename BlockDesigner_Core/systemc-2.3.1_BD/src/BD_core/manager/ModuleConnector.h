@@ -26,7 +26,7 @@
 namespace BDapi
 {
 	class ChannelMap;
-	class PMModuleListManager;
+	class ModuleListManager;
 
 	struct BindingInfo
 	{
@@ -61,7 +61,7 @@ namespace BDapi
 
 		private:
 			ChannelMap *p_ChannelMap;
-			PMModuleListManager *p_PMModuleListManager;
+			ModuleListManager *p_ModuleListManager;
 
 			static ModuleConnector *_ModuleConnector;
 			// mutex for singleton pattern 

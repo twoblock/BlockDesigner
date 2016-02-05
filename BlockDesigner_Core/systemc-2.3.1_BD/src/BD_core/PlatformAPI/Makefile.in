@@ -72,7 +72,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libBDPlatform_la_LIBADD =
-am__objects_1 = PMModuleListGenerator.lo jsoncpp.lo
+am__objects_1 = jsoncpp.lo
 am_libBDPlatform_la_OBJECTS = $(am__objects_1)
 libBDPlatform_la_OBJECTS = $(am_libBDPlatform_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -303,12 +303,10 @@ CLEANFILES =
 EXTRA_DIST = 
 noinst_LTLIBRARIES = libBDPlatform.la
 H_FILES = \
-	PMModuleListGenerator.h \
 	json/json.h \
 	json/json-forwards.h
 
 CXX_FILES = \
-	PMModuleListGenerator.cpp \
 	jsoncpp.cpp
 
 localincludedir = $(includedir)/BD_core/PlatformAPI
@@ -367,7 +365,6 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PMModuleListGenerator.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/jsoncpp.Plo@am__quote@
 
 .cpp.o:

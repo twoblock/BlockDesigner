@@ -1,38 +1,58 @@
 //-----------------------------------------------------------------------------
-// Design								: json file generator for sc_module List 
+// Design								: PMML(PlatformManager Module List) generator 
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: PMModuleListGenerator.cpp
+// File		     					: PMMLGenerationManager.cpp
 // Date	       					: 2016/1/19
 // Reference            :
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: get sc_module list and make json formate file 
+// Description	: generate PMML.json for Platform Manager
 // ----------------------------------------------------------------------------
 
-#include "PMModuleListGenerator.h"
-#include "../SimulationAPI/BDDITypes.h"
+#include "PMMLGenerationManager.h"
+#include "ModuleListManager.h"
+#include "systemc.h"
+
+#include "BD_core/PlatformAPI/json/json.h"
 #include <string.h>
 #include <stdlib.h>
-#include "json/json.h"
 #include <iostream>
 #include <vector>
 
 #define Size 128
 
 namespace BDapi
-{
+{	
+	// declare static variable for linker 
+	PMMLGenerationManager* PMMLGenerationManager::_PMMLGenerationManager= NULL;
+	// initialize mutex 
+	pthread_mutex_t PMMLGenerationManager::PMMLGenerationManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+
 	/*
-	 * function    	: GenerateJsonFile
-	 * design	      :  
-	 * param        : list<sc_module*> - sc_module list to parse informations
-	 *                ( module name, type, port list, parameters ) 
-	 * return       : string - string(json format) to pass them to GUI 
-	 * caller		    : ModuleListManager::GetOperationControl
+	 * function    	: GetOperationControl
+	 * design	      : get sc_module list json file 
+	 * caller		    : CommandHandler::SetManagerForGetOperation
 	 */
-	string PMModuleListGenerator::GenerateJsonFile(list<sc_module*> SCModuleList)
+	void PMMLGenerationManager::GetOperationControl(GUI_COMMAND Command)
 	{
+		GeneratePMMLJsonFile();
+	}
+
+	/*
+	 * function    	: GenerateJsonFile 
+	 * design	      : generate PMML(PlatformManager Module List) json file 
+	 * caller		    : 
+	 */
+	string PMMLGenerationManager::GeneratePMMLJsonFile()
+	{
+		// Get ModuleListManager
+		ModuleListManager *p_ModuleListManager = NULL;
+		p_ModuleListManager = ModuleListManager::GetInstance();	
+
+		list<sc_module*> SCModuleList	= p_ModuleListManager->GetModuleList();
+
 		// json format entities
 		Json::Value Root;
 		Json::Value PMModuleList;
@@ -44,7 +64,7 @@ namespace BDapi
 		Json::Value RegisterList;
 		Json::Value Register;
 
-		// Port list pointer from sc_module
+		// sc_module's port list pointer 
 		std::vector<sc_port_base*>* p_PortList = NULL;
 
 		// variable to parse port list
@@ -53,21 +73,34 @@ namespace BDapi
 		const char *p_ScPortType = NULL;
 		const char *p_DataType = NULL;
 
+		// variable to parse parameter, register list
 		char a_Temp[1024] = {0,};
 		unsigned int dw_Index = 0;
 		unsigned int dw_ParNum = 0;
 		unsigned int dw_RegNum = 0;
+
+		// ready to iterate sc_modules 
+		list<sc_module*>::iterator FirstModule = SCModuleList.begin();
+		list<sc_module*>::iterator LastModule = SCModuleList.end();
+		list<sc_module*>::iterator IndexOfModule = FirstModule;
 
 		/********************************************
 		 * Iterate sc_modules in sc_module list
 		 ********************************************/
 		for(IndexOfModule = FirstModule; IndexOfModule != LastModule; ++IndexOfModule){   
 
+			// Initialize json data
+			PortList.clear();
+			ParameterList.clear();
+			RegisterList.clear();
+
+			// get sc_module's port list
 			p_PortList = (*IndexOfModule)->get_port_list();	
 
+			// ready to iterate ports
 			std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
-			std::vector<sc_port_base*>::iterator LastPort = p_PortList->end(); 
-			std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;
+			std::vector<sc_port_base*>::iterator LastPort = p_PortList->end();
+			std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;  
 
 			/********************************************
 			 * Iterate ports in sc_module
@@ -85,7 +118,7 @@ namespace BDapi
 				Port["data_type"] = p_DataType;
 				PortList.append(Port);	
 			} 
-  
+
 			/********************************************
 			 * Iterate parameter in sc_module
 			 ********************************************/
@@ -102,7 +135,7 @@ namespace BDapi
 				Parameter["value"] = pst_ParInfo[dw_Index].Value;
 				ParameterList.append(Parameter);
 			}
-	
+
 			/********************************************
 			 * Iterate register in sc_module
 			 ********************************************/
@@ -135,5 +168,49 @@ namespace BDapi
 		cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
 
 		return JsonFileOfPMModuleList;
+	}
+
+	/*
+	 * function 	: GetInstance
+	 * design	    : singleton design
+	 */
+	PMMLGenerationManager* PMMLGenerationManager::GetInstance()
+	{
+		// lock
+		pthread_mutex_lock(&PMMLGenerationManagerInstanceMutex); 
+
+		if( _PMMLGenerationManager == NULL ){
+			_PMMLGenerationManager = new PMMLGenerationManager();
+		}
+		// unlock
+		pthread_mutex_unlock(&PMMLGenerationManagerInstanceMutex);
+
+		return _PMMLGenerationManager;
+	}
+
+	/*
+	 * function 	: DeleteInstance 
+	 * design	    : Delete PMMLGenerationManager instance 
+	 */
+	void PMMLGenerationManager::DeleteInstance()
+	{	
+		delete _PMMLGenerationManager;
+		_PMMLGenerationManager = NULL;
+	}
+
+	/*
+	 * function 	: PMMLGenerationManager 
+	 * design	    : Constructor 
+	 */
+	PMMLGenerationManager::PMMLGenerationManager()
+	{
+	}
+
+	/*
+	 * function 	: ~PMMLGenerationManager
+	 * design	    : Destructor
+	 */
+	PMMLGenerationManager::~PMMLGenerationManager()
+	{
 	}
 }

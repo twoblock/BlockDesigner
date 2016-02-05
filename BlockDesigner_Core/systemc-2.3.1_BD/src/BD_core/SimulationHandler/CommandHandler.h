@@ -48,8 +48,9 @@ namespace BDapi
 			// declare all manager instance
 			ExecutionManager* CmdExecutionManager;
 			BDDIManager* CmdBDDIManager;
-			PMModuleListManager* CmdPMModuleListManager;
+			ModuleListManager* CmdModuleListManager;
 			BDPMDInitManager* CmdBDPMDInitManager;
+		  PMMLGenerationManager* CmdPMMLGenerationManager;
 	};
 } 
 
