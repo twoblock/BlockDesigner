@@ -14,7 +14,7 @@
             {
                "data_type" : "bool",
                "port_name" : "HRESETn",
-               "sc_type" : "sc_in"
+               "sc_type" : "sc_inout"
             },
             {
                "data_type" : "unsigned int",
@@ -304,7 +304,7 @@
             {
                "data_type" : "bool",
                "port_name" : "HRESETn",
-               "sc_type" : "sc_out"
+               "sc_type" : "sc_inout"
             },
             {
                "data_type" : "unsigned int",

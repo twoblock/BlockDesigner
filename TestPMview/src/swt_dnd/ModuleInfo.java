@@ -2,6 +2,7 @@ package swt_dnd;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.custom.CCombo;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -17,6 +18,9 @@ public class ModuleInfo {
 	
 	public ArrayList<Module> mList;
 	
+	public ModuleInfo() {
+		mList = new ArrayList<Module>();
+	}
 	
 	public ModuleInfo(JSONArray JSON_ModuleList) {
 		mList = new ArrayList<Module>();
@@ -41,12 +45,18 @@ public class ModuleInfo {
 					String p_name = (String) PortObject.get("port_name");
 					String p_sc_type = (String) PortObject.get("sc_type");
 					String p_data_type = (String) PortObject.get("data_type");
+					
 
+					
 					Port port = new Port();
 					port.port_name = p_name;
 					port.sc_type = p_sc_type;
 					port.data_type = p_data_type;
 
+					port.Parent = module;
+					port.Dest_Port=null;
+					port.cmb_dPort=null;
+					
 					module.Port_List.add(port);
 				}
 			}catch(Exception e){
@@ -116,6 +126,10 @@ public class ModuleInfo {
 		String port_name;
 		String sc_type;
 		String data_type;
+		Module Parent;
+		
+		Port Dest_Port;
+		CCombo cmb_dPort;
 	}
 
 	public class Parameter {
