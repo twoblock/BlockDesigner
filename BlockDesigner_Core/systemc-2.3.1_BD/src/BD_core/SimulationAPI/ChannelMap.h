@@ -26,11 +26,30 @@
  */
 namespace BDapi
 {
+	// this struct support map key( char * )
+	// this protect comparing key based on address( char * ) 
+	struct CmpStr 
+	{
+		bool operator()(char const *a, char const *b)
+		{
+			return std::strcmp(a, b) < 0;
+		}
+	};
+
+	// ChannelInfo from Platform Manager
 	struct ChannelInfo
 	{
 		const char *ChannelType;
 		const char *ChannelName;
 		const char *DataType;
+	};
+
+	// ChannelObject for Simulation 
+	struct ChannelObject 
+	{
+	  char ChannelType[128];
+		char DataType[128];
+	  sc_interface *p_SCinterface;
 	};
 
 	/*
@@ -41,23 +60,23 @@ namespace BDapi
 	class ChannelMap
 	{
 		public:
-		  void AddChannel(ChannelInfo *ChannelObject);
+			void AddChannel(ChannelInfo *st_ChannelInfo);
 			void DeleteChannels();
-		  sc_interface* FindChannel(const char *ChannelName);
-		
+			ChannelObject* FindChannel(const char *ChannelName);
+
 			static ChannelMap* GetInstance();
 			static void DeleteInstance();
-		
+
 		protected:
 			ChannelMap();
-	
+
 		private:
-		  void AddSCsignal(const char *ChannelName, const char *DataType);
-		  void AddSCclock(const char *ChannelName, const char *DataType);
-			
-			std::map<const char*, sc_interface*> RealChannelMap;
-			std::map<const char*, sc_interface*>::iterator ChannelFinder; 
-			
+			void AddSCsignal(const char *ChannelName, const char *DataType);
+			void AddSCclock(const char *ChannelName, const char *DataType);
+
+			std::map<const char*, ChannelObject*, CmpStr> RealChannelMap;
+			std::map<const char*, ChannelObject*, CmpStr>::iterator ChannelFinder; 
+
 			static ChannelMap *_ChannelMap; 
 			// mutex for singleton pattern 
 			static pthread_mutex_t ChannelMapInstanceMutex;   

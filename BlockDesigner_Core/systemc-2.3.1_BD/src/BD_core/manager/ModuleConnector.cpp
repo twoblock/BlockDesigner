@@ -71,9 +71,13 @@ namespace BDapi
 		std::vector<sc_port_base*>* p_PortList = NULL;
 		p_PortList = p_SCmodule->get_port_list();	
 
+
 		// find channel
+		ChannelObject *p_ChannelObject = NULL;
+		p_ChannelObject = p_ChannelMap->FindChannel(BindingObject->ChannelName);
+		
 		sc_interface *p_SCinterface = NULL;
-		p_SCinterface = p_ChannelMap->FindChannel(BindingObject->ChannelName);
+		p_SCinterface = p_ChannelObject->p_SCinterface;
 
 		// find port
 		sc_port_base *p_SCportbase = NULL;
