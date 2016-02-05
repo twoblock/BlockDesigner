@@ -28,12 +28,12 @@ namespace BDapi
 	 * param       : char * - data type
 	 * caller      :  
 	 */
-	void ChannelMap::AddChannel(ChannelInfo *ChannelObject)
+	void ChannelMap::AddChannel(ChannelInfo *st_ChannelInfo)
 	{
-		if(strcmp(ChannelObject->ChannelType, "sc_signal") == 0)
-			AddSCsignal(ChannelObject->ChannelName, ChannelObject->DataType);
-		else if(strcmp(ChannelObject->ChannelType, "sc_clock") == 0)
-			AddSCclock(ChannelObject->ChannelName, ChannelObject->DataType);
+		if(strcmp(st_ChannelInfo->ChannelType, "sc_signal") == 0)
+			AddSCsignal(st_ChannelInfo->ChannelName, st_ChannelInfo->DataType);
+		else if(strcmp(st_ChannelInfo->ChannelType, "sc_clock") == 0)
+			AddSCclock(st_ChannelInfo->ChannelName, st_ChannelInfo->DataType);
 		else
 			return;
 	}
@@ -45,15 +45,22 @@ namespace BDapi
 	 */
 	void ChannelMap::DeleteChannels()
 	{
+		ChannelObject *p_ChannelObject = NULL;
 		sc_interface *p_SCinterface = NULL;
 
-		std::map<const char*, sc_interface*>::iterator FirstChannel = RealChannelMap.begin();
-		std::map<const char*, sc_interface*>::iterator LastChannel = RealChannelMap.end();
-		std::map<const char*, sc_interface*>::iterator IndexOfChannel = FirstChannel;
+		std::map<const char*, ChannelObject*>::iterator FirstChannel = RealChannelMap.begin();
+		std::map<const char*, ChannelObject*>::iterator LastChannel = RealChannelMap.end();
+		std::map<const char*, ChannelObject*>::iterator IndexOfChannel = FirstChannel;
 
 		for(IndexOfChannel = FirstChannel; IndexOfChannel != LastChannel; ++IndexOfChannel){
-			p_SCinterface = IndexOfChannel->second;
+			p_ChannelObject	= IndexOfChannel->second;
+			p_SCinterface = p_ChannelObject->p_SCinterface;
+
 			delete p_SCinterface;
+			p_SCinterface = NULL;
+
+			delete p_ChannelObject;
+			p_ChannelObject = NULL;
 		}
 	}
 
@@ -61,10 +68,10 @@ namespace BDapi
 	 * function    : FindChannel 
 	 * design      : find channel in map and return it 
 	 * param       : char * - channel name
-	 * return      : sc_interface * - channel pointer
+	 * return      : ChannelObject* - ChannelObject pointer
 	 * caller      : 
 	 */
-	sc_interface* ChannelMap::FindChannel(const char *ChannelName)
+	ChannelObject* ChannelMap::FindChannel(const char *ChannelName)
 	{
 		ChannelFinder = RealChannelMap.find(ChannelName);
 
@@ -90,8 +97,16 @@ namespace BDapi
 			p_SCinterface =	new sc_signal<unsigned int>(ChannelName);
 		else
 			return;
+		
+		ChannelObject *p_ChannelObject = new ChannelObject();
 
-		RealChannelMap.insert(map<const char*, sc_interface*>::value_type(ChannelName, p_SCinterface));	
+		// assign datas in ChannelObject
+		strcpy(p_ChannelObject->ChannelType, "sc_signal");
+		strcpy(p_ChannelObject->DataType, DataType);
+		p_ChannelObject->p_SCinterface = p_SCinterface; 
+
+		// insert ChannelObject into map
+		RealChannelMap[ChannelName] = p_ChannelObject;
 	}
 
 	/*
@@ -105,8 +120,16 @@ namespace BDapi
 		sc_interface *p_SCinterface = NULL;
 
 		p_SCinterface =	new sc_clock(ChannelName, 10, SC_NS);
+		
+		ChannelObject *p_ChannelObject = new ChannelObject();
 
-		RealChannelMap.insert(map<const char*, sc_interface*>::value_type(ChannelName, p_SCinterface));	
+		// assign datas in ChannelObject
+		strcpy(p_ChannelObject->ChannelType, "sc_clock");
+		strcpy(p_ChannelObject->DataType, DataType);
+		p_ChannelObject->p_SCinterface = p_SCinterface; 
+
+		// insert ChannelObject into map
+		RealChannelMap[ChannelName] = p_ChannelObject;
 	}
 	
   /*
