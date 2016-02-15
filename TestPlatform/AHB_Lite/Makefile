@@ -9,7 +9,8 @@ COMMON_LIBS = -L$(SYSTEMC_LIBDIR) -lsystemc
 PACKAGE_SOURCES =   AHB_Lite.cpp \
 										AHBDCD.cpp \
 										AHBMUX.cpp \
-										AHB_Lite_BDDI.cpp 
+										AHB_Lite_BDDI.cpp \
+										AHB_Lite_BDMMI.cpp 
 
 SO = lib$(PACKAGE).so
 

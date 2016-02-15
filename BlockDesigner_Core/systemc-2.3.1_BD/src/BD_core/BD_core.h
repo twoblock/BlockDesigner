@@ -19,6 +19,7 @@
 #include"SimulationAPI/BDDI.h"
 #include"SimulationAPI/BDDIBase.h"
 #include"SimulationAPI/BDDITypes.h"
+#include"SimulationAPI/BDMMI.h"
 
 #endif 
 

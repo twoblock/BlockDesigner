@@ -72,7 +72,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libBDSim_la_LIBADD =
-am__objects_1 = BDSim.lo BDDI.lo ChannelMap.lo
+am__objects_1 = BDSim.lo BDDI.lo ChannelMap.lo BDMMI.lo
 am_libBDSim_la_OBJECTS = $(am__objects_1)
 libBDSim_la_OBJECTS = $(am_libBDSim_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -307,12 +307,14 @@ H_FILES = \
 	BDDI.h	\
 	BDDIBase.h	\
 	BDDITypes.h \
-	ChannelMap.h
+	ChannelMap.h \
+	BDMMI.h
 
 CXX_FILES = \
 	BDSim.cpp \
 	BDDI.cpp \
-	ChannelMap.cpp
+	ChannelMap.cpp \
+	BDMMI.cpp
 
 localincludedir = $(includedir)/BD_core/SimulationAPI
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -371,6 +373,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDDI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDMMI.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDSim.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ChannelMap.Plo@am__quote@
 

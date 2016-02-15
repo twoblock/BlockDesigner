@@ -42,9 +42,12 @@
 
 // for Block Designer Debugging Interface
 #include "BD_core/SimulationAPI/BDDI.h"
+// for Block Designer Memory Map Interface
+#include "BD_core/SimulationAPI/BDMMI.h"
 
 //typedef BDapi::BDDI 		BDDI;
 using BDapi::BDDI;
+using BDapi::BDMMI;
 
 namespace sc_core {
 
@@ -94,6 +97,12 @@ public:
 
 		// for Block Designer Debugging Interface
 		virtual BDDI* GetBDDI()
+		{
+			return NULL;
+		}
+
+		// for Block Designer Memory Map Interface
+		virtual BDMMI* GetBDMMI()
 		{
 			return NULL;
 		}
