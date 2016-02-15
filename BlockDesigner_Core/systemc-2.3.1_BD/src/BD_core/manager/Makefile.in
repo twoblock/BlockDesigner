@@ -74,7 +74,8 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libmanager_la_LIBADD =
 am__objects_1 = ExecutionManager.lo BDDIManager.lo \
 	ModuleListManager.lo ModuleLoader.lo ModuleConnector.lo \
-	BDPMDInitManager.lo PMMLGenerationManager.lo
+	BDPMDInitManager.lo PMMLGenerationManager.lo \
+	SignalTraceManager.lo
 am_libmanager_la_OBJECTS = $(am__objects_1)
 libmanager_la_OBJECTS = $(am_libmanager_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -314,7 +315,8 @@ H_FILES = \
   ModuleLoader.h \
   ModuleConnector.h \
 	BDPMDInitManager.h \
-	PMMLGenerationManager.h
+	PMMLGenerationManager.h \
+	SignalTraceManager.h
 
 CXX_FILES = \
 	ExecutionManager.cpp \
@@ -323,7 +325,8 @@ CXX_FILES = \
 	ModuleLoader.cpp \
   ModuleConnector.cpp \
 	BDPMDInitManager.cpp \
-	PMMLGenerationManager.cpp
+	PMMLGenerationManager.cpp \
+	SignalTraceManager.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -388,6 +391,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ModuleListManager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ModuleLoader.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/PMMLGenerationManager.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SignalTraceManager.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
-// Design								: 
+// Design								: Block Designer Platform Module List Initialization
 // Author								: Harold Ko
 // Email								: harold.ko@twoblocktech.com 
 // File		     					: BDPMDInitManager.h
 // Date	       					: 2016/2/4
-// Reference            :
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: 
+// Description	: Extract the information from BDPMD json file to initialize
+//								Block Designer environment
 // ----------------------------------------------------------------------------
 
 #ifndef __BDPMD_INIT_MANAGER_H__

@@ -15,12 +15,11 @@
 #define __MODULE_LIST_MANAGER_H  
 
 #include "TopManagerBase.h"
+#include "systemc.h"
 #include <pthread.h>
 #include <list> 
 
-namespace sc_core
-{	class sc_module; }
-using sc_core::sc_module;
+using namespace sc_core;
 
 /*
  * namespace	  : BDapi 

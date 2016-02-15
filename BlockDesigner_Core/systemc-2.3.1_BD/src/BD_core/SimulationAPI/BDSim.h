@@ -14,7 +14,8 @@
 #ifndef BDSIM_H 
 #define BDSIM_H 
 
-#include "systemc.h"	
+#include "systemc.h"
+#include "../manager/ExecutionManager.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -38,7 +39,6 @@ namespace BDapi
 	void Stop();
 
 	extern long long glw_Cycle;
-	extern sc_trace_file *wtf;
 } 
 
 #endif 

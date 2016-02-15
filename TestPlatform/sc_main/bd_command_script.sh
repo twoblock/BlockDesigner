@@ -29,8 +29,15 @@
 0 6 /home/harold/workspace/BlockDesigner/TestPlatform/VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
 0 7 /home/harold/BDPMD.json
 
+0 4 0 BD_CORTEXM0DS$HCLK
+0 4 0 BD_CORTEXM0DS$HRESETn
+0 4 0 BD_CORTEXM0DS$HWRITE
+0 4 0 BD_CORTEXM0DS$HRDATA
+0 4 0 BD_CORTEXM0DS$HREADY
+0 4 0 BD_CORTEXM0DS$HWDATA
+0 4 0 BD_CORTEXM0DS$HRESP
+
 PUT ExecutionControl STEP 2000
-#PUT ExecutionControl STOP 
 
 GET GetDebugInterface BD_CORTEXM0DS reg read 16
 GET GetDebugInterface BD_CORTEXM0DS reg read 15
@@ -195,11 +202,10 @@ PUT ExecutionControl STEP 4000
 ##                                                                         ##
 ##  Command 4 Wire Trace Control                                           ##
 ##                                                                         ##
-##    arg1 Id of module ( What's wire? )                                   ##
-##    arg2 which wire                                                      ##
-##    arg3 disable or enable                                               ##
+##    arg1 disable or enable                                               ##
 ##     	0. enable                                                          ##
 ##     	1. disable                                                         ##
+##    arg2 which wire                                                      ##
 ##                                                                         ##
 ##  Command 5 Register Call back                                           ##
 ##                                                                         ##

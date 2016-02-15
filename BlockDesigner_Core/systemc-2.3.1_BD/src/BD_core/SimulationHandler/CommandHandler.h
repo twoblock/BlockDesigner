@@ -51,6 +51,7 @@ namespace BDapi
 			ModuleListManager* CmdModuleListManager;
 			BDPMDInitManager* CmdBDPMDInitManager;
 		  PMMLGenerationManager* CmdPMMLGenerationManager;
+			SignalTraceManager* CmdSignalTraceManager;
 	};
 } 
 

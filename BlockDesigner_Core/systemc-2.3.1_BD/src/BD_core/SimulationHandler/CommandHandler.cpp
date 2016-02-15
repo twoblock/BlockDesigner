@@ -26,6 +26,7 @@ namespace BDapi
 		CmdModuleListManager = ModuleListManager::GetInstance();
 		CmdBDPMDInitManager = BDPMDInitManager::GetInstance();
 		CmdPMMLGenerationManager = PMMLGenerationManager::GetInstance();
+		CmdSignalTraceManager = SignalTraceManager::GetInstance();
 	}
 
 	/*
@@ -71,6 +72,9 @@ namespace BDapi
 		}
 		else if(st_GUICommand.Command == PutDebugInterface){
 			SetManagerForPutOperation(CmdBDDIManager);
+		}
+		else if(st_GUICommand.Command == WireTraceControl)	{
+			SetManagerForPutOperation(CmdSignalTraceManager);
 		}		
 		else if(st_GUICommand.Command == LoadModule){
 			SetManagerForPutOperation(CmdModuleListManager);
