@@ -18,6 +18,7 @@
 #include "AHBDCD.h"
 #include "AHBMUX.h"
 #include "AHB_Lite_BDDI.h"
+#include "AHB_Lite_BDMMI.h"
 
 SC_MODULE(AHB_Lite)	{
 	// Global Clock & Resetn
@@ -116,8 +117,10 @@ SC_MODULE(AHB_Lite)	{
 	AHBMUX* BD_AHBMUX;
 
 	BDDI*						bddi;
+	BDMMI*					bdmmi;
 
 	BDDI* GetBDDI();
+	BDMMI* GetBDMMI();
 	char* GetModuleName();
 	void BDInit();
 
@@ -181,6 +184,9 @@ SC_MODULE(AHB_Lite)	{
 		BD_AHBMUX->HREADY		(HREADY_M);
 		BD_AHBMUX->HRDATA		(HRDATA_M);
 		BD_AHBMUX->HRESP		(HRESP_M);
+
+    // Test setting memory map
+		bdmmi->SetMemoryMap();
 
 		SC_METHOD(do_transfer);
 		sensitive << HADDR_M;

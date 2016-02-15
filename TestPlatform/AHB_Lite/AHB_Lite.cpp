@@ -30,6 +30,11 @@ BDDI* AHB_Lite::GetBDDI()
 	return bddi;
 }
 
+BDMMI* AHB_Lite::GetBDMMI()
+{
+	return bdmmi;
+}
+
 char* AHB_Lite::GetModuleName()
 {
 	return (char*)"AHB_Lite";
@@ -128,6 +133,7 @@ void AHB_Lite::BDInit()
 	HSEL_NOMAP.set_port_name("HSEL_NOMAP");
 
 	bddi = new AHB_Lite_BDDI(this);
+	bdmmi = new AHB_Lite_BDMMI(this);
 }
 
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
