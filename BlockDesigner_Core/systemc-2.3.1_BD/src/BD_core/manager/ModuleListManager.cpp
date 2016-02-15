@@ -13,7 +13,6 @@
 
 #include "ModuleListManager.h"
 #include "ModuleLoader.h"
-#include "systemc.h"
 
 namespace BDapi
 {	

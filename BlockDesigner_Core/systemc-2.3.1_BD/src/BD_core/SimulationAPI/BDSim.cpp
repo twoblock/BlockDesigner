@@ -11,15 +11,13 @@
 // Description	: simulate systemc kernel and conrol it  
 // ----------------------------------------------------------------------------
 
-#include "BDSim.h"	
+#include "BDSim.h"
 
 #define	 SECOND_UNIT(X)		((X)*1000000)
 
 namespace BDapi
 {
-
 	long long glw_Cycle = 0;
-	sc_trace_file *wtf = NULL;
 
 	/*
 	 * function    	: BDStart
@@ -74,7 +72,6 @@ namespace BDapi
 
 			if(sc_is_running() == false){
 				ExecutionManager::SetExecutionFlag(NOTHING);
-				sc_close_vcd_trace_file(wtf);
 
 				return -1; // Exit
 			}

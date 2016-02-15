@@ -20,5 +20,6 @@
 #include "ModuleListManager.h"
 #include "BDPMDInitManager.h"
 #include "PMMLGenerationManager.h"
+#include "SignalTraceManager.h"
 
 #endif	// __ALLMANAGER_H__

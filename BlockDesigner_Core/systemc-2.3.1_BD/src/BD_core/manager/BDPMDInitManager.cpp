@@ -1,14 +1,14 @@
 //-----------------------------------------------------------------------------
-// Design								: 
+// Design								: Block Designer Platform Module List Initialization
 // Author								: Harold Ko
 // Email								: harold.ko@twoblocktech.com 
 // File		     					: BDPMDInitManager.cpp
-// Date	       					: 2016/1/19
-// Reference            :
+// Date	       					: 2016/2/4
 // ----------------------------------------------------------------------------
 // Copyright (c) 2015-2016 TwoBlock Techinologies Co.
 // ----------------------------------------------------------------------------
-// Description	: 
+// Description	: Extract the information from BDPMD json file to initialize
+//								Block Designer environment
 // ----------------------------------------------------------------------------
 
 #include "BDPMDInitManager.h"
@@ -42,6 +42,12 @@ namespace BDapi
 
 	}
 
+	/*
+	 * function			: ConnectModules
+	 * design				: Create Channels and Connect Modules
+	 * param				: FilePath - this parameter is the path of BDPMD json file 
+	 * caller				: BDPMDInitManager::PutOperationControl
+	 */
 	void BDPMDInitManager::ConnectModules(const char *FilePath)
 	{
 		ChannelInfo st_ChannelInfo = {NULL, NULL, NULL};
@@ -67,6 +73,12 @@ namespace BDapi
 		}
 	}
 
+	/*
+	 * function			: ParsingPlatformManagerInformation
+	 * design				: Parsing BDPMD Json File and Extract Json Root Variable
+	 * param				: FilePath - this parameter is the path of BDPMD json file 
+	 * caller				: BDPMDInitManager::ConnectModules
+	 */
 	BDPMDReturnStatus BDPMDInitManager::ParsingPlatformManagerInformation(const char *FilePath)
 	{
 		bool b_ParsingStatus = false;
@@ -89,6 +101,13 @@ namespace BDapi
 		return BDPMDReturnStatusOk;
 	}
 
+	/*
+	 * function			: ParsingOwnConnectionInformation
+	 * design				: Parsing BDPMD Json File and Extract Binding Information
+	 * param				: Index					- this parameter is the index of Channel_Info in json file
+   *								BindingObject - this parameter is the information of module and channel 
+	 * caller				: BDPMDInitManager::ConnectModules
+	 */
 	BDPMDReturnStatus BDPMDInitManager::ParsingOwnConnectionInformation(unsigned int Index, BindingInfo* BindingObject)
 	{
 		char *phw_TempBuf = NULL;
@@ -107,6 +126,13 @@ namespace BDapi
 		}
 	}
 
+	/*
+	 * function			: ParsingChannelInformation
+	 * design				: Parsing BDPMD Json File and Extract Channel Information
+	 * param				: Index					- this parameter is the index of Channel_Info in json file
+   *								BindingObject - this parameter is the information of channel 
+	 * caller				: BDPMDInitManager::ConnectModules
+	 */
 	BDPMDReturnStatus BDPMDInitManager::ParsingChannelInformation(unsigned int Index, ChannelInfo* ChannelObject)
 	{
 		if(Index == InfoChannel.size())	return BDPMDReturnStatusError;
@@ -119,6 +145,14 @@ namespace BDapi
 		}
 	}
 
+	/*
+	 * function			: ParsingConnectionInformation
+	 * design				: Parsing BDPMD Json File and Extract Binding Information
+	 * param				: PIndex				- this parameter is the index of Channel_Info in json file
+	 *								CIndex				- this parameter is the index of connection_info in json file
+   *								BindingObject - this parameter is the information of channel 
+	 * caller				: BDPMDInitManager::ConnectModules
+	 */
 	BDPMDReturnStatus BDPMDInitManager::ParsingConnectionInformation(unsigned int PIndex, unsigned int CIndex, BindingInfo* BindingObject)
 	{
 		if(CIndex == InfoChannel[PIndex]["connection_info"].size())	return BDPMDReturnStatusError;
