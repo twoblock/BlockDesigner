@@ -38,75 +38,154 @@ SC_MODULE(AHB_Lite)	{
 	sc_out<bool>		HREADY_M;
 	sc_out<bool>		HRESP_M;
 
-	// Common Slave Interface
-	sc_out<UINT32>		HADDR_S;
-	sc_out<UINT32>		HBURST_S;
-	sc_out<bool>		HLOCK_S;
-	sc_out<UINT32>		HPROT_S;
-	sc_out<UINT32>		HSIZE_S;
-	sc_out<UINT32>		HTRANS_S;
-	sc_out<UINT32>		HWDATA_S;
-	sc_out<bool>		HWRITE_S;
-	sc_out<bool>		HREADY_S;
-
 	// Slave 0 Interface
+	sc_out<UINT32>  HADDR_S0;
+	sc_out<UINT32>	HBURST_S0;
+	sc_out<bool>		HLOCK_S0;
+	sc_out<UINT32>	HPROT_S0;
+	sc_out<UINT32>	HSIZE_S0;
+	sc_out<UINT32>	HTRANS_S0;
+	sc_out<UINT32>	HWDATA_S0;
+	sc_out<bool>		HWRITE_S0;
+	sc_out<bool>		HREADY_S0;
 	sc_out<bool>		HSEL_S0;
-	sc_in<bool>		HREADYOUT_S0;
-	sc_in<bool>		HRESP_S0;
+	sc_in<bool>			HREADYOUT_S0;
+	sc_in<bool>			HRESP_S0;
 	sc_in<UINT32>		HRDATA_S0;
 
 	// Slave 1 Interface
+	sc_out<UINT32>  HADDR_S1;
+	sc_out<UINT32>	HBURST_S1;
+	sc_out<bool>		HLOCK_S1;
+	sc_out<UINT32>	HPROT_S1;
+	sc_out<UINT32>	HSIZE_S1;
+	sc_out<UINT32>	HTRANS_S1;
+	sc_out<UINT32>	HWDATA_S1;
+	sc_out<bool>		HWRITE_S1;
+	sc_out<bool>		HREADY_S1;
 	sc_out<bool>		HSEL_S1;
-	sc_in<bool>		HREADYOUT_S1;
-	sc_in<bool>		HRESP_S1;
+	sc_in<bool>			HREADYOUT_S1;
+	sc_in<bool>			HRESP_S1;
 	sc_in<UINT32>		HRDATA_S1;
 
 	// Slave 2 Interface
+	sc_out<UINT32>  HADDR_S2;
+	sc_out<UINT32>	HBURST_S2;
+	sc_out<bool>		HLOCK_S2;
+	sc_out<UINT32>	HPROT_S2;
+	sc_out<UINT32>	HSIZE_S2;
+	sc_out<UINT32>	HTRANS_S2;
+	sc_out<UINT32>	HWDATA_S2;
+	sc_out<bool>		HWRITE_S2;
+	sc_out<bool>		HREADY_S2;
 	sc_out<bool>		HSEL_S2;
-	sc_in<bool>		HREADYOUT_S2;
-	sc_in<bool>		HRESP_S2;
+	sc_in<bool>			HREADYOUT_S2;
+	sc_in<bool>			HRESP_S2;
 	sc_in<UINT32>		HRDATA_S2;
 
 	// Slave 3 Interface
+	sc_out<UINT32>  HADDR_S3;
+	sc_out<UINT32>	HBURST_S3;
+	sc_out<bool>		HLOCK_S3;
+	sc_out<UINT32>	HPROT_S3;
+	sc_out<UINT32>	HSIZE_S3;
+	sc_out<UINT32>	HTRANS_S3;
+	sc_out<UINT32>	HWDATA_S3;
+	sc_out<bool>		HWRITE_S3;
+	sc_out<bool>		HREADY_S3;
 	sc_out<bool>		HSEL_S3;
-	sc_in<bool>		HREADYOUT_S3;
-	sc_in<bool>		HRESP_S3;
+	sc_in<bool>			HREADYOUT_S3;
+	sc_in<bool>			HRESP_S3;
 	sc_in<UINT32>		HRDATA_S3;
 
 	// Slave 4 Interface
+	sc_out<UINT32>  HADDR_S4;
+	sc_out<UINT32>	HBURST_S4;
+	sc_out<bool>		HLOCK_S4;
+	sc_out<UINT32>	HPROT_S4;
+	sc_out<UINT32>	HSIZE_S4;
+	sc_out<UINT32>	HTRANS_S4;
+	sc_out<UINT32>	HWDATA_S4;
+	sc_out<bool>		HWRITE_S4;
+	sc_out<bool>		HREADY_S4;
 	sc_out<bool>		HSEL_S4;
-	sc_in<bool>		HREADYOUT_S4;
-	sc_in<bool>		HRESP_S4;
+	sc_in<bool>			HREADYOUT_S4;
+	sc_in<bool>			HRESP_S4;
 	sc_in<UINT32>		HRDATA_S4;
 
 	// Slave 5 Interface
+	sc_out<UINT32>  HADDR_S5;
+	sc_out<UINT32>	HBURST_S5;
+	sc_out<bool>		HLOCK_S5;
+	sc_out<UINT32>	HPROT_S5;
+	sc_out<UINT32>	HSIZE_S5;
+	sc_out<UINT32>	HTRANS_S5;
+	sc_out<UINT32>	HWDATA_S5;
+	sc_out<bool>		HWRITE_S5;
+	sc_out<bool>		HREADY_S5;
 	sc_out<bool>		HSEL_S5;
-	sc_in<bool>		HREADYOUT_S5;
-	sc_in<bool>		HRESP_S5;
+	sc_in<bool>			HREADYOUT_S5;
+	sc_in<bool>			HRESP_S5;
 	sc_in<UINT32>		HRDATA_S5;
 
 	// Slave 6 Interface
+	sc_out<UINT32>  HADDR_S6;
+	sc_out<UINT32>	HBURST_S6;
+	sc_out<bool>		HLOCK_S6;
+	sc_out<UINT32>	HPROT_S6;
+	sc_out<UINT32>	HSIZE_S6;
+	sc_out<UINT32>	HTRANS_S6;
+	sc_out<UINT32>	HWDATA_S6;
+	sc_out<bool>		HWRITE_S6;
+	sc_out<bool>		HREADY_S6;
 	sc_out<bool>		HSEL_S6;
-	sc_in<bool>		HREADYOUT_S6;
-	sc_in<bool>		HRESP_S6;
+	sc_in<bool>			HREADYOUT_S6;
+	sc_in<bool>			HRESP_S6;
 	sc_in<UINT32>		HRDATA_S6;
 
 	// Slave 7 Interface
+	sc_out<UINT32>  HADDR_S7;
+	sc_out<UINT32>	HBURST_S7;
+	sc_out<bool>		HLOCK_S7;
+	sc_out<UINT32>	HPROT_S7;
+	sc_out<UINT32>	HSIZE_S7;
+	sc_out<UINT32>	HTRANS_S7;
+	sc_out<UINT32>	HWDATA_S7;
+	sc_out<bool>		HWRITE_S7;
+	sc_out<bool>		HREADY_S7;
 	sc_out<bool>		HSEL_S7;
-	sc_in<bool>		HREADYOUT_S7;
-	sc_in<bool>		HRESP_S7;
+	sc_in<bool>			HREADYOUT_S7;
+	sc_in<bool>			HRESP_S7;
 	sc_in<UINT32>		HRDATA_S7;
 
 	// Slave 8 Interface
+	sc_out<UINT32>  HADDR_S8;
+	sc_out<UINT32>	HBURST_S8;
+	sc_out<bool>		HLOCK_S8;
+	sc_out<UINT32>	HPROT_S8;
+	sc_out<UINT32>	HSIZE_S8;
+	sc_out<UINT32>	HTRANS_S8;
+	sc_out<UINT32>	HWDATA_S8;
+	sc_out<bool>		HWRITE_S8;
+	sc_out<bool>		HREADY_S8;
 	sc_out<bool>		HSEL_S8;
-	sc_in<bool>		HREADYOUT_S8;
-	sc_in<bool>		HRESP_S8;
+	sc_in<bool>			HREADYOUT_S8;
+	sc_in<bool>			HRESP_S8;
 	sc_in<UINT32>		HRDATA_S8;
 
 	// Slave 9 Interface
+	sc_out<UINT32>  HADDR_S9;
+	sc_out<UINT32>	HBURST_S9;
+	sc_out<bool>		HLOCK_S9;
+	sc_out<UINT32>	HPROT_S9;
+	sc_out<UINT32>	HSIZE_S9;
+	sc_out<UINT32>	HTRANS_S9;
+	sc_out<UINT32>	HWDATA_S9;
+	sc_out<bool>		HWRITE_S9;
+	sc_out<bool>		HREADY_S9;
 	sc_out<bool>		HSEL_S9;
-	sc_in<bool>		HREADYOUT_S9;
-	sc_in<bool>		HRESP_S9;
+	sc_in<bool>			HREADYOUT_S9;
+	sc_in<bool>			HRESP_S9;
 	sc_in<UINT32>		HRDATA_S9;
 
 	sc_out<bool>		HSEL_NOMAP;

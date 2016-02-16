@@ -27,7 +27,7 @@
 0 6 /home/harold/workspace/BlockDesigner/TestPlatform/ahbl2mem_1/libahbl2mem_1.so BD_SRAM
 0 6 /home/harold/workspace/BlockDesigner/TestPlatform/tb/libtb.so BD_TB
 0 6 /home/harold/workspace/BlockDesigner/TestPlatform/VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
-0 7 /home/harold/BDPMD.json
+0 7 BDPMD.json
 
 0 4 0 BD_CORTEXM0DS$HCLK
 0 4 0 BD_CORTEXM0DS$HRESETn
