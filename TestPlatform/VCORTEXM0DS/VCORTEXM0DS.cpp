@@ -14,19 +14,21 @@
 
 VL_SC_CTOR_IMP(VCORTEXM0DS)
 #if (SYSTEMC_VERSION>20011000)
-	: HCLK("HCLK"), HRESETn("HRESETn"), HBURST("HBURST"), 
-	HMASTLOCK("HMASTLOCK"), HPROT("HPROT"), HSIZE("HSIZE"), 
-	HTRANS("HTRANS"), HWRITE("HWRITE"), HREADY("HREADY"), 
-	HRESP("HRESP"), NMI("NMI"), IRQ00("IRQ00"), IRQ01("IRQ01"), 
+/*
+	: HCLK("HCLK"), HRESETn("HRESETn"), AHB_MM->HBURST("AHB_MM->HBURST"), 
+	HMASTLOCK("HMASTLOCK"), AHB_MM->HPROT("AHB_MM->HPROT"), AHB_MM->HSIZE("AHB_MM->HSIZE"), 
+	AHB_MM->HTRANS("AHB_MM->HTRANS"), AHB_MM->HWRITE("AHB_MM->HWRITE"), AHB_MM->HREADY("AHB_MM->HREADY"), 
+	AHB_MM->HRESP("AHB_MM->HRESP"), NMI("NMI"), IRQ00("IRQ00"), IRQ01("IRQ01"), 
 	IRQ02("IRQ02"), IRQ03("IRQ03"), IRQ04("IRQ04"), 
 	IRQ05("IRQ05"), IRQ06("IRQ06"), IRQ07("IRQ07"), 
 	IRQ08("IRQ08"), IRQ09("IRQ09"), IRQ10("IRQ10"), 
 	IRQ11("IRQ11"), IRQ12("IRQ12"), IRQ13("IRQ13"), 
 	IRQ14("IRQ14"), IRQ15("IRQ15"), TXEV("TXEV"), 
 	RXEV("RXEV"), LOCKUP("LOCKUP"), SYSRESETREQ("SYSRESETREQ"), 
-	SLEEPING("SLEEPING"), HADDR("HADDR"), HWDATA("HWDATA"), 
-	HRDATA("HRDATA"), EXTRACT_PC("EXTRACT_PC"), EXTRACT_R3("EXTRACT_R3"), 
+	SLEEPING("SLEEPING"), AHB_MM->HADDR("AHB_MM->HADDR"), AHB_MM->HWDATA("AHB_MM->HWDATA"), 
+	AHB_MM->HRDATA("AHB_MM->HRDATA"), EXTRACT_PC("EXTRACT_PC"), EXTRACT_R3("EXTRACT_R3"), 
 	EXTRACT_R4("EXTRACT_R4"), EXTRACT_R10("EXTRACT_R10")
+*/
 #endif
 {
 	BDInit();
@@ -38,9 +40,9 @@ VL_SC_CTOR_IMP(VCORTEXM0DS)
 	SC_METHOD(eval);
 	sensitive << HCLK;
 	sensitive << HRESETn;
-	sensitive << HRDATA;
-	sensitive << HREADY;
-	sensitive << HRESP;
+	sensitive << AHB_MM->HRDATA;
+	sensitive << AHB_MM->HREADY;
+	sensitive << AHB_MM->HRESP;
 	sensitive << NMI;
 	sensitive << IRQ00;
 	sensitive << IRQ01;
@@ -2435,10 +2437,10 @@ void VCORTEXM0DS::_settle__TOP__1(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__IRQ02, vlTOPp->IRQ02);
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__IRQ01, vlTOPp->IRQ01);
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__IRQ00, vlTOPp->IRQ00);
-	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HRESP, vlTOPp->HRESP);
+	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HRESP, vlTOPp->AHB_MM->HRESP);
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HCLK, vlTOPp->HCLK);
-	VL_ASSIGN_SII(3,vlTOPp->HBURST, 0U);
-	VL_ASSIGN_SII(3,vlTOPp->HBURST, 0U);
+	VL_ASSIGN_SII(3,vlTOPp->AHB_MM->HBURST, 0U);
+	VL_ASSIGN_SII(3,vlTOPp->AHB_MM->HBURST, 0U);
 }
 
 VL_INLINE_OPT void VCORTEXM0DS::_combo__TOP__2(VCORTEXM0DS__Syms* __restrict vlSymsp) {
@@ -2462,7 +2464,7 @@ VL_INLINE_OPT void VCORTEXM0DS::_combo__TOP__2(VCORTEXM0DS__Syms* __restrict vlS
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__IRQ02, vlTOPp->IRQ02);
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__IRQ01, vlTOPp->IRQ01);
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__IRQ00, vlTOPp->IRQ00);
-	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HRESP, vlTOPp->HRESP);
+	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HRESP, vlTOPp->AHB_MM->HRESP);
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HCLK, vlTOPp->HCLK);
 }
 
@@ -11486,12 +11488,12 @@ VL_INLINE_OPT void VCORTEXM0DS::_combo__TOP__4(VCORTEXM0DS__Syms* __restrict vlS
 																 | (((IData)(vlTOPp->__Vcellinp__v__IRQ01) 
 																		 << 1U) 
 																	 | (IData)(vlTOPp->__Vcellinp__v__IRQ00))))))))))))))));
-	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HREADY, vlTOPp->HREADY);
+	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HREADY, vlTOPp->AHB_MM->HREADY);
 	vlTOPp->v__DOT__u_logic__DOT__Ueovx4 = ((~ ((IData)(vlTOPp->__Vcellinp__v__HRESP) 
 					| (IData)(vlTOPp->v__DOT__u_logic__DOT__Rbi3z4))) 
 			& (IData)(vlTOPp->v__DOT__u_logic__DOT__Z7i2z4));
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HRESETn, vlTOPp->HRESETn);
-	VL_ASSIGN_ISI(32,vlTOPp->__Vcellinp__v__HRDATA, vlTOPp->HRDATA);
+	VL_ASSIGN_ISI(32,vlTOPp->__Vcellinp__v__HRDATA, vlTOPp->AHB_MM->HRDATA);
 }
 
 void VCORTEXM0DS::_settle__TOP__5(VCORTEXM0DS__Syms* __restrict vlSymsp) {
@@ -11529,7 +11531,7 @@ void VCORTEXM0DS::_settle__TOP__5(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 																 | (((IData)(vlTOPp->__Vcellinp__v__IRQ01) 
 																		 << 1U) 
 																	 | (IData)(vlTOPp->__Vcellinp__v__IRQ00))))))))))))))));
-	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HREADY, vlTOPp->HREADY);
+	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HREADY, vlTOPp->AHB_MM->HREADY);
 	VL_ASSIGN_SII(1,vlTOPp->SYSRESETREQ, vlTOPp->v__DOT__u_logic__DOT__Ypi3z4);
 	vlTOPp->v__DOT__u_logic__DOT__Zph2z4 = (((IData)(vlTOPp->v__DOT__u_logic__DOT__Wxp2z4) 
 				<< 1U) 
@@ -13795,7 +13797,7 @@ void VCORTEXM0DS::_settle__TOP__5(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 	vlTOPp->v__DOT__u_logic__DOT__Swxvx4 = ((IData)(vlTOPp->v__DOT__u_logic__DOT__Yzi2z4) 
 			^ (IData)(vlTOPp->v__DOT__u_logic__DOT__Rxl2z4));
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__HRESETn, vlTOPp->HRESETn);
-	VL_ASSIGN_ISI(32,vlTOPp->__Vcellinp__v__HRDATA, vlTOPp->HRDATA);
+	VL_ASSIGN_ISI(32,vlTOPp->__Vcellinp__v__HRDATA, vlTOPp->AHB_MM->HRDATA);
 	vlTOPp->v__DOT__u_logic__DOT__Tnpvx4 = (1U & (~ 
 				((IData)(vlTOPp->v__DOT__u_logic__DOT__Kyi2z4) 
 				 & (IData)(vlTOPp->v__DOT__u_logic__DOT__Nbm2z4))));
@@ -25589,7 +25591,7 @@ VL_INLINE_OPT void VCORTEXM0DS::_sequent__TOP__10(VCORTEXM0DS__Syms* __restrict 
 					(((IData)(vlTOPp->v__DOT__u_logic__DOT__Tjh2z4) 
 						>> 1U) 
 					 & (IData)(vlTOPp->v__DOT__u_logic__DOT__Qj2wx4)))));
-	VL_ASSIGN_SII(1,vlTOPp->HWRITE, vlTOPp->__Vcellout__v__HWRITE);
+	VL_ASSIGN_SII(1,vlTOPp->AHB_MM->HWRITE, vlTOPp->__Vcellout__v__HWRITE);
 	vlTOPp->v__DOT__u_logic__DOT__Zqpvx4 = (1U & (~ 
 				(((~ 
 					 ((IData)(vlTOPp->v__DOT__u_logic__DOT__Nsk2z4) 
@@ -26393,7 +26395,7 @@ void VCORTEXM0DS::_settle__TOP__11(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 					(((IData)(vlTOPp->v__DOT__u_logic__DOT__Tjh2z4) 
 						>> 1U) 
 					 & (IData)(vlTOPp->v__DOT__u_logic__DOT__Qj2wx4)))));
-	VL_ASSIGN_SII(1,vlTOPp->HWRITE, vlTOPp->__Vcellout__v__HWRITE);
+	VL_ASSIGN_SII(1,vlTOPp->AHB_MM->HWRITE, vlTOPp->__Vcellout__v__HWRITE);
 	vlTOPp->v__DOT__u_logic__DOT__Gshvx4 = ((IData)(vlTOPp->__Vcellinp__v__HREADY)
 			? (IData)(vlTOPp->__Vcellout__v__HWRITE)
 			: (IData)(vlTOPp->v__DOT__u_logic__DOT__Y9t2z4));
@@ -32001,7 +32003,7 @@ void VCORTEXM0DS::_settle__TOP__14(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 	vlTOPp->v__DOT__u_logic__DOT__Fb8wx4 = (1U & (~ 
 				((IData)(vlTOPp->v__DOT__u_logic__DOT__Fuawx4) 
 				 & (~ (IData)(vlTOPp->v__DOT__u_logic__DOT__X8zvx4)))));
-	VL_ASSIGN_SII(32,vlTOPp->HWDATA, vlTOPp->__Vcellout__v__HWDATA);
+	VL_ASSIGN_SII(32,vlTOPp->AHB_MM->HWDATA, vlTOPp->__Vcellout__v__HWDATA);
 	vlTOPp->v__DOT__u_logic__DOT__Xzmvx4 = (1U & ((IData)(vlTOPp->v__DOT__u_logic__DOT__T5tvx4)
 				? vlTOPp->__Vcellout__v__HWDATA
 				: (IData)(vlTOPp->v__DOT__u_logic__DOT__Tna3z4)));
@@ -33839,7 +33841,7 @@ VL_INLINE_OPT void VCORTEXM0DS::_sequent__TOP__16(VCORTEXM0DS__Syms* __restrict 
 	vlTOPp->v__DOT__u_logic__DOT__Fb8wx4 = (1U & (~ 
 				((IData)(vlTOPp->v__DOT__u_logic__DOT__Fuawx4) 
 				 & (~ (IData)(vlTOPp->v__DOT__u_logic__DOT__X8zvx4)))));
-	VL_ASSIGN_SII(32,vlTOPp->HWDATA, vlTOPp->__Vcellout__v__HWDATA);
+	VL_ASSIGN_SII(32,vlTOPp->AHB_MM->HWDATA, vlTOPp->__Vcellout__v__HWDATA);
 	vlTOPp->v__DOT__u_logic__DOT__Xzmvx4 = (1U & ((IData)(vlTOPp->v__DOT__u_logic__DOT__T5tvx4)
 				? vlTOPp->__Vcellout__v__HWDATA
 				: (IData)(vlTOPp->v__DOT__u_logic__DOT__Tna3z4)));
@@ -39718,7 +39720,7 @@ void VCORTEXM0DS::_settle__TOP__20(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 					& (IData)(vlTOPp->v__DOT__u_logic__DOT__Ppsvx4)) 
 				 & ((IData)(vlTOPp->v__DOT__u_logic__DOT__Wpsvx4) 
 					 & (IData)(vlTOPp->v__DOT__u_logic__DOT__Z5pvx4)))));
-	VL_ASSIGN_SII(4,vlTOPp->HPROT, vlTOPp->__Vcellout__v__HPROT);
+	VL_ASSIGN_SII(4,vlTOPp->AHB_MM->HPROT, vlTOPp->__Vcellout__v__HPROT);
 	vlTOPp->v__DOT__u_logic__DOT__U5qvx4 = ((IData)(vlTOPp->__Vcellinp__v__HREADY) 
 			& (IData)(vlTOPp->__Vcellout__v__HPROT));
 	vlTOPp->v__DOT__u_logic__DOT__Gzvvx4 = (1U & ((~ 
@@ -40381,7 +40383,7 @@ VL_INLINE_OPT void VCORTEXM0DS::_combo__TOP__21(VCORTEXM0DS__Syms* __restrict vl
 						 (((IData)(vlTOPp->v__DOT__u_logic__DOT__Hlsvx4) 
 							 & (IData)(vlTOPp->v__DOT__u_logic__DOT__Wnnvx4)) 
 							& (IData)(vlTOPp->v__DOT__u_logic__DOT__Bpsvx4)))))));
-	VL_ASSIGN_SII(4,vlTOPp->HPROT, vlTOPp->__Vcellout__v__HPROT);
+	VL_ASSIGN_SII(4,vlTOPp->AHB_MM->HPROT, vlTOPp->__Vcellout__v__HPROT);
 	vlTOPp->v__DOT__u_logic__DOT__U5qvx4 = ((IData)(vlTOPp->__Vcellinp__v__HREADY) 
 			& (IData)(vlTOPp->__Vcellout__v__HPROT));
 	vlTOPp->v__DOT__u_logic__DOT__U2mvx4 = (1U & ((IData)(vlTOPp->v__DOT__u_logic__DOT__Rfpvx4)
@@ -40984,7 +40986,7 @@ VL_INLINE_OPT void VCORTEXM0DS::_sequent__TOP__22(VCORTEXM0DS__Syms* __restrict 
 	vlTOPp->v__DOT__u_logic__DOT__X4owx4 = (1U & (~ 
 				((IData)(vlTOPp->v__DOT__u_logic__DOT__G2zwx4) 
 				 & (IData)(vlTOPp->v__DOT__u_logic__DOT__C0zwx4))));
-	VL_ASSIGN_SII(3,vlTOPp->HSIZE, vlTOPp->__Vcellout__v__HSIZE);
+	VL_ASSIGN_SII(3,vlTOPp->AHB_MM->HSIZE, vlTOPp->__Vcellout__v__HSIZE);
 	vlTOPp->__Vcellout__v__HADDR = ((0xfffffdffU & vlTOPp->__Vcellout__v__HADDR) 
 			| (0x200U & ((~ (IData)(vlTOPp->v__DOT__u_logic__DOT__Xxovx4)) 
 					<< 9U)));
@@ -41220,7 +41222,7 @@ void VCORTEXM0DS::_settle__TOP__23(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 	vlTOPp->v__DOT__u_logic__DOT__Xmywx4 = (1U & ((IData)(vlTOPp->v__DOT__u_logic__DOT__E7mwx4) 
 				| ((IData)(vlTOPp->__Vcellout__v__HPROT) 
 					>> 3U)));
-	VL_ASSIGN_SII(3,vlTOPp->HSIZE, vlTOPp->__Vcellout__v__HSIZE);
+	VL_ASSIGN_SII(3,vlTOPp->AHB_MM->HSIZE, vlTOPp->__Vcellout__v__HSIZE);
 	vlTOPp->__Vcellout__v__HADDR = ((0xfffffdffU & vlTOPp->__Vcellout__v__HADDR) 
 			| (0x200U & ((~ (IData)(vlTOPp->v__DOT__u_logic__DOT__Xxovx4)) 
 					<< 9U)));
@@ -41606,7 +41608,7 @@ void VCORTEXM0DS::_settle__TOP__23(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 					 ((IData)(vlTOPp->v__DOT__u_logic__DOT__Rbi3z4) 
 						& ((IData)(vlTOPp->v__DOT__u_logic__DOT__E7mwx4) 
 							| (~ (IData)(vlTOPp->__Vcellinp__v__HREADY))))))));
-	VL_ASSIGN_SII(32,vlTOPp->HADDR, vlTOPp->__Vcellout__v__HADDR);
+	VL_ASSIGN_SII(32,vlTOPp->AHB_MM->HADDR, vlTOPp->__Vcellout__v__HADDR);
 	vlTOPp->__Vcellout__v__HPROT = ((3U & (IData)(vlTOPp->__Vcellout__v__HPROT)) 
 			| ((8U & ((~ (((IData)(vlTOPp->__Vcellout__v__HPROT) 
 									>> 2U) 
@@ -42006,7 +42008,7 @@ VL_INLINE_OPT void VCORTEXM0DS::_sequent__TOP__25(VCORTEXM0DS__Syms* __restrict 
 	VL_DEBUG_IF(VL_PRINTF("    VCORTEXM0DS::_sequent__TOP__25\n"); );
 	VCORTEXM0DS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
 	// Body
-	VL_ASSIGN_SII(32,vlTOPp->HADDR, vlTOPp->__Vcellout__v__HADDR);
+	VL_ASSIGN_SII(32,vlTOPp->AHB_MM->HADDR, vlTOPp->__Vcellout__v__HADDR);
 	vlTOPp->v__DOT__u_logic__DOT__Nsovx4 = ((~ ((vlTOPp->__Vcellout__v__HADDR 
 						>> 6U) 
 					| (vlTOPp->__Vcellout__v__HADDR 
@@ -42821,7 +42823,7 @@ VL_INLINE_OPT void VCORTEXM0DS::_combo__TOP__27(VCORTEXM0DS__Syms* __restrict vl
 						 | (IData)(vlTOPp->v__DOT__u_logic__DOT__F3vvx4)))))
 				: 
 				(~ (IData)(vlTOPp->v__DOT__u_logic__DOT__G9w2z4))));
-	VL_ASSIGN_SII(2,vlTOPp->HTRANS, vlTOPp->__Vcellout__v__HTRANS);
+	VL_ASSIGN_SII(2,vlTOPp->AHB_MM->HTRANS, vlTOPp->__Vcellout__v__HTRANS);
 	vlTOPp->v__DOT__u_logic__DOT__L6ovx4 = (1U & (~ 
 				((IData)(vlTOPp->v__DOT__u_logic__DOT__S6ovx4) 
 				 & (~ 
@@ -43407,7 +43409,7 @@ void VCORTEXM0DS::_settle__TOP__29(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 	VL_DEBUG_IF(VL_PRINTF("    VCORTEXM0DS::_settle__TOP__29\n"); );
 	VCORTEXM0DS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
 	// Body
-	VL_ASSIGN_SII(2,vlTOPp->HTRANS, vlTOPp->__Vcellout__v__HTRANS);
+	VL_ASSIGN_SII(2,vlTOPp->AHB_MM->HTRANS, vlTOPp->__Vcellout__v__HTRANS);
 	vlTOPp->v__DOT__u_logic__DOT__L6ovx4 = (1U & (~ 
 				((IData)(vlTOPp->v__DOT__u_logic__DOT__S6ovx4) 
 				 & (~ 
@@ -47153,14 +47155,7 @@ void VCORTEXM0DS::BDInit()
 {
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");        
-	HBURST.set_port_name("HBURST");         
 	HMASTLOCK.set_port_name("HMASTLOCK");      
-	HPROT.set_port_name("HPROT");          
-	HSIZE.set_port_name("HSIZE");          
-	HTRANS.set_port_name("HTRANS");         
-	HWRITE.set_port_name("HWRITE");         
-	HREADY.set_port_name("HREADY");         
-	HRESP.set_port_name("HRESP");          
 	NMI.set_port_name("NMI");            
 	IRQ00.set_port_name("IRQ00");          
 	IRQ01.set_port_name("IRQ01");          
@@ -47183,13 +47178,12 @@ void VCORTEXM0DS::BDInit()
 	LOCKUP.set_port_name("LOCKUP");         
 	SYSRESETREQ.set_port_name("SYSRESETREQ");    
 	SLEEPING.set_port_name("SLEEPING");       
-	HADDR.set_port_name("HADDR");          
-	HWDATA.set_port_name("HWDATA");         
-	HRDATA.set_port_name("HRDATA");         
 	EXTRACT_PC.set_port_name("EXTRACT_PC");     
 	EXTRACT_R3.set_port_name("EXTRACT_R3");     
 	EXTRACT_R4.set_port_name("EXTRACT_R4");     
 	EXTRACT_R10.set_port_name("EXTRACT_R10");    
+
+	AHB_MM = new BD_AHBPort_MM(NULL);
 
 	bddi = new VCORTEXM0DS_BDDI(this);
 }

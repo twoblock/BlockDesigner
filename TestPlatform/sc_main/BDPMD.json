@@ -640,6 +640,34 @@
             "data_type" : "bool",
             "name" : "BD_AHB_LITE$HSEL_NOMAP"
          },
+				 {
+            "channel_type" : "sc_signal",
+            "connection_info" : [],
+            "connection_num" : "0",
+            "data_type" : "bool",
+            "name" : "BD_CORTEXM0DS$HLOCK"
+         },
+				 {
+            "channel_type" : "sc_signal",
+            "connection_info" : [],
+            "connection_num" : "0",
+            "data_type" : "bool",
+            "name" : "BD_CONSOLE$HLOCK"
+         },
+				 {
+            "channel_type" : "sc_signal",
+            "connection_info" : [],
+            "connection_num" : "0",
+            "data_type" : "bool",
+            "name" : "BD_ROM$HLOCK"
+         },
+				 {
+            "channel_type" : "sc_signal",
+            "connection_info" : [],
+            "connection_num" : "0",
+            "data_type" : "bool",
+            "name" : "BD_SRAM$HLOCK"
+         },
          {
             "channel_type" : "sc_signal",
             "connection_info" : [],
