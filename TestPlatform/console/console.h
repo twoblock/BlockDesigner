@@ -15,7 +15,7 @@
 
 #define	ENDIAN_BIG	0
 
-#include "systemc.h"
+#include "BlockDesigner.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -27,19 +27,7 @@ SC_MODULE(CONSOLE)	{
 	sc_in<bool>		HCLK;
 	sc_in<bool>		HRESETn;
 
-	sc_in<bool>		HSEL;
-	sc_in<bool>		HREADY;
-	sc_in<UINT32>		HADDR;
-	sc_in<UINT32>		HBURST;
-	sc_in<UINT32>		HPROT;
-	sc_in<UINT32>		HTRANS;
-	sc_in<bool>		HWRITE;
-	sc_in<UINT32>		HSIZE;
-	sc_in<UINT32>		HWDATA;
-
-	sc_out<bool>		HREADYOUT;	// Always High.
-	sc_out<UINT32>		HRDATA;
-	sc_out<bool>		HRESP;		// Always Low.
+	BD_AHBPort_SS *AHB_SS;
 
 	/********** [local variable] **********/
 	// Registers to Store Address Phase Signals
@@ -125,12 +113,12 @@ SC_MODULE(CONSOLE)	{
 
 	/********** [process function] **********/
 	void do_assign_addr_phase()	{
-		if(HREADY && HSEL)	{
-			NEXT_ADDR_PHASE_HSEL = HSEL;
-			NEXT_ADDR_PHASE_HWRITE = HWRITE;
-			NEXT_ADDR_PHASE_HTRANS = HTRANS;
-			NEXT_ADDR_PHASE_HADDR = HADDR;
-			NEXT_ADDR_PHASE_HSIZE = HSIZE;
+		if(AHB_SS->HREADY && AHB_SS->HSEL)	{
+			NEXT_ADDR_PHASE_HSEL = AHB_SS->HSEL;
+			NEXT_ADDR_PHASE_HWRITE = AHB_SS->HWRITE;
+			NEXT_ADDR_PHASE_HTRANS = AHB_SS->HTRANS;
+			NEXT_ADDR_PHASE_HADDR = AHB_SS->HADDR;
+			NEXT_ADDR_PHASE_HSIZE = AHB_SS->HSIZE;
 		}
 		else	{
 			NEXT_ADDR_PHASE_HSEL = 0;
@@ -150,9 +138,9 @@ SC_MODULE(CONSOLE)	{
 				REG_ADDR_PHASE_HADDR = 0x0;
 				REG_ADDR_PHASE_HSIZE = 0x0;
 
-				HREADYOUT = 1;
-				HRESP = 0;
-				HRDATA = 0x0;
+				AHB_SS->HREADYOUT = 1;
+				AHB_SS->HRESP = 0;
+				AHB_SS->HRDATA = 0x0;
 
 				REG_FLAG = 0;
 				REG_DATA = 0x0;
@@ -164,9 +152,9 @@ SC_MODULE(CONSOLE)	{
 				REG_ADDR_PHASE_HADDR = NEXT_ADDR_PHASE_HADDR;
 				REG_ADDR_PHASE_HSIZE = NEXT_ADDR_PHASE_HSIZE;
 
-				HREADYOUT = 1;
-				HRESP = 0;
-				HRDATA = 0x0;
+				AHB_SS->HREADYOUT = 1;
+				AHB_SS->HRESP = 0;
+				AHB_SS->HRDATA = 0x0;
 
 				REG_FLAG = NEXT_FLAG;
 				REG_DATA = NEXT_DATA;
@@ -183,7 +171,7 @@ SC_MODULE(CONSOLE)	{
 		if(REG_ADDR_PHASE_HSEL && REG_ADDR_PHASE_HWRITE && (REG_ADDR_PHASE_HTRANS & 0x2))	{
 			if(dw_WE & 0x1)	{
 				NEXT_FLAG = 1;
-				NEXT_DATA = (UINT8)(HWDATA & 0xFF);
+				NEXT_DATA = (UINT8)(AHB_SS->HWDATA & 0xFF);
 			}
 			else	{
 				NEXT_FLAG = 0;
@@ -210,13 +198,13 @@ SC_MODULE(CONSOLE)	{
 		BDInit();
 
 		SC_METHOD(do_assign_addr_phase);
-		sensitive << HREADY;
-		sensitive << HSEL;
-		sensitive << HWRITE;
-		sensitive << HTRANS;
-		sensitive << HADDR;
-		sensitive << HSIZE;
-		sensitive << HWDATA;
+		sensitive << AHB_SS->HREADY;
+		sensitive << AHB_SS->HSEL;
+		sensitive << AHB_SS->HWRITE;
+		sensitive << AHB_SS->HTRANS;
+		sensitive << AHB_SS->HADDR;
+		sensitive << AHB_SS->HSIZE;
+		sensitive << AHB_SS->HWDATA;
 
 		SC_THREAD(do_pos_hclk_neg_hresetn);
 		sensitive << HCLK.pos();
@@ -231,7 +219,7 @@ SC_MODULE(CONSOLE)	{
 		sensitive << REG_ADDR_PHASE_HWRITE;
 		sensitive << REG_ADDR_PHASE_HTRANS;
 		sensitive << dw_WE;
-		sensitive << HWDATA;
+		sensitive << AHB_SS->HWDATA;
 
 		SC_METHOD(do_print_console);
 		sensitive << REG_FLAG;

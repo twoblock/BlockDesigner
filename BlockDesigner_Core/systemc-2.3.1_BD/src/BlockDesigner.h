@@ -39,8 +39,10 @@ namespace sc_core
 				strcpy(temp[9], "HREADY");
 				strcpy(temp[10], "HRESP");
 
-				for(int i=0; i<11; i++)
-					strcat(temp[i], Name);
+				if(Name != NULL)	{
+					for(int i=0; i<11; i++)
+						strcat(temp[i], Name);
+				}
 
 				HADDR.set_port_name(temp[0]);
 				HBURST.set_port_name(temp[1]);
@@ -90,8 +92,10 @@ namespace sc_core
 				strcpy(temp[9], "HREADY");
 				strcpy(temp[10], "HRESP");
 
-				for(int i=0; i<11; i++)
-					strcat(temp[i], Name);
+				if(Name != NULL)	{
+					for(int i=0; i<11; i++)
+						strcat(temp[i], Name);
+				}
 
 				HADDR.set_port_name(temp[0]);
 				HBURST.set_port_name(temp[1]);
@@ -145,8 +149,10 @@ namespace sc_core
 				strcpy(temp[11], "HRESP");
 				strcpy(temp[12], "HRDATA");
 
-				for(int i=0; i<13; i++)
-					strcat(temp[i], Name);
+				if(Name != NULL)	{
+					for(int i=0; i<13; i++)
+						strcat(temp[i], Name);
+				}
 
 				HADDR.set_port_name(temp[0]);
 				HBURST.set_port_name(temp[1]);
@@ -203,8 +209,10 @@ namespace sc_core
 				strcpy(temp[11], "HRESP");
 				strcpy(temp[12], "HRDATA");
 
-				for(int i=0; i<13; i++)
-					strcat(temp[i], Name);
+				if(Name != NULL)	{
+					for(int i=0; i<13; i++)
+						strcat(temp[i], Name);
+				}
 
 				HADDR.set_port_name(temp[0]);
 				HBURST.set_port_name(temp[1]);

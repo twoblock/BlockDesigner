@@ -8,7 +8,7 @@
 #ifndef _VCORTEXM0DS_H_
 #define _VCORTEXM0DS_H_
 
-#include "systemc.h"
+#include "BlockDesigner.h"
 #include "verilated_sc.h"
 #include "verilated.h"
 #include "VCORTEXM0DS_BDDI.h"
@@ -28,14 +28,7 @@ SC_MODULE(VCORTEXM0DS) {
     // propagate new values into/out from the Verilated model.
     sc_in<bool>	HCLK;
     sc_in<bool>	HRESETn;
-    sc_out<uint32_t>	HBURST;
     sc_out<bool>	HMASTLOCK;
-    sc_out<uint32_t>	HPROT;
-    sc_out<uint32_t>	HSIZE;
-    sc_out<uint32_t>	HTRANS;
-    sc_out<bool>	HWRITE;
-    sc_in<bool>	HREADY;
-    sc_in<bool>	HRESP;
     sc_in<bool>	NMI;
     sc_in<bool>	IRQ00;
     sc_in<bool>	IRQ01;
@@ -58,13 +51,12 @@ SC_MODULE(VCORTEXM0DS) {
     sc_out<bool>	LOCKUP;
     sc_out<bool>	SYSRESETREQ;
     sc_out<bool>	SLEEPING;
-    sc_out<uint32_t>	HADDR;
-    sc_out<uint32_t>	HWDATA;
-    sc_in<uint32_t>	HRDATA;
     sc_out<uint32_t>	EXTRACT_PC;
     sc_out<uint32_t>	EXTRACT_R3;
     sc_out<uint32_t>	EXTRACT_R4;
     sc_out<uint32_t>	EXTRACT_R10;
+
+		BD_AHBPort_MM *AHB_MM;
 
 		BDDI *bddi;
 
