@@ -121,49 +121,49 @@
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
-            "data_type" : "AHB",
+            "data_type" : "Slave",
             "name" : "BD_AHB_LITE$S3"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
-            "data_type" : "AHB",
+            "data_type" : "Slave",
             "name" : "BD_AHB_LITE$S4"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
-            "data_type" : "AHB",
+            "data_type" : "Slave",
             "name" : "BD_AHB_LITE$S5"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
-            "data_type" : "AHB",
+            "data_type" : "Slave",
             "name" : "BD_AHB_LITE$S6"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
-            "data_type" : "AHB",
+            "data_type" : "Slave",
             "name" : "BD_AHB_LITE$S7"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
-            "data_type" : "AHB",
+            "data_type" : "Slave",
             "name" : "BD_AHB_LITE$S8"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
-            "data_type" : "AHB",
+            "data_type" : "Slave",
             "name" : "BD_AHB_LITE$S9"
          },
          {
