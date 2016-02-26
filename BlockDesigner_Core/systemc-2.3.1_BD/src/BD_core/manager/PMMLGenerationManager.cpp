@@ -106,17 +106,58 @@ namespace BDapi
 			 * Iterate ports in sc_module
 			 ********************************************/
 			for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
-				// parse port information
-				strcpy(a_PortTypeInfo, (*IndexOfPort)->kind());
-				p_DataType = strtok(a_PortTypeInfo, "\n");
-				p_ScPortType = strtok(NULL,"\n");
+
 				p_PortName = (*IndexOfPort)->get_port_name();
 
-				// add Port to PortList in json format
-				Port["port_name"] = p_PortName;
-				Port["sc_type"]   = p_ScPortType; 
-				Port["data_type"] = p_DataType;
-				PortList.append(Port);	
+		    // handle exception
+				if(p_PortName != NULL){
+
+				  // case : AHB port
+					if(p_PortName[0] == '$'){
+
+						if( p_PortName[1] == 'H' &&
+								p_PortName[2] == 'A' &&
+								p_PortName[3] == 'D' &&
+								p_PortName[4] == 'D' &&
+								p_PortName[5] == 'R' 
+							){
+							// parse port information
+							strcpy(a_PortTypeInfo, (*IndexOfPort)->get_port_name());
+							strtok(a_PortTypeInfo, "_");
+							p_ScPortType = strtok(NULL,"_");
+							p_PortName = strtok(NULL," ");
+
+
+
+							// add Port to PortList in json format
+							if(p_PortName != NULL){
+							Port["port_name"] = p_PortName;
+							}
+							else{
+							Port["port_name"] = "null";
+							}
+							Port["sc_type"]   = p_ScPortType; 
+							Port["data_type"] = "AHB";
+							PortList.append(Port);	
+						}
+						else{
+							continue;
+						}
+					}
+				  // case : other port
+					else{
+						// parse port information
+						strcpy(a_PortTypeInfo, (*IndexOfPort)->kind());
+						p_DataType = strtok(a_PortTypeInfo, "\n");
+						p_ScPortType = strtok(NULL,"\n");
+
+						// add Port to PortList in json format
+						Port["port_name"] = p_PortName;
+						Port["sc_type"]   = p_ScPortType; 
+						Port["data_type"] = p_DataType;
+						PortList.append(Port);	
+					}
+				}
 			} 
 
 			/********************************************

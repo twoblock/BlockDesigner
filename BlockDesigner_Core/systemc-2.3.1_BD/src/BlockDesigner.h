@@ -27,17 +27,17 @@ namespace sc_core
 				for(int i=0; i<11; i++)
 					memset(temp[i], 0, 256);
 
-				strcpy(temp[0], "HADDR");
-				strcpy(temp[1], "HBURST");
-				strcpy(temp[2], "HLOCK");
-				strcpy(temp[3], "HPROT");
-				strcpy(temp[4], "HSIZE");
-				strcpy(temp[5], "HTRANS");
-				strcpy(temp[6], "HWDATA");
-				strcpy(temp[7], "HWRITE");
-				strcpy(temp[8], "HRDATA");
-				strcpy(temp[9], "HREADY");
-				strcpy(temp[10], "HRESP");
+				strcpy(temp[0], "$HADDR_MM_");
+				strcpy(temp[1], "$HBURST_MM_");
+				strcpy(temp[2], "$HLOCK_MM_");
+				strcpy(temp[3], "$HPROT_MM_");
+				strcpy(temp[4], "$HSIZE_MM_");
+				strcpy(temp[5], "$HTRANS_MM_");
+				strcpy(temp[6], "$HWDATA_MM_");
+				strcpy(temp[7], "$HWRITE_MM_");
+				strcpy(temp[8], "$HRDATA_MM_");
+				strcpy(temp[9], "$HREADY_MM_");
+				strcpy(temp[10], "$HRESP_MM_");
 
 				if(Name != NULL)	{
 					for(int i=0; i<11; i++)
@@ -80,17 +80,17 @@ namespace sc_core
 				for(int i=0; i<11; i++)
 					memset(temp[i], 0, 256);
 
-				strcpy(temp[0], "HADDR");
-				strcpy(temp[1], "HBURST");
-				strcpy(temp[2], "HLOCK");
-				strcpy(temp[3], "HPROT");
-				strcpy(temp[4], "HSIZE");
-				strcpy(temp[5], "HTRANS");
-				strcpy(temp[6], "HWDATA");
-				strcpy(temp[7], "HWRITE");
-				strcpy(temp[8], "HRDATA");
-				strcpy(temp[9], "HREADY");
-				strcpy(temp[10], "HRESP");
+				strcpy(temp[0], "$HADDR_MS_");
+				strcpy(temp[1], "$HBURST_MS_");
+				strcpy(temp[2], "$HLOCK_MS_");
+				strcpy(temp[3], "$HPROT_MS_");
+				strcpy(temp[4], "$HSIZE_MS_");
+				strcpy(temp[5], "$HTRANS_MS_");
+				strcpy(temp[6], "$HWDATA_MS_");
+				strcpy(temp[7], "$HWRITE_MS_");
+				strcpy(temp[8], "$HRDATA_MS_");
+				strcpy(temp[9], "$HREADY_MS_");
+				strcpy(temp[10], "$HRESP_MS_");
 
 				if(Name != NULL)	{
 					for(int i=0; i<11; i++)
@@ -135,19 +135,19 @@ namespace sc_core
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
 
-				strcpy(temp[0], "HADDR");
-				strcpy(temp[1], "HBURST");
-				strcpy(temp[2], "HLOCK");
-				strcpy(temp[3], "HPROT");
-				strcpy(temp[4], "HSIZE");
-				strcpy(temp[5], "HTRANS");
-				strcpy(temp[6], "HWDATA");
-				strcpy(temp[7], "HWRITE");
-				strcpy(temp[8], "HREADY");
-				strcpy(temp[9], "HSEL");
-				strcpy(temp[10], "HREADYOUT");
-				strcpy(temp[11], "HRESP");
-				strcpy(temp[12], "HRDATA");
+				strcpy(temp[0], "$HADDR_SM_");
+				strcpy(temp[1], "$HBURST_SM_");
+				strcpy(temp[2], "$HLOCK_SM_");
+				strcpy(temp[3], "$HPROT_SM_");
+				strcpy(temp[4], "$HSIZE_SM_");
+				strcpy(temp[5], "$HTRANS_SM_");
+				strcpy(temp[6], "$HWDATA_SM_");
+				strcpy(temp[7], "$HWRITE_SM_");
+				strcpy(temp[8], "$HREADY_SM_");
+				strcpy(temp[9], "$HSEL_SM_");
+				strcpy(temp[10], "$HREADYOUT_SM_");
+				strcpy(temp[11], "$HRESP_SM_");
+				strcpy(temp[12], "$HRDATA_SM_");
 
 				if(Name != NULL)	{
 					for(int i=0; i<13; i++)
@@ -195,19 +195,19 @@ namespace sc_core
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
 
-				strcpy(temp[0], "HADDR");
-				strcpy(temp[1], "HBURST");
-				strcpy(temp[2], "HLOCK");
-				strcpy(temp[3], "HPROT");
-				strcpy(temp[4], "HSIZE");
-				strcpy(temp[5], "HTRANS");
-				strcpy(temp[6], "HWDATA");
-				strcpy(temp[7], "HWRITE");
-				strcpy(temp[8], "HREADY");
-				strcpy(temp[9], "HSEL");
-				strcpy(temp[10], "HREADYOUT");
-				strcpy(temp[11], "HRESP");
-				strcpy(temp[12], "HRDATA");
+				strcpy(temp[0], "$HADDR_SS_");
+				strcpy(temp[1], "$HBURST_SS_");
+				strcpy(temp[2], "$HLOCK_SS_");
+				strcpy(temp[3], "$HPROT_SS_");
+				strcpy(temp[4], "$HSIZE_SS_");
+				strcpy(temp[5], "$HTRANS_SS_");
+				strcpy(temp[6], "$HWDATA_SS_");
+				strcpy(temp[7], "$HWRITE_SS_");
+				strcpy(temp[8], "$HREADY_SS_");
+				strcpy(temp[9], "$HSEL_SS_");
+				strcpy(temp[10], "$HREADYOUT_SS_");
+				strcpy(temp[11], "$HRESP_SS_");
+				strcpy(temp[12], "$HRDATA_SS_");
 
 				if(Name != NULL)	{
 					for(int i=0; i<13; i++)

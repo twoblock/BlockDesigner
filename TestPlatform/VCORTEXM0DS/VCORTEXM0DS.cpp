@@ -47183,7 +47183,7 @@ void VCORTEXM0DS::BDInit()
 	EXTRACT_R4.set_port_name("EXTRACT_R4");     
 	EXTRACT_R10.set_port_name("EXTRACT_R10");    
 
-	AHB_MM = new BD_AHBPort_MM(NULL);
+	AHB_MM = new BD_AHBPort_MM((char*)"M0");
 
 	bddi = new VCORTEXM0DS_BDDI(this);
 }

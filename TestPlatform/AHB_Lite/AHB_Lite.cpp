@@ -63,19 +63,19 @@ void AHB_Lite::BDInit()
 	HSEL_NOMAP.set_port_name("HSEL_NOMAP");
 
 	// Master(Cortex-M0DS) Interface
-	AHBMaster_M0 = new BD_AHBPort_MS((char*)"_M");
+	AHBMaster_M0 = new BD_AHBPort_MS((char*)"M0");
 
 	// Slave 0 Interface
-	AHBSlave_S0 = new BD_AHBPort_SM((char*)"_S0");
-	AHBSlave_S1 = new BD_AHBPort_SM((char*)"_S1");
-	AHBSlave_S2 = new BD_AHBPort_SM((char*)"_S2");
-	AHBSlave_S3 = new BD_AHBPort_SM((char*)"_S3");
-	AHBSlave_S4 = new BD_AHBPort_SM((char*)"_S4");
-	AHBSlave_S5 = new BD_AHBPort_SM((char*)"_S5");
-	AHBSlave_S6 = new BD_AHBPort_SM((char*)"_S6");
-	AHBSlave_S7 = new BD_AHBPort_SM((char*)"_S7");
-	AHBSlave_S8 = new BD_AHBPort_SM((char*)"_S8");
-	AHBSlave_S9 = new BD_AHBPort_SM((char*)"_S9");
+	AHBSlave_S0 = new BD_AHBPort_SM((char*)"S0");
+	AHBSlave_S1 = new BD_AHBPort_SM((char*)"S1");
+	AHBSlave_S2 = new BD_AHBPort_SM((char*)"S2");
+	AHBSlave_S3 = new BD_AHBPort_SM((char*)"S3");
+	AHBSlave_S4 = new BD_AHBPort_SM((char*)"S4");
+	AHBSlave_S5 = new BD_AHBPort_SM((char*)"S5");
+	AHBSlave_S6 = new BD_AHBPort_SM((char*)"S6");
+	AHBSlave_S7 = new BD_AHBPort_SM((char*)"S7");
+	AHBSlave_S8 = new BD_AHBPort_SM((char*)"S8");
+	AHBSlave_S9 = new BD_AHBPort_SM((char*)"S9");
 
 	bddi = new AHB_Lite_BDDI(this);
 	bdmmi = new AHB_Lite_BDMMI(this);
