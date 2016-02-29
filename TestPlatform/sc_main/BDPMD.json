@@ -1,353 +1,416 @@
 {
-   "BDPMD" : {
-      "Channel_Info" : [
-         {
-            "channel_type" : "sc_clock",
-            "connection_info" : [
-               {
-                  "module_name" : "BD_AHB_LITE",
-                  "port_name" : "HCLK"
-               },
-               {
-                  "module_name" : "BD_ROM",
-                  "port_name" : "HCLK"
-               },
-               {
-                  "module_name" : "BD_SRAM",
-                  "port_name" : "HCLK"
-               },
-               {
-                  "module_name" : "BD_CONSOLE",
-                  "port_name" : "HCLK"
-               },
-               {
-                  "module_name" : "BD_TB",
-                  "port_name" : "HCLK"
-               }
-            ],
-            "connection_num" : "5",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$HCLK"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [
-               {
-                  "module_name" : "BD_AHB_LITE",
-                  "port_name" : "HRESETn"
-               },
-               {
-                  "module_name" : "BD_ROM",
-                  "port_name" : "HRESETn"
-               },
-               {
-                  "module_name" : "BD_SRAM",
-                  "port_name" : "HRESETn"
-               },
-               {
-                  "module_name" : "BD_CONSOLE",
-                  "port_name" : "HRESETn"
-               },
-               {
-                  "module_name" : "BD_TB",
-                  "port_name" : "HRESETn"
-               }
-            ],
-            "connection_num" : "5",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$HRESETn"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [
-               {
-                  "module_name" : "BD_AHB_LITE",
-                  "port_name" : "MS_M0"
-               }
-            ],
-            "connection_num" : "1",
-            "data_type" : "Master",
-            "name" : "BD_CORTEXM0DS$MM_M0"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [
-               {
-                  "module_name" : "BD_AHB_LITE",
-                  "port_name" : "SM_S0"
-               }
-            ],
-            "connection_num" : "1",
-            "data_type" : "Slave",
-            "name" : "BD_ROM$SS_S0"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [
-               {
-                  "module_name" : "BD_AHB_LITE",
-                  "port_name" : "SM_S1"
-               }
-            ],
-            "connection_num" : "1",
-            "data_type" : "Slave",
-            "name" : "BD_SRAM$SS_S0"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [
-               {
-                  "module_name" : "BD_AHB_LITE",
-                  "port_name" : "SM_S2"
-               }
-            ],
-            "connection_num" : "1",
-            "data_type" : "Slave",
-            "name" : "BD_CONSOLE$SS_S0"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [
-               {
-                  "module_name" : "BD_TB",
-                  "port_name" : "EXTRACT_PC"
-               }
-            ],
-            "connection_num" : "1",
-            "data_type" : "UINT32",
-            "name" : "BD_CORTEXM0DS$EXTRACT_PC"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$SM_S3"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$SM_S4"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$SM_S5"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$SM_S6"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$SM_S7"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$SM_S8"
-         },
-         {
-            "channel_type" : "AHB",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$SM_S9"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_AHB_LITE$HSEL_NOMAP"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$NMI"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ00"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ01"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ02"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ03"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ04"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ05"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ06"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ07"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ08"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ09"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ10"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ11"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ12"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ13"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ14"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$IRQ15"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$TXEV"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$RXEV"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$LOCKUP"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$SYSRESETREQ"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "bool",
-            "name" : "BD_CORTEXM0DS$SLEEPING"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "UINT32",
-            "name" : "BD_CORTEXM0DS$EXTRACT_R3"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "UINT32",
-            "name" : "BD_CORTEXM0DS$EXTRACT_R4"
-         },
-         {
-            "channel_type" : "sc_signal",
-            "connection_info" : [],
-            "connection_num" : "0",
-            "data_type" : "UINT32",
-            "name" : "BD_CORTEXM0DS$EXTRACT_R10"
-         }
-      ]
-   }
+	"BDPMD" : {
+		"Module_Data": [
+		{
+			"module_name": "AHB_Lite",
+			"module_location": "null->(simulator에 전송시 *.so경로로 대체)",
+			"module_type": "bus",
+			"module_info": {
+				"instance_name": "BD_AHB_LITE",
+				"port": [
+				{
+					"port": "p1",
+					"sc_type": "sc_in",
+					"data_type": "bool"
+				},
+				{
+					"port": "p2",
+					"sc_type": "sc_out",
+					"data_type": "bool"
+				},
+				{
+					"port": "p3",
+					"sc_type": "sc_in",
+					"data_type": "bool"
+				}
+				],
+					"register": [
+					{
+						"reg_name": "para1",
+						"data_type": "UINT",
+						"bits_wide": "32"
+					}
+				],
+					"parameter": [
+					{
+						"par_name": "para1",
+						"data_type": "UINT",
+						"default_value": "0",
+						"bits_wide": "32"
+					}
+				],
+					"memory_map": [
+					{
+						"slave_module": "BD_ROM",
+						"slave_module_port": "SS_S0",
+						"start_address": "0x0000000",
+						"size": "0x100000"
+					},
+					{
+						"slave_module": "BD_SRAM",
+						"slave_module_port": "SS_S0",
+						"start_address": "0x20000000",
+						"size": "0x100000"
+					},
+					{
+						"slave_module": "BD_CONSOLE",
+						"slave_module_port": "SS_S0",
+						"start_address": "0x25000000",
+						"size": "0x100000"
+					}
+
+				]
+			}
+		}
+		] ,
+			"Channel_Info" : [
+			{
+				"channel_type" : "sc_clock",
+				"connection_info" : [
+				{
+					"module_name" : "BD_AHB_LITE",
+					"port_name" : "HCLK"
+				},
+				{
+					"module_name" : "BD_ROM",
+					"port_name" : "HCLK"
+				},
+				{
+					"module_name" : "BD_SRAM",
+					"port_name" : "HCLK"
+				},
+				{
+					"module_name" : "BD_CONSOLE",
+					"port_name" : "HCLK"
+				},
+				{
+					"module_name" : "BD_TB",
+					"port_name" : "HCLK"
+				}
+				],
+					"connection_num" : "5",
+					"data_type" : "bool",
+					"name" : "BD_CORTEXM0DS$HCLK"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [
+				{
+					"module_name" : "BD_AHB_LITE",
+					"port_name" : "HRESETn"
+				},
+				{
+					"module_name" : "BD_ROM",
+					"port_name" : "HRESETn"
+				},
+				{
+					"module_name" : "BD_SRAM",
+					"port_name" : "HRESETn"
+				},
+				{
+					"module_name" : "BD_CONSOLE",
+					"port_name" : "HRESETn"
+				},
+				{
+					"module_name" : "BD_TB",
+					"port_name" : "HRESETn"
+				}
+				],
+					"connection_num" : "5",
+					"data_type" : "bool",
+					"name" : "BD_CORTEXM0DS$HRESETn"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [
+				{
+					"module_name" : "BD_AHB_LITE",
+					"port_name" : "MS_M0"
+				}
+				],
+					"connection_num" : "1",
+					"data_type" : "Master",
+					"name" : "BD_CORTEXM0DS$MM_M0"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [
+				{
+					"module_name" : "BD_AHB_LITE",
+					"port_name" : "SM_S0"
+				}
+				],
+					"connection_num" : "1",
+					"data_type" : "Slave",
+					"name" : "BD_ROM$SS_S0"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [
+				{
+					"module_name" : "BD_AHB_LITE",
+					"port_name" : "SM_S1"
+				}
+				],
+					"connection_num" : "1",
+					"data_type" : "Slave",
+					"name" : "BD_SRAM$SS_S0"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [
+				{
+					"module_name" : "BD_AHB_LITE",
+					"port_name" : "SM_S2"
+				}
+				],
+					"connection_num" : "1",
+					"data_type" : "Slave",
+					"name" : "BD_CONSOLE$SS_S0"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [
+				{
+					"module_name" : "BD_TB",
+					"port_name" : "EXTRACT_PC"
+				}
+				],
+					"connection_num" : "1",
+					"data_type" : "UINT32",
+					"name" : "BD_CORTEXM0DS$EXTRACT_PC"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "Slave",
+				"name" : "BD_AHB_LITE$SM_S3"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "Slave",
+				"name" : "BD_AHB_LITE$SM_S4"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "Slave",
+				"name" : "BD_AHB_LITE$SM_S5"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "Slave",
+				"name" : "BD_AHB_LITE$SM_S6"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "Slave",
+				"name" : "BD_AHB_LITE$SM_S7"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "Slave",
+				"name" : "BD_AHB_LITE$SM_S8"
+			},
+			{
+				"channel_type" : "AHB",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "Slave",
+				"name" : "BD_AHB_LITE$SM_S9"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_AHB_LITE$HSEL_NOMAP"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$NMI"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ00"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ01"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ02"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ03"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ04"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ05"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ06"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ07"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ08"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ09"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ10"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ11"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ12"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ13"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ14"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$IRQ15"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$TXEV"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$RXEV"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$LOCKUP"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$SYSRESETREQ"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "bool",
+				"name" : "BD_CORTEXM0DS$SLEEPING"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "UINT32",
+				"name" : "BD_CORTEXM0DS$EXTRACT_R3"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "UINT32",
+				"name" : "BD_CORTEXM0DS$EXTRACT_R4"
+			},
+			{
+				"channel_type" : "sc_signal",
+				"connection_info" : [],
+				"connection_num" : "0",
+				"data_type" : "UINT32",
+				"name" : "BD_CORTEXM0DS$EXTRACT_R10"
+			}
+		]
+	}
 }

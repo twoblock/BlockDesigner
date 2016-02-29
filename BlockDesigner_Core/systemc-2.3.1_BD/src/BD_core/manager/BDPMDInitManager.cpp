@@ -11,9 +11,12 @@
 //								Block Designer environment
 // ----------------------------------------------------------------------------
 
+#include "systemc.h"
 #include "BDPMDInitManager.h"
 #include "ModuleConnector.h"
+#include "ModuleListManager.h"
 #include "../SimulationAPI/ChannelMap.h"
+#include "../SimulationAPI/BDMMI.h"
 
 namespace BDapi
 {	
@@ -30,6 +33,7 @@ namespace BDapi
 	void BDPMDInitManager::PutOperationControl(GUI_COMMAND Command)
 	{
 		ConnectModules(Command.Argu1);
+		SetMemoryMap();
 	}
 
 	/*
@@ -97,6 +101,7 @@ namespace BDapi
 		}
 
 		InfoChannel = InfoRoot["BDPMD"]["Channel_Info"];
+		InfoModule = InfoRoot["BDPMD"]["Module_Data"];
 
 		return BDPMDReturnStatusOk;
 	}
@@ -105,7 +110,7 @@ namespace BDapi
 	 * function			: ParsingOwnConnectionInformation
 	 * design				: Parsing BDPMD Json File and Extract Binding Information
 	 * param				: Index					- this parameter is the index of Channel_Info in json file
-   *								BindingObject - this parameter is the information of module and channel 
+	 *								BindingObject - this parameter is the information of module and channel 
 	 * caller				: BDPMDInitManager::ConnectModules
 	 */
 	BDPMDReturnStatus BDPMDInitManager::ParsingOwnConnectionInformation(unsigned int Index, BindingInfo* BindingObject)
@@ -130,7 +135,7 @@ namespace BDapi
 	 * function			: ParsingChannelInformation
 	 * design				: Parsing BDPMD Json File and Extract Channel Information
 	 * param				: Index					- this parameter is the index of Channel_Info in json file
-   *								BindingObject - this parameter is the information of channel 
+	 *								BindingObject - this parameter is the information of channel 
 	 * caller				: BDPMDInitManager::ConnectModules
 	 */
 	BDPMDReturnStatus BDPMDInitManager::ParsingChannelInformation(unsigned int Index, ChannelInfo* ChannelObject)
@@ -150,7 +155,7 @@ namespace BDapi
 	 * design				: Parsing BDPMD Json File and Extract Binding Information
 	 * param				: PIndex				- this parameter is the index of Channel_Info in json file
 	 *								CIndex				- this parameter is the index of connection_info in json file
-   *								BindingObject - this parameter is the information of channel 
+	 *								BindingObject - this parameter is the information of channel 
 	 * caller				: BDPMDInitManager::ConnectModules
 	 */
 	BDPMDReturnStatus BDPMDInitManager::ParsingConnectionInformation(unsigned int PIndex, unsigned int CIndex, BindingInfo* BindingObject)
@@ -160,8 +165,85 @@ namespace BDapi
 			BindingObject->ModuleName = InfoChannel[PIndex]["connection_info"][CIndex]["module_name"].asCString();
 			BindingObject->ModulePortName = InfoChannel[PIndex]["connection_info"][CIndex]["port_name"].asCString();
 			BindingObject->ChannelName = InfoChannel[PIndex]["name"].asCString();
-		
+
 			return BDPMDReturnStatusOk;
+		}
+	}
+
+	/*
+	 * function 	: SetMemoryMap 
+	 * design	    : Set memory map in all bus 
+	 */
+	void BDPMDInitManager::SetMemoryMap()
+	{
+		sc_module *p_SCmodule= NULL;
+		BDMMI *p_BDMMI = NULL;
+
+		unsigned int ModuleNum = 0;
+		unsigned int ModuleIndex = 0;
+		unsigned int SlaveNum= 0;
+		unsigned int SlaveIndex = 0;
+
+		char a_ModuleInstanceName[256] = {0,};
+		char a_ModuleType[256] = {0,};
+
+		SlaveMemoryMap st_SlaveMemoryMap;	
+		char a_StartAddress[256] = {0,};
+		char a_Size[256] = {0,};
+
+		ModuleNum = InfoModule.size();
+
+
+		/********************************************
+		 * Iterate sc_modules in sc_module list
+		 ********************************************/
+		for(ModuleIndex = 0; ModuleIndex < ModuleNum; ModuleIndex++){
+
+			strcpy(a_ModuleType, InfoModule[ModuleIndex]["module_type"].asCString());
+			strcpy(a_ModuleInstanceName, InfoModule[ModuleIndex]["module_info"]["instance_name"].asCString());
+
+			if(strcmp(a_ModuleType, "bus") == 0){
+
+				InfoMemoryMap = InfoModule[ModuleIndex]["module_info"]["memory_map"];
+
+				// find module
+				p_SCmodule = p_ModuleListManager->FindModule(a_ModuleInstanceName);
+
+				// exception handlind for NULL pointer access
+				if(p_SCmodule != NULL){
+
+					p_BDMMI = p_SCmodule->GetBDMMI();
+					SlaveNum = InfoMemoryMap.size();  
+
+					/********************************************
+					 * Iterate slave memory map in bus 
+					 ********************************************/
+					for(SlaveIndex = 0; SlaveIndex < SlaveNum; SlaveIndex++){	
+
+							strcpy(st_SlaveMemoryMap.SlaveModule, InfoMemoryMap[SlaveIndex]["slave_module"].asCString());
+							strcpy(st_SlaveMemoryMap.SlavePort, InfoMemoryMap[SlaveIndex]["slave_module_port"].asCString());
+							strcpy(a_StartAddress, InfoMemoryMap[SlaveIndex]["start_address"].asCString());
+							strcpy(a_Size, InfoMemoryMap[SlaveIndex]["size"].asCString());
+
+							// exception handling for string to hex conversion( distingush 0xfff and fff )
+							if(a_StartAddress[0] == '0' && (a_StartAddress[1] == 'x' || a_StartAddress[1] == 'X'))	
+								st_SlaveMemoryMap.StartAddress = strtol(a_StartAddress, NULL, 0);
+							else
+								st_SlaveMemoryMap.StartAddress = strtol(a_StartAddress, NULL, 16);
+
+							if(a_Size[0] == '0' && (a_Size[1] == 'x' || a_Size[1] == 'X'))	
+								st_SlaveMemoryMap.Size = strtol(a_Size, NULL, 0);
+							else
+								st_SlaveMemoryMap.Size = strtol(a_Size, NULL, 16);
+
+							// modify memory map in BDMMI
+							p_BDMMI->ModifyMemoryMap(SlaveIndex, st_SlaveMemoryMap);
+					}
+
+					// set memory map in bus decoder
+					p_BDMMI->SetMemoryMap();	
+				}
+			}
 		}
 	}
 
@@ -201,6 +283,7 @@ namespace BDapi
 	{
 		p_ChannelMap = ChannelMap::GetInstance();
 		p_ModuleConnector = ModuleConnector::GetInstance();
+		p_ModuleListManager = ModuleListManager::GetInstance();
 	}
 
 	/*
