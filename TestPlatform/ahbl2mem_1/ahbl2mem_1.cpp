@@ -15,7 +15,7 @@ void AHBL2MEM_1::BDInit()
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");
 
-	AHB_SS = new BD_AHBPort_SS((char*)"S0");
+	AHB_SS = new BD_AHBPort_SS((char*)"SS_S0");
 
 	bddi = new AHBL2MEM_1_BDDI(this);
 }

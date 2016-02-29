@@ -24,38 +24,6 @@ namespace BDapi
 	pthread_mutex_t ModuleConnector::ModuleConnectorInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
 
 	/*
-	 * function    : ConnectModules 
-	 * design      : each module port bind this channel, which means to make connection 
-	 * param       : char * - First module name 
-	 * param       : char * - First module port name 
-	 * param       : char * - channel name 
-	 * param       : char * - Second module name
-	 * param       : char * - Second module port name 
-	 * caller      :  
-	 */
-	void ModuleConnector::ConnectModules(
-			const char *FirstModuleName,
-			const char *FirstModulePortName, 
-			const char *ChannelName,
-			const char *SecondModuleName, 
-			const char *SecondModulePortName)
-	{
-		BindingInfo st_FirstBindingInfo;
-		BindingInfo st_SecondBindingInfo;
-
-		st_FirstBindingInfo.ModuleName = FirstModuleName;
-		st_FirstBindingInfo.ModulePortName = FirstModulePortName;
-		st_FirstBindingInfo.ChannelName = ChannelName;
-
-		st_SecondBindingInfo.ModuleName = SecondModuleName;
-		st_SecondBindingInfo.ModulePortName = SecondModulePortName;
-		st_SecondBindingInfo.ChannelName = ChannelName;
-
-		BindChannel(&st_FirstBindingInfo);
-		BindChannel(&st_SecondBindingInfo);
-	}
-
-	/*
 	 * function    : BindChannel 
 	 * design      : one module port connect this channel 
 	 * param       : char * - Module name 
@@ -63,33 +31,107 @@ namespace BDapi
 	 * param       : char * - Channel name 
 	 * caller      :  
 	 */
-	void ModuleConnector::BindChannel(BindingInfo *BindingObject)
+	void ModuleConnector::BindChannel(BindingInfo *BindingObject, ChannelInfo *ChannelMatching)
 	{
 		sc_module *p_SCmodule = NULL;
 		p_SCmodule = p_ModuleListManager->FindModule(BindingObject->ModuleName);
 
 		std::vector<sc_port_base*>* p_PortList = NULL;
-		p_PortList = p_SCmodule->get_port_list();	
+		p_PortList = p_SCmodule->get_port_list();
 
+		if(strcmp(ChannelMatching->ChannelType, "AHB") == 0)	{
+			char a_TempChannelName[256] = {0,};
 
-		// find channel
-		ChannelObject *p_ChannelObject = NULL;
-		p_ChannelObject = p_ChannelMap->FindChannel(BindingObject->ChannelName);
-		
-		sc_interface *p_SCinterface = NULL;
-		p_SCinterface = p_ChannelObject->p_SCinterface;
+			if(strcmp(ChannelMatching->DataType, "Master") == 0)	{
+				char a_MasterTemp[11][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
+					"$HSIZE_", "$HTRANS_", "$HWDATA_", "$HPROT_", 
+					"$HLOCK_", "$HWRITE_", "$HREADY_", "$HRESP_" };
 
-		// find port
-		sc_port_base *p_SCportbase = NULL;
-		std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
-		std::vector<sc_port_base*>::iterator LastPort = p_PortList->end(); 
-		std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;
+				for(int MasterIndex = 0; MasterIndex < 11; MasterIndex++)	{
+					strcpy(a_TempChannelName, BindingObject->ChannelName);
+					strcat(a_TempChannelName, a_MasterTemp[MasterIndex]);
 
-		for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
-			p_SCportbase = (*IndexOfPort);
-			if(strcmp(p_SCportbase->get_port_name(), BindingObject->ModulePortName) == 0){
-				// this port bind channel
-				p_SCportbase->BDbind(*p_SCinterface);
+					ChannelObject *p_ChannelObject = NULL;
+					p_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+					sc_interface *p_SCinterface = NULL;
+					p_SCinterface = p_ChannelObject->p_SCinterface;
+
+					sc_port_base *p_SCportbase = NULL;
+					std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
+					std::vector<sc_port_base*>::iterator LastPort = p_PortList->end(); 
+					std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;
+
+					char a_TempPortName[256] = {0,};
+
+					strcpy(a_TempPortName, a_MasterTemp[MasterIndex]);
+					strcat(a_TempPortName, BindingObject->ModulePortName);
+
+					for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
+						p_SCportbase = (*IndexOfPort);
+						if(strcmp(p_SCportbase->get_port_name(), a_TempPortName) == 0){
+							p_SCportbase->BDbind(*p_SCinterface);
+						}
+					}				
+				}
+			}
+			else if(strcmp(ChannelMatching->DataType, "Slave") == 0)	{
+				char a_SlaveTemp[13][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
+																			"$HPROT_", "$HTRANS_", "$HWDATA_", 
+																			"$HSIZE_", "$HLOCK_", "$HWRITE_", 
+																			"$HREADY_", "$HSEL_", "$HREADYOUT_", "$HRESP_" };
+
+				for(int SlaveIndex = 0; SlaveIndex < 13; SlaveIndex++)	{
+					strcpy(a_TempChannelName, BindingObject->ChannelName);
+					strcat(a_TempChannelName, a_SlaveTemp[SlaveIndex]);
+
+					ChannelObject *p_ChannelObject = NULL;
+					p_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+					sc_interface *p_SCinterface = NULL;
+					p_SCinterface = p_ChannelObject->p_SCinterface;
+
+					sc_port_base *p_SCportbase = NULL;
+					std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
+					std::vector<sc_port_base*>::iterator LastPort = p_PortList->end(); 
+					std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;
+
+					char a_TempPortName[256] = {0,};
+
+					strcpy(a_TempPortName, a_SlaveTemp[SlaveIndex]);
+					strcat(a_TempPortName, BindingObject->ModulePortName);
+
+					for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
+						p_SCportbase = (*IndexOfPort);
+						if(strcmp(p_SCportbase->get_port_name(), a_TempPortName) == 0){
+							p_SCportbase->BDbind(*p_SCinterface);
+						}
+					}				
+				}
+			}
+			else
+				return;
+		}
+		else	{
+			// find channel
+			ChannelObject *p_ChannelObject = NULL;
+			p_ChannelObject = p_ChannelMap->FindChannel(BindingObject->ChannelName);
+
+			sc_interface *p_SCinterface = NULL;
+			p_SCinterface = p_ChannelObject->p_SCinterface;
+
+			// find port
+			sc_port_base *p_SCportbase = NULL;
+			std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
+			std::vector<sc_port_base*>::iterator LastPort = p_PortList->end(); 
+			std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;
+
+			for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
+				p_SCportbase = (*IndexOfPort);
+				if(strcmp(p_SCportbase->get_port_name(), BindingObject->ModulePortName) == 0){
+					// this port bind channel
+					p_SCportbase->BDbind(*p_SCinterface);
+				}
 			}
 		} 
 	}

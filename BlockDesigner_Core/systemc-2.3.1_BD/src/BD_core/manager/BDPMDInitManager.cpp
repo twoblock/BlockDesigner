@@ -61,12 +61,12 @@ namespace BDapi
 				p_ChannelMap->AddChannel(&st_ChannelInfo);
 
 				ParsingOwnConnectionInformation(dw_PIndex, &st_BindingInfo);
-				p_ModuleConnector->BindChannel(&st_BindingInfo);
+				p_ModuleConnector->BindChannel(&st_BindingInfo, &st_ChannelInfo);
 
 				for(unsigned int dw_CIndex = 0; ; dw_CIndex++)	{
 					if(ParsingConnectionInformation(dw_PIndex, dw_CIndex, &st_BindingInfo) == BDPMDReturnStatusError)	break;
 					else	{
-						p_ModuleConnector->BindChannel(&st_BindingInfo);
+						p_ModuleConnector->BindChannel(&st_BindingInfo, &st_ChannelInfo);
 					}
 				}
 			}
@@ -114,7 +114,7 @@ namespace BDapi
 
 		if(Index == InfoChannel.size())	return BDPMDReturnStatusError;
 		else	{
-			strcpy(a_TokBuf, (char *)InfoChannel[Index]["name"].asCString());
+			strcpy(a_TokBuf, InfoChannel[Index]["name"].asCString());
 
 			BindingObject->ChannelName = InfoChannel[Index]["name"].asCString();
 			phw_TempBuf = strtok(a_TokBuf, "$");

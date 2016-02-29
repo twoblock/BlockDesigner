@@ -28,6 +28,8 @@ namespace BDapi
 	class ChannelMap;
 	class ModuleListManager;
 
+	struct ChannelInfo;
+
 	struct BindingInfo
 	{
 		const char *ModuleName;
@@ -43,14 +45,7 @@ namespace BDapi
 	class ModuleConnector 
 	{
 		public:
-			void ConnectModules(
-					const char *FirstModuleName,
-					const char *FirstModulePortName, 
-					const char *ChannelName,
-					const char *SecondModuleName, 
-					const char *SecondModulePortName);
-
-			void BindChannel(BindingInfo *BindingObject);
+			void BindChannel(BindingInfo *BindingObject, ChannelInfo *ChannelMatching);
 
 			static ModuleConnector* GetInstance();
 			static void DeleteInstance();

@@ -26,16 +26,6 @@
  */
 namespace BDapi
 {
-	// this struct support map key( char * )
-	// this protect comparing key based on address( char * ) 
-	struct CmpStr 
-	{
-		bool operator()(char const *a, char const *b)
-		{
-			return std::strcmp(a, b) < 0;
-		}
-	};
-
 	// ChannelInfo from Platform Manager
 	struct ChannelInfo
 	{
@@ -73,9 +63,10 @@ namespace BDapi
 		private:
 			void AddSCsignal(const char *ChannelName, const char *DataType);
 			void AddSCclock(const char *ChannelName, const char *DataType);
+			void AddAHBSignal(const char *ChannelName, const char *DataType);
 
-			std::map<const char*, ChannelObject*, CmpStr> RealChannelMap;
-			std::map<const char*, ChannelObject*, CmpStr>::iterator ChannelFinder; 
+			std::map<std::string, ChannelObject*> RealChannelMap;
+			std::map<std::string, ChannelObject*>::iterator ChannelFinder; 
 
 			static ChannelMap *_ChannelMap; 
 			// mutex for singleton pattern 

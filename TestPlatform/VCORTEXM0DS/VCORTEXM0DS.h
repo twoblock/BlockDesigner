@@ -28,7 +28,6 @@ SC_MODULE(VCORTEXM0DS) {
     // propagate new values into/out from the Verilated model.
     sc_in<bool>	HCLK;
     sc_in<bool>	HRESETn;
-    sc_out<bool>	HMASTLOCK;
     sc_in<bool>	NMI;
     sc_in<bool>	IRQ00;
     sc_in<bool>	IRQ01;

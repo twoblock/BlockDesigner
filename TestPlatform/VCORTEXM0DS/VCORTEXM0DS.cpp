@@ -14,21 +14,6 @@
 
 VL_SC_CTOR_IMP(VCORTEXM0DS)
 #if (SYSTEMC_VERSION>20011000)
-/*
-	: HCLK("HCLK"), HRESETn("HRESETn"), AHB_MM->HBURST("AHB_MM->HBURST"), 
-	HMASTLOCK("HMASTLOCK"), AHB_MM->HPROT("AHB_MM->HPROT"), AHB_MM->HSIZE("AHB_MM->HSIZE"), 
-	AHB_MM->HTRANS("AHB_MM->HTRANS"), AHB_MM->HWRITE("AHB_MM->HWRITE"), AHB_MM->HREADY("AHB_MM->HREADY"), 
-	AHB_MM->HRESP("AHB_MM->HRESP"), NMI("NMI"), IRQ00("IRQ00"), IRQ01("IRQ01"), 
-	IRQ02("IRQ02"), IRQ03("IRQ03"), IRQ04("IRQ04"), 
-	IRQ05("IRQ05"), IRQ06("IRQ06"), IRQ07("IRQ07"), 
-	IRQ08("IRQ08"), IRQ09("IRQ09"), IRQ10("IRQ10"), 
-	IRQ11("IRQ11"), IRQ12("IRQ12"), IRQ13("IRQ13"), 
-	IRQ14("IRQ14"), IRQ15("IRQ15"), TXEV("TXEV"), 
-	RXEV("RXEV"), LOCKUP("LOCKUP"), SYSRESETREQ("SYSRESETREQ"), 
-	SLEEPING("SLEEPING"), AHB_MM->HADDR("AHB_MM->HADDR"), AHB_MM->HWDATA("AHB_MM->HWDATA"), 
-	AHB_MM->HRDATA("AHB_MM->HRDATA"), EXTRACT_PC("EXTRACT_PC"), EXTRACT_R3("EXTRACT_R3"), 
-	EXTRACT_R4("EXTRACT_R4"), EXTRACT_R10("EXTRACT_R10")
-*/
 #endif
 {
 	BDInit();
@@ -2418,7 +2403,7 @@ void VCORTEXM0DS::_settle__TOP__1(VCORTEXM0DS__Syms* __restrict vlSymsp) {
 	VL_DEBUG_IF(VL_PRINTF("    VCORTEXM0DS::_settle__TOP__1\n"); );
 	VCORTEXM0DS* __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
 	// Body
-	VL_ASSIGN_SII(1,vlTOPp->HMASTLOCK, 0U);
+	VL_ASSIGN_SII(1,vlTOPp->AHB_MM->HLOCK, 0U);
 	vlTOPp->__Vcellout__v__HTRANS = (2U & (IData)(vlTOPp->__Vcellout__v__HTRANS));
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__RXEV, vlTOPp->RXEV);
 	VL_ASSIGN_ISI(1,vlTOPp->__Vcellinp__v__IRQ15, vlTOPp->IRQ15);
@@ -47155,7 +47140,6 @@ void VCORTEXM0DS::BDInit()
 {
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");        
-	HMASTLOCK.set_port_name("HMASTLOCK");      
 	NMI.set_port_name("NMI");            
 	IRQ00.set_port_name("IRQ00");          
 	IRQ01.set_port_name("IRQ01");          
@@ -47183,7 +47167,7 @@ void VCORTEXM0DS::BDInit()
 	EXTRACT_R4.set_port_name("EXTRACT_R4");     
 	EXTRACT_R10.set_port_name("EXTRACT_R10");    
 
-	AHB_MM = new BD_AHBPort_MM((char*)"M0");
+	AHB_MM = new BD_AHBPort_MM((char*)"MM_M0");
 
 	bddi = new VCORTEXM0DS_BDDI(this);
 }
