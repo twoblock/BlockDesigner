@@ -44,7 +44,7 @@ namespace BDapi
 			void PutOperationControl(GUI_COMMAND Command);
 			void GetOperationControl(GUI_COMMAND Command);
 
-			void AddTrace(const char *ChannelName);
+			void AddTrace(const char *ChannelName, const char *ChannelType);
 
 			static SignalTraceManager* GetInstance();
 			static void DeleteInstance();
