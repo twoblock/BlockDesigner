@@ -118,7 +118,7 @@ SC_MODULE(AHB_Lite)	{
 		BD_AHBMUX->HRESP		(AHBMaster_M0->HRESP);
 
 		// Test setting memory map
-		bdmmi->SetMemoryMap();
+		//bdmmi->SetMemoryMap();
 
 		SC_METHOD(do_transfer);
 		sensitive << AHBMaster_M0->HADDR;

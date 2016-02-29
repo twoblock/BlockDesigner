@@ -20,14 +20,15 @@
 void AHB_Lite_BDMMI::SetMemoryMap()
 {
 	// TODO : user have to implement this area 
+	
+	unsigned int Index = 0;
 
-	p_Target->BD_AHBDCD->S0_BASE_ADDR = BDMMIMemoryMap[0].StartAddress;
-	p_Target->BD_AHBDCD->S1_BASE_ADDR = BDMMIMemoryMap[1].StartAddress;
-	p_Target->BD_AHBDCD->S2_BASE_ADDR = BDMMIMemoryMap[2].StartAddress;
-
-	p_Target->BD_AHBDCD->S0_END_ADDR = BDMMIMemoryMap[0].StartAddress + BDMMIMemoryMap[0].Size - 1;
-	p_Target->BD_AHBDCD->S1_END_ADDR = BDMMIMemoryMap[1].StartAddress + BDMMIMemoryMap[1].Size - 1;
-	p_Target->BD_AHBDCD->S2_END_ADDR = BDMMIMemoryMap[2].StartAddress + BDMMIMemoryMap[2].Size - 1;
+	for(Index = 0; Index < SlaveNumber; Index++){
+		p_Target->BD_AHBDCD->BASE_ADDR[Index] = BDMMIMemoryMap[Index].StartAddress;
+	}
+	for(Index = 0; Index < SlaveNumber; Index++){
+		p_Target->BD_AHBDCD->END_ADDR[Index] = BDMMIMemoryMap[Index].StartAddress + BDMMIMemoryMap[Index].Size - 1;
+	}
 }
 
 /*  
@@ -46,9 +47,6 @@ unsigned int AHB_Lite_BDMMI::GetSlaveNumber()
  */
 AHB_Lite_BDMMI::AHB_Lite_BDMMI(AHB_Lite *c) : p_Target(c)
 {
-	// initialize Slave Number
-	//SlaveNumber = 10;
-
 	// initialize this bus memory map
 	for(int SlaveIndex = 0; SlaveIndex < SlaveNumber; SlaveIndex++){
 
@@ -61,34 +59,6 @@ AHB_Lite_BDMMI::AHB_Lite_BDMMI(AHB_Lite *c) : p_Target(c)
 		// push each slave memory map to bus memory map
 		BDMMIMemoryMap.push_back(ast_BusSlave[SlaveIndex]); 
 	}
-
-	/////////////////// Test //////////////////////////
-
-	SlaveMemoryMap st_SlaveMemoryMap;	
-
-	// set S0 slave
-	strcpy(st_SlaveMemoryMap.SlaveModule, "ahbl2mem");
-	strcpy(st_SlaveMemoryMap.SlavePort, "S0");
-	st_SlaveMemoryMap.StartAddress = 0x00000000;
-	st_SlaveMemoryMap.Size = 0x00100000;
-
-	ModifyMemoryMap(0, st_SlaveMemoryMap);
-
-	// set S0 slave
-	strcpy(st_SlaveMemoryMap.SlaveModule, "ahbl2mem_1");
-	strcpy(st_SlaveMemoryMap.SlavePort, "S1");
-	st_SlaveMemoryMap.StartAddress = 0x20000000;
-	st_SlaveMemoryMap.Size = 0x00100000;
-
-	ModifyMemoryMap(1, st_SlaveMemoryMap);
-
-	// set S0 slave
-	strcpy(st_SlaveMemoryMap.SlaveModule, "console");
-	strcpy(st_SlaveMemoryMap.SlavePort, "S2");
-	st_SlaveMemoryMap.StartAddress = 0x25000000;
-	st_SlaveMemoryMap.Size = 0x00100000;
-
-	ModifyMemoryMap(2, st_SlaveMemoryMap);
 }
 
 /*  

@@ -63,6 +63,8 @@ namespace BDapi
 		Json::Value Parameter;
 		Json::Value RegisterList;
 		Json::Value Register;
+		Json::Value MemoryMapList;
+		Json::Value MemoryMap;
 
 		// sc_module's port list pointer 
 		std::vector<sc_port_base*>* p_PortList = NULL;
@@ -78,6 +80,13 @@ namespace BDapi
 		unsigned int dw_Index = 0;
 		unsigned int dw_ParNum = 0;
 		unsigned int dw_RegNum = 0;
+
+		// variable to parse memory map
+		char *p_ModuleType = NULL;
+		unsigned int dw_MemoryMapNum= 0;
+
+		// for AHB type
+		char a_AHBType[3] = {0,};
 
 		// ready to iterate sc_modules 
 		list<sc_module*>::iterator FirstModule = SCModuleList.begin();
@@ -124,19 +133,22 @@ namespace BDapi
 							// parse port information
 							strcpy(a_PortTypeInfo, (*IndexOfPort)->get_port_name());
 							strtok(a_PortTypeInfo, "_");
-							p_ScPortType = strtok(NULL,"_");
 							p_PortName = strtok(NULL," ");
-
 
 
 							// add Port to PortList in json format
 							if(p_PortName != NULL){
 							Port["port_name"] = p_PortName;
+							a_AHBType[0] = p_PortName[0];	
+							a_AHBType[1] = p_PortName[1];	
+							a_AHBType[2] = 0; 
+							Port["sc_type"]   = a_AHBType; 
 							}
 							else{
 							Port["port_name"] = "null";
+							Port["sc_type"]   = "null"; 
 							}
-							Port["sc_type"]   = p_ScPortType; 
+							
 							Port["data_type"] = "AHB";
 							PortList.append(Port);	
 						}
@@ -192,6 +204,26 @@ namespace BDapi
 				Register["type"] = a_Temp;
 				RegisterList.append(Register);
 			}	
+
+			/********************************************
+			 * memory map in sc_module ( only Bus type )
+			 ********************************************/
+		  p_ModuleType = NULL;
+			p_ModuleType = (*IndexOfModule)->GetBDDI()->BDDIGetModuleType();
+
+			if(strcmp(p_ModuleType, "bus") == 0)
+			{
+			 	dw_MemoryMapNum = (*IndexOfModule)->GetBDMMI()->GetSlaveNumber();	
+
+				for(dw_Index = 0; dw_Index < dw_MemoryMapNum; dw_Index++){
+
+				sprintf(a_Temp, "SM_S%d", dw_Index);	
+				MemoryMap["port_name"] = a_Temp;	
+				MemoryMapList[dw_Index] = MemoryMap;
+				}	
+
+				Module["memory_map"] = MemoryMapList;
+			}
 
 			// add Module to PMModuleList in json format
 			Module["module_name"] = (*IndexOfModule)->GetModuleName();

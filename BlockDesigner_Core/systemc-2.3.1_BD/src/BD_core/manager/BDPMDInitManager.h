@@ -30,6 +30,7 @@
 namespace BDapi
 {
 	class ModuleConnector;
+	class ModuleListManager;
 	class ChannelMap;
 
 	struct BindingInfo;
@@ -60,6 +61,8 @@ namespace BDapi
 			BDPMDReturnStatus ParsingChannelInformation(unsigned int Index, ChannelInfo* ChannelObject);
 			BDPMDReturnStatus ParsingConnectionInformation(unsigned int PIndex, unsigned int CIndex, BindingInfo* BindingObject);
 
+			void SetMemoryMap();
+
 			static BDPMDInitManager* GetInstance();
 			static void DeleteInstance();
 
@@ -69,12 +72,17 @@ namespace BDapi
 
 		private:
 		 	static BDPMDInitManager *_BDPMDInitManager;
+			
 			ChannelMap *p_ChannelMap;
 			ModuleConnector *p_ModuleConnector;
+			ModuleListManager *p_ModuleListManager;
 
 			Json::Reader InfoReader;
 			Json::Value InfoRoot;
 			Json::Value InfoChannel;
+			Json::Value InfoModule;
+			Json::Value InfoMemoryMap;
+			Json::Value InfoSlave;
 
 			char a_TokBuf[BUFFUR_SIZE];
 
