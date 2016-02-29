@@ -29,13 +29,11 @@
 0 6 /home/harold/workspace/BlockDesigner/TestPlatform/VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
 0 7 BDPMD.json
 
-#0 4 0 BD_CORTEXM0DS$HCLK
-#0 4 0 BD_CORTEXM0DS$HRESETn
-#0 4 0 BD_CORTEXM0DS$HWRITE
-#0 4 0 BD_CORTEXM0DS$HRDATA
-#0 4 0 BD_CORTEXM0DS$HREADY
-#0 4 0 BD_CORTEXM0DS$HWDATA
-#0 4 0 BD_CORTEXM0DS$HRESP
+0 4 0 BD_CORTEXM0DS$HCLK
+0 4 0 BD_CORTEXM0DS$HRESETn
+0 4 0 BD_CORTEXM0DS$MM_M0 AHB
+0 4 0 BD_ROM$SS_S0 AHB
+0 4 0 BD_SRAM$SS_S0 AHB
 
 PUT ExecutionControl STEP 2000
 
@@ -206,6 +204,7 @@ PUT ExecutionControl STEP 4000
 ##     	0. enable                                                          ##
 ##     	1. disable                                                         ##
 ##    arg2 which wire                                                      ##
+##		arg3 wire type																											 ##
 ##                                                                         ##
 ##  Command 5 Register Call back                                           ##
 ##                                                                         ##
