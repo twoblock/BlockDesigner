@@ -62,48 +62,48 @@
             "connection_info" : [
                {
                   "module_name" : "BD_AHB_LITE",
-                  "port_name" : "M0"
+                  "port_name" : "MS_M0"
                }
             ],
             "connection_num" : "1",
             "data_type" : "Master",
-            "name" : "BD_CORTEXM0DS$M0"
+            "name" : "BD_CORTEXM0DS$MM_M0"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [
                {
                   "module_name" : "BD_AHB_LITE",
-                  "port_name" : "S0"
+                  "port_name" : "SM_S0"
                }
             ],
             "connection_num" : "1",
             "data_type" : "Slave",
-            "name" : "BD_ROM$S0"
+            "name" : "BD_ROM$SS_S0"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [
                {
                   "module_name" : "BD_AHB_LITE",
-                  "port_name" : "S1"
+                  "port_name" : "SM_S1"
                }
             ],
             "connection_num" : "1",
             "data_type" : "Slave",
-            "name" : "BD_SRAM$S0"
+            "name" : "BD_SRAM$SS_S0"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [
                {
                   "module_name" : "BD_AHB_LITE",
-                  "port_name" : "S2"
+                  "port_name" : "SM_S2"
                }
             ],
             "connection_num" : "1",
             "data_type" : "Slave",
-            "name" : "BD_CONSOLE$S0"
+            "name" : "BD_CONSOLE$SS_S0"
          },
          {
             "channel_type" : "sc_signal",
@@ -122,49 +122,49 @@
             "connection_info" : [],
             "connection_num" : "0",
             "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$S3"
+            "name" : "BD_AHB_LITE$SM_S3"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
             "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$S4"
+            "name" : "BD_AHB_LITE$SM_S4"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
             "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$S5"
+            "name" : "BD_AHB_LITE$SM_S5"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
             "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$S6"
+            "name" : "BD_AHB_LITE$SM_S6"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
             "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$S7"
+            "name" : "BD_AHB_LITE$SM_S7"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
             "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$S8"
+            "name" : "BD_AHB_LITE$SM_S8"
          },
          {
             "channel_type" : "AHB",
             "connection_info" : [],
             "connection_num" : "0",
             "data_type" : "Slave",
-            "name" : "BD_AHB_LITE$S9"
+            "name" : "BD_AHB_LITE$SM_S9"
          },
          {
             "channel_type" : "sc_signal",

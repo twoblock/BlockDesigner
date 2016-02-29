@@ -34,6 +34,8 @@ namespace BDapi
 			AddSCsignal(st_ChannelInfo->ChannelName, st_ChannelInfo->DataType);
 		else if(strcmp(st_ChannelInfo->ChannelType, "sc_clock") == 0)
 			AddSCclock(st_ChannelInfo->ChannelName, st_ChannelInfo->DataType);
+		else if(strcmp(st_ChannelInfo->ChannelType, "AHB") == 0)
+			AddAHBSignal(st_ChannelInfo->ChannelName, st_ChannelInfo->DataType);
 		else
 			return;
 	}
@@ -48,9 +50,9 @@ namespace BDapi
 		ChannelObject *p_ChannelObject = NULL;
 		sc_interface *p_SCinterface = NULL;
 
-		std::map<const char*, ChannelObject*>::iterator FirstChannel = RealChannelMap.begin();
-		std::map<const char*, ChannelObject*>::iterator LastChannel = RealChannelMap.end();
-		std::map<const char*, ChannelObject*>::iterator IndexOfChannel = FirstChannel;
+		std::map<std::string, ChannelObject*>::iterator FirstChannel = RealChannelMap.begin();
+		std::map<std::string, ChannelObject*>::iterator LastChannel = RealChannelMap.end();
+		std::map<std::string, ChannelObject*>::iterator IndexOfChannel = FirstChannel;
 
 		for(IndexOfChannel = FirstChannel; IndexOfChannel != LastChannel; ++IndexOfChannel){
 			p_ChannelObject	= IndexOfChannel->second;
@@ -73,12 +75,13 @@ namespace BDapi
 	 */
 	ChannelObject* ChannelMap::FindChannel(const char *ChannelName)
 	{
-		ChannelFinder = RealChannelMap.find(ChannelName);
+		std::string TempString(ChannelName);
+
+		ChannelFinder = RealChannelMap.find(TempString);
 
 		if( ChannelFinder != RealChannelMap.end() )  
 			return ChannelFinder->second;
-		else
-			return NULL;
+		else	return NULL;
 	}
 
 	/*
@@ -106,7 +109,9 @@ namespace BDapi
 		p_ChannelObject->p_SCinterface = p_SCinterface; 
 
 		// insert ChannelObject into map
-		RealChannelMap[ChannelName] = p_ChannelObject;
+		std::string TempString(ChannelName);
+	
+		RealChannelMap[TempString] = p_ChannelObject;
 	}
 
 	/*
@@ -129,9 +134,107 @@ namespace BDapi
 		p_ChannelObject->p_SCinterface = p_SCinterface; 
 
 		// insert ChannelObject into map
-		RealChannelMap[ChannelName] = p_ChannelObject;
-	}
+		std::string TempString(ChannelName);
 	
+		RealChannelMap[TempString] = p_ChannelObject;
+	}
+
+	/*
+	 * function    : add sc_signal 
+	 * design      : allocate sc_signal and push it to map
+	 * param       : char * - channel name
+	 * param       : char * - data type
+	 */
+	void ChannelMap::AddAHBSignal(const char *ChannelName, const char *DataType)
+	{
+		sc_interface *p_SCinterface = NULL;
+		char a_NameTemp[256] = {0,};
+
+		if(strcmp(DataType, "Master") == 0)	{
+			char a_UINTTemp[7][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
+															 		"$HSIZE_", "$HTRANS_", "$HWDATA_", "$HPROT_" };
+
+			char a_BOOLTemp[4][256] = { "$HLOCK_", "$HWRITE_", "$HREADY_", "$HRESP_" };
+
+			for(int UINTIndex = 0; UINTIndex < 7; UINTIndex++)	{
+				strcpy(a_NameTemp, ChannelName);
+				strcat(a_NameTemp, a_UINTTemp[UINTIndex]);	
+
+				p_SCinterface = new sc_signal<unsigned int>(a_NameTemp);
+
+				ChannelObject *p_ChannelObject = new ChannelObject();
+				
+				strcpy(p_ChannelObject->ChannelType, "AHB");
+				strcpy(p_ChannelObject->DataType, DataType);
+				p_ChannelObject->p_SCinterface = p_SCinterface;
+
+				std::string TempString(a_NameTemp);
+
+				RealChannelMap[TempString] = p_ChannelObject;
+			}
+
+			for(int BOOLIndex = 0; BOOLIndex < 4; BOOLIndex++)	{
+				strcpy(a_NameTemp, ChannelName);
+				strcat(a_NameTemp, a_BOOLTemp[BOOLIndex]);
+
+				p_SCinterface = new sc_signal<bool>(a_NameTemp);
+
+				ChannelObject *p_ChannelObject = new ChannelObject();
+
+				strcpy(p_ChannelObject->ChannelType, "AHB");
+				strcpy(p_ChannelObject->DataType, DataType);
+				p_ChannelObject->p_SCinterface = p_SCinterface;
+
+				std::string TempString(a_NameTemp);
+
+				RealChannelMap[TempString] = p_ChannelObject;
+			}
+		}
+		else if(strcmp(DataType, "Slave") == 0)	{
+			char a_UINTTemp[7][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
+																	"$HPROT_", "$HTRANS_", "$HWDATA_", "$HSIZE_" };
+
+			char a_BOOLTemp[6][256] = { "$HLOCK_", "$HWRITE_", "$HREADY_", 
+																	"$HSEL_", "$HREADYOUT_", "$HRESP_" };
+
+			for(int UINTIndex = 0; UINTIndex < 7; UINTIndex++)	{
+				strcpy(a_NameTemp, ChannelName);
+				strcat(a_NameTemp, a_UINTTemp[UINTIndex]);
+
+				p_SCinterface = new sc_signal<unsigned int>(a_NameTemp);
+
+				ChannelObject *p_ChannelObject = new ChannelObject();
+				
+				strcpy(p_ChannelObject->ChannelType, "AHB");
+				strcpy(p_ChannelObject->DataType, DataType);
+				p_ChannelObject->p_SCinterface = p_SCinterface;
+
+				std::string TempString(a_NameTemp);
+
+				RealChannelMap[TempString] = p_ChannelObject;
+			}
+
+			for(int BOOLIndex = 0; BOOLIndex < 6; BOOLIndex++)	{
+				strcpy(a_NameTemp, ChannelName);
+				strcat(a_NameTemp, a_BOOLTemp[BOOLIndex]);
+
+				p_SCinterface = new sc_signal<bool>(a_NameTemp);
+
+				ChannelObject *p_ChannelObject = new ChannelObject();
+
+				strcpy(p_ChannelObject->ChannelType, "AHB");
+				strcpy(p_ChannelObject->DataType, DataType);
+				p_ChannelObject->p_SCinterface = p_SCinterface;
+
+				std::string TempString(a_NameTemp);
+
+				RealChannelMap[TempString] = p_ChannelObject;
+			}
+		}
+		else
+			return;
+	}
+
   /*
 	 * function 	: GetInstance
 	 * design	    : Allocate ChannelMap instance and return it
