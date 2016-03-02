@@ -17,6 +17,9 @@ void AHBL2MEM::BDInit()
 
 	AHB_SS = new BD_AHBPort_SS((char*)"SS_S0");
 
+	base_addr = 0;
+	addr_size = 0x100000;
+
 	bddi = new AHBL2MEM_BDDI(this);
 }
 

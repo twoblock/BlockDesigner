@@ -55,6 +55,12 @@ namespace BDapi
 			virtual unsigned int BDDIGetModuleTotalRegNum() = 0;
 			virtual unsigned int BDDIGetModuleTotalParNum() = 0;
 
+			virtual BDDIReturn BDDIGetMemoryAddressValue(unsigned int Address, unsigned int *Value) = 0;
+			virtual BDDIReturn BDDISetMemoryAddressValue(unsigned int Address, unsigned int Value) = 0;
+
+			virtual unsigned int BDDIGetMemoryBaseAddress() = 0;
+			virtual unsigned int BDDIGetMemoryAddressSize() = 0;
+
 			BDDIReturn BDDIConvertStringToRegisterValue(BDDIRegValue *ReturnValue, BDDIRegInfo *RegInfo, const char *Value);
 			BDDIReturn BDDIConvertRegisterValueToString(BDDIRegValue *ReturnValue, char *Value);
 
