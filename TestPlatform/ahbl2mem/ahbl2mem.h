@@ -152,6 +152,7 @@ SC_MODULE(AHBL2MEM)	{
 		char aTemp2[5];
 		char aTemp3[5];
 		char aTemp4[5];
+		char aTemp5[20];
 		char aHexValue[20];
 		
 		UINT32 dwMemAddr = 0;
@@ -164,8 +165,10 @@ SC_MODULE(AHBL2MEM)	{
 		// binary loading
 		else	{
 			for(dwMemAddr=0; dwMemAddr<MEM_ADDR_1MB_WIDTH; dwMemAddr++)	{
-				if(fscanf(fHex, "%s", aTemp4) != EOF)
+				if(fscanf(fHex, "%s", aTemp5) != EOF)
 				{
+					if(aTemp5[0] != '@')	strcpy(aTemp4, aTemp5);
+					else continue;
 				}
 				else break;
 
