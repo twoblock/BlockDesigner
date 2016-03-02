@@ -81,6 +81,10 @@ SC_MODULE(AHBL2MEM)	{
 	// Memory Array
 	UINT32			memory[MEM_ADDR_1MB_WIDTH];
 
+	// Address Parameter
+	UINT32					base_addr;
+	UINT32					addr_size;
+
 	BDDI*						bddi;
 
 	BDDI* GetBDDI();

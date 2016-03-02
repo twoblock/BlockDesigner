@@ -27,6 +27,12 @@ class AHBL2MEM_BDDI : public BDDIBase
 		unsigned int BDDIGetModuleTotalRegNum();
 		unsigned int BDDIGetModuleTotalParNum();
 
+		BDDIReturn BDDIGetMemoryAddressValue(unsigned int Address, unsigned int *Value);
+		BDDIReturn BDDISetMemoryAddressValue(unsigned int Address, unsigned int Value);
+
+		unsigned int BDDIGetMemoryBaseAddress();
+		unsigned int BDDIGetMemoryAddressSize();
+
 	private:
 		AHBL2MEM *p_Target;
 		BDDIRegInfo *pst_OutRegInfo;

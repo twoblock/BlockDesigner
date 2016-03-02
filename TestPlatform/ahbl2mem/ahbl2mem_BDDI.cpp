@@ -7,6 +7,7 @@ BDDIRegInfo ast_AHBL2MEMRegInfo[] =
 
 BDDIParInfo ast_AHBL2MEMParInfo[] = 
 {
+	{"base_addr", 32, BDDIParTypeUINT, ""}
 };
 
 static const UINT32 dw_RegCnt = sizeof(ast_AHBL2MEMRegInfo) / sizeof(ast_AHBL2MEMRegInfo[0]);
@@ -63,6 +64,21 @@ BDDIReturn AHBL2MEM_BDDI::BDDISetRegisterValues(unsigned int RegIndex, const cha
 BDDIReturn AHBL2MEM_BDDI::BDDIGetParameterValues(unsigned int ParIndex, char *OutValue)
 {
 	BDDIParValue st_Temp;
+	
+	UINT32 dw_TempU;
+
+	switch(ParIndex)
+	{
+		case 0:
+			dw_TempU = p_Target->base_addr;
+			BDDIPutInParameterValue(&st_Temp, &ast_AHBL2MEMParInfo[ParIndex], &dw_TempU);
+			BDDIConvertParameterValueToString(&st_Temp, OutValue);
+
+			break;
+
+		default:	return BDDIStatusError;
+
+	}
 
 	return BDDIStatusOK;
 }
@@ -71,6 +87,21 @@ BDDIReturn AHBL2MEM_BDDI::BDDIGetParameterValues(unsigned int ParIndex, char *Ou
 BDDIReturn AHBL2MEM_BDDI::BDDISetParameterValues(unsigned int ParIndex, const char *SetValue)
 {
 	BDDIParValue st_Temp;
+
+	UINT32 dw_TempU;
+
+	switch(ParIndex)
+	{
+		case 0:
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_AHBL2MEMParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->base_addr = dw_TempU;
+
+			break;
+
+		default:	return BDDIStatusError;
+
+	}
 
 	return BDDIStatusOK;
 }
@@ -98,4 +129,39 @@ unsigned int AHBL2MEM_BDDI::BDDIGetModuleTotalRegNum()
 unsigned int AHBL2MEM_BDDI::BDDIGetModuleTotalParNum()
 {
 	return dw_ParCnt;
+}
+
+BDDIReturn AHBL2MEM_BDDI::BDDIGetMemoryAddressValue(unsigned int Address, unsigned int *Value)
+{
+	if( (Address >= p_Target->base_addr) && (Address < (p_Target->base_addr + p_Target->addr_size)) )	{
+		UINT32 dw_TempAddr = (Address >> 2) & 0x3FFFFFFF;
+
+		*Value = p_Target->memory[dw_TempAddr];
+
+		return BDDIStatusOK;
+	}
+	else	return BDDIStatusError;
+}
+
+BDDIReturn AHBL2MEM_BDDI::BDDISetMemoryAddressValue(unsigned int Address, unsigned int Value)
+{
+	if( (Address >= p_Target->base_addr) && (Address < (p_Target->base_addr + p_Target->addr_size)) )	{
+		UINT32 dw_TempAddr = (Address >> 2) & 0x3FFFFFFF;
+
+		p_Target->memory[dw_TempAddr] = Value;
+
+		return BDDIStatusOK;
+	}
+	else	return BDDIStatusError;
+
+}
+
+unsigned int AHBL2MEM_BDDI::BDDIGetMemoryBaseAddress()
+{
+	return p_Target->base_addr;
+}
+
+unsigned int AHBL2MEM_BDDI::BDDIGetMemoryAddressSize()
+{
+	return p_Target->addr_size;
 }

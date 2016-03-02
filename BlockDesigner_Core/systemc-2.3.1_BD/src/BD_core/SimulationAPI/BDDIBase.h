@@ -141,8 +141,26 @@ namespace BDapi
 				return 0;
 			}
 
-	};
+			virtual BDDIReturn BDDIGetMemoryAddressValue(unsigned int Address, unsigned int *Value)
+			{
+				return BDDIStatusCmdNotSupported;
+			}
 
+			virtual BDDIReturn BDDISetMemoryAddressValue(unsigned int Address, unsigned int Value)
+			{
+				return BDDIStatusCmdNotSupported;
+			}
+
+			virtual unsigned int BDDIGetMemoryBaseAddress()
+			{
+				return 0;
+			}
+
+			virtual unsigned int BDDIGetMemoryAddressSize()
+			{
+				return 0;
+			}
+	};
 }
 
 #endif	// __BDDIBASE_H__
