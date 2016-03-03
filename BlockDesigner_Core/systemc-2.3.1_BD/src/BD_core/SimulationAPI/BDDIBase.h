@@ -160,6 +160,11 @@ namespace BDapi
 			{
 				return 0;
 			}
+
+			virtual unsigned int BDDIGetPCValue()
+			{
+				return 0;
+			}
 	};
 }
 
