@@ -61,6 +61,8 @@ namespace BDapi
 			virtual unsigned int BDDIGetMemoryBaseAddress() = 0;
 			virtual unsigned int BDDIGetMemoryAddressSize() = 0;
 
+			virtual unsigned int BDDIGetPCValue() = 0;
+
 			BDDIReturn BDDIConvertStringToRegisterValue(BDDIRegValue *ReturnValue, BDDIRegInfo *RegInfo, const char *Value);
 			BDDIReturn BDDIConvertRegisterValueToString(BDDIRegValue *ReturnValue, char *Value);
 

@@ -27,6 +27,8 @@ class VCORTEXM0DS_BDDI : public BDDIBase
 		unsigned int BDDIGetModuleTotalRegNum();
 		unsigned int BDDIGetModuleTotalParNum();
 
+		unsigned int BDDIGetPCValue();
+
 	private:
 		VCORTEXM0DS *p_Target;
 		BDDIRegInfo *pst_OutRegInfo;
