@@ -108,8 +108,6 @@ namespace BDapi{
 						st_Command.Command = ModuleInfo; 
 					else if(strcmp(p_CommnadToken,"GetDebugInterface") == 0 || p_CommnadToken[0] == '1')
 						st_Command.Command = GetDebugInterface; 
-					else if(strcmp(p_CommnadToken,"GetMemoryMap") == 0 || p_CommnadToken[0] == '2')
-						st_Command.Command = GetMemoryMap; 
 					else 
 						return;
 				}

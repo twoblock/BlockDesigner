@@ -27,6 +27,7 @@ namespace BDapi
 		CmdBDPMDInitManager = BDPMDInitManager::GetInstance();
 		CmdPMMLGenerationManager = PMMLGenerationManager::GetInstance();
 		CmdSignalTraceManager = SignalTraceManager::GetInstance();
+		CmdSoftwareLoadingManager = SoftwareLoadingManager::GetInstance();
 	}
 
 	/*
@@ -67,7 +68,10 @@ namespace BDapi
 	 */
 	int CommandHandler::PutOperation()
 	{
-		if(st_GUICommand.Command == ExecutionControl){
+		if(st_GUICommand.Command == SoftwareLoad){
+			SetManagerForPutOperation(CmdSoftwareLoadingManager);
+		}
+		else if(st_GUICommand.Command == ExecutionControl){
 			SetManagerForPutOperation(CmdExecutionManager);
 		}
 		else if(st_GUICommand.Command == PutDebugInterface){

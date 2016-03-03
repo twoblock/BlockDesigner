@@ -12,11 +12,6 @@ make clean
 make
 cd ..
 
-cd ahbl2mem_1 
-make clean
-make
-cd ..
-
 cd console 
 make clean
 make

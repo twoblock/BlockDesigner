@@ -62,6 +62,9 @@ namespace BDapi
 		list<sc_module*>::iterator LastModule = ModuleList.end();
 		list<sc_module*>::iterator IndexOfModule = FirstModule;
 
+		if(ModuleName == NULL)
+			return NULL;
+
 		/********************************************
 		 * Iterate sc_modules in sc_module list
 		 ********************************************/

@@ -21,141 +21,18 @@
 ##                                              ##
 ##################################################
 
-0 6 /home/harold/workspace/BlockDesigner/TestPlatform/console/libconsole.so BD_CONSOLE
-0 6 /home/harold/workspace/BlockDesigner/TestPlatform/AHB_Lite/libAHB_Lite.so BD_AHB_LITE
-0 6 /home/harold/workspace/BlockDesigner/TestPlatform/ahbl2mem/libahbl2mem.so BD_ROM
-0 6 /home/harold/workspace/BlockDesigner/TestPlatform/ahbl2mem_1/libahbl2mem_1.so BD_SRAM
-0 6 /home/harold/workspace/BlockDesigner/TestPlatform/tb/libtb.so BD_TB
-0 6 /home/harold/workspace/BlockDesigner/TestPlatform/VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
+0 6 ../console/libconsole.so BD_CONSOLE
+0 6 ../AHB_Lite/libAHB_Lite.so BD_AHB_LITE
+0 6 ../ahbl2mem/libahbl2mem.so BD_ROM
+0 6 ../ahbl2mem/libahbl2mem.so BD_SRAM
+0 6 ../tb/libtb.so BD_TB
+0 6 ../VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
 0 7 BDPMD.json
+0 0 BD_CORTEXM0DS CM0DS.elf
 
-0 4 0 BD_CORTEXM0DS$HCLK
-0 4 0 BD_CORTEXM0DS$HRESETn
-0 4 0 BD_CORTEXM0DS$MM_M0 AHB
-0 4 0 BD_ROM$SS_S0 AHB
-0 4 0 BD_SRAM$SS_S0 AHB
+0 2 BD_SRAM par write 0 0x20000000
 
-PUT ExecutionControl STEP 2000
-
-GET GetDebugInterface BD_CORTEXM0DS reg read 16
-GET GetDebugInterface BD_CORTEXM0DS reg read 15
-GET GetDebugInterface BD_CORTEXM0DS reg read 14
-GET GetDebugInterface BD_CORTEXM0DS reg read 13
-GET GetDebugInterface BD_CORTEXM0DS reg read 12
-GET GetDebugInterface BD_CORTEXM0DS reg read 11
-GET GetDebugInterface BD_CORTEXM0DS reg read 10
-GET GetDebugInterface BD_CORTEXM0DS reg read 9
-GET GetDebugInterface BD_CORTEXM0DS reg read 8
-GET GetDebugInterface BD_CORTEXM0DS reg read 7
-GET GetDebugInterface BD_CORTEXM0DS reg read 6
-GET GetDebugInterface BD_CORTEXM0DS reg read 5
-GET GetDebugInterface BD_CORTEXM0DS reg read 4
-GET GetDebugInterface BD_CORTEXM0DS reg read 3
-GET GetDebugInterface BD_CORTEXM0DS reg read 2
-GET GetDebugInterface BD_CORTEXM0DS reg read 1
-GET GetDebugInterface BD_CORTEXM0DS reg read 0
-
-PUT ExecutionControl STEP 10 
-
-GET GetDebugInterface BD_CORTEXM0DS reg read 16
-GET GetDebugInterface BD_CORTEXM0DS reg read 15
-GET GetDebugInterface BD_CORTEXM0DS reg read 14
-GET GetDebugInterface BD_CORTEXM0DS reg read 13
-GET GetDebugInterface BD_CORTEXM0DS reg read 12
-GET GetDebugInterface BD_CORTEXM0DS reg read 11
-GET GetDebugInterface BD_CORTEXM0DS reg read 10
-GET GetDebugInterface BD_CORTEXM0DS reg read 9
-GET GetDebugInterface BD_CORTEXM0DS reg read 8
-GET GetDebugInterface BD_CORTEXM0DS reg read 7
-GET GetDebugInterface BD_CORTEXM0DS reg read 6
-GET GetDebugInterface BD_CORTEXM0DS reg read 5
-GET GetDebugInterface BD_CORTEXM0DS reg read 4
-GET GetDebugInterface BD_CORTEXM0DS reg read 3
-GET GetDebugInterface BD_CORTEXM0DS reg read 2
-GET GetDebugInterface BD_CORTEXM0DS reg read 1
-GET GetDebugInterface BD_CORTEXM0DS reg read 0
-
-PUT ExecutionControl STEP 10 
-
-GET GetDebugInterface BD_CORTEXM0DS reg read 16
-GET GetDebugInterface BD_CORTEXM0DS reg read 15
-GET GetDebugInterface BD_CORTEXM0DS reg read 14
-GET GetDebugInterface BD_CORTEXM0DS reg read 13
-GET GetDebugInterface BD_CORTEXM0DS reg read 12
-GET GetDebugInterface BD_CORTEXM0DS reg read 11
-GET GetDebugInterface BD_CORTEXM0DS reg read 10
-GET GetDebugInterface BD_CORTEXM0DS reg read 9
-GET GetDebugInterface BD_CORTEXM0DS reg read 8
-GET GetDebugInterface BD_CORTEXM0DS reg read 7
-GET GetDebugInterface BD_CORTEXM0DS reg read 6
-GET GetDebugInterface BD_CORTEXM0DS reg read 5
-GET GetDebugInterface BD_CORTEXM0DS reg read 4
-GET GetDebugInterface BD_CORTEXM0DS reg read 3
-GET GetDebugInterface BD_CORTEXM0DS reg read 2
-GET GetDebugInterface BD_CORTEXM0DS reg read 1
-GET GetDebugInterface BD_CORTEXM0DS reg read 0
-
-PUT ExecutionControl STEP 10 
-
-GET GetDebugInterface BD_CORTEXM0DS reg read 16
-GET GetDebugInterface BD_CORTEXM0DS reg read 15
-GET GetDebugInterface BD_CORTEXM0DS reg read 14
-GET GetDebugInterface BD_CORTEXM0DS reg read 13
-GET GetDebugInterface BD_CORTEXM0DS reg read 12
-GET GetDebugInterface BD_CORTEXM0DS reg read 11
-GET GetDebugInterface BD_CORTEXM0DS reg read 10
-GET GetDebugInterface BD_CORTEXM0DS reg read 9
-GET GetDebugInterface BD_CORTEXM0DS reg read 8
-GET GetDebugInterface BD_CORTEXM0DS reg read 7
-GET GetDebugInterface BD_CORTEXM0DS reg read 6
-GET GetDebugInterface BD_CORTEXM0DS reg read 5
-GET GetDebugInterface BD_CORTEXM0DS reg read 4
-GET GetDebugInterface BD_CORTEXM0DS reg read 3
-GET GetDebugInterface BD_CORTEXM0DS reg read 2
-GET GetDebugInterface BD_CORTEXM0DS reg read 1
-GET GetDebugInterface BD_CORTEXM0DS reg read 0
-
-PUT ExecutionControl STEP 10 
-
-GET GetDebugInterface BD_CORTEXM0DS reg read 16
-GET GetDebugInterface BD_CORTEXM0DS reg read 15
-GET GetDebugInterface BD_CORTEXM0DS reg read 14
-GET GetDebugInterface BD_CORTEXM0DS reg read 13
-GET GetDebugInterface BD_CORTEXM0DS reg read 12
-GET GetDebugInterface BD_CORTEXM0DS reg read 11
-GET GetDebugInterface BD_CORTEXM0DS reg read 10
-GET GetDebugInterface BD_CORTEXM0DS reg read 9
-GET GetDebugInterface BD_CORTEXM0DS reg read 8
-GET GetDebugInterface BD_CORTEXM0DS reg read 7
-GET GetDebugInterface BD_CORTEXM0DS reg read 6
-GET GetDebugInterface BD_CORTEXM0DS reg read 5
-GET GetDebugInterface BD_CORTEXM0DS reg read 4
-GET GetDebugInterface BD_CORTEXM0DS reg read 3
-GET GetDebugInterface BD_CORTEXM0DS reg read 2
-GET GetDebugInterface BD_CORTEXM0DS reg read 1
-GET GetDebugInterface BD_CORTEXM0DS reg read 0
-
-PUT ExecutionControl STEP 10 
-
-GET GetDebugInterface BD_CORTEXM0DS reg read 16
-GET GetDebugInterface BD_CORTEXM0DS reg read 15
-GET GetDebugInterface BD_CORTEXM0DS reg read 14
-GET GetDebugInterface BD_CORTEXM0DS reg read 13
-GET GetDebugInterface BD_CORTEXM0DS reg read 12
-GET GetDebugInterface BD_CORTEXM0DS reg read 11
-GET GetDebugInterface BD_CORTEXM0DS reg read 10
-GET GetDebugInterface BD_CORTEXM0DS reg read 9
-GET GetDebugInterface BD_CORTEXM0DS reg read 8
-GET GetDebugInterface BD_CORTEXM0DS reg read 7
-GET GetDebugInterface BD_CORTEXM0DS reg read 6
-GET GetDebugInterface BD_CORTEXM0DS reg read 5
-GET GetDebugInterface BD_CORTEXM0DS reg read 4
-GET GetDebugInterface BD_CORTEXM0DS reg read 3
-GET GetDebugInterface BD_CORTEXM0DS reg read 2
-GET GetDebugInterface BD_CORTEXM0DS reg read 1
-GET GetDebugInterface BD_CORTEXM0DS reg read 0
-
-PUT ExecutionControl STEP 4000
+0 1 RUN
 
 ######################### Block Designer command set ########################
 ##                                                                         ##
@@ -180,10 +57,10 @@ PUT ExecutionControl STEP 4000
 ##    arg1 Id of module                                                    ##
 ##                                                                         ##
 ##    arg2 which API                                                       ##
-##   	  0. parameter                                                       ##
-##    	1. register                                                        ##
-##  	  2. memory                                                          ##
-##      3. assembly code                                                   ##
+##   	  0. par                                                             ##
+##    	1. reg                                                             ##
+##  	  2. mem																														 ##
+##      3. assem                                                           ##
 ##                                                                         ##
 ##    arg3 which function                                                  ##
 ##             0. write                                                    ##

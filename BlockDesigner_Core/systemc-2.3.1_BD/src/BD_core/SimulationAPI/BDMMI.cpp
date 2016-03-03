@@ -39,6 +39,15 @@ namespace BDapi
 	}
 
 	/*
+	 * function    : GetMemoryMap 
+	 * design      : Get bus memory map
+	 */
+	vector<SlaveMemoryMap>* BDMMI::GetMemoryMap()
+	{
+		return &BDMMIMemoryMap;
+	}
+
+	/*
 	 * function    : SetMemoryMap 
 	 * design      : user have to implement this function in a drived class 
 	 */

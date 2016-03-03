@@ -16,6 +16,8 @@
 #include <vector>
 #include <string.h>
 
+using namespace std;
+
 namespace BDapi 
 {
 	// store one slave memory map for a bus
@@ -41,11 +43,13 @@ namespace BDapi
 			void AddMemoryMap(SlaveMemoryMap Map);
 			void ModifyMemoryMap(int Index, SlaveMemoryMap Map);
 
+			vector<SlaveMemoryMap>* GetMemoryMap();
+
 			virtual void SetMemoryMap();
 			virtual unsigned int GetSlaveNumber();
 
 		protected:
-			std::vector<SlaveMemoryMap> BDMMIMemoryMap;
+			vector<SlaveMemoryMap> BDMMIMemoryMap;
 	};
 }
 

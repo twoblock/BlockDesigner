@@ -31,7 +31,6 @@
 // Get Command
 #define ModuleInfo         0
 #define GetDebugInterface  1 
-#define GetMemoryMap       2
 
 #define ArgumentSize        128
 

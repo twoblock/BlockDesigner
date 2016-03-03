@@ -15,6 +15,7 @@
 #include "BDPMDInitManager.h"
 #include "ModuleConnector.h"
 #include "ModuleListManager.h"
+#include "SoftwareLoadingManager.h"
 #include "../SimulationAPI/ChannelMap.h"
 #include "../SimulationAPI/BDMMI.h"
 
@@ -34,6 +35,8 @@ namespace BDapi
 	{
 		ConnectModules(Command.Argu1);
 		SetMemoryMap();
+		//set cpu connection informations to load software
+		SetCPUInfo();
 	}
 
 	/*
@@ -248,6 +251,77 @@ namespace BDapi
 	}
 
 	/*
+	 * function 	: SetMemoryMap 
+	 * design	    : Set memory map in all bus 
+	 */
+	void BDPMDInitManager::SetCPUInfo()
+	{
+		// Get ChannelListManager
+		SoftwareLoadingManager *p_SoftwareLoadingManager = NULL;
+		p_SoftwareLoadingManager = SoftwareLoadingManager::GetInstance();	
+
+		// Find cpu connection informaion
+
+		sc_module *p_FirstSCmodule= NULL;
+		sc_module *p_SecondSCmodule= NULL;
+
+		unsigned int ChannelNum = 0;
+		unsigned int ChannelIndex = 0;
+
+		char a_ChannelType[256] = {0,};
+		char a_ChannelNum[256] = {0,};
+		char a_FisrtModuleName[256] = {0,};
+		char a_SecondModuleName[256] = {0,};
+
+		char *p_FirstModuleName = NULL;
+		//char *p_SecondModuleName = NULL;
+
+		string CPUName;
+    string ConnectedModuleName;
+
+		ChannelNum = InfoChannel.size();
+
+		/********************************************
+		 * Iterate channels in connection info 
+		 ********************************************/
+		for(ChannelIndex = 0; ChannelIndex < ChannelNum; ChannelIndex++){
+
+			strcpy(a_ChannelType, InfoChannel[ChannelIndex]["channel_type"].asCString());
+			strcpy(a_ChannelNum, InfoChannel[ChannelIndex]["connection_num"].asCString());
+
+			if((strcmp(a_ChannelType, "AHB") == 0) && (strcmp(a_ChannelNum, "0") != 0)){
+
+				// Find first module
+				strcpy(a_FisrtModuleName, InfoChannel[ChannelIndex]["name"].asCString());
+				p_FirstModuleName = strtok(a_FisrtModuleName, "$");
+				p_FirstSCmodule = p_ModuleListManager->FindModule(p_FirstModuleName);
+
+				// Find Second module
+				strcpy(a_SecondModuleName, InfoChannel[ChannelIndex]["connection_info"][0]["module_name"].asCString());
+				p_SecondSCmodule = p_ModuleListManager->FindModule(a_SecondModuleName);
+
+
+				if((p_FirstSCmodule != NULL) && (p_SecondSCmodule != NULL)){
+					if(strcmp(p_FirstSCmodule->GetBDDI()->BDDIGetModuleType(), "cpu") == 0){
+
+						CPUName = p_FirstModuleName;
+						ConnectedModuleName = a_SecondModuleName;
+
+						p_SoftwareLoadingManager->AddConnectionInfo(CPUName, ConnectedModuleName);
+					}
+					else if(strcmp(p_SecondSCmodule->GetBDDI()->BDDIGetModuleType(), "cpu") == 0){
+
+						CPUName = a_SecondModuleName;
+						ConnectedModuleName = p_FirstModuleName;
+
+						p_SoftwareLoadingManager->AddConnectionInfo(CPUName, ConnectedModuleName);
+					}
+				}	
+			}
+		}
+	}
+
+/*
 	 * function 	: GetInstance
 	 * design	    : singleton design
 	 */

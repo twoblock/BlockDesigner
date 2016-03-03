@@ -28,8 +28,6 @@
 #define ENDIAN_BIG		0	// 0 : little endian, 1 : big endian
 #define DEBUG_MEM		0
 
-#define BASE_ADDR_1MB		0x00000000
-
 #include "BlockDesigner.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -148,60 +146,6 @@ SC_MODULE(AHBL2MEM)	{
 		return memory[dw_Address];
 	}
 
-	void BinaryLoadingAndInitialize(const char *pHex)		{
-		fHex = fopen(pHex, "rt");
-		fLog = fopen("mem_log.txt", "wt");
-		
-		char aTemp1[5];
-		char aTemp2[5];
-		char aTemp3[5];
-		char aTemp4[5];
-		char aTemp5[20];
-		char aHexValue[20];
-		
-		UINT32 dwMemAddr = 0;
-		UINT32 dwHexValue;
-		UINT32 dwRestOfMem;
-
-		if(fHex == NULL)	{
-			printf("Hex file open error\n");
-		}
-		// binary loading
-		else	{
-			for(dwMemAddr=0; dwMemAddr<MEM_ADDR_1MB_WIDTH; dwMemAddr++)	{
-				if(fscanf(fHex, "%s", aTemp5) != EOF)
-				{
-					if(aTemp5[0] != '@')	strcpy(aTemp4, aTemp5);
-					else continue;
-				}
-				else break;
-
-				fscanf(fHex, "%s", aTemp3);
-				fscanf(fHex, "%s", aTemp2);
-				fscanf(fHex, "%s", aTemp1);
-				
-				strcpy(aHexValue, aTemp1);
-				strcat(aHexValue, aTemp2);
-				strcat(aHexValue, aTemp3);
-				strcat(aHexValue, aTemp4);
-	
-				dwHexValue = strtoul(aHexValue, NULL, 16);
-				memory[dwMemAddr] = dwHexValue;
-					
-				fprintf(fLog, "%d : %08x\n", dwMemAddr, memory[dwMemAddr]);
-			}
-		}
-		
-		// memory initializing
-		for(dwRestOfMem=dwMemAddr; dwRestOfMem<MEM_ADDR_1MB_WIDTH; dwRestOfMem++)	{
-			memory[dwRestOfMem] = 0;
-			fprintf(fLog, "%d : %08x\n", dwRestOfMem, memory[dwRestOfMem]);
-		}
-		
-		if(fHex != NULL)	fclose(fHex);
-		fclose(fLog);
-	}
-
 	/********** [process function] **********/
 	void do_assign_hreadyout()	{
 		AHB_SS->HREADYOUT = REG_HREADYOUT;
@@ -311,7 +255,7 @@ SC_MODULE(AHBL2MEM)	{
 			NEXT_ADDR_PHASE_HSEL = AHB_SS->HSEL;
 			NEXT_ADDR_PHASE_HWRITE = AHB_SS->HWRITE;
 			NEXT_ADDR_PHASE_HTRANS = AHB_SS->HTRANS;
-			NEXT_ADDR_PHASE_HADDR = AHB_SS->HADDR - BASE_ADDR_1MB;
+			NEXT_ADDR_PHASE_HADDR = AHB_SS->HADDR - base_addr;
 			NEXT_ADDR_PHASE_HSIZE = AHB_SS->HSIZE;
 #if	DEBUG_MEM
 printf("[addr_phase_receive] haddr : %08x, next addr : %08x, cur addr : %08x\n", (UINT32)AHB_SS->HADDR, (UINT32)NEXT_ADDR_PHASE_HADDR, (UINT32)REG_ADDR_PHASE_HADDR);
@@ -368,7 +312,7 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)REG_A
 
 		/***** [initial condition] *****/
 		//BinaryLoadingAndInitialize("CM0DS.txt");
-		BinaryLoadingAndInitialize("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.txt");
+		//BinaryLoadingAndInitialize("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.txt");
 		
 		/***** [process enrollment] *****/
 		SC_METHOD(do_assign_hreadyout);

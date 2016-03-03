@@ -62,6 +62,7 @@ namespace BDapi
 			BDPMDReturnStatus ParsingConnectionInformation(unsigned int PIndex, unsigned int CIndex, BindingInfo* BindingObject);
 
 			void SetMemoryMap();
+			void SetCPUInfo();
 
 			static BDPMDInitManager* GetInstance();
 			static void DeleteInstance();
@@ -71,8 +72,8 @@ namespace BDapi
 			virtual ~BDPMDInitManager();
 
 		private:
-		 	static BDPMDInitManager *_BDPMDInitManager;
-			
+			static BDPMDInitManager *_BDPMDInitManager;
+
 			ChannelMap *p_ChannelMap;
 			ModuleConnector *p_ModuleConnector;
 			ModuleListManager *p_ModuleListManager;

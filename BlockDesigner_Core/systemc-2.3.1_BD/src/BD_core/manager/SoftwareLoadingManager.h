@@ -15,6 +15,7 @@
 #define __SOFTWARE_LOADING_MANAGER_H  
 
 #include "TopManagerBase.h"
+#include "systemc.h"
 #include <pthread.h>
 #include <vector>
 #include <string>
@@ -28,11 +29,21 @@ using namespace std;
  */
 namespace BDapi
 {
+	class ModuleListManager;
+
 	// ChannelInfo from Platform Manager
 	struct CPUInfo 
 	{
 		string CPUName;
 	  vector<string> ConnectedModules;
+	};
+
+	// Return type of parsing hex file
+	enum ReturnType_Of_Parsing
+	{
+		End_Of_File,
+		Address,
+	  Binary	
 	};
 
 	/*
@@ -44,6 +55,12 @@ namespace BDapi
 		public:
 			void PutOperationControl(GUI_COMMAND Command);
 			
+			void LoadSoftware(char *CPUName, char *SoftwarePath);
+			void ProcessLoading(int CPUIndex);
+			BDDI* FindTargetMemoryBDDI(int CPUIndex, UINT32 Address);
+			BDDI* SearchTargetMemoryInBus(sc_module *SCmodule);
+			ReturnType_Of_Parsing ParsingHexFile(FILE *HexFile, UINT32 *Value);
+
 			void AddConnectionInfo(string CPUName, string ConnectedModuleName);
 			int FindCPU(string CPUName);
 			
@@ -56,7 +73,8 @@ namespace BDapi
 
 		private:
 			vector<CPUInfo*> CPUs;
-		
+			ModuleListManager *p_ModuleListManager;
+
 			static SoftwareLoadingManager *_SoftwareLoadingManager;
 			// mutex for singleton pattern 
 			static pthread_mutex_t SoftwareLoadingManagerInstanceMutex;   
