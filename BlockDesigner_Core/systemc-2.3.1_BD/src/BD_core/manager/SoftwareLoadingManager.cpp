@@ -75,7 +75,7 @@ namespace BDapi
 		UINT32 dw_StartAddress = 1;
 		UINT32 dw_EndAddress = 0;
 		UINT32 dw_AddressSize = 0;
-		UINT32 dw_RestOfMem = 0;
+		//UINT32 dw_RestOfMem = 0;
 
 		FILE* fHex;
 		fHex = fopen("BDsoftware.txt", "rt");
