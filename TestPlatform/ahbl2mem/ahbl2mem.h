@@ -41,7 +41,7 @@ SC_MODULE(AHBL2MEM)	{
 	sc_in<bool>		HRESETn;
 	
 	//AHB-Lite Slave Interface Signal
-	BD_AHBPort_SS *AHB_SS;
+	BD_AHBLitePort_SS *AHB_SS;
 
 	/********** [local variable] **********/
 	// Registers to Store Address Phase Signals

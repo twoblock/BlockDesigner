@@ -55,7 +55,7 @@ SC_MODULE(VCORTEXM0DS) {
     sc_out<uint32_t>	EXTRACT_R4;
     sc_out<uint32_t>	EXTRACT_R10;
 
-		BD_AHBPort_MM *AHB_MM;
+		BD_AHBLitePort_MM *AHB_MM;
 
 		BDDI *bddi;
 

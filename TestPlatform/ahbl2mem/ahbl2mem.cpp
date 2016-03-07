@@ -15,7 +15,7 @@ void AHBL2MEM::BDInit()
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");
 
-	AHB_SS = new BD_AHBPort_SS((char*)"SS_S0");
+	AHB_SS = new BD_AHBLitePort_SS((char*)"SS_S0");
 
 	base_addr = 0;
 	addr_size = 0x100000;

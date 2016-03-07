@@ -5,7 +5,7 @@
 
 namespace sc_core
 {
-	class BD_AHBPort_MM
+	class BD_AHBLitePort_MM
 	{
 		public:
 			sc_out<unsigned int>   HADDR;
@@ -22,7 +22,7 @@ namespace sc_core
 
 			char temp[11][256];
 
-			BD_AHBPort_MM(char *Name)
+			BD_AHBLitePort_MM(char *Name)
 			{
 				for(int i=0; i<11; i++)
 					memset(temp[i], 0, 256);
@@ -58,7 +58,7 @@ namespace sc_core
 			}
 	};
 
-	class BD_AHBPort_MS 
+	class BD_AHBLitePort_MS 
 	{
 		public:
 			sc_in<unsigned int>   HADDR;
@@ -75,7 +75,7 @@ namespace sc_core
 
 			char temp[11][256];
 
-			BD_AHBPort_MS(char *Name)
+			BD_AHBLitePort_MS(char *Name)
 			{
 				for(int i=0; i<11; i++)
 					memset(temp[i], 0, 256);
@@ -111,7 +111,7 @@ namespace sc_core
 			}
 	};
 
-	class BD_AHBPort_SM
+	class BD_AHBLitePort_SM
 	{
 		public:
 			sc_out<unsigned int>  HADDR;
@@ -130,7 +130,7 @@ namespace sc_core
 
 			char temp[13][256];
 
-			BD_AHBPort_SM(char *Name)
+			BD_AHBLitePort_SM(char *Name)
 			{
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
@@ -171,7 +171,7 @@ namespace sc_core
 	};
 
 
-	class BD_AHBPort_SS
+	class BD_AHBLitePort_SS
 	{
 		public:
 			sc_in<unsigned int>  HADDR;
@@ -190,7 +190,7 @@ namespace sc_core
 
 			char temp[13][256];
 
-			BD_AHBPort_SS(char *Name)
+			BD_AHBLitePort_SS(char *Name)
 			{
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);

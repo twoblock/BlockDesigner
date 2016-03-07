@@ -26,19 +26,19 @@ SC_MODULE(AHB_Lite)	{
 	sc_in<bool>		HRESETn;
 
 	// Master(Cortex-M0DS) Interface
-  BD_AHBPort_MS *AHBMaster_M0;
+  BD_AHBLitePort_MS *AHBMaster_M0;
 
 	// Slave Interface
-	BD_AHBPort_SM *AHBSlave_S0;
-	BD_AHBPort_SM *AHBSlave_S1;
-	BD_AHBPort_SM *AHBSlave_S2;
-	BD_AHBPort_SM *AHBSlave_S3;
-	BD_AHBPort_SM *AHBSlave_S4;
-	BD_AHBPort_SM *AHBSlave_S5;
-	BD_AHBPort_SM *AHBSlave_S6;
-	BD_AHBPort_SM *AHBSlave_S7;
-	BD_AHBPort_SM *AHBSlave_S8;
-	BD_AHBPort_SM *AHBSlave_S9;
+	BD_AHBLitePort_SM *AHBSlave_S0;
+	BD_AHBLitePort_SM *AHBSlave_S1;
+	BD_AHBLitePort_SM *AHBSlave_S2;
+	BD_AHBLitePort_SM *AHBSlave_S3;
+	BD_AHBLitePort_SM *AHBSlave_S4;
+	BD_AHBLitePort_SM *AHBSlave_S5;
+	BD_AHBLitePort_SM *AHBSlave_S6;
+	BD_AHBLitePort_SM *AHBSlave_S7;
+	BD_AHBLitePort_SM *AHBSlave_S8;
+	BD_AHBLitePort_SM *AHBSlave_S9;
 
 	sc_out<bool>		HSEL_NOMAP;
 
@@ -56,7 +56,7 @@ SC_MODULE(AHB_Lite)	{
 	void BDInit();
 
 	void do_transfer();
-	void assign_signals(BD_AHBPort_SM *Slave, BD_AHBPort_MS *Master);
+	void assign_signals(BD_AHBLitePort_SM *Slave, BD_AHBLitePort_MS *Master);
 
 	SC_CTOR(AHB_Lite)	{
 
