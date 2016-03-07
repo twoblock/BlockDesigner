@@ -373,6 +373,6 @@ unsigned int VCORTEXM0DS_BDDI::BDDIGetModuleTotalParNum()
 
 unsigned int VCORTEXM0DS_BDDI::BDDIGetPCValue()
 {
-	return p_Target->v__DOT__vis_pc;
+	return (p_Target->v__DOT__vis_pc<<1);
 }
 

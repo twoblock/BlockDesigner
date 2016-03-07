@@ -32,7 +32,12 @@
 
 0 2 BD_SRAM par write 0 0x20000000
 
-0 1 RUN
+0 1 STEP 2000 
+0 1 STOP  
+0 1 STEP 2000 
+0 1 STOP  
+0 1 STEP 2000 
+0 1 STOP  
 
 ######################### Block Designer command set ########################
 ##                                                                         ##

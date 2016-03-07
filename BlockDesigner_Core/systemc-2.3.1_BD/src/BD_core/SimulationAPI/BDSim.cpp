@@ -12,6 +12,7 @@
 // ----------------------------------------------------------------------------
 
 #include "BDSim.h"
+#include "../manager/SoftwareManager.h"
 
 #define	 SECOND_UNIT(X)		((X)*1000000)
 
@@ -118,6 +119,10 @@ namespace BDapi
 	 */
 	void Stop()
 	{
+		SoftwareManager *p_SoftwareManager = NULL;
+	  p_SoftwareManager = SoftwareManager::GetInstance();	
+		p_SoftwareManager->DisplayAssemblyCode();	
+
 		ExecutionManager::SetExecutionFlag(NOTHING);
 	}
 

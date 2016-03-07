@@ -15,7 +15,7 @@
 #include "BDPMDInitManager.h"
 #include "ModuleConnector.h"
 #include "ModuleListManager.h"
-#include "SoftwareLoadingManager.h"
+#include "SoftwareManager.h"
 #include "../SimulationAPI/ChannelMap.h"
 #include "../SimulationAPI/BDMMI.h"
 
@@ -257,8 +257,8 @@ namespace BDapi
 	void BDPMDInitManager::SetCPUInfo()
 	{
 		// Get ChannelListManager
-		SoftwareLoadingManager *p_SoftwareLoadingManager = NULL;
-		p_SoftwareLoadingManager = SoftwareLoadingManager::GetInstance();	
+		SoftwareManager *p_SoftwareManager = NULL;
+		p_SoftwareManager = SoftwareManager::GetInstance();	
 
 		// Find cpu connection informaion
 
@@ -307,14 +307,14 @@ namespace BDapi
 						CPUName = p_FirstModuleName;
 						ConnectedModuleName = a_SecondModuleName;
 
-						p_SoftwareLoadingManager->AddConnectionInfo(CPUName, ConnectedModuleName);
+						p_SoftwareManager->AddConnectionInfo(CPUName, ConnectedModuleName);
 					}
 					else if(strcmp(p_SecondSCmodule->GetBDDI()->BDDIGetModuleType(), "cpu") == 0){
 
 						CPUName = a_SecondModuleName;
 						ConnectedModuleName = p_FirstModuleName;
 
-						p_SoftwareLoadingManager->AddConnectionInfo(CPUName, ConnectedModuleName);
+						p_SoftwareManager->AddConnectionInfo(CPUName, ConnectedModuleName);
 					}
 				}	
 			}
