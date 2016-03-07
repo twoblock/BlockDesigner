@@ -32,6 +32,12 @@
 
 0 2 BD_SRAM par write 0 0x20000000
 
+0 4 0 BD_CORTEXM0DS$HCLK
+0 4 0 BD_CORTEXM0DS$HRESETn
+0 4 0 BD_CORTEXM0DS$MM_M0&BD_AHB_LITE$MS_M0 AHB
+0 4 0 BD_ROM$SS_S0&BD_AHB_LITE$SM_S0 AHB
+0 4 0 BD_SRAM$SS_S0&BD_AHB_LITE$SM_S1 AHB
+
 0 1 RUN
 
 ######################### Block Designer command set ########################

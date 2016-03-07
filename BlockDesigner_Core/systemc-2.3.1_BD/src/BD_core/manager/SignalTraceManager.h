@@ -59,6 +59,11 @@ namespace BDapi
 
 			sc_trace_file *tf;
 
+			char a_TempBuf[1024];
+
+			char *p_CatBuf1;
+			char *p_CatBuf2;
+
 			// mutex for singleton pattern 
 			static pthread_mutex_t SignalTraceManagerInstanceMutex;   
 	};
