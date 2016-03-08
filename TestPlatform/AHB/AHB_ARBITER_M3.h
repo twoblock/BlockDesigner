@@ -121,6 +121,8 @@ SC_MODULE(AHB_ARBITER_M3)	{
 
 	SC_CTOR(AHB_ARBITER_M3)	{
 
+		hbusreq = 0x0;
+
 		///// [enroll sensitivity] /////
 		SC_METHOD(do_assign_hbusreq);
 		sensitive << HBUSREQ_0;
