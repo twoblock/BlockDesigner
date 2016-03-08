@@ -27,7 +27,7 @@ SC_MODULE(CONSOLE)	{
 	sc_in<bool>		HCLK;
 	sc_in<bool>		HRESETn;
 
-	BD_AHBPort_SS *AHB_SS;
+	BD_AHBLitePort_SS *AHB_SS;
 
 	/********** [local variable] **********/
 	// Registers to Store Address Phase Signals
