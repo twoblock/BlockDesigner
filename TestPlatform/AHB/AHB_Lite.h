@@ -197,8 +197,6 @@ SC_MODULE(AHB_Lite)	{
 
 	SC_CTOR(AHB_Lite)	{
 
-		BDInit();
-
 		// AHBDCD Port Connection
 		BD_AHBDCD = new AHBDCD("ahbdcd");
 		BD_AHBDCD->HADDR		(HADDR_M);

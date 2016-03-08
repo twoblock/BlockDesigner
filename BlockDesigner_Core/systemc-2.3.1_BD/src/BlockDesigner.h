@@ -11,56 +11,44 @@ namespace sc_core
 			sc_out<bool>		HBUSREQ;
 			sc_out<unsigned int>   HADDR;
 			sc_out<unsigned int>   HBURST;
-			sc_out<bool>   HLOCK;
 			sc_out<unsigned int>   HPROT;
 			sc_out<unsigned int>   HSIZE;
 			sc_out<unsigned int>   HTRANS;
 			sc_out<unsigned int>   HWDATA;
 			sc_out<bool>   HWRITE;
-			sc_in<unsigned int>    HRDATA;
-			sc_in<bool>    HREADY;
-			sc_in<bool>    HRESP;
 			sc_in<bool>		HGRANT;
 
-			char temp[13][256];
+			char temp[9][256];
 
 			BD_AHBPort_MM(char *Name)
 			{
-				for(int i=0; i<13; i++)
+				for(int i=0; i<9; i++)
 					memset(temp[i], 0, 256);
 				
 				strcpy(temp[0], "$HADDR_");
 				strcpy(temp[1], "$HBURST_");
-				strcpy(temp[2], "$HLOCK_");
-				strcpy(temp[3], "$HPROT_");
-				strcpy(temp[4], "$HSIZE_");
-				strcpy(temp[5], "$HTRANS_");
-				strcpy(temp[6], "$HWDATA_");
-				strcpy(temp[7], "$HWRITE_");
-				strcpy(temp[8], "$HRDATA_");
-				strcpy(temp[9], "$HREADY_");
-				strcpy(temp[10], "$HRESP_");
-				strcpy(temp[11], "$HBUSREQ_");
-				strcpy(temp[12], "$HGRANT_");
+				strcpy(temp[2], "$HPROT_");
+				strcpy(temp[3], "$HSIZE_");
+				strcpy(temp[4], "$HTRANS_");
+				strcpy(temp[5], "$HWDATA_");
+				strcpy(temp[6], "$HWRITE_");
+				strcpy(temp[7], "$HBUSREQ_");
+				strcpy(temp[8], "$HGRANT_");
 
 				if(Name != NULL)	{
-					for(int i=0; i<13; i++)
+					for(int i=0; i<9; i++)
 						strcat(temp[i], Name);
 				}
 
 				HADDR.set_port_name(temp[0]);
 				HBURST.set_port_name(temp[1]);
-				HLOCK.set_port_name(temp[2]);
-				HPROT.set_port_name(temp[3]);
-				HSIZE.set_port_name(temp[4]);
-				HTRANS.set_port_name(temp[5]);
-				HWDATA.set_port_name(temp[6]);
-				HWRITE.set_port_name(temp[7]);
-				HRDATA.set_port_name(temp[8]);
-				HREADY.set_port_name(temp[9]);
-				HRESP.set_port_name(temp[10]);
-				HBUSREQ.set_port_name(temp[11]);
-				HGRANT.set_port_name(temp[12]);
+				HPROT.set_port_name(temp[2]);
+				HSIZE.set_port_name(temp[3]);
+				HTRANS.set_port_name(temp[4]);
+				HWDATA.set_port_name(temp[5]);
+				HWRITE.set_port_name(temp[6]);
+				HBUSREQ.set_port_name(temp[7]);
+				HGRANT.set_port_name(temp[8]);
 			}
 	};
 
@@ -70,56 +58,44 @@ namespace sc_core
 			sc_in<bool>		HBUSREQ;
 			sc_in<unsigned int>   HADDR;
 			sc_in<unsigned int>   HBURST;
-			sc_in<bool>   HLOCK;
 			sc_in<unsigned int>   HPROT;
 			sc_in<unsigned int>   HSIZE;
 			sc_in<unsigned int>   HTRANS;
 			sc_in<unsigned int>   HWDATA;
 			sc_in<bool>   HWRITE;
-			sc_out<unsigned int>    HRDATA;
-			sc_out<bool>    HREADY;
-			sc_out<bool>    HRESP;
 			sc_out<bool>		HGRANT;
 
-			char temp[13][256];
+			char temp[9][256];
 
 			BD_AHBPort_MS(char *Name)
 			{
-				for(int i=0; i<13; i++)
+				for(int i=0; i<9; i++)
 					memset(temp[i], 0, 256);
 				
 				strcpy(temp[0], "$HADDR_");
 				strcpy(temp[1], "$HBURST_");
-				strcpy(temp[2], "$HLOCK_");
-				strcpy(temp[3], "$HPROT_");
-				strcpy(temp[4], "$HSIZE_");
-				strcpy(temp[5], "$HTRANS_");
-				strcpy(temp[6], "$HWDATA_");
-				strcpy(temp[7], "$HWRITE_");
-				strcpy(temp[8], "$HRDATA_");
-				strcpy(temp[9], "$HREADY_");
-				strcpy(temp[10], "$HRESP_");
-				strcpy(temp[11], "$HBUSREQ_");
-				strcpy(temp[12], "$HGRANT_");
+				strcpy(temp[2], "$HPROT_");
+				strcpy(temp[3], "$HSIZE_");
+				strcpy(temp[4], "$HTRANS_");
+				strcpy(temp[5], "$HWDATA_");
+				strcpy(temp[6], "$HWRITE_");
+				strcpy(temp[7], "$HBUSREQ_");
+				strcpy(temp[8], "$HGRANT_");
 
 				if(Name != NULL)	{
-					for(int i=0; i<13; i++)
+					for(int i=0; i<9; i++)
 						strcat(temp[i], Name);
 				}
 
 				HADDR.set_port_name(temp[0]);
 				HBURST.set_port_name(temp[1]);
-				HLOCK.set_port_name(temp[2]);
-				HPROT.set_port_name(temp[3]);
-				HSIZE.set_port_name(temp[4]);
-				HTRANS.set_port_name(temp[5]);
-				HWDATA.set_port_name(temp[6]);
-				HWRITE.set_port_name(temp[7]);
-				HRDATA.set_port_name(temp[8]);
-				HREADY.set_port_name(temp[9]);
-				HRESP.set_port_name(temp[10]);
-				HBUSREQ.set_port_name(temp[11]);
-				HGRANT.set_port_name(temp[12]);
+				HPROT.set_port_name(temp[2]);
+				HSIZE.set_port_name(temp[3]);
+				HTRANS.set_port_name(temp[4]);
+				HWDATA.set_port_name(temp[5]);
+				HWRITE.set_port_name(temp[6]);
+				HBUSREQ.set_port_name(temp[7]);
+				HGRANT.set_port_name(temp[8]);
 			}
 	};
 

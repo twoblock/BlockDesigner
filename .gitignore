@@ -6,6 +6,8 @@ TestPlatform/*.d
 TestPlatform/obj_dir/
 TestPlatform/AHB_Lite/*.o
 TestPlatform/AHB_Lite/*.so
+TestPlatform/AHB/*.o
+TestPlatform/AHB/*.so
 TestPlatform/ahbl2mem/*.o
 TestPlatform/ahbl2mem/*.so
 TestPlatform/ahbl2mem_1/*.o
