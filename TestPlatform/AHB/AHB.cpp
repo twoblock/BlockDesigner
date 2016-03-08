@@ -5,10 +5,10 @@ BDDI* AHB::GetBDDI()
 	return bddi;
 }
 
-//BDMMI* AHB::GetBDMMI()
-//{
-	//return bdmmi;
-//}
+BDMMI* AHB::GetBDMMI()
+{
+	return bdmmi;
+}
 
 char* AHB::GetModuleName()
 {
@@ -43,7 +43,7 @@ void AHB::BDInit()
 	AHBSlave_S9 = new BD_AHBPort_SM((char*)"SM_S9");
 
 	bddi = new AHB_BDDI(this);
-	//bdmmi = new AHB_BDMMI(this);
+	bdmmi = new AHB_BDMMI(this);
 }
 
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)

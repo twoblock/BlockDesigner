@@ -7,7 +7,7 @@ make clean
 make
 cd ..
 
-cd ../AHB
+cd AHB
 make clean
 make
 cd ..

@@ -6,6 +6,7 @@
 #include "AHB_ARBITER_M3.h"
 #include "AHB_M2S_M3.h"
 #include "AHB_BDDI.h"
+#include "AHB_BDMMI.h"
 
 SC_MODULE(AHB)	{
 
@@ -52,10 +53,10 @@ SC_MODULE(AHB)	{
 	AHB_M2S_M3*				U_AHB_M2S_M3;
 
 	BDDI*						bddi;
-	//BDMMI*					bdmmi;
+	BDMMI*					bdmmi;
 
 	BDDI* GetBDDI();
-	//BDMMI* GetBDMMI();
+	BDMMI* GetBDMMI();
 	char* GetModuleName();
 	void BDInit();
 

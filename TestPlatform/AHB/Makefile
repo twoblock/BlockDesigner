@@ -10,7 +10,8 @@ PACKAGE_SOURCES =   AHB_Lite.cpp \
 										AHBDCD.cpp \
 										AHBMUX.cpp \
 										AHB.cpp \
-										AHB_BDDI.cpp
+										AHB_BDDI.cpp \
+										AHB_BDMMI.cpp
 
 SO = lib$(PACKAGE).so
 

@@ -15,7 +15,8 @@
 #define __AHBDCD_H__
 
 #include "systemc.h"
-#include "memory_map.h"
+
+#define SlaveNumber 10
 
 SC_MODULE(AHBDCD)	{
 	sc_in<UINT32>		HADDR;
@@ -35,10 +36,24 @@ SC_MODULE(AHBDCD)	{
 	
 	sc_signal<UINT32>	decoder;
 
+	unsigned int BASE_ADDR[SlaveNumber];
+	unsigned int END_ADDR[SlaveNumber];
+
 	void do_divide();
 	void do_decoder();
 
 	SC_CTOR(AHBDCD)		{
+
+		unsigned int Index = 0;
+
+		for(Index = 0; Index < SlaveNumber; Index++){
+			BASE_ADDR[Index] =	0x0;
+		}
+
+		for(Index = 0; Index < SlaveNumber; Index++){
+			END_ADDR[Index] =	0x0;
+		}
+
 		SC_METHOD(do_divide);
 		sensitive << decoder;
 
