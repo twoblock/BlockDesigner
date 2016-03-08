@@ -21,12 +21,6 @@
 ##                                              ##
 ##################################################
 
-0 6 ../console/libconsole.so BD_CONSOLE
-0 6 ../AHB_Lite/libAHB_Lite.so BD_AHB_LITE
-0 6 ../ahbl2mem/libahbl2mem.so BD_ROM
-0 6 ../ahbl2mem/libahbl2mem.so BD_SRAM
-0 6 ../tb/libtb.so BD_TB
-0 6 ../VCORTEXM0DS/libVCORTEXM0DS.so BD_CORTEXM0DS
 0 7 BDPMD.json
 0 0 BD_CORTEXM0DS CM0DS.elf
 

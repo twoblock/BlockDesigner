@@ -31,7 +31,7 @@ namespace BDapi
 	 */
 	void ModuleListManager::PutOperationControl(GUI_COMMAND Command)
 	{
-		AddModule(Command.Argu1, Command.Argu2);
+		//AddModule(Command.Argu1, Command.Argu2);
 	}
 
 	/*

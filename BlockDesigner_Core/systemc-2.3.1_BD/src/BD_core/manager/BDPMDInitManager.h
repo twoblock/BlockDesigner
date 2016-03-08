@@ -54,9 +54,11 @@ namespace BDapi
 			void PutOperationControl(GUI_COMMAND Command);
 			void GetOperationControl(GUI_COMMAND Command);
 			
-			void ConnectModules(const char *FilePath);
-
 			BDPMDReturnStatus ParsingPlatformManagerInformation(const char *FilePath);
+			
+			void LoadModules();
+			void ConnectModules();
+
 			BDPMDReturnStatus ParsingOwnConnectionInformation(unsigned int Index, BindingInfo* BindingObject);
 			BDPMDReturnStatus ParsingChannelInformation(unsigned int Index, ChannelInfo* ChannelObject);
 			BDPMDReturnStatus ParsingConnectionInformation(unsigned int PIndex, unsigned int CIndex, BindingInfo* BindingObject);

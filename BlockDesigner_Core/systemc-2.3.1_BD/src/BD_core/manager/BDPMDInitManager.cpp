@@ -33,7 +33,10 @@ namespace BDapi
 	 */
 	void BDPMDInitManager::PutOperationControl(GUI_COMMAND Command)
 	{
-		ConnectModules(Command.Argu1);
+		ParsingPlatformManagerInformation(Command.Argu1);
+
+		LoadModules();
+		ConnectModules();
 		SetMemoryMap();
 		//set cpu connection informations to load software
 		SetCPUInfo();
@@ -50,17 +53,42 @@ namespace BDapi
 	}
 
 	/*
+	 * function			: LoadModules 
+	 * design				: load all modules in BDPMD
+	 * caller				: BDPMDInitManager::PutOperationControl
+	 */
+	void BDPMDInitManager::LoadModules()
+	{
+		unsigned int ModuleNum = 0;
+		unsigned int ModuleIndex = 0;
+
+		char a_ModuleInstanceName[256] = {0,};
+		char a_ModuleLocation[256] = {0,};
+
+		ModuleNum = InfoModule.size();
+
+		/********************************************
+		 * Iterate sc_modules in sc_module list
+		 ********************************************/
+		for(ModuleIndex = 0; ModuleIndex < ModuleNum; ModuleIndex++){
+
+			strcpy(a_ModuleLocation, InfoModule[ModuleIndex]["module_location"].asCString());
+			strcpy(a_ModuleInstanceName, InfoModule[ModuleIndex]["module_info"]["instance_name"].asCString());
+
+			p_ModuleListManager->AddModule(a_ModuleLocation, a_ModuleInstanceName);
+		}
+	}
+
+	/*
 	 * function			: ConnectModules
 	 * design				: Create Channels and Connect Modules
 	 * param				: FilePath - this parameter is the path of BDPMD json file 
 	 * caller				: BDPMDInitManager::PutOperationControl
 	 */
-	void BDPMDInitManager::ConnectModules(const char *FilePath)
+	void BDPMDInitManager::ConnectModules()
 	{
 		ChannelInfo st_ChannelInfo = {NULL, NULL, NULL};
 		BindingInfo st_BindingInfo = {NULL, NULL, NULL};
-
-		ParsingPlatformManagerInformation(FilePath);
 
 		for(unsigned int dw_PIndex = 0; ; dw_PIndex++)	{
 			if(ParsingChannelInformation(dw_PIndex, &st_ChannelInfo) == BDPMDReturnStatusError)	break;

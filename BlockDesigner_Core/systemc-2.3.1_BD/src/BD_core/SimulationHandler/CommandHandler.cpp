@@ -81,7 +81,7 @@ namespace BDapi
 			SetManagerForPutOperation(CmdSignalTraceManager);
 		}		
 		else if(st_GUICommand.Command == LoadModule){
-			SetManagerForPutOperation(CmdModuleListManager);
+			SetManagerForPutOperation(CmdPMMLGenerationManager);
 		}
 		else if(st_GUICommand.Command == BDPMDInit)	{
 			SetManagerForPutOperation(CmdBDPMDInitManager);
