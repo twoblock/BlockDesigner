@@ -13,6 +13,8 @@
 
 #include "PMMLGenerationManager.h"
 #include "ModuleLoader.h"
+//#include "../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.h"
+#include "CallBackManager.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -81,6 +83,26 @@ namespace BDapi
 		JsonFileOfPMModuleList = writer.write(Root);
 		cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
 
+		//CallBackManager *p_CallBackManager = NULL;
+		//p_CallBackManager = CallBackManager::GetInstance();
+
+		//marshalling an int* to a m_SizeClass boogy-woogy.
+
+		//JNIEnv *g_env = p_CallBackManager->GetEnv();	
+		//g_env->ExceptionClear();
+
+		//jobject g_obj = p_CallBackManager->GetObject();
+		//jmethodID g_method = p_CallBackManager->GetMID();
+
+		//jstring string = g_env->NewStringUTF(JsonFileOfPMModuleList.c_str());
+		//g_env->CallIntMethod(g_obj, g_method, string );
+
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+
 		return JsonFileOfPMModuleList;
 	}
 
@@ -90,6 +112,8 @@ namespace BDapi
 	 */
 	void PMMLGenerationManager::AddModuleLocation(sc_module *p_SCmodule, const char *SoFilePath)
 	{
+		cout<< endl << "AddPMML!!!!!!!!!!!!!!!" << endl << endl; 
+
 		// sc_module's port list pointer 
 		std::vector<sc_port_base*>* p_PortList = NULL;
 

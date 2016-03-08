@@ -28,6 +28,7 @@ namespace BDapi
 		CmdPMMLGenerationManager = PMMLGenerationManager::GetInstance();
 		CmdSignalTraceManager = SignalTraceManager::GetInstance();
 		CmdSoftwareManager = SoftwareManager::GetInstance();
+		CmdCallBackManager = CallBackManager::GetInstance();
 	}
 
 	/*
@@ -48,6 +49,7 @@ namespace BDapi
 	 */
 	int CommandHandler::Execute()
 	{
+		printf("Execute\n");
 		if(st_GUICommand.Operation == PUT){
 			PutOperation();
 		}
@@ -79,7 +81,10 @@ namespace BDapi
 		}
 		else if(st_GUICommand.Command == WireTraceControl)	{
 			SetManagerForPutOperation(CmdSignalTraceManager);
-		}		
+		}	
+		else if(st_GUICommand.Command == RegisterCallBack)	{
+			SetManagerForPutOperation(CmdCallBackManager);
+		}	
 		else if(st_GUICommand.Command == LoadModule){
 			SetManagerForPutOperation(CmdPMMLGenerationManager);
 		}
