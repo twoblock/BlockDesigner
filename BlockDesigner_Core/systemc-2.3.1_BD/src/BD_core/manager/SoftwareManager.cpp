@@ -42,9 +42,12 @@ namespace BDapi
 		CPUIndex = FindCPU(Command.Argu1);	
 
 		if(CPUIndex != -1){
+		
 			LoadSoftware(CPUIndex, Command.Argu2);
 			// assembly code displayer
 			SetSoftwareDisplayer(CPUIndex, Command.Argu2);
+			
+			SetSoftwareProfiler(CPUIndex, Command.Argu2);
 		}
 		else{
 			printf("can not find %s cpu \n", Command.Argu1);
@@ -100,6 +103,52 @@ namespace BDapi
 		CPUs[0]->p_SoftwareDisplayer->DisplayAssemblyCode(dw_PC);
 		printf("\n\n");
 	}
+
+	/*
+	 * function    	: SetSoftwareProfiler 
+	 * design	      : set this profiler for this cpu 
+	 *                this is used for profiling software 
+	 * param	      : CPUIndex - index of CPU in member variable CPUs(vector<CPUInfo*>)
+	 *              : SoftwarePath 
+	 */
+	void SoftwareManager::SetSoftwareProfiler(int CPUIndex, char *SoftwarePath)
+	{
+		// make SoftwareProfiler
+		p_SoftwareProfiler = new SoftwareProfiler(SoftwarePath);
+
+		// set this profiler to the cpu that have CPUIndex 
+		CPUInfo *pst_CPUInfo;
+		pst_CPUInfo =	CPUs.at(CPUIndex);
+		pst_CPUInfo->p_SoftwareProfiler = p_SoftwareProfiler;
+	
+		p_SoftwareProfiler = NULL;
+	}
+
+	/*
+	 * function    	: PCAnalyzer 
+	 * design	      : analyze current pc in this cpu
+	 */
+	void SoftwareManager::PCAnalyzer()
+	{
+		unsigned int dw_PC;
+
+    ModuleListManager *p_ModuleListManager = NULL;
+		p_ModuleListManager = ModuleListManager::GetInstance();
+		dw_PC = p_ModuleListManager->FindModule("BD_CORTEXM0DS")->GetBDDI()->BDDIGetPCValue();
+		//printf("\n\nAssembly Code\n\n");
+		CPUs[0]->p_SoftwareProfiler->PC_Analyzer(dw_PC);
+		//printf("\n\n");
+	}
+
+	/*
+	 * function    	: DisplayProfilingData
+	 * design	      : display profiling data in this cpu
+	 */
+	void SoftwareManager::DisplayProfilingData()
+	{
+		CPUs[0]->p_SoftwareProfiler->Summary_Display();
+	}
+
 
 	/*
 	 * function    	: AddConnectionInfo

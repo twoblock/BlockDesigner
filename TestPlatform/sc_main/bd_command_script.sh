@@ -36,8 +36,9 @@
 0 1 STOP  
 0 1 STEP 2000 
 0 1 STOP  
-0 1 STEP 2000 
+0 1 STEP 1323
 0 1 STOP  
+0 1 RUN
 
 ######################### Block Designer command set ########################
 ##                                                                         ##

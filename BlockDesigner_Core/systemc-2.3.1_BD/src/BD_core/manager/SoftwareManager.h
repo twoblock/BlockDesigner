@@ -18,6 +18,7 @@
 #include "systemc.h"
 #include "../SimulationAPI/SoftwareLoader.h"
 #include "../SimulationAPI/SoftwareDisplayer.h"
+#include "../SimulationAPI/SoftwareProfiler.h"
 #include <pthread.h>
 #include <vector>
 #include <string>
@@ -39,7 +40,7 @@ namespace BDapi
 		string CPUName;
 	  vector<string> ConnectedModules;
 	  SoftwareDisplayer *p_SoftwareDisplayer;
-	  //SoftwareProfiler *p_SoftwareProfiler;
+	  SoftwareProfiler *p_SoftwareProfiler;
 	};
 
 	/*
@@ -54,6 +55,10 @@ namespace BDapi
 			void LoadSoftware(int CPUIndex, char *SoftwarePath);
 			void SetSoftwareDisplayer(int CPUIndex, char *SoftwarePath);
 			void DisplayAssemblyCode();
+	
+			void SetSoftwareProfiler(int CPUIndex, char *SoftwarePath);
+			void PCAnalyzer();
+			void DisplayProfilingData();
 
 			void AddConnectionInfo(string CPUName, string ConnectedModuleName);
 			int FindCPU(string CPUName);
@@ -71,6 +76,7 @@ namespace BDapi
 
 			SoftwareLoader *p_SoftwareLoader;
 			SoftwareDisplayer *p_SoftwareDisplayer;
+			SoftwareProfiler *p_SoftwareProfiler;
 
 			static SoftwareManager *_SoftwareManager;
 			// mutex for singleton pattern 

@@ -88,6 +88,9 @@ namespace BDapi
 	void Run()
 	{
 		sc_start(10, SC_NS);
+		SoftwareManager *p_SoftwareManager = NULL;
+		p_SoftwareManager = SoftwareManager::GetInstance();	
+		p_SoftwareManager->PCAnalyzer();	
 		glw_Cycle++;
 	}
 
@@ -103,6 +106,9 @@ namespace BDapi
 
 		if(dw_StepValue != 0){
 			sc_start(10, SC_NS);
+			SoftwareManager *p_SoftwareManager = NULL;
+			p_SoftwareManager = SoftwareManager::GetInstance();	
+			p_SoftwareManager->PCAnalyzer();	
 			glw_Cycle++;
 			dw_StepValue -= 10;
 			ExecutionManager::SetStepValue(dw_StepValue);
@@ -122,6 +128,7 @@ namespace BDapi
 		SoftwareManager *p_SoftwareManager = NULL;
 	  p_SoftwareManager = SoftwareManager::GetInstance();	
 		p_SoftwareManager->DisplayAssemblyCode();	
+		p_SoftwareManager->DisplayProfilingData();	
 
 		ExecutionManager::SetExecutionFlag(NOTHING);
 	}
