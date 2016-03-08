@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -18,11 +21,15 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
@@ -35,6 +42,7 @@ import org.json.simple.parser.ParseException;
 import com.twoblock.blockdesigner.command.Handler_Command;
 import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
 import com.twoblock.blockdesigner.command.Hanlder_CallBack;
+import com.twoblock.blockdesigner.datastore.ModuleInfo.Parameter;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -238,6 +246,11 @@ public class View_SimulationEnvironment extends ViewPart {
 	private JSONObject obj_HRESETn;
 	private JSONObject obj_HRESETn_info;
 	private JSONObject obj_module_info;
+	private Table table_channel;
+	private Table table_port;
+	
+	private JSONArray arr_port_info;
+	private JSONObject obj_port;
 	
 	protected void ChannelInfoSet(final Composite composite){
 		try {
@@ -266,62 +279,136 @@ public class View_SimulationEnvironment extends ViewPart {
 		Image imgConnectionIcon = idItem.createImage();
 		Expanditem.get(0).setImage(imgConnectionIcon);
 		
-			Label lbl_HCLK = new Label(composite_ExpandItem.get(0), SWT.READ_ONLY);
-			lbl_HCLK.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
-			lbl_HCLK.setText("HCLK");
-			Combo cmb_HCLK = new Combo(composite_ExpandItem.get(0), SWT.DROP_DOWN|SWT.READ_ONLY);
-			cmb_HCLK.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+//			Label lbl_HCLK = new Label(composite_ExpandItem.get(0), SWT.READ_ONLY);
+//			lbl_HCLK.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
+//			lbl_HCLK.setText("HCLK");
+//			Combo cmb_HCLK = new Combo(composite_ExpandItem.get(0), SWT.DROP_DOWN|SWT.READ_ONLY);
+//			cmb_HCLK.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+//			
+//			obj_HCLK = (JSONObject) arr_ChannelInfo.get(0);
+//			String first_HCLK = (String) obj_HCLK.get("name");
+//			String [] first_HCLK_tok = first_HCLK.split("[$]");
+//			cmb_HCLK.add(first_HCLK_tok[0]);
+//
+//			jrr_HCLK_connection = (JSONArray)obj_HCLK.get("connection_info");
+//			for(int HCLK_index=0; HCLK_index < jrr_HCLK_connection.size() ; HCLK_index++){
+//				obj_HCLK_info = (JSONObject)jrr_HCLK_connection.get(HCLK_index);
+//				cmb_HCLK.add((String)obj_HCLK_info.get("module_name"));
+//			}
+//			
+//			Label lbl_HRESETn = new Label(composite_ExpandItem.get(0), SWT.READ_ONLY);
+//			lbl_HRESETn.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
+//			lbl_HRESETn.setText("HRESETn");
+//			Combo cmb_HRESETn = new Combo(composite_ExpandItem.get(0), SWT.DROP_DOWN|SWT.READ_ONLY);
+//			cmb_HRESETn.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+//			obj_HRESETn = (JSONObject) arr_ChannelInfo.get(1);
+//			String first_HRESETn = (String) obj_HRESETn.get("name");
+//			String [] first_HRESETn_tok = first_HRESETn.split("[$]");
+//			cmb_HRESETn.add(first_HRESETn_tok[0]);
+//
+//			jrr_HRESETn_connection = (JSONArray)obj_HRESETn.get("connection_info");
+//			for(int HRESETn=0; HRESETn < jrr_HRESETn_connection.size() ; HRESETn++){
+//				obj_HRESETn_info = (JSONObject)jrr_HRESETn_connection.get(HRESETn);
+//				cmb_HRESETn.add((String)obj_HRESETn_info.get("module_name"));
+//			}
+//
+//			Label lbl_Connection = new Label(composite_ExpandItem.get(0), SWT.READ_ONLY);
+//			lbl_Connection.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
+//			lbl_Connection.setText("Connections");
+//			Combo cmb_Connection = new Combo(composite_ExpandItem.get(0), SWT.DROP_DOWN|SWT.READ_ONLY);
+//			cmb_Connection.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+//			
+//			for(int i=2; i< arr_ChannelInfo.size(); i++){
+//				obj_Connection = (JSONObject) arr_ChannelInfo.get(i);
+//				String first_Connection = (String) obj_Connection.get("name");
+//				String first_Connection_source = "["+first_Connection.replaceAll("[$]", "]");
+//				jrr_Connection = (JSONArray)obj_Connection.get("connection_info");
+//				obj_Connection_info = (JSONObject) jrr_Connection.get(0);
+//				String first_Connection_dest = "["+(String) obj_Connection_info.get("module_name") + "]"
+//					+ (String) obj_Connection_info.get("port_name");
+//				String padded = padRight(first_Connection_source, 70-first_Connection_source.length()*2);
+//				cmb_Connection.add(padded+" <----->              "+first_Connection_dest);
+//				
+//			}
 			
-			obj_HCLK = (JSONObject) arr_ChannelInfo.get(0);
-			String first_HCLK = (String) obj_HCLK.get("name");
-			String [] first_HCLK_tok = first_HCLK.split("[$]");
-			cmb_HCLK.add(first_HCLK_tok[0]);
+			
+			table_channel = new Table(composite_ExpandItem.get(0), SWT.BORDER | SWT.FULL_SELECTION |SWT.V_SCROLL);
+			GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+			gd_table.heightHint=140;
+			table_channel.setLayoutData(gd_table);
+			table_channel.setHeaderVisible(true);
+			table_channel.setLinesVisible(true);
 
-			jrr_HCLK_connection = (JSONArray)obj_HCLK.get("connection_info");
-			for(int HCLK_index=0; HCLK_index < jrr_HCLK_connection.size() ; HCLK_index++){
-				obj_HCLK_info = (JSONObject)jrr_HCLK_connection.get(HCLK_index);
-				cmb_HCLK.add((String)obj_HCLK_info.get("module_name"));
-			}
-			
-			Label lbl_HRESETn = new Label(composite_ExpandItem.get(0), SWT.READ_ONLY);
-			lbl_HRESETn.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
-			lbl_HRESETn.setText("HRESETn");
-			Combo cmb_HRESETn = new Combo(composite_ExpandItem.get(0), SWT.DROP_DOWN|SWT.READ_ONLY);
-			cmb_HRESETn.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
-			obj_HRESETn = (JSONObject) arr_ChannelInfo.get(1);
-			String first_HRESETn = (String) obj_HRESETn.get("name");
-			String [] first_HRESETn_tok = first_HRESETn.split("[$]");
-			cmb_HRESETn.add(first_HRESETn_tok[0]);
+			TableColumn tb_clmn_ChannelName = new TableColumn(table_channel, SWT.CENTER);
+			tb_clmn_ChannelName.setWidth(600);
+			tb_clmn_ChannelName.setText("Channel Name");
 
-			jrr_HRESETn_connection = (JSONArray)obj_HRESETn.get("connection_info");
-			for(int HRESETn=0; HRESETn < jrr_HRESETn_connection.size() ; HRESETn++){
-				obj_HRESETn_info = (JSONObject)jrr_HRESETn_connection.get(HRESETn);
-				cmb_HRESETn.add((String)obj_HRESETn_info.get("module_name"));
-			}
+			TableColumn tb_clmn_Tracing = new TableColumn(table_channel, SWT.CENTER);
+			tb_clmn_Tracing.setWidth(120);
+			tb_clmn_Tracing.setText("Tracing");
+			
+			int par_Cnt = arr_ChannelInfo.size();
+				for (int i = 0; i < par_Cnt; i++) {
+					new TableItem(table_channel, SWT.NONE);
+				}
 
-			Label lbl_Connection = new Label(composite_ExpandItem.get(0), SWT.READ_ONLY);
-			lbl_Connection.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
-			lbl_Connection.setText("Connections");
-			Combo cmb_Connection = new Combo(composite_ExpandItem.get(0), SWT.DROP_DOWN|SWT.READ_ONLY);
-			cmb_Connection.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+				TableItem[] items = table_channel.getItems();
+				
+					TableEditor editor_channel_table = new TableEditor(table_channel);
+					{
+					editor_channel_table = new TableEditor(table_channel);
+					final Text txt_HCLK = new Text(table_channel, SWT.READ_ONLY);
+					txt_HCLK.setTouchEnabled(true);
+					txt_HCLK.setText("HCLK");
+					editor_channel_table.grabHorizontal = true;
+					editor_channel_table.setEditor(txt_HCLK, items[0], 0);
+					editor_channel_table = new TableEditor(table_channel);
+					final Button ckb_HCLK_Tracing = new Button(table_channel, SWT.CHECK);
+					editor_channel_table.grabHorizontal = true;
+					editor_channel_table.setEditor(ckb_HCLK_Tracing, items[0], 1);
+					
+					editor_channel_table = new TableEditor(table_channel);
+					final Text txt_HRESETn = new Text(table_channel, SWT.READ_ONLY);
+					txt_HRESETn.setTouchEnabled(true);
+					txt_HRESETn.setText("HRESETn");
+					editor_channel_table.grabHorizontal = true;
+					editor_channel_table.setEditor(txt_HRESETn, items[1], 0);
+					editor_channel_table = new TableEditor(table_channel);
+					final Button ckb_HRESETn_Tracing = new Button(table_channel, SWT.CHECK);
+					editor_channel_table.grabHorizontal = true;
+					editor_channel_table.setEditor(ckb_HRESETn_Tracing, items[1], 1);
+					}
+				
+				for (int channel_index = 2; channel_index < items.length; channel_index++) {
+					
+					obj_Connection = (JSONObject) arr_ChannelInfo.get(channel_index);
+					String first_Connection = (String) obj_Connection.get("name");
+					String first_Connection_source = "["+first_Connection.replaceAll("[$]", "]");
+					jrr_Connection = (JSONArray)obj_Connection.get("connection_info");
+					obj_Connection_info = (JSONObject) jrr_Connection.get(0);
+					String first_Connection_dest = "["+(String) obj_Connection_info.get("module_name") + "]"
+						+ (String) obj_Connection_info.get("port_name");
+//					String padded = padRight(first_Connection_source, 70-first_Connection_source.length()*2);
+					
+					
+					editor_channel_table = new TableEditor(table_channel);
+					
+					final Text txt_ChannelName = new Text(table_channel, SWT.READ_ONLY);
+					txt_ChannelName.setTouchEnabled(true);
+					txt_ChannelName.setText(first_Connection_source+" <---> "+first_Connection_dest);
+					editor_channel_table.grabHorizontal = true;
+					editor_channel_table.setEditor(txt_ChannelName, items[channel_index], 0);
+
+					editor_channel_table = new TableEditor(table_channel);
+					
+					final Button ckb_Tracing = new Button(table_channel, SWT.CHECK);
+					editor_channel_table.grabHorizontal = true;
+					editor_channel_table.setEditor(ckb_Tracing, items[channel_index], 1);
+				}
+				
 			
-			for(int i=2; i< arr_ChannelInfo.size(); i++){
-				obj_Connection = (JSONObject) arr_ChannelInfo.get(i);
-				String first_Connection = (String) obj_Connection.get("name");
-				String first_Connection_source = "["+first_Connection.replaceAll("[$]", "]");
-				jrr_Connection = (JSONArray)obj_Connection.get("connection_info");
-				obj_Connection_info = (JSONObject) jrr_Connection.get(0);
-				String first_Connection_dest = "["+(String) obj_Connection_info.get("module_name") + "]"
-					+ (String) obj_Connection_info.get("port_name");
-				String padded = padRight(first_Connection_source, 70-first_Connection_source.length()*2);
-				cmb_Connection.add(padded+" <----->              "+first_Connection_dest);
-			}
-			
-		cmb_HRESETn.pack();
-		cmb_HCLK.pack();
-		cmb_Connection.pack();
-		
-		Expanditem.get(0).setHeight(cmb_HRESETn.getSize().y + cmb_HCLK.getSize().y + cmb_Connection.getSize().y + 10);
+		table_channel.pack();
+		Expanditem.get(0).setHeight(150);
 
 		
 		int ModuleInfoIndex;
@@ -335,6 +422,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			obj_module_info = (JSONObject) obj_module.get("module_info");
 			String InstanceName = (String)obj_module_info.get("instance_name");
 			Expanditem.get(ModuleInfoIndex+1).setText(InstanceName);
+			arr_port_info = (JSONArray)obj_module_info.get("port");
 			
 			switch (module_type) {
 			case "Core":
@@ -360,11 +448,46 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 			
 			composite_ExpandItem.add(new Composite(expandBar, SWT.NONE));
-			composite_ExpandItem.get(ModuleInfoIndex+1).setLayout(new GridLayout(2, false));
-			
+			composite_ExpandItem.get(ModuleInfoIndex+1).setLayout(new GridLayout(3, false));
+			composite_ExpandItem.get(ModuleInfoIndex+1).setBackground(color_gray);
 			Expanditem.get(ModuleInfoIndex+1).setControl(composite_ExpandItem.get(ModuleInfoIndex+1));
 			Expanditem.get(ModuleInfoIndex+1)
 					.setHeight(Expanditem.get(ModuleInfoIndex+1).getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+			
+			table_port = new Table(composite_ExpandItem.get(ModuleInfoIndex+1), SWT.BORDER | SWT.FULL_SELECTION |SWT.V_SCROLL);
+			GridData gd_table_port = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+			gd_table_port.heightHint=140;
+			table_port.setLayoutData(gd_table_port);
+			table_port.setHeaderVisible(true);
+			table_port.setLinesVisible(true);
+
+			
+			TableColumn tb_clmn_Port = new TableColumn(table_port, SWT.CENTER);
+			tb_clmn_Port.setWidth(600);
+			tb_clmn_Port.setText("Port Name");
+
+			System.err.println(arr_port_info.size());
+			
+			int port_cnt = arr_port_info.size();
+				for (int i = 0; i < port_cnt; i++) {
+					new TableItem(table_port, SWT.NONE);
+				}
+
+				TableItem[] items_port = table_port.getItems();
+				
+				for (int port_index = 0; port_index < items_port.length; port_index++) {
+					obj_port = (JSONObject) arr_port_info.get(port_index);
+					
+					TableEditor editor_port_table = new TableEditor(table_port);
+					editor_port_table = new TableEditor(table_port);
+					
+					final Text txt_PortName = new Text(table_port, SWT.READ_ONLY);
+					txt_PortName.setTouchEnabled(true);
+					txt_PortName.setText((String)obj_port.get("port"));
+					editor_port_table.grabHorizontal = true;
+					editor_port_table.setEditor(txt_PortName, items_port[port_index], 0);
+				}
+				Expanditem.get(ModuleInfoIndex+1).setHeight(150);
 		}
 	}
 	
