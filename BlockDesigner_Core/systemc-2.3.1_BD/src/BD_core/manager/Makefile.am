@@ -48,7 +48,7 @@ H_FILES = \
 	BDPMDInitManager.h \
 	PMMLGenerationManager.h \
 	SignalTraceManager.h \
-	SoftwareLoadingManager.h
+	SoftwareManager.h
  
 CXX_FILES = \
 	ExecutionManager.cpp \
@@ -59,7 +59,7 @@ CXX_FILES = \
 	BDPMDInitManager.cpp \
 	PMMLGenerationManager.cpp \
 	SignalTraceManager.cpp \
-	SoftwareLoadingManager.cpp
+	SoftwareManager.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)

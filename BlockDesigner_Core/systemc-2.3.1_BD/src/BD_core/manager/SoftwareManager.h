@@ -2,7 +2,7 @@
 // Design								: Software Loading Manager 
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: SoftwareLoadingManager.h
+// File		     					: SoftwareManager.h
 // Date	       					: 2016/3/2
 // Reference            :
 // ----------------------------------------------------------------------------
@@ -16,6 +16,9 @@
 
 #include "TopManagerBase.h"
 #include "systemc.h"
+#include "../SimulationAPI/SoftwareLoader.h"
+#include "../SimulationAPI/SoftwareDisplayer.h"
+#include "../SimulationAPI/SoftwareProfiler.h"
 #include <pthread.h>
 #include <vector>
 #include <string>
@@ -36,48 +39,48 @@ namespace BDapi
 	{
 		string CPUName;
 	  vector<string> ConnectedModules;
-	};
-
-	// Return type of parsing hex file
-	enum ReturnType_Of_Parsing
-	{
-		End_Of_File,
-		Address,
-	  Binary	
+	  SoftwareDisplayer *p_SoftwareDisplayer;
+	  SoftwareProfiler *p_SoftwareProfiler;
 	};
 
 	/*
-	 * class		    : SoftwareLoadingManager 
-	 * design	      : load software based on GUI command 
+	 * class		    : SoftwareManager 
+	 * design	      : manager software information for each cpu 
 	 */
-	class SoftwareLoadingManager: public TopManagerBase
+	class SoftwareManager: public TopManagerBase
 	{
 		public:
 			void PutOperationControl(GUI_COMMAND Command);
 			
-			void LoadSoftware(char *CPUName, char *SoftwarePath);
-			void ProcessLoading(int CPUIndex);
-			BDDI* FindTargetMemoryBDDI(int CPUIndex, UINT32 Address);
-			BDDI* SearchTargetMemoryInBus(sc_module *SCmodule);
-			ReturnType_Of_Parsing ParsingHexFile(FILE *HexFile, UINT32 *Value);
+			void LoadSoftware(int CPUIndex, char *SoftwarePath);
+			void SetSoftwareDisplayer(int CPUIndex, char *SoftwarePath);
+			void DisplayAssemblyCode();
+	
+			void SetSoftwareProfiler(int CPUIndex, char *SoftwarePath);
+			void PCAnalyzer();
+			void DisplayProfilingData();
 
 			void AddConnectionInfo(string CPUName, string ConnectedModuleName);
 			int FindCPU(string CPUName);
+			vector<CPUInfo*>* GetCPUInfo();
 			
-			static SoftwareLoadingManager* GetInstance();
+			static SoftwareManager* GetInstance();
 			static void DeleteInstance();
 
 		protected:
-			SoftwareLoadingManager();
-		  virtual ~SoftwareLoadingManager();
+			SoftwareManager();
+		  virtual ~SoftwareManager();
 
 		private:
 			vector<CPUInfo*> CPUs;
-			ModuleListManager *p_ModuleListManager;
 
-			static SoftwareLoadingManager *_SoftwareLoadingManager;
+			SoftwareLoader *p_SoftwareLoader;
+			SoftwareDisplayer *p_SoftwareDisplayer;
+			SoftwareProfiler *p_SoftwareProfiler;
+
+			static SoftwareManager *_SoftwareManager;
 			// mutex for singleton pattern 
-			static pthread_mutex_t SoftwareLoadingManagerInstanceMutex;   
+			static pthread_mutex_t SoftwareManagerInstanceMutex;   
 	};
 } // namespace BDapi 
 

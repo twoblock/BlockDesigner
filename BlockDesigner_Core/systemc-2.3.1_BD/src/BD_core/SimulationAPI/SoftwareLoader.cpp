@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------------
-// Design								: Software Loading Manager 
+// Design								: Software Loader
 // Author								: Bryan Choi 
 // Email								: bryan.choi@twoblocktech.com 
-// File		     					: SoftwareLoadingManager.h
+// File		     					: SoftwareLoader.h
 // Date	       					: 2016/3/2
 // Reference            :
 // ----------------------------------------------------------------------------
@@ -11,52 +11,38 @@
 // Description	: help tool load software 
 // ----------------------------------------------------------------------------
 
-#include "SoftwareLoadingManager.h"
-#include "ModuleListManager.h"
+#include "SoftwareLoader.h"
+#include "../manager/SoftwareManager.h"
+#include "../manager/ModuleListManager.h"
 
 namespace BDapi
 {	
-	// declare static variable for linker 
-	SoftwareLoadingManager* SoftwareLoadingManager::_SoftwareLoadingManager= NULL;
-	// initialize mutex 
-	pthread_mutex_t SoftwareLoadingManager::SoftwareLoadingManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
-
 	/*
-	 * function    	: PutOperationControl
-	 * design	      : 
-	 * param	      : 
-	 * caller		    : 
+	 * function    	: LoadSoftware 
+	 * design	      : load software for this cpu 
+	 * param	      : CPUIndex 
+	 *              : SoftwarePath 
 	 */
-	void SoftwareLoadingManager::PutOperationControl(GUI_COMMAND Command)
-	{
-		LoadSoftware(Command.Argu1, Command.Argu2);
-	}
-
-	void SoftwareLoadingManager::LoadSoftware(char *CPUName, char *SoftwarePath)
+	void SoftwareLoader::LoadSoftware(int CPUIndex, char *SoftwarePath)
 	{
 		FILE* Command;
 		char a_Command[1024];
 
-		int CPUIndex = 0;
-		CPUIndex = FindCPU(CPUName);
-
-		if(CPUIndex != -1){
-
-			// get hex file from elf file
-			// elf file : SoftwarePath
-			// hex file : BDsoftware.txt
-			sprintf( a_Command, "arm-linux-gnueabi-objcopy -O verilog %s BDsoftware.txt", SoftwarePath);
-			Command = popen( a_Command , "r");
-			fclose(Command);
-
-			// This CPU load BDsoftware.txt values
-			ProcessLoading(CPUIndex);
-
-			// After software loading, remove BDsoftware.txt
-			popen("rm BDsoftware.txt", "w");
+		// get hex file from elf file
+		// elf file : SoftwarePath
+		// hex file : BDsoftware.txt
+		sprintf( a_Command, "arm-linux-gnueabi-objcopy -O verilog %s BDsoftware.txt", SoftwarePath);
+		Command = popen( a_Command , "r");
+		if(Command == NULL){
+			perror("fail to execute popen function");
+			return;
 		}
 		else{
-			printf("%s cpu Fail to load software\n", CPUName);
+			fclose(Command);
+			// This CPU load BDsoftware.txt values
+			ProcessLoading(CPUIndex);
+			// After software loading, remove BDsoftware.txt
+			popen("rm BDsoftware.txt", "w");
 		}
 	}
 
@@ -66,16 +52,16 @@ namespace BDapi
 	 * param	      : 
 	 * caller		    : 
 	 */
-	void SoftwareLoadingManager::ProcessLoading(int CPUIndex)
+	void SoftwareLoader::ProcessLoading(int CPUIndex)
 	{
 		BDDI *p_BDDI = NULL; 
 		ReturnType_Of_Parsing ReturnType;   
+
 		UINT32 dw_Value = 0;
 		UINT32 dw_Address = 0;
 		UINT32 dw_StartAddress = 1;
 		UINT32 dw_EndAddress = 0;
 		UINT32 dw_AddressSize = 0;
-		//UINT32 dw_RestOfMem = 0;
 
 		FILE* fHex;
 		fHex = fopen("BDsoftware.txt", "rt");
@@ -99,7 +85,7 @@ namespace BDapi
 						continue;
 					else{
 						p_BDDI = FindTargetMemoryBDDI(CPUIndex, dw_Address);
-			
+
 						dw_StartAddress = p_BDDI->BDDIGetMemoryBaseAddress();
 						dw_AddressSize = p_BDDI->BDDIGetMemoryAddressSize();
 						dw_EndAddress = dw_StartAddress + dw_AddressSize;
@@ -110,21 +96,18 @@ namespace BDapi
 			}
 		}
 
-		// memory initializing
-		//for(dw_RestOfMem = dw_Address; dw_RestOfMem<(262144*4); dw_RestOfMem+=4)	{
-			//p_BDDI->BDDISetMemoryAddressValue(dw_RestOfMem, 0);
-		//}
-
 		fclose(fHex);
 	}
 
 	/*
-	 * function    	: 
-	 * design	      : 
-	 * param	      : 
-	 * caller		    : 
+	 * function    	: FindTargetMemoryBDDI 
+	 * design	      : find taget memory BDDI 
+	 * param	      : CPUIndex - index of CPU in member variable CPUs(vector<CPUInfo*>)
+   *                           in SoftwareManager 
+	 *              : Address - find memory based on this address
+	 * rerturn      : BDDI* 
 	 */
-	BDDI* SoftwareLoadingManager::FindTargetMemoryBDDI(int CPUIndex, UINT32 Address)
+	BDDI* SoftwareLoader::FindTargetMemoryBDDI(int CPUIndex, UINT32 Address)
 	{
 		sc_module *p_ConnectedSCmodule = NULL;
 
@@ -135,9 +118,15 @@ namespace BDapi
 		UINT32 dw_EndAddress = 0;
 		UINT32 dw_Size = 0;
 
+		SoftwareManager *p_SoftwareManager = SoftwareManager::GetInstance();
+			
+		vector<CPUInfo*> *p_CPUs = p_SoftwareManager->GetCPUInfo();
+
+		CPUInfo *p_CPUInfo = p_CPUs->at(CPUIndex);	
+
 		// ready to iterate sc_modules connected to cpu 
-		vector<string>::iterator FirstModule = CPUs[CPUIndex]->ConnectedModules.begin();
-		vector<string>::iterator LastModule = CPUs[CPUIndex]->ConnectedModules.end();
+		vector<string>::iterator FirstModule = p_CPUInfo->ConnectedModules.begin();
+		vector<string>::iterator LastModule = p_CPUInfo->ConnectedModules.end();
 		vector<string>::iterator IndexOfModule = FirstModule;
 
 		/********************************************
@@ -184,7 +173,13 @@ namespace BDapi
 		return NULL;
 	}
 
-	BDDI* SoftwareLoadingManager::SearchTargetMemoryInBus(sc_module *SCmodule)
+	/*
+	 * function    	: SearchTargetMemoryInBus
+	 * design	      : find taget memory in this bus( SCmodule ) 
+	 * param	      : SCmodule - bus module 
+	 * rerturn      : BDDI* 
+	 */
+	BDDI* SoftwareLoader::SearchTargetMemoryInBus(sc_module *SCmodule)
 	{
 		// declare variables that relate to memory map 
 		BDMMI *p_BDMMI = NULL;
@@ -247,11 +242,22 @@ namespace BDapi
 				}
 			}
 		}
-	
 		return NULL;
 	}
 
-	ReturnType_Of_Parsing SoftwareLoadingManager::ParsingHexFile(FILE *HexFile, UINT32 *Value)
+	/*
+	 * function    	: ParsingHexFile 
+	 * design	      : parse 4 byte from software hex file
+	 * param	      : HexFile - file pointer
+	 *              : Value - store 4 btye to this space(call by reference)  
+	 * rerturn      : ReturnType_Of_Parsing - to check what kind of retuen value is	
+   *								 
+   *							  three kind
+   *                1. End of file
+ 	 *							  2. Address
+   *                3. Binary( code or data )
+	 */
+	ReturnType_Of_Parsing SoftwareLoader::ParsingHexFile(FILE *HexFile, UINT32 *Value)
 	{
 		char a_Byte1[2] = {0,};
 		char a_Byte2[2] = {0,};
@@ -263,11 +269,13 @@ namespace BDapi
 		UINT32 dw_HexValue = 0;
 
 		while(1){
+			// check end of file
 			if(fscanf(HexFile, "%s", a_Token) == EOF){
 				*Value = 0;
 				return End_Of_File;
 			}
 			else{
+				// if first character is not @, this means next data is binary(code or data) 
 				if(a_Token[0] != '@'){
 					strcpy(a_Byte4, a_Token);
 					fscanf(HexFile, "%s", a_Byte3);
@@ -280,16 +288,21 @@ namespace BDapi
 					strncpy(a_HexFourBytes+6, a_Byte4, 2);
 					a_HexFourBytes[8] = 0;
 
+					// convert string to unsigned int
 					dw_HexValue = strtoul(a_HexFourBytes, NULL, 16);
+					// assign value
 					*Value = dw_HexValue;
 
 					return Binary;			
 				}
+				// if first character is @, this means next data is address 
 				else{
 					strncpy(a_HexFourBytes, (a_Token+1), 8);
 					a_HexFourBytes[8] = 0;
 
+					// convert string to unsigned int
 					dw_HexValue = strtoul(a_HexFourBytes, NULL, 16);
+					// assign value
 					*Value = dw_HexValue;
 
 					return Address;
@@ -300,111 +313,19 @@ namespace BDapi
 	}
 
 	/*
-	 * function    	: 
-	 * design	      : 
-	 * param	      : 
-	 * caller		    : 
-	 */
-	void SoftwareLoadingManager::AddConnectionInfo(string CPUName, string ConnectedModuleName)
-	{
-
-		CPUInfo *pst_CPUInfo;
-		vector<string> *p_ConnectedModules;
-
-		int CPUIndex = 0;
-
-		// Find CPU Name in CPUs vector	
-		CPUIndex = FindCPU(CPUName);
-
-		// Find
-		if(CPUIndex != -1){
-
-			pst_CPUInfo =	CPUs[CPUIndex];
-
-			p_ConnectedModules = &(pst_CPUInfo->ConnectedModules);
-			p_ConnectedModules->push_back(ConnectedModuleName);      
-		}
-		// Not find
-		else{
-			pst_CPUInfo = new CPUInfo();
-			pst_CPUInfo->CPUName = CPUName;
-
-			p_ConnectedModules = &(pst_CPUInfo->ConnectedModules);
-			p_ConnectedModules->push_back(ConnectedModuleName);      
-
-			CPUs.push_back(pst_CPUInfo);
-		}
-	}
-
-	/*
-	 * function    	: 
-	 * design	      : 
-	 * param	      : 
-	 * caller		    : 
-	 */
-	int SoftwareLoadingManager::FindCPU(string CPUName)
-	{
-		int dw_Position = -1;		
-
-		// ready to iteratei CPUs 
-		vector<CPUInfo*>::iterator FirstCPU = CPUs.begin(); 
-		vector<CPUInfo*>::iterator LastCPU = CPUs.end();
-		vector<CPUInfo*>::iterator IndexOfCPU = FirstCPU;  
-
-		/********************************************
-		 * Iterate CPUs in system 
-		 ********************************************/
-		for(IndexOfCPU = FirstCPU; IndexOfCPU != LastCPU; ++IndexOfCPU){   
-			// compare cpu name
-			if((*IndexOfCPU)->CPUName == CPUName){
-				// find index of CPUs vector
-				dw_Position	= distance(FirstCPU, IndexOfCPU);
-			}
-		}
-		return dw_Position;
-	}
-	/*
-	 * function 	: GetInstance
-	 * design	    : singleton design
-	 */
-	SoftwareLoadingManager* SoftwareLoadingManager::GetInstance()
-	{
-		// lock
-		pthread_mutex_lock(&SoftwareLoadingManagerInstanceMutex); 
-
-		if( _SoftwareLoadingManager == NULL ){
-			_SoftwareLoadingManager = new SoftwareLoadingManager();
-		}
-		// unlock
-		pthread_mutex_unlock(&SoftwareLoadingManagerInstanceMutex);
-
-		return _SoftwareLoadingManager;
-	}
-
-	/*
-	 * function 	: DeleteInstance 
-	 * design	    : Delete SoftwareLoadingManager instance 
-	 */
-	void SoftwareLoadingManager::DeleteInstance()
-	{	
-		delete _SoftwareLoadingManager;
-		_SoftwareLoadingManager = NULL;
-	}
-
-	/*
-	 * function 	: SoftwareLoadingManager 
+	 * function 	: SoftwareLoader 
 	 * design	    : Constructor 
 	 */
-	SoftwareLoadingManager::SoftwareLoadingManager()
+	SoftwareLoader::SoftwareLoader()
 	{
 		p_ModuleListManager = ModuleListManager::GetInstance();
 	}
 
 	/*
-	 * function 	: ~SoftwareLoadingManager
+	 * function 	: ~SoftwareLoader
 	 * design	    : Destructor
 	 */
-	SoftwareLoadingManager::~SoftwareLoadingManager()
+	SoftwareLoader::~SoftwareLoader()
 	{
 	}
 }

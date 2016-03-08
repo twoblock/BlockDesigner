@@ -38,6 +38,13 @@
 0 4 0 BD_ROM$SS_S0&BD_AHB_LITE$SM_S0 AHB
 0 4 0 BD_SRAM$SS_S0&BD_AHB_LITE$SM_S1 AHB
 
+0 1 STEP 2000 
+0 1 STOP  
+0 1 STEP 2000 
+0 1 STOP  
+0 1 STEP 1323
+0 1 STOP
+
 0 1 RUN
 
 ######################### Block Designer command set ########################
