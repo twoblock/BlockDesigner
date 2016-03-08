@@ -6,7 +6,12 @@ cd ../AHB_Lite
 make clean
 make
 cd ..
- 
+
+cd ../AHB
+make clean
+make
+cd ..
+
 cd ahbl2mem 
 make clean
 make
