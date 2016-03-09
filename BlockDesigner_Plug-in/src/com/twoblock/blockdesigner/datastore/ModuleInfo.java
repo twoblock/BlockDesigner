@@ -31,7 +31,7 @@ public class ModuleInfo {
 			Module module = new Module();
 			ModuleObject = (JSONObject) JSON_ModuleList.get(i);
 			module.module_name = (String) ModuleObject.get("module_name");
-			// module.module_location=(String)ModuleObject.get("module_location");
+			module.module_location = (String) ModuleObject.get("module_location");
 			module.module_type = (String) ModuleObject.get("module_type");
 
 			/*
