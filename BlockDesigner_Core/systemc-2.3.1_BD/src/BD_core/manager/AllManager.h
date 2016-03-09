@@ -22,5 +22,6 @@
 #include "PMMLGenerationManager.h"
 #include "SignalTraceManager.h"
 #include "SoftwareManager.h"
+#include "CallBackManager.h"
 
 #endif	// __ALLMANAGER_H__

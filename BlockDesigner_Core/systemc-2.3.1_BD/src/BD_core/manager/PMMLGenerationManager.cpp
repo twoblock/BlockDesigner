@@ -12,10 +12,10 @@
 // ----------------------------------------------------------------------------
 
 #include "PMMLGenerationManager.h"
-#include "ModuleListManager.h"
-#include "systemc.h"
+#include "ModuleLoader.h"
+//#include "../../../../JNI_Interface/SimulationEnvironment/Hanlder_CallBack.h"
+#include "CallBackManager.h"
 
-#include "BD_core/PlatformAPI/json/json.h"
 #include <string.h>
 #include <stdlib.h>
 #include <iostream>
@@ -29,6 +29,36 @@ namespace BDapi
 	PMMLGenerationManager* PMMLGenerationManager::_PMMLGenerationManager= NULL;
 	// initialize mutex 
 	pthread_mutex_t PMMLGenerationManager::PMMLGenerationManagerInstanceMutex = PTHREAD_MUTEX_INITIALIZER;  
+
+	/*
+	 * function    	: PutOperationControl
+	 * design	      : add sc_module to sc_module list
+	 * param	      : GUI_COMMAND - command from user
+	 *							  Argu1 - so file path 
+	 *							  Argu2 - module name
+	 * caller		    : PMCommandHandler::SetManagerForPutOperation
+	 */
+	void PMMLGenerationManager::PutOperationControl(GUI_COMMAND Command)
+	{
+		AddModuleToPMML(Command.Argu1, Command.Argu2);
+	}
+
+	/*
+	 * function    	: AddModule 
+	 * design	      : get sc_module instance and push it to sc_module list
+	 * param	      : const char * ( so file path )
+	 * param	      : const char * ( sc_module instace name)
+	 * caller		    : 
+	 */
+	void PMMLGenerationManager::AddModuleToPMML(const char *SoFilePath, const char *ModuleName)
+	{
+		sc_module *p_SCmodule = p_ModuleLoader->GetSCmodule(SoFilePath, ModuleName);
+
+		// to add module location(so file path) to PMML 
+		PMMLGenerationManager *p_PMMLGenerationManager = NULL;
+		p_PMMLGenerationManager = PMMLGenerationManager::GetInstance();
+    p_PMMLGenerationManager->AddModuleLocation(p_SCmodule, SoFilePath); 
+	}
 
 	/*
 	 * function    	: GetOperationControl
@@ -47,24 +77,42 @@ namespace BDapi
 	 */
 	string PMMLGenerationManager::GeneratePMMLJsonFile()
 	{
-		// Get ModuleListManager
-		ModuleListManager *p_ModuleListManager = NULL;
-		p_ModuleListManager = ModuleListManager::GetInstance();	
+		Root["PMML"] = PMModuleList;
 
-		list<sc_module*> SCModuleList	= p_ModuleListManager->GetModuleList();
+		Json::StyledWriter writer;
+		JsonFileOfPMModuleList = writer.write(Root);
+		cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
 
-		// json format entities
-		Json::Value Root;
-		Json::Value PMModuleList;
-		Json::Value Module;
-		Json::Value PortList;
-		Json::Value Port;
-		Json::Value ParameterList;
-		Json::Value Parameter;
-		Json::Value RegisterList;
-		Json::Value Register;
-		Json::Value MemoryMapList;
-		Json::Value MemoryMap;
+		//CallBackManager *p_CallBackManager = NULL;
+		//p_CallBackManager = CallBackManager::GetInstance();
+
+		//marshalling an int* to a m_SizeClass boogy-woogy.
+
+		//JNIEnv *g_env = p_CallBackManager->GetEnv();	
+		//g_env->ExceptionClear();
+
+		//jobject g_obj = p_CallBackManager->GetObject();
+		//jmethodID g_method = p_CallBackManager->GetMID();
+
+		//jstring string = g_env->NewStringUTF(JsonFileOfPMModuleList.c_str());
+		//g_env->CallIntMethod(g_obj, g_method, string );
+
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+		//cout<< endl << "After Test!!!!!!!!!!!!!!!!!!!!" << endl;
+
+		return JsonFileOfPMModuleList;
+	}
+
+	/*
+	 * function 	: AddModuleLocation 
+	 * design	    : add module location(so file path) to PMML 
+	 */
+	void PMMLGenerationManager::AddModuleLocation(sc_module *p_SCmodule, const char *SoFilePath)
+	{
+		cout<< endl << "AddPMML!!!!!!!!!!!!!!!" << endl << endl; 
 
 		// sc_module's port list pointer 
 		std::vector<sc_port_base*>* p_PortList = NULL;
@@ -88,98 +136,102 @@ namespace BDapi
 		// for AHB type
 		char a_AHBType[3] = {0,};
 
-		// ready to iterate sc_modules 
-		list<sc_module*>::iterator FirstModule = SCModuleList.begin();
-		list<sc_module*>::iterator LastModule = SCModuleList.end();
-		list<sc_module*>::iterator IndexOfModule = FirstModule;
+		char *p_SCmoduleName = NULL;
+		p_SCmoduleName = p_SCmodule->GetModuleName();
+
+	  // check duplication
+		ModulePathMapFinder = ModulePathMap.find(p_SCmoduleName);
+		if(ModulePathMapFinder != ModulePathMap.end())
+			return; // exist
+		else
+			ModulePathMap[p_SCmoduleName] = "insert";
+
+		// Initialize json data
+		Module.clear();
+		PortList.clear();
+		Port.clear();
+		ParameterList.clear();
+		Parameter.clear();
+		RegisterList.clear();
+		MemoryMapList.clear();
+		MemoryMap.clear();
+
+		// get sc_module's port list
+		p_PortList = p_SCmodule->get_port_list();	
+
+		// ready to iterate ports
+		std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
+		std::vector<sc_port_base*>::iterator LastPort = p_PortList->end();
+		std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;  
 
 		/********************************************
-		 * Iterate sc_modules in sc_module list
+		 * Iterate ports in sc_module
 		 ********************************************/
-		for(IndexOfModule = FirstModule; IndexOfModule != LastModule; ++IndexOfModule){   
+		for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
 
-			// Initialize json data
-			PortList.clear();
-			ParameterList.clear();
-			RegisterList.clear();
+			p_PortName = (*IndexOfPort)->get_port_name();
 
-			// get sc_module's port list
-			p_PortList = (*IndexOfModule)->get_port_list();	
+			// handle exception
+			if(p_PortName != NULL){
 
-			// ready to iterate ports
-			std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
-			std::vector<sc_port_base*>::iterator LastPort = p_PortList->end();
-			std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;  
+				// case : AHB port
+				if(p_PortName[0] == '$'){
 
-			/********************************************
-			 * Iterate ports in sc_module
-			 ********************************************/
-			for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
-
-				p_PortName = (*IndexOfPort)->get_port_name();
-
-		    // handle exception
-				if(p_PortName != NULL){
-
-				  // case : AHB port
-					if(p_PortName[0] == '$'){
-
-						if( p_PortName[1] == 'H' &&
-								p_PortName[2] == 'A' &&
-								p_PortName[3] == 'D' &&
-								p_PortName[4] == 'D' &&
-								p_PortName[5] == 'R' 
-							){
-							// parse port information
-							strcpy(a_PortTypeInfo, (*IndexOfPort)->get_port_name());
-							strtok(a_PortTypeInfo, "_");
-							p_PortName = strtok(NULL," ");
+					if( p_PortName[1] == 'H' &&
+							p_PortName[2] == 'A' &&
+							p_PortName[3] == 'D' &&
+							p_PortName[4] == 'D' &&
+							p_PortName[5] == 'R' 
+						){
+						// parse port information
+						strcpy(a_PortTypeInfo, (*IndexOfPort)->get_port_name());
+						strtok(a_PortTypeInfo, "_");
+						p_PortName = strtok(NULL," ");
 
 
-							// add Port to PortList in json format
-							if(p_PortName != NULL){
+						// add Port to PortList in json format
+						if(p_PortName != NULL){
 							Port["port_name"] = p_PortName;
 							a_AHBType[0] = p_PortName[0];	
 							a_AHBType[1] = p_PortName[1];	
 							a_AHBType[2] = 0; 
 							Port["sc_type"]   = a_AHBType; 
-							}
-							else{
-							Port["port_name"] = "null";
-							Port["sc_type"]   = "null"; 
-							}
-							
-							Port["data_type"] = "AHB";
-							PortList.append(Port);	
 						}
 						else{
-							continue;
+							Port["port_name"] = "null";
+							Port["sc_type"]   = "null"; 
 						}
-					}
-				  // case : other port
-					else{
-						// parse port information
-						strcpy(a_PortTypeInfo, (*IndexOfPort)->kind());
-						p_DataType = strtok(a_PortTypeInfo, "\n");
-						p_ScPortType = strtok(NULL,"\n");
 
-						// add Port to PortList in json format
-						Port["port_name"] = p_PortName;
-						Port["sc_type"]   = p_ScPortType; 
-						Port["data_type"] = p_DataType;
+						Port["data_type"] = "AHB";
 						PortList.append(Port);	
 					}
+					else{
+						continue;
+					}
 				}
-			} 
+				// case : other port
+				else{
+					// parse port information
+					strcpy(a_PortTypeInfo, (*IndexOfPort)->kind());
+					p_DataType = strtok(a_PortTypeInfo, "\n");
+					p_ScPortType = strtok(NULL,"\n");
 
+					// add Port to PortList in json format
+					Port["port_name"] = p_PortName;
+					Port["sc_type"]   = p_ScPortType; 
+					Port["data_type"] = p_DataType;
+					PortList.append(Port);	
+				}
+			}
+		}
 			/********************************************
 			 * Iterate parameter in sc_module
 			 ********************************************/
-			dw_ParNum = (*IndexOfModule)->GetBDDI()->BDDIGetModuleTotalParNum();		
+			dw_ParNum = p_SCmodule->GetBDDI()->BDDIGetModuleTotalParNum();		
 
 			for(dw_Index = 0; dw_Index < dw_ParNum; dw_Index++){
 
-				BDDIParInfo *pst_ParInfo = (*IndexOfModule)->GetBDDI()->BDDIGetModuleParInfo(); 
+				BDDIParInfo *pst_ParInfo = p_SCmodule->GetBDDI()->BDDIGetModuleParInfo(); 
 				Parameter["parameter_name"] = pst_ParInfo[dw_Index].Name;	
 				sprintf(a_Temp, "%u", pst_ParInfo[dw_Index].Bitswide);
 				Parameter["bits_wide"] = a_Temp;
@@ -192,11 +244,11 @@ namespace BDapi
 			/********************************************
 			 * Iterate register in sc_module
 			 ********************************************/
-			dw_RegNum = (*IndexOfModule)->GetBDDI()->BDDIGetModuleTotalRegNum();		
+			dw_RegNum = p_SCmodule->GetBDDI()->BDDIGetModuleTotalRegNum();		
 
 			for(dw_Index = 0; dw_Index < dw_RegNum; dw_Index++){
 
-				BDDIRegInfo *pst_RegInfo = (*IndexOfModule)->GetBDDI()->BDDIGetModuleRegInfo(); 
+				BDDIRegInfo *pst_RegInfo = p_SCmodule->GetBDDI()->BDDIGetModuleRegInfo(); 
 				Register["register_name"] = pst_RegInfo[dw_Index].Name;	
 				sprintf(a_Temp, "%u", pst_RegInfo[dw_Index].Bitswide);
 				Register["bits_wide"] = a_Temp;
@@ -208,39 +260,31 @@ namespace BDapi
 			/********************************************
 			 * memory map in sc_module ( only Bus type )
 			 ********************************************/
-		  p_ModuleType = NULL;
-			p_ModuleType = (*IndexOfModule)->GetBDDI()->BDDIGetModuleType();
+			p_ModuleType = NULL;
+			p_ModuleType = p_SCmodule->GetBDDI()->BDDIGetModuleType();
 
 			if(strcmp(p_ModuleType, "bus") == 0)
 			{
-			 	dw_MemoryMapNum = (*IndexOfModule)->GetBDMMI()->GetSlaveNumber();	
+				dw_MemoryMapNum = p_SCmodule->GetBDMMI()->GetSlaveNumber();	
 
 				for(dw_Index = 0; dw_Index < dw_MemoryMapNum; dw_Index++){
 
-				sprintf(a_Temp, "SM_S%d", dw_Index);	
-				MemoryMap["port_name"] = a_Temp;	
-				MemoryMapList[dw_Index] = MemoryMap;
+					sprintf(a_Temp, "SM_S%d", dw_Index);	
+					MemoryMap["port_name"] = a_Temp;	
+					MemoryMapList[dw_Index] = MemoryMap;
 				}	
 
 				Module["memory_map"] = MemoryMapList;
 			}
 
 			// add Module to PMModuleList in json format
-			Module["module_name"] = (*IndexOfModule)->GetModuleName();
-			Module["module_type"] = (*IndexOfModule)->GetBDDI()->BDDIGetModuleType();
+			Module["module_name"] = p_SCmodule->GetModuleName();
+			Module["module_type"] = p_SCmodule->GetBDDI()->BDDIGetModuleType();
+			Module["module_location"] = SoFilePath;
 			Module["port"] = PortList;
 			Module["parameter"] = ParameterList;
 			Module["register"] = RegisterList;
 			PMModuleList.append(Module);
-		}
-
-		Root["PMML"] = PMModuleList;
-
-		Json::StyledWriter writer;
-		JsonFileOfPMModuleList = writer.write(Root);
-		cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
-
-		return JsonFileOfPMModuleList;
 	}
 
 	/*
@@ -277,6 +321,7 @@ namespace BDapi
 	 */
 	PMMLGenerationManager::PMMLGenerationManager()
 	{
+		p_ModuleLoader = new ModuleLoader();
 	}
 
 	/*
@@ -285,5 +330,7 @@ namespace BDapi
 	 */
 	PMMLGenerationManager::~PMMLGenerationManager()
 	{
+		delete p_ModuleLoader;
+		p_ModuleLoader = NULL;
 	}
 }

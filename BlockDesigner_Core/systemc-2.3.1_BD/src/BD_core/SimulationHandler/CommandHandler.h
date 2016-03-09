@@ -53,6 +53,7 @@ namespace BDapi
 		  PMMLGenerationManager* CmdPMMLGenerationManager;
 			SignalTraceManager* CmdSignalTraceManager;
 			SoftwareManager* CmdSoftwareManager;
+			CallBackManager* CmdCallBackManager;
 	};
 } 
 

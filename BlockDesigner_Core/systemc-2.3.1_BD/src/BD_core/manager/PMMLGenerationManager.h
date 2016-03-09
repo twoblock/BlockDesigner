@@ -14,10 +14,12 @@
 #ifndef __PMML_GENERATION_MANAGER_H__
 #define __PMML_GENERATION_MANAGER_H__
 
+#include "systemc.h"
 #include "TopManagerBase.h"
 #include <pthread.h>
 #include <string>
 #include <list>
+#include "BD_core/PlatformAPI/json/json.h"
 
 using namespace std;
 
@@ -28,6 +30,8 @@ using namespace std;
  */
 namespace BDapi
 {
+	class ModuleLoader;
+
 	/*
 	 * class		    : PMMLGenerationManager 
 	 * design	      : PMML(PlatformManager Module List) json file generator for sc_module list
@@ -36,9 +40,13 @@ namespace BDapi
 	class PMMLGenerationManager: public TopManagerBase
 	{
 		public:
-			void GetOperationControl(GUI_COMMAND Command);
+			void PutOperationControl(GUI_COMMAND Command);
+			void AddModuleToPMML(const char *SoFilePath, const char *ModuleName);
 
+			void GetOperationControl(GUI_COMMAND Command);
 			string GeneratePMMLJsonFile();
+
+			void AddModuleLocation(sc_module *p_SCmodule, const char *SoFilePath);
 			
 			static PMMLGenerationManager* GetInstance();
 			static void DeleteInstance();
@@ -48,8 +56,30 @@ namespace BDapi
 		  virtual ~PMMLGenerationManager();
 
 		private:
+			// json format entities
+			Json::Value Root;
+			Json::Value PMModuleList;
+			Json::Value Module;
+			Json::Value PortList;
+			Json::Value Port;
+			Json::Value ParameterList;
+			Json::Value Parameter;
+			Json::Value RegisterList;
+			Json::Value Register;
+			Json::Value MemoryMapList;
+			Json::Value MemoryMap;
+
+			// json string for GUI
+			// this is returned 
 			string JsonFileOfPMModuleList;
+
+			// map to manager so file path about each module
+			map<string, string> ModulePathMap;
+			map<string, string>::iterator ModulePathMapFinder; 
 			
+			ModuleLoader *p_ModuleLoader;
+
+			// json string for GUI
 			static PMMLGenerationManager *_PMMLGenerationManager;
 			// mutex for singleton pattern 
 			static pthread_mutex_t PMMLGenerationManagerInstanceMutex;   
