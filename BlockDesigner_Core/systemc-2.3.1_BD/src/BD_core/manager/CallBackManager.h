@@ -15,13 +15,15 @@
 #define __CALLBACK_MANAGER_H__ 
 
 #include "TopManagerBase.h"
-#include "../../../../JNI_Interface/jdk_h/jni.h"
-#include "../../../../JNI_Interface/jdk_h/jni_md.h"
+#include "../../../../../JNI_Interface/jdk_h/jni.h"
+#include "../../../../../JNI_Interface/jdk_h/jni_md.h"
 #include "systemc.h"
 #include <pthread.h>
 #include <list> 
+#include <string> 
 
 using namespace sc_core;
+using namespace std;
 
 /*
  * namespace	  : BDapi 
@@ -30,6 +32,14 @@ using namespace sc_core;
  */
 namespace BDapi
 {
+	// CallBack Return Type
+	enum CallBackReturn
+	{
+		CallBackOK,
+		CallBackError,
+		CallBackEnumMax = 0xFFFFFFFF
+	};
+
 	/*
 	 * class		    : CallBackManager 
 	 * design	      : manage sc_module list and                           
@@ -40,12 +50,14 @@ namespace BDapi
 		public:
 			void PutOperationControl(GUI_COMMAND Command);
 
-			void AddJaveCallBackClass(jobject Jobject,JNIEnv* jenv, jmethodID jmid);
-			void AddModule(const char *SoFilePath, const char *ModuleName);
-	
+			CallBackReturn SendBackPMML(string PMML);
+
+			void SetObject(jobject Jobject);
 			jobject GetObject();
+			void SetMID(jmethodID MethodID);
 			jmethodID GetMID();
-			JNIEnv* GetEnv();
+			void SetJVM(JavaVM* JVM);
+			JavaVM* GetJVM();
 
 			static CallBackManager* GetInstance();
 			static void DeleteInstance();
@@ -55,7 +67,7 @@ namespace BDapi
 		  virtual ~CallBackManager();
 
 		private:
-			JNIEnv *m_Env;
+			JavaVM *m_JVM;
 			jobject m_Jobject;
 			jmethodID m_MethodID;
 

@@ -33,39 +33,66 @@ namespace BDapi
 		//AddModule(Command.Argu1, Command.Argu2);
 	}
 
-	/*
-	 * function    	: AddModule 
-	 * design	      : get sc_module instance and push it to sc_module list
-	 * param	      : const char * ( so file path )
-	 * param	      : const char * ( sc_module instace name)
-	 * caller		    : 
-	 */
-	void CallBackManager::AddJaveCallBackClass(jobject Jobject,JNIEnv* jenv, jmethodID jmid)
+
+	CallBackReturn CallBackManager::SendBackPMML(string PMML)
 	{
-		m_Jobject = Jobject;
-		m_Env = jenv;
-		m_MethodID = jmid;
+		JNIEnv *p_Env = NULL;
+
+		int getEnvStat = m_JVM->GetEnv((void **)&p_Env, JNI_VERSION_1_6);
+		if (getEnvStat == JNI_EDETACHED) {
+			printf("GetEnv: not attached\n");
+			if (m_JVM->AttachCurrentThread((void **) &p_Env, NULL) != 0) {
+				printf("Failed to attach\n");
+				return CallBackError;
+			}
+		} else if (getEnvStat == JNI_OK) {
+			//
+		} else if (getEnvStat == JNI_EVERSION) {
+			printf("GetEnv: version not supported\n");
+			return CallBackError;
+		}
+
+		jstring string = p_Env->NewStringUTF(PMML.c_str());
+		p_Env->CallIntMethod(m_Jobject, m_MethodID, string);
+
+		if (p_Env->ExceptionCheck()) {
+			p_Env->ExceptionDescribe();
+		}
+
+		m_JVM->DetachCurrentThread();
+
+		return CallBackOK;
 	}
 
-	/*
-	 * function    	: GetModuleList 
-	 * design	      : get sc_module list
-	 * return       : list<sc_module*>
-	 */
+	void CallBackManager::SetJVM(JavaVM* JVM)
+	{
+		m_JVM = JVM;
+	}
 
+	JavaVM* CallBackManager::GetJVM()
+	{
+		return m_JVM;
+	}
+
+	void CallBackManager::SetObject(jobject Jobject)
+	{
+		m_Jobject = Jobject;
+	}
 
 	jobject CallBackManager::GetObject() {
 		return m_Jobject;
 	}
 
-	jmethodID CallBackManager::GetMID() {
+	void CallBackManager::SetMID(jmethodID MethodID)
+	{
+		m_MethodID = MethodID;
+	}
+
+	jmethodID CallBackManager::GetMID() 
+	{
 		return m_MethodID;
 	}
 
-	JNIEnv* CallBackManager::GetEnv()
-	{
-		return m_Env;
-	}
 	/*
 	 * function 	: GetInstance
 	 * design	    : singleton design

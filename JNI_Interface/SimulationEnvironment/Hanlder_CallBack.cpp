@@ -1,8 +1,8 @@
 #include "Hanlder_CallBack.h"
 #include "../../BlockDesigner_Core/systemc-2.3.1_BD/src/BD_core/manager/CallBackManager.h"	
-#include "../../BlockDesigner_Core/systemc-2.3.1_BD/src/BD_core/manager/PMMLGenerationManager.h"	
 #include <stddef.h>
 #include <iostream>
+
 using namespace std;
 using namespace BDapi;
 
@@ -12,13 +12,13 @@ int pub_int_error;
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_CycleListener(JNIEnv *env, jobject ths)
 {
-	//jclass cls = env->GetObjectClass(ths);
-	//jmethodID mid = env->GetMethodID(cls, "CycleCallBack", "(J)V");
-	//if (mid == NULL) {
-		//return; /*method not found*/
-	//}
-	//pub_long_cycle = 1000;
-	//env->CallVoidMethod(ths, mid, BDapi::glw_Cycle );
+	jclass cls = env->GetObjectClass(ths);
+	jmethodID mid = env->GetMethodID(cls, "CycleCallBack", "(J)V");
+	if (mid == NULL) {
+		return; /*method not found*/
+	}
+	pub_long_cycle = 1000;
+	env->CallVoidMethod(ths, mid, BDapi::glw_Cycle );
 }
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_StatusListener(JNIEnv *env, jobject ths)
@@ -34,20 +34,10 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_OutputListener(JNIEnv *env, jobject ths)
 {
-	//CallBackManager *p_CallBackManager = NULL;
-	//p_CallBackManager = CallBackManager::GetInstance();	
-	//p_CallBackManager->AddJaveCallBackClass(ths, env, env->GetMethodID(env->GetObjectClass(ths), "ModuleInfoCallBack", "(Ljava/lang/String;)V"));
-
-	PMMLGenerationManager *p_PMMLGenerationManager= NULL;
-	p_PMMLGenerationManager = PMMLGenerationManager::GetInstance();	
-
-	string JsonFileOfPMModuleList = p_PMMLGenerationManager->GeneratePMMLJsonFile();
-	cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
-
-	jmethodID g_method = env->GetMethodID(env->GetObjectClass(ths), "ModuleInfoCallBack", "(Ljava/lang/String;)V");
-	jstring string = env->NewStringUTF(JsonFileOfPMModuleList.c_str());
-	env->CallVoidMethod(ths, g_method, string );
-
+	CallBackManager *p_CallBackManager = NULL;
+	p_CallBackManager = CallBackManager::GetInstance();	
+	p_CallBackManager->SetObject(env->NewGlobalRef(ths));
+	p_CallBackManager->SetMID(env->GetMethodID(env->GetObjectClass(ths), "ModuleInfoCallBack", "(Ljava/lang/String;)V"));
 }
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_ModuleInfoListener(JNIEnv *env, jobject ths)
@@ -69,4 +59,13 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 	}
 	pub_int_error=1;
 	env->CallVoidMethod(ths, mid, pub_int_error);
+}
+
+jint JNI_OnLoad(JavaVM* vm, void* reserved) {
+
+		CallBackManager *p_CallBackManager = NULL;
+		p_CallBackManager = CallBackManager::GetInstance();	
+		p_CallBackManager->SetJVM(vm);
+ 
+    return JNI_VERSION_1_6;
 }

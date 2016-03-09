@@ -407,7 +407,7 @@ BDDIReturn CONSOLE_BDDI::BDDISetParameterValues(unsigned int ParIndex, const cha
 
 char* CONSOLE_BDDI::BDDIGetModuleType()
 {
-	return (char*)"semihost";
+	return (char*)"other";
 }
 
 BDDIRegInfo* CONSOLE_BDDI::BDDIGetModuleRegInfo()
