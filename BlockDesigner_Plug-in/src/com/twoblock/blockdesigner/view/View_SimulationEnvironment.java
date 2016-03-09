@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -18,10 +16,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
@@ -42,7 +37,6 @@ import org.json.simple.parser.ParseException;
 import com.twoblock.blockdesigner.command.Handler_Command;
 import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
 import com.twoblock.blockdesigner.command.Hanlder_CallBack;
-import com.twoblock.blockdesigner.datastore.ModuleInfo.Parameter;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -74,6 +68,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		}
 	}
 	public void createPartControl(Composite parent) {
+		Hanlder_CallBack.CallBack_Func();
 		parent.setLayout(new GridLayout(11, false));
 		
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
@@ -221,7 +216,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	
 	private Device device = Display.getCurrent();
 	private Color color_gray = new Color(device, 150, 150, 150);
-	private Color color_skyblue = new Color(device, 204, 204, 255);
+//	private Color color_skyblue = new Color(device, 204, 204, 255);
 	private Object obj;
 	private JSONParser parser = new JSONParser();
 	private JSONObject jsonObject;
@@ -238,19 +233,26 @@ public class View_SimulationEnvironment extends ViewPart {
 	private JSONObject obj_Connection;
 	private JSONObject obj_Connection_info;
 	
-	private JSONArray jrr_HCLK_connection;
-	private JSONObject obj_HCLK;
-	private JSONObject obj_HCLK_info;
+//	private JSONArray jrr_HCLK_connection;
+//	private JSONObject obj_HCLK;
+//	private JSONObject obj_HCLK_info;
+//	
+//	private JSONArray jrr_HRESETn_connection;
+//	private JSONObject obj_HRESETn;
+//	private JSONObject obj_HRESETn_info;
 	
-	private JSONArray jrr_HRESETn_connection;
-	private JSONObject obj_HRESETn;
-	private JSONObject obj_HRESETn_info;
 	private JSONObject obj_module_info;
 	private Table table_channel;
 	private Table table_port;
+	private Table table_par;
+	private Table table_reg;
 	
 	private JSONArray arr_port_info;
+	private JSONArray arr_par_info;
+	private JSONArray arr_reg_info;
 	private JSONObject obj_port;
+	private JSONObject obj_par;
+	private JSONObject obj_reg;
 	
 	protected void ChannelInfoSet(final Composite composite){
 		try {
@@ -423,6 +425,8 @@ public class View_SimulationEnvironment extends ViewPart {
 			String InstanceName = (String)obj_module_info.get("instance_name");
 			Expanditem.get(ModuleInfoIndex+1).setText(InstanceName);
 			arr_port_info = (JSONArray)obj_module_info.get("port");
+			arr_par_info = (JSONArray)obj_module_info.get("parameter");
+			arr_reg_info = (JSONArray)obj_module_info.get("register");
 			
 			switch (module_type) {
 			case "Core":
@@ -454,40 +458,129 @@ public class View_SimulationEnvironment extends ViewPart {
 			Expanditem.get(ModuleInfoIndex+1)
 					.setHeight(Expanditem.get(ModuleInfoIndex+1).getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 			
-			table_port = new Table(composite_ExpandItem.get(ModuleInfoIndex+1), SWT.BORDER | SWT.FULL_SELECTION |SWT.V_SCROLL);
-			GridData gd_table_port = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-			gd_table_port.heightHint=140;
-			table_port.setLayoutData(gd_table_port);
-			table_port.setHeaderVisible(true);
-			table_port.setLinesVisible(true);
+			{ /* --- port ---*/
+				table_port = new Table(composite_ExpandItem.get(ModuleInfoIndex + 1),
+						SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
+				GridData gd_table_port = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+				gd_table_port.heightHint = 140;
+				table_port.setLayoutData(gd_table_port);
+				table_port.setHeaderVisible(true);
+				table_port.setLinesVisible(true);
 
-			
-			TableColumn tb_clmn_Port = new TableColumn(table_port, SWT.CENTER);
-			tb_clmn_Port.setWidth(600);
-			tb_clmn_Port.setText("Port Name");
-
-			System.err.println(arr_port_info.size());
-			
-			int port_cnt = arr_port_info.size();
+				TableColumn tb_clmn_Port = new TableColumn(table_port, SWT.CENTER);
+				tb_clmn_Port.setWidth(200);
+				tb_clmn_Port.setText("Port Name");
+				int port_cnt = arr_port_info.size();
 				for (int i = 0; i < port_cnt; i++) {
 					new TableItem(table_port, SWT.NONE);
 				}
 
 				TableItem[] items_port = table_port.getItems();
-				
+
 				for (int port_index = 0; port_index < items_port.length; port_index++) {
 					obj_port = (JSONObject) arr_port_info.get(port_index);
-					
+
 					TableEditor editor_port_table = new TableEditor(table_port);
 					editor_port_table = new TableEditor(table_port);
-					
+
 					final Text txt_PortName = new Text(table_port, SWT.READ_ONLY);
 					txt_PortName.setTouchEnabled(true);
-					txt_PortName.setText((String)obj_port.get("port"));
+					txt_PortName.setText((String) obj_port.get("port"));
 					editor_port_table.grabHorizontal = true;
 					editor_port_table.setEditor(txt_PortName, items_port[port_index], 0);
 				}
-				Expanditem.get(ModuleInfoIndex+1).setHeight(150);
+			}
+			
+			{ /* --- par ---*/
+				table_par = new Table(composite_ExpandItem.get(ModuleInfoIndex + 1),
+						SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
+				GridData gd_table_par = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+				gd_table_par.heightHint = 140;
+				table_par.setLayoutData(gd_table_par);
+				table_par.setHeaderVisible(true);
+				table_par.setLinesVisible(true);
+
+				TableColumn tb_clmn_Par = new TableColumn(table_par, SWT.CENTER);
+				tb_clmn_Par.setWidth(300);
+				tb_clmn_Par.setText("Parameter Name");
+				
+				TableColumn tb_clmn_Par_value = new TableColumn(table_par, SWT.CENTER);
+				tb_clmn_Par_value.setWidth(100);
+				tb_clmn_Par_value.setText("Value");
+				
+				int par_cnt = arr_par_info.size();
+				for (int i = 0; i < par_cnt; i++) {
+					new TableItem(table_par, SWT.NONE);
+				}
+
+				TableItem[] items_par = table_par.getItems();
+
+				for (int par_index = 0; par_index < items_par.length; par_index++) {
+					obj_par = (JSONObject) arr_par_info.get(par_index);
+
+					TableEditor editor_par_table = new TableEditor(table_par);
+					editor_par_table = new TableEditor(table_par);
+
+					final Text txt_ParName = new Text(table_par, SWT.READ_ONLY);
+					txt_ParName.setTouchEnabled(true);
+					txt_ParName.setText((String) obj_par.get("par_name"));
+					editor_par_table.grabHorizontal = true;
+					editor_par_table.setEditor(txt_ParName, items_par[par_index], 0);
+					
+					editor_par_table = new TableEditor(table_par);
+					final Text txt_ParValue = new Text(table_par, SWT.NONE);
+					txt_ParValue.setTouchEnabled(true);
+					txt_ParValue.setText((String) obj_par.get("default_value"));
+					editor_par_table.grabHorizontal = true;
+					editor_par_table.setEditor(txt_ParValue, items_par[par_index], 1);
+				}
+			}
+			
+			
+			{ /* --- reg ---*/
+				table_reg = new Table(composite_ExpandItem.get(ModuleInfoIndex + 1),
+						SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
+				GridData gd_table_reg = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+				gd_table_reg.heightHint = 140;
+				table_reg.setLayoutData(gd_table_reg);
+				table_reg.setHeaderVisible(true);
+				table_reg.setLinesVisible(true);
+
+				TableColumn tb_clmn_reg = new TableColumn(table_reg, SWT.CENTER);
+				tb_clmn_reg.setWidth(300);
+				tb_clmn_reg.setText("Register Name");
+				
+				TableColumn tb_clmn_reg_value = new TableColumn(table_reg, SWT.CENTER);
+				tb_clmn_reg_value.setWidth(100);
+				tb_clmn_reg_value.setText("Value");
+				
+				int reg_cnt = arr_reg_info.size();
+				for (int i = 0; i < reg_cnt; i++) {
+					new TableItem(table_reg, SWT.NONE);
+				}
+
+				TableItem[] items_reg = table_reg.getItems();
+
+				for (int reg_index = 0; reg_index < items_reg.length; reg_index++) {
+					obj_reg = (JSONObject) arr_reg_info.get(reg_index);
+
+					TableEditor editor_reg_table = new TableEditor(table_reg);
+					editor_reg_table = new TableEditor(table_reg);
+
+					final Text txt_regName = new Text(table_reg, SWT.READ_ONLY);
+					txt_regName.setTouchEnabled(true);
+					txt_regName.setText((String) obj_reg.get("reg_name"));
+					editor_reg_table.grabHorizontal = true;
+					editor_reg_table.setEditor(txt_regName, items_reg[reg_index], 0);
+					
+					editor_reg_table = new TableEditor(table_reg);
+					final Text txt_regValue = new Text(table_reg, SWT.NONE);
+					txt_regValue.setTouchEnabled(true);
+					editor_reg_table.grabHorizontal = true;
+					editor_reg_table.setEditor(txt_regValue, items_reg[reg_index], 1);
+				}
+			}
+			Expanditem.get(ModuleInfoIndex + 1).setHeight(150);
 		}
 	}
 	

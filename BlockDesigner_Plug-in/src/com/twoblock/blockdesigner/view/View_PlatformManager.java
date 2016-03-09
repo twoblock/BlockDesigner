@@ -2,8 +2,6 @@ package com.twoblock.blockdesigner.view;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,11 +44,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.twoblock.blockdesigner.command.Handler_Command;
+import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
+import com.twoblock.blockdesigner.command.Hanlder_CallBack;
 import com.twoblock.blockdesigner.datastore.ModuleInfo;
-import com.twoblock.blockdesigner.datastore.Set_BDPMD;
 import com.twoblock.blockdesigner.datastore.ModuleInfo.Module;
 import com.twoblock.blockdesigner.datastore.ModuleInfo.Parameter;
 import com.twoblock.blockdesigner.datastore.ModuleInfo.Port;
+import com.twoblock.blockdesigner.datastore.Set_BDPMD;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -69,11 +70,11 @@ import com.twoblock.blockdesigner.datastore.ModuleInfo.Port;
 
 public class View_PlatformManager extends ViewPart {
 	protected Composite shell;
-	private List list_All;
-	private List list_Core;
-	private List list_Bus;
-	private List list_Mem;
-	private List list_etc;
+	public static List list_All;
+	public static List list_Core;
+	public static List list_Bus;
+	public static List list_Mem;
+	public static List list_other;
 	private TabFolder tab_ModuleList;
 	private ExpandBar expandBar;
 	private int port_index;
@@ -97,14 +98,16 @@ public class View_PlatformManager extends ViewPart {
 	private String PastItem;
 	private CCombo PastLinkedModule;
 	private int PastLinkedModuleIndex=0;
-	private ModuleInfo ModuleInfoData;
-	private ModuleInfo UsedModuleDataList;
+	public static ModuleInfo ModuleInfoData;
+	public static ModuleInfo UsedModuleDataList;
 	private Module ModuleData;
 	private int Selected_Index;
 	private int UsedModuleIndex;
 	
 	
 	public void createPartControl(Composite parent) {
+		Handler_SimulationInitThread.SimInitThread_Func();
+//		Hanlder_CallBack.CallBack_Func();
 		shell = parent;
 		shell.setLayout(new GridLayout(3, false));
 		
@@ -208,8 +211,8 @@ public class View_PlatformManager extends ViewPart {
 					} else if (list_Mem.getSelectionIndex() != -1) {
 						Module_Name = list_Mem.getItem(list_Mem.getSelectionIndex());
 						AddModuleSelected(Module_Name);
-					} else if (list_etc.getSelectionIndex() != -1) {
-						Module_Name = list_etc.getItem(list_etc.getSelectionIndex());
+					} else if (list_other.getSelectionIndex() != -1) {
+						Module_Name = list_other.getItem(list_other.getSelectionIndex());
 						AddModuleSelected(Module_Name);
 					}
 					
@@ -325,22 +328,22 @@ public class View_PlatformManager extends ViewPart {
 			});
 		}
 		{
-			TabItem tb_etc = new TabItem(tab_ModuleList, SWT.NONE);
-			tb_etc.setText("etc");
+			TabItem tb_other = new TabItem(tab_ModuleList, SWT.NONE);
+			tb_other.setText("other");
 
-			list_etc = new List(tab_ModuleList, SWT.NONE);
-			tb_etc.setControl(list_etc);
-			list_etc.addSelectionListener(new SelectionListener() {
+			list_other = new List(tab_ModuleList, SWT.NONE);
+			tb_other.setControl(list_other);
+			list_other.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
-					ModuleClicked(list_etc);
+					ModuleClicked(list_other);
 				}
 
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
-					ModuleDoubleClicked(list_etc);
+					ModuleDoubleClicked(list_other);
 				}
 			});
 		}
@@ -352,7 +355,7 @@ public class View_PlatformManager extends ViewPart {
 				list_Core.setSelection(-1);
 				list_Bus.setSelection(-1);
 				list_Mem.setSelection(-1);
-				list_etc.setSelection(-1);
+				list_other.setSelection(-1);
 			}
 
 			@Override
@@ -371,29 +374,36 @@ public class View_PlatformManager extends ViewPart {
 				FileDialog file_dlg = new FileDialog(shell.getShell() , SWT.OPEN);
 				
 				file_dlg.setText("Load Block Designer Module.");
-				String[] filterExt={"*.PMML"};
+				String[] filterExt={"*.so"};
 				file_dlg.setFilterExtensions(filterExt);
+				file_dlg.setFilterPath(System.getProperty("user.home"));
 				
-				file_dlg.setFilterPath(System.getProperty("user.home")+"/BlockDesigner");
+				
+				
 				String Module_Location = file_dlg.open();
 				
 				if (Module_Location != null) {
 					// File directory = new File(saveTarget);
 					Module_Location = Module_Location.replace("\\", "/");
 					System.err.println(Module_Location);
+					Handler_Command.Command_Func(0, 6, Module_Location, "NULL", "NULL", "NULL", "NULL");
+					Handler_Command.Command_Func(1, 0, "NULL", "NULL", "NULL", "NULL", "NULL");
+					
+					try {
+						Thread.sleep(500);
+						System.err.println("sleep on");
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					
+//					Hanlder_CallBack.CallBack_Func();
 				}
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
-		
-		
-		viewsetting();
-		
-		
 	}
 	
 	protected void AddModuleSelected(final String Module_Name) {
@@ -479,7 +489,7 @@ public class View_PlatformManager extends ViewPart {
 				Image imgItemIcon3 = idItem3.createImage();
 				Expanditem.get(UsedModuleIndex).setImage(imgItemIcon3);
 				break;
-			case "etc":
+			case "other":
 				ImageDescriptor idItem4 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_etc16.png");
 				Image imgItemIcon4 = idItem4.createImage();
 				Expanditem.get(UsedModuleIndex).setImage(imgItemIcon4);
@@ -836,14 +846,18 @@ public class View_PlatformManager extends ViewPart {
 
 	}
 	
-	void viewsetting() {
+	 public void viewsetting(String pmml) {
 		/* --- Parser Module list setting--- */
 		String module = null;
 		String type = null;
 		try {
-			obj = parser.parse(new FileReader("/home/lucas/modulelist.PMML"));
+//			obj = parser.parse(new FileReader("/home/lucas/modulelist.PMML"));
+			obj = (JSONObject)parser.parse(pmml);
+			
 			jsonObject = (JSONObject) obj;
-
+			
+			System.err.println(jsonObject.toJSONString());
+			
 			ModuleInfoList = (JSONArray) jsonObject.get("PMML");
 			
 			ModuleInfoData = new ModuleInfo(ModuleInfoList);
@@ -862,13 +876,9 @@ public class View_PlatformManager extends ViewPart {
 					list_Bus.add(module);
 				else if (type.equals("Mem") == true)
 					list_Mem.add(module);
-				else if (type.equals("etc") == true)
-					list_etc.add(module);
+				else if (type.equals("other") == true)
+					list_other.add(module);
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
