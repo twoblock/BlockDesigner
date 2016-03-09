@@ -71,9 +71,9 @@ import com.twoblock.blockdesigner.datastore.Set_BDPMD;
 public class View_PlatformManager extends ViewPart {
 	protected Composite shell;
 	public static List list_All;
-	public static List list_Core;
-	public static List list_Bus;
-	public static List list_Mem;
+	public static List list_cpu;
+	public static List list_bus;
+	public static List list_mem;
 	public static List list_other;
 	private TabFolder tab_ModuleList;
 	private ExpandBar expandBar;
@@ -104,10 +104,12 @@ public class View_PlatformManager extends ViewPart {
 	private int Selected_Index;
 	private int UsedModuleIndex;
 	
+	public static Display display =null;
 	
 	public void createPartControl(Composite parent) {
+		display = Display.getDefault();
 		Handler_SimulationInitThread.SimInitThread_Func();
-//		Hanlder_CallBack.CallBack_Func();
+		Hanlder_CallBack.CallBack_Func();
 		shell = parent;
 		shell.setLayout(new GridLayout(3, false));
 		
@@ -202,14 +204,14 @@ public class View_PlatformManager extends ViewPart {
 					if (list_All.getSelectionIndex() != -1) {
 						Module_Name = list_All.getItem(list_All.getSelectionIndex());
 						AddModuleSelected(Module_Name);
-					} else if (list_Core.getSelectionIndex() != -1) {
-						Module_Name = list_Core.getItem(list_Core.getSelectionIndex());
+					} else if (list_cpu.getSelectionIndex() != -1) {
+						Module_Name = list_cpu.getItem(list_cpu.getSelectionIndex());
 						AddModuleSelected(Module_Name);
-					} else if (list_Bus.getSelectionIndex() != -1) {
-						Module_Name = list_Bus.getItem(list_Bus.getSelectionIndex());
+					} else if (list_bus.getSelectionIndex() != -1) {
+						Module_Name = list_bus.getItem(list_bus.getSelectionIndex());
 						AddModuleSelected(Module_Name);
-					} else if (list_Mem.getSelectionIndex() != -1) {
-						Module_Name = list_Mem.getItem(list_Mem.getSelectionIndex());
+					} else if (list_mem.getSelectionIndex() != -1) {
+						Module_Name = list_mem.getItem(list_mem.getSelectionIndex());
 						AddModuleSelected(Module_Name);
 					} else if (list_other.getSelectionIndex() != -1) {
 						Module_Name = list_other.getItem(list_other.getSelectionIndex());
@@ -268,62 +270,62 @@ public class View_PlatformManager extends ViewPart {
 			});
 		}
 		{
-			TabItem tb_Core = new TabItem(tab_ModuleList, SWT.NONE);
-			tb_Core.setText("Core");
+			TabItem tb_cpu = new TabItem(tab_ModuleList, SWT.NONE);
+			tb_cpu.setText("cpu");
 
-			list_Core = new List(tab_ModuleList, SWT.NONE);
-			tb_Core.setControl(list_Core);
-			list_Core.addSelectionListener(new SelectionListener() {
+			list_cpu = new List(tab_ModuleList, SWT.NONE);
+			tb_cpu.setControl(list_cpu);
+			list_cpu.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
-					ModuleClicked(list_Core);
+					ModuleClicked(list_cpu);
 				}
 
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
-					ModuleDoubleClicked(list_Core);
+					ModuleDoubleClicked(list_cpu);
 				}
 			});
 		}
 		{
-			TabItem tb_Bus = new TabItem(tab_ModuleList, SWT.NONE);
-			tb_Bus.setText("Bus");
+			TabItem tb_bus = new TabItem(tab_ModuleList, SWT.NONE);
+			tb_bus.setText("bus");
 
-			list_Bus = new List(tab_ModuleList, SWT.NONE);
-			tb_Bus.setControl(list_Bus);
-			list_Bus.addSelectionListener(new SelectionListener() {
+			list_bus = new List(tab_ModuleList, SWT.NONE);
+			tb_bus.setControl(list_bus);
+			list_bus.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
-					ModuleClicked(list_Bus);
+					ModuleClicked(list_bus);
 				}
 
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
-					ModuleDoubleClicked(list_Bus);
+					ModuleDoubleClicked(list_bus);
 				}
 			});
 		}
 		{
-			TabItem tb_Mem = new TabItem(tab_ModuleList, SWT.NONE);
-			tb_Mem.setText("Mem");
+			TabItem tb_mem = new TabItem(tab_ModuleList, SWT.NONE);
+			tb_mem.setText("mem");
 
-			list_Mem = new List(tab_ModuleList, SWT.NONE);
-			tb_Mem.setControl(list_Mem);
-			list_Mem.addSelectionListener(new SelectionListener() {
+			list_mem = new List(tab_ModuleList, SWT.NONE);
+			tb_mem.setControl(list_mem);
+			list_mem.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
-					ModuleClicked(list_Mem);
+					ModuleClicked(list_mem);
 				}
 
 				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					// TODO Auto-generated method stub
-					ModuleDoubleClicked(list_Mem);
+					ModuleDoubleClicked(list_mem);
 				}
 			});
 		}
@@ -352,9 +354,9 @@ public class View_PlatformManager extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				list_All.setSelection(-1);
-				list_Core.setSelection(-1);
-				list_Bus.setSelection(-1);
-				list_Mem.setSelection(-1);
+				list_cpu.setSelection(-1);
+				list_bus.setSelection(-1);
+				list_mem.setSelection(-1);
 				list_other.setSelection(-1);
 			}
 
@@ -386,6 +388,7 @@ public class View_PlatformManager extends ViewPart {
 					// File directory = new File(saveTarget);
 					Module_Location = Module_Location.replace("\\", "/");
 					System.err.println(Module_Location);
+					
 					Handler_Command.Command_Func(0, 6, Module_Location, "NULL", "NULL", "NULL", "NULL");
 					Handler_Command.Command_Func(1, 0, "NULL", "NULL", "NULL", "NULL", "NULL");
 					
@@ -474,17 +477,17 @@ public class View_PlatformManager extends ViewPart {
 			
 			
 			switch (UsedModuleDataList.mList.get(UsedModuleIndex).module_type) {
-			case "Core":
-				ImageDescriptor idItem1 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_core16.png");
+			case "cpu":
+				ImageDescriptor idItem1 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_cpu16.png");
 				Image imgItemIcon1 = idItem1.createImage();
 				Expanditem.get(UsedModuleIndex).setImage(imgItemIcon1);
 				break;
-			case "Mem":
+			case "mem":
 				ImageDescriptor idItem2 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_memory16.png");
 				Image imgItemIcon2 = idItem2.createImage();
 				Expanditem.get(UsedModuleIndex).setImage(imgItemIcon2);
 				break;
-			case "Bus":
+			case "bus":
 				ImageDescriptor idItem3 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_bus16.png");
 				Image imgItemIcon3 = idItem3.createImage();
 				Expanditem.get(UsedModuleIndex).setImage(imgItemIcon3);
@@ -814,7 +817,7 @@ public class View_PlatformManager extends ViewPart {
 		int padding = 0;
 		type = ModuleData.module_type;
 		// set padding value from grid height.
-		if (type.equals("Bus") == true) {
+		if (type.equals("bus") == true) {
 			Button btnMemoryMapSetting = new Button(composite_ExpandItem.get(UsedModuleIndex), SWT.FLAT);
 			btnMemoryMapSetting.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 			btnMemoryMapSetting.setBackground(color_skyblue);
@@ -847,42 +850,59 @@ public class View_PlatformManager extends ViewPart {
 	}
 	
 	 public void viewsetting(String pmml) {
-		/* --- Parser Module list setting--- */
-		String module = null;
-		String type = null;
-		try {
-//			obj = parser.parse(new FileReader("/home/lucas/modulelist.PMML"));
-			obj = (JSONObject)parser.parse(pmml);
-			
-			jsonObject = (JSONObject) obj;
-			
-			System.err.println(jsonObject.toJSONString());
-			
-			ModuleInfoList = (JSONArray) jsonObject.get("PMML");
-			
-			ModuleInfoData = new ModuleInfo(ModuleInfoList);
-			UsedModuleDataList = new ModuleInfo();
-			
-			list_Cnt = ModuleInfoData.mList.size();
-			for (int i = 0; i < list_Cnt; i++) {
-				Module m =ModuleInfoData.mList.get(i);
-				
-				module = m.module_name;
-				type 	= m.module_type;
-				list_All.add(module);
-				if (type.equals("Core") == true)
-					list_Core.add(module);
-				else if (type.equals("Bus") == true)
-					list_Bus.add(module);
-				else if (type.equals("Mem") == true)
-					list_Mem.add(module);
-				else if (type.equals("other") == true)
-					list_other.add(module);
+		
+		 display.asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				 
+				/* --- Parser Module list setting--- */
+				String module = null;
+				String type = null;
+				try {
+//					obj = parser.parse(new FileReader("/home/lucas/modulelist.PMML"));
+					obj = (JSONObject)parser.parse(pmml);
+					
+					jsonObject = (JSONObject) obj;
+					
+					System.err.println(jsonObject.toJSONString());
+					
+					ModuleInfoList = (JSONArray) jsonObject.get("PMML");
+					
+					ModuleInfoData = new ModuleInfo(ModuleInfoList);
+					UsedModuleDataList = new ModuleInfo();	
+					
+					list_Cnt = ModuleInfoData.mList.size();
+					
+					list_All.removeAll();
+					list_cpu.removeAll();
+					list_bus.removeAll();
+					list_mem.removeAll();
+					list_other.removeAll();
+					
+					for (int i = 0; i < list_Cnt; i++) {
+						Module m =ModuleInfoData.mList.get(i);
+						
+						module = m.module_name;
+						type 	= m.module_type;
+						
+						list_All.add(module);
+						if (type.equals("cpu") == true)
+							list_cpu.add(module);
+						else if (type.equals("bus") == true)
+							list_bus.add(module);
+						else if (type.equals("mem") == true)
+							list_mem.add(module);
+						else if (type.equals("other") == true)
+							list_other.add(module);
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				/* --- Parser --- */
 			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		/* --- Parser --- */
+		});
+		
 	}
 	
 	void ModuleClicked(List SelectedTab) {

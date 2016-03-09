@@ -18,9 +18,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -173,19 +175,25 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Handler_Command.Command_Func(0, 1, "SAVE", "NULL", "NULL", "NULL", "NULL");
-				Hanlder_CallBack.CallBack_Func();
+//				Hanlder_CallBack.CallBack_Func();
 			}
 		});
 		btnRun.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
+				btnStep.setEnabled(false);
+				btnStep_n.setEnabled(false);
+				btnRun.setEnabled(false);
 			}
 		});
 		btnStop.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Handler_Command.Command_Func(0, 1, "STOP", "NULL", "NULL", "NULL", "NULL");
+				btnStep.setEnabled(true);
+				btnStep_n.setEnabled(true);
+				btnRun.setEnabled(true);
 			}
 		});
 		btnStep.addSelectionListener(new SelectionAdapter() {
@@ -198,6 +206,9 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Handler_Command.Command_Func(0, 1, "STEP",txtStep.getText(), "NULL", "NULL", "NULL");
+				btnStep.setEnabled(false);
+				btnStep_n.setEnabled(false);
+				btnRun.setEnabled(false);
 			}
 		});
 		/* --- Button Listener & Action ---END */
@@ -280,60 +291,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		ImageDescriptor idItem = ImageDescriptor.createFromFile(this.getClass(), "/images/img_connection16.png");
 		Image imgConnectionIcon = idItem.createImage();
 		Expanditem.get(0).setImage(imgConnectionIcon);
+
 		
-//			Label lbl_HCLK = new Label(composite_ExpandItem.get(0), SWT.READ_ONLY);
-//			lbl_HCLK.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
-//			lbl_HCLK.setText("HCLK");
-//			Combo cmb_HCLK = new Combo(composite_ExpandItem.get(0), SWT.DROP_DOWN|SWT.READ_ONLY);
-//			cmb_HCLK.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
-//			
-//			obj_HCLK = (JSONObject) arr_ChannelInfo.get(0);
-//			String first_HCLK = (String) obj_HCLK.get("name");
-//			String [] first_HCLK_tok = first_HCLK.split("[$]");
-//			cmb_HCLK.add(first_HCLK_tok[0]);
-//
-//			jrr_HCLK_connection = (JSONArray)obj_HCLK.get("connection_info");
-//			for(int HCLK_index=0; HCLK_index < jrr_HCLK_connection.size() ; HCLK_index++){
-//				obj_HCLK_info = (JSONObject)jrr_HCLK_connection.get(HCLK_index);
-//				cmb_HCLK.add((String)obj_HCLK_info.get("module_name"));
-//			}
-//			
-//			Label lbl_HRESETn = new Label(composite_ExpandItem.get(0), SWT.READ_ONLY);
-//			lbl_HRESETn.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
-//			lbl_HRESETn.setText("HRESETn");
-//			Combo cmb_HRESETn = new Combo(composite_ExpandItem.get(0), SWT.DROP_DOWN|SWT.READ_ONLY);
-//			cmb_HRESETn.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
-//			obj_HRESETn = (JSONObject) arr_ChannelInfo.get(1);
-//			String first_HRESETn = (String) obj_HRESETn.get("name");
-//			String [] first_HRESETn_tok = first_HRESETn.split("[$]");
-//			cmb_HRESETn.add(first_HRESETn_tok[0]);
-//
-//			jrr_HRESETn_connection = (JSONArray)obj_HRESETn.get("connection_info");
-//			for(int HRESETn=0; HRESETn < jrr_HRESETn_connection.size() ; HRESETn++){
-//				obj_HRESETn_info = (JSONObject)jrr_HRESETn_connection.get(HRESETn);
-//				cmb_HRESETn.add((String)obj_HRESETn_info.get("module_name"));
-//			}
-//
-//			Label lbl_Connection = new Label(composite_ExpandItem.get(0), SWT.READ_ONLY);
-//			lbl_Connection.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, true, true, 1, 1));
-//			lbl_Connection.setText("Connections");
-//			Combo cmb_Connection = new Combo(composite_ExpandItem.get(0), SWT.DROP_DOWN|SWT.READ_ONLY);
-//			cmb_Connection.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
-//			
-//			for(int i=2; i< arr_ChannelInfo.size(); i++){
-//				obj_Connection = (JSONObject) arr_ChannelInfo.get(i);
-//				String first_Connection = (String) obj_Connection.get("name");
-//				String first_Connection_source = "["+first_Connection.replaceAll("[$]", "]");
-//				jrr_Connection = (JSONArray)obj_Connection.get("connection_info");
-//				obj_Connection_info = (JSONObject) jrr_Connection.get(0);
-//				String first_Connection_dest = "["+(String) obj_Connection_info.get("module_name") + "]"
-//					+ (String) obj_Connection_info.get("port_name");
-//				String padded = padRight(first_Connection_source, 70-first_Connection_source.length()*2);
-//				cmb_Connection.add(padded+" <----->              "+first_Connection_dest);
-//				
-//			}
-			
-			
 			table_channel = new Table(composite_ExpandItem.get(0), SWT.BORDER | SWT.FULL_SELECTION |SWT.V_SCROLL);
 			GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 			gd_table.heightHint=140;
@@ -533,6 +492,15 @@ public class View_SimulationEnvironment extends ViewPart {
 					txt_ParValue.setText((String) obj_par.get("default_value"));
 					editor_par_table.grabHorizontal = true;
 					editor_par_table.setEditor(txt_ParValue, items_par[par_index], 1);
+					txt_ParValue.addListener(SWT.FocusOut, new Listener() {
+						@Override
+						public void handleEvent(Event arg0) {
+							// TODO Auto-generated method stub
+							System.err.println("0/2/");
+//							Handler_Command.Command_Func(0, 2, "STEP",txtStep.getText(), "NULL", "NULL", "NULL");
+//							Handler_Command.Command_Func(0, 2, instance name ,0, 0, register index, value);
+						}
+					});
 				}
 			}
 			
