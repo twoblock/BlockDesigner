@@ -12,6 +12,7 @@
 // ----------------------------------------------------------------------------
 
 #include "BDSim.h"
+#include "../manager/CallBackManager.h"
 #include "../manager/SoftwareManager.h"
 
 #define	 SECOND_UNIT(X)		((X)*1000000)
@@ -42,6 +43,16 @@ namespace BDapi
 		// Activate GTKWAVE Interactive Mode.
 		fp = popen("shmidcat wave.vcd | gtkwave -v -I /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.gtkw", "r");	
 		if(fp == NULL) printf("\n\033[31m Error : Can not open GTKWAVE\033[0m\n");
+
+		// Start Call Back
+		CallBackReturn Return;
+		CallBackManager *p_CallBackManager = NULL;
+		p_CallBackManager = CallBackManager::GetInstance();
+
+		Return = p_CallBackManager->SendBackAllWhenStart();
+		if(Return == CallBackError){
+			printf("Start CallBack error\n");		
+		}	
 
 		while(1){
 			dw_SimControl = ExecutionManager::GetExecutionFlag();
@@ -88,9 +99,12 @@ namespace BDapi
 	void Run()
 	{
 		sc_start(10, SC_NS);
+
+			// Get pc value
 		SoftwareManager *p_SoftwareManager = NULL;
 		p_SoftwareManager = SoftwareManager::GetInstance();	
 		p_SoftwareManager->PCAnalyzer();	
+
 		glw_Cycle++;
 	}
 
@@ -106,9 +120,12 @@ namespace BDapi
 
 		if(dw_StepValue != 0){
 			sc_start(10, SC_NS);
+		
+			// Get pc value
 			SoftwareManager *p_SoftwareManager = NULL;
 			p_SoftwareManager = SoftwareManager::GetInstance();	
 			p_SoftwareManager->PCAnalyzer();	
+
 			glw_Cycle++;
 			dw_StepValue -= 10;
 			ExecutionManager::SetStepValue(dw_StepValue);
@@ -125,13 +142,22 @@ namespace BDapi
 	 */
 	void Stop()
 	{
-		SoftwareManager *p_SoftwareManager = NULL;
-	  p_SoftwareManager = SoftwareManager::GetInstance();	
-		p_SoftwareManager->DisplayAssemblyCode();	
-		p_SoftwareManager->DisplayProfilingData();	
+		// Stop Call Back
+		CallBackReturn Return;
+		CallBackManager *p_CallBackManager = NULL;
+		p_CallBackManager = CallBackManager::GetInstance();
+
+		Return = p_CallBackManager->SendBackAllWhenStop();
+		if(Return == CallBackError){
+			printf("Stop CallBack error\n");		
+		}	
+
+		//SoftwareManager *p_SoftwareManager = NULL;
+	  //p_SoftwareManager = SoftwareManager::GetInstance();	
+		//p_SoftwareManager->DisplayAssemblyCode();	
+		//p_SoftwareManager->DisplayProfilingData();	
 
 		ExecutionManager::SetExecutionFlag(NOTHING);
 	}
-
 }
 

@@ -76,7 +76,9 @@ namespace BDapi
 	 */
 	void SoftwareManager::SetSoftwareDisplayer(int CPUIndex, char *SoftwarePath)
 	{
+
 		// make SoftwareDisplayer
+		SoftwareDisplayer *p_SoftwareDisplayer = NULL;
 		p_SoftwareDisplayer = new SoftwareDisplayer();
 		p_SoftwareDisplayer->StoreAssemblyCode(SoftwarePath);
 
@@ -84,8 +86,6 @@ namespace BDapi
 		CPUInfo *pst_CPUInfo;
 		pst_CPUInfo =	CPUs.at(CPUIndex);
 		pst_CPUInfo->p_SoftwareDisplayer = p_SoftwareDisplayer;
-	
-		p_SoftwareDisplayer = NULL;
 	}
 
 	/*
@@ -98,7 +98,7 @@ namespace BDapi
 
     ModuleListManager *p_ModuleListManager = NULL;
 		p_ModuleListManager = ModuleListManager::GetInstance();
-		dw_PC = p_ModuleListManager->FindModule("BD_CORTEXM0DS")->GetBDDI()->BDDIGetPCValue();
+		dw_PC = p_ModuleListManager->FindModule(CPUs[0]->CPUName.c_str())->GetBDDI()->BDDIGetPCValue();
 		printf("\n\nAssembly Code\n\n");
 		CPUs[0]->p_SoftwareDisplayer->DisplayAssemblyCode(dw_PC);
 		printf("\n\n");
@@ -114,14 +114,13 @@ namespace BDapi
 	void SoftwareManager::SetSoftwareProfiler(int CPUIndex, char *SoftwarePath)
 	{
 		// make SoftwareProfiler
+		SoftwareProfiler *p_SoftwareProfiler = NULL;
 		p_SoftwareProfiler = new SoftwareProfiler(SoftwarePath);
 
 		// set this profiler to the cpu that have CPUIndex 
 		CPUInfo *pst_CPUInfo;
 		pst_CPUInfo =	CPUs.at(CPUIndex);
 		pst_CPUInfo->p_SoftwareProfiler = p_SoftwareProfiler;
-	
-		p_SoftwareProfiler = NULL;
 	}
 
 	/*
@@ -134,10 +133,8 @@ namespace BDapi
 
     ModuleListManager *p_ModuleListManager = NULL;
 		p_ModuleListManager = ModuleListManager::GetInstance();
-		dw_PC = p_ModuleListManager->FindModule("BD_CORTEXM0DS")->GetBDDI()->BDDIGetPCValue();
-		//printf("\n\nAssembly Code\n\n");
+		dw_PC = p_ModuleListManager->FindModule(CPUs[0]->CPUName.c_str())->GetBDDI()->BDDIGetPCValue();
 		CPUs[0]->p_SoftwareProfiler->PC_Analyzer(dw_PC);
-		//printf("\n\n");
 	}
 
 	/*
@@ -149,6 +146,10 @@ namespace BDapi
 		CPUs[0]->p_SoftwareProfiler->Summary_Display();
 	}
 
+	SoftwareProfiler* SoftwareManager::GetSoftwareProfiler()
+	{
+		return CPUs[0]->p_SoftwareProfiler;
+	}
 
 	/*
 	 * function    	: AddConnectionInfo

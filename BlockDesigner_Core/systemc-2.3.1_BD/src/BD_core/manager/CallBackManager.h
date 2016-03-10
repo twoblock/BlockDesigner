@@ -32,6 +32,8 @@ using namespace std;
  */
 namespace BDapi
 {
+	class SoftwareManager;
+
 	// CallBack Return Type
 	enum CallBackReturn
 	{
@@ -50,6 +52,8 @@ namespace BDapi
 		public:
 			void PutOperationControl(GUI_COMMAND Command);
 
+			CallBackReturn SendBackAllWhenStart();
+			CallBackReturn SendBackAllWhenStop();
 			CallBackReturn SendBackPMML(string PMML);
 
 			void SetObject(jobject Jobject);
@@ -70,6 +74,8 @@ namespace BDapi
 			JavaVM *m_JVM;
 			jobject m_Jobject;
 			jmethodID m_MethodID;
+
+			SoftwareManager *p_SoftwarwManager;
 
 			static CallBackManager *_CallBackManager;
 			// mutex for singleton pattern 
