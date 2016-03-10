@@ -16,13 +16,14 @@ namespace sc_core
 			sc_out<unsigned int>   HTRANS;
 			sc_out<unsigned int>   HWDATA;
 			sc_out<bool>   HWRITE;
+			sc_out<bool>	HLOCK;
 			sc_in<bool>		HGRANT;
 
-			char temp[9][256];
+			char temp[10][256];
 
 			BD_AHBPort_MM(char *Name)
 			{
-				for(int i=0; i<9; i++)
+				for(int i=0; i<10; i++)
 					memset(temp[i], 0, 256);
 				
 				strcpy(temp[0], "$HADDR_");
@@ -34,9 +35,10 @@ namespace sc_core
 				strcpy(temp[6], "$HWRITE_");
 				strcpy(temp[7], "$HBUSREQ_");
 				strcpy(temp[8], "$HGRANT_");
+				strcpy(temp[9], "$HLCOK_");
 
 				if(Name != NULL)	{
-					for(int i=0; i<9; i++)
+					for(int i=0; i<10; i++)
 						strcat(temp[i], Name);
 				}
 
@@ -49,6 +51,7 @@ namespace sc_core
 				HWRITE.set_port_name(temp[6]);
 				HBUSREQ.set_port_name(temp[7]);
 				HGRANT.set_port_name(temp[8]);
+				HLOCK.set_port_name(temp[9]);
 			}
 	};
 
@@ -63,13 +66,14 @@ namespace sc_core
 			sc_in<unsigned int>   HTRANS;
 			sc_in<unsigned int>   HWDATA;
 			sc_in<bool>   HWRITE;
+			sc_in<bool>		HLOCK;
 			sc_out<bool>		HGRANT;
 
-			char temp[9][256];
+			char temp[10][256];
 
 			BD_AHBPort_MS(char *Name)
 			{
-				for(int i=0; i<9; i++)
+				for(int i=0; i<10; i++)
 					memset(temp[i], 0, 256);
 				
 				strcpy(temp[0], "$HADDR_");
@@ -81,9 +85,10 @@ namespace sc_core
 				strcpy(temp[6], "$HWRITE_");
 				strcpy(temp[7], "$HBUSREQ_");
 				strcpy(temp[8], "$HGRANT_");
+				strcpy(temp[9], "$HLOCK_");
 
 				if(Name != NULL)	{
-					for(int i=0; i<9; i++)
+					for(int i=0; i<10; i++)
 						strcat(temp[i], Name);
 				}
 
@@ -96,6 +101,7 @@ namespace sc_core
 				HWRITE.set_port_name(temp[6]);
 				HBUSREQ.set_port_name(temp[7]);
 				HGRANT.set_port_name(temp[8]);
+				HLOCK.set_port_name(temp[9]);
 			}
 	};
 
