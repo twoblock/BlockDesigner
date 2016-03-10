@@ -61,6 +61,7 @@ namespace BDapi
 			void DisplayProfilingData();
 
 			SoftwareProfiler* GetSoftwareProfiler();
+			SoftwareDisplayer* GetSoftwareDisplayer();
 
 			void AddConnectionInfo(string CPUName, string ConnectedModuleName);
 			int FindCPU(string CPUName);

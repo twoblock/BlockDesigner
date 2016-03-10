@@ -151,6 +151,10 @@ namespace BDapi
 		return CPUs[0]->p_SoftwareProfiler;
 	}
 
+	SoftwareDisplayer* SoftwareManager::GetSoftwareDisplayer()
+	{
+		return CPUs[0]->p_SoftwareDisplayer;
+	}
 	/*
 	 * function    	: AddConnectionInfo
 	 * design	      : add connected module to this cpu

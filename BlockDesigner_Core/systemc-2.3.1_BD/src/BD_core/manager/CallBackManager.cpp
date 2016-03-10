@@ -37,8 +37,11 @@ namespace BDapi
 	{
 		SoftwareProfiler *p_SoftwareProfiler = NULL;
 		p_SoftwareProfiler = p_SoftwarwManager->GetSoftwareProfiler();
-
 		p_SoftwareProfiler->GetJsonOfSymbolTable();	
+
+		SoftwareDisplayer *p_SoftwareDisplayer = NULL;
+		p_SoftwareDisplayer = p_SoftwarwManager->GetSoftwareDisplayer();
+		p_SoftwareDisplayer->GetJsonOfSourceCode();	
 
 		return CallBackOK;
 	}
