@@ -11,7 +11,7 @@
 // Description	: manage sc_module list 
 // ----------------------------------------------------------------------------
 
-#include "CallBackManager.h"
+#include "AllManager.h"
 
 namespace BDapi
 {	
@@ -33,6 +33,29 @@ namespace BDapi
 		//AddModule(Command.Argu1, Command.Argu2);
 	}
 
+	CallBackReturn CallBackManager::SendBackAllWhenStart()
+	{
+		SoftwareProfiler *p_SoftwareProfiler = NULL;
+		p_SoftwareProfiler = p_SoftwarwManager->GetSoftwareProfiler();
+		p_SoftwareProfiler->GetJsonOfSymbolTable();	
+
+		SoftwareDisplayer *p_SoftwareDisplayer = NULL;
+		p_SoftwareDisplayer = p_SoftwarwManager->GetSoftwareDisplayer();
+		p_SoftwareDisplayer->GetJsonOfSourceCode();	
+
+		return CallBackOK;
+	}
+
+	CallBackReturn CallBackManager::SendBackAllWhenStop()
+	{
+		SoftwareProfiler *p_SoftwareProfiler = NULL;
+		p_SoftwareProfiler = p_SoftwarwManager->GetSoftwareProfiler();
+
+		p_SoftwareProfiler->GetJsonOfProfilingTable();	
+		p_SoftwareProfiler->GetJsonOfFunctionFlowGragh();	
+
+		return CallBackOK;
+	}
 
 	CallBackReturn CallBackManager::SendBackPMML(string PMML)
 	{
@@ -127,6 +150,7 @@ namespace BDapi
 	 */
 	CallBackManager::CallBackManager()
 	{
+		p_SoftwarwManager = SoftwareManager::GetInstance();
 	}
 
 	/*

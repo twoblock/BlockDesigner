@@ -49,7 +49,6 @@ namespace BDapi
 	 */
 	int CommandHandler::Execute()
 	{
-		printf("Execute\n");
 		if(st_GUICommand.Operation == PUT){
 			PutOperation();
 		}

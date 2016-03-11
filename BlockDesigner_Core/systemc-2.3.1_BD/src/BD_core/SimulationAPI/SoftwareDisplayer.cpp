@@ -69,6 +69,11 @@ namespace BDapi
 				GetAssemblyCodeFromBuffer(a_Buffer, a_AssemblyCode);
 				if(a_AssemblyCode[0] == 0) continue;
 				else{
+					SourceCode.clear();
+					SourceCode["address"] = a_Buffer;
+					SourceCode["assembly_code"] = a_AssemblyCode;
+					SourceCodeList.append(SourceCode);
+
 					dw_HexValue = strtoul(a_Buffer, NULL, 16);
 					AssemblyCode[dw_HexValue] = a_AssemblyCode;
 				}	
@@ -86,12 +91,13 @@ namespace BDapi
 										else - return with not storing AssemblyCode
 	 * param	      : PC - program counter 
 	 */
-	void SoftwareDisplayer::GetAssemblyCodeFromBuffer(char *Buffer, char *AssemblyCode)
+	void SoftwareDisplayer::GetAssemblyCodeFromBuffer(char *Buffer, char *SourceCode)
 	{
 		// Initialize AssemblyCode
-		AssemblyCode[0] = 0;
+		SourceCode[0] = 0;
 
 		int ColonIndex = 0;
+		int ColonIndexBuffer = 0;
 		int SemicolonIndex = 0;
 		int AssemblyCodeIndex = 0;
 
@@ -99,7 +105,10 @@ namespace BDapi
 
 		// find colon
 		for(ColonIndex = 0; ColonIndex < 256; ColonIndex++){
-			if(Buffer[ColonIndex] == ':') break;
+			if(Buffer[ColonIndex] == ':'){
+				ColonIndexBuffer = ColonIndex;
+				break;
+			}
 		}
 		if(ColonIndex == 256) return;
 		else ColonIndex++; 
@@ -120,12 +129,28 @@ namespace BDapi
 
 		// assembly code
 		for(; ColonIndex < SemicolonIndex; ColonIndex++){
-			AssemblyCode[AssemblyCodeIndex] = Buffer[ColonIndex];
+
+			if(Buffer[ColonIndex] == '\t')
+				SourceCode[AssemblyCodeIndex] = ' ';
+			else
+				SourceCode[AssemblyCodeIndex] = Buffer[ColonIndex];
 			AssemblyCodeIndex++;
 		}
-		AssemblyCode[AssemblyCodeIndex] = 0;
+		Buffer[ColonIndexBuffer] = 0;
+		SourceCode[AssemblyCodeIndex] = 0;
 	}
 
+	string SoftwareDisplayer::GetJsonOfSourceCode()
+	{
+		Root_SourceCodeList["SourceCode"] = SourceCodeList;
+
+		Json::StyledWriter writer;
+		string StringSourceCode = writer.write(Root_SourceCodeList);
+		//printf("%s \n", StringSourceCode.c_str()); 
+		
+		SourceCodeList.clear();
+		return StringSourceCode;
+	}
 
 	/*
 	 * function 	: SoftwareDisplayer 
@@ -133,6 +158,8 @@ namespace BDapi
 	 */
 	SoftwareDisplayer::SoftwareDisplayer()
 	{
+		SourceCode.clear();
+		SourceCodeList.clear();
 	}
 
 	/*

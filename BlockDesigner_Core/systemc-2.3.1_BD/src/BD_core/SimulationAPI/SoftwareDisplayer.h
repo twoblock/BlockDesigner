@@ -14,6 +14,7 @@
 #ifndef __SOFTWARE_DISPLAYER_H__
 #define __SOFTWARE_DISPLAYER_H__
 
+#include "../PlatformAPI/json/json.h"
 #include "systemc.h"
 #include <pthread.h>
 #include <string>
@@ -39,12 +40,19 @@ namespace BDapi
 		public:
 			void DisplayAssemblyCode(unsigned int PC);
 			void StoreAssemblyCode(char *SoftwarePath);
-			void GetAssemblyCodeFromBuffer(char *Buffer, char *AssemblyCode);
+			void GetAssemblyCodeFromBuffer(char *Buffer, char *SourceCode);
+			
+			string GetJsonOfSourceCode();
 
 			SoftwareDisplayer();
 		  ~SoftwareDisplayer();
 
 		private:
+			// json format entities
+			Json::Value Root_SourceCodeList;
+			Json::Value SourceCodeList;
+			Json::Value SourceCode;
+
 			map<unsigned int, string> AssemblyCode;
 			map<unsigned int, string>::iterator AssemblyCodeFinder; 
 	};

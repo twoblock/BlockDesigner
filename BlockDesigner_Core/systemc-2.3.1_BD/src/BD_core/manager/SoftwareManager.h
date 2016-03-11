@@ -60,6 +60,9 @@ namespace BDapi
 			void PCAnalyzer();
 			void DisplayProfilingData();
 
+			SoftwareProfiler* GetSoftwareProfiler();
+			SoftwareDisplayer* GetSoftwareDisplayer();
+
 			void AddConnectionInfo(string CPUName, string ConnectedModuleName);
 			int FindCPU(string CPUName);
 			vector<CPUInfo*>* GetCPUInfo();
@@ -75,8 +78,6 @@ namespace BDapi
 			vector<CPUInfo*> CPUs;
 
 			SoftwareLoader *p_SoftwareLoader;
-			SoftwareDisplayer *p_SoftwareDisplayer;
-			SoftwareProfiler *p_SoftwareProfiler;
 
 			static SoftwareManager *_SoftwareManager;
 			// mutex for singleton pattern 
