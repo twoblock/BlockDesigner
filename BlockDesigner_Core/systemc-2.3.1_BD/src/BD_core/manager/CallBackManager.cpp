@@ -52,13 +52,16 @@ namespace BDapi
 		p_SoftwareProfiler = p_SoftwarwManager->GetSoftwareProfiler();
 
 		p_SoftwareProfiler->GetJsonOfProfilingTable();	
-		p_SoftwareProfiler->GetJsonOfFunctionFlowGragh();	
+		p_SoftwareProfiler->GetJsonOfFunctionFlowGragh();
+		SendBackJson(p_BDDIJsonManager->GenerateBDDIJsonFile(), "ResultCallBack");
 
 		return CallBackOK;
 	}
 
-	CallBackReturn CallBackManager::SendBackPMML(string PMML)
+	CallBackReturn CallBackManager::SendBackJson(string Json, const char *MethodName)
 	{
+		printf("SendBackJson func - MethodName : %s\n", MethodName);
+
 		JNIEnv *p_Env = NULL;
 
 		int getEnvStat = m_JVM->GetEnv((void **)&p_Env, JNI_VERSION_1_6);
@@ -76,9 +79,9 @@ namespace BDapi
 		}
 
 		jmethodID m_MethodID;
-		m_MethodID = p_Env->GetMethodID(p_Env->GetObjectClass(m_Jobject), "ModuleInfoCallBack", "(Ljava/lang/String;)V");
+		m_MethodID = p_Env->GetMethodID(p_Env->GetObjectClass(m_Jobject), MethodName, "(Ljava/lang/String;)V");
 
-		jstring string = p_Env->NewStringUTF(PMML.c_str());
+		jstring string = p_Env->NewStringUTF(Json.c_str());
 		p_Env->CallVoidMethod(m_Jobject, m_MethodID, string);
 
 		if (p_Env->ExceptionCheck()) {
@@ -154,6 +157,7 @@ namespace BDapi
 	CallBackManager::CallBackManager()
 	{
 		p_SoftwarwManager = SoftwareManager::GetInstance();
+		p_BDDIJsonManager = BDDIJsonManager::GetInstance();
 	}
 
 	/*
