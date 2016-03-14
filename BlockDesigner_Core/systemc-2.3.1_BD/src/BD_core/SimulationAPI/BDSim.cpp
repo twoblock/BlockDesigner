@@ -45,14 +45,14 @@ namespace BDapi
 		if(fp == NULL) printf("\n\033[31m Error : Can not open GTKWAVE\033[0m\n");
 
 		// Start Call Back
-		CallBackReturn Return;
-		CallBackManager *p_CallBackManager = NULL;
-		p_CallBackManager = CallBackManager::GetInstance();
+		//CallBackReturn Return;
+		//CallBackManager *p_CallBackManager = NULL;
+		//p_CallBackManager = CallBackManager::GetInstance();
 
-		Return = p_CallBackManager->SendBackAllWhenStart();
-		if(Return == CallBackError){
-			printf("Start CallBack error\n");		
-		}	
+		//Return = p_CallBackManager->SendBackAllWhenStart();
+		//if(Return == CallBackError){
+			//printf("Start CallBack error\n");		
+		//}	
 
 		while(1){
 			dw_SimControl = ExecutionManager::GetExecutionFlag();
@@ -143,14 +143,14 @@ namespace BDapi
 	void Stop()
 	{
 		// Stop Call Back
-		CallBackReturn Return;
-		CallBackManager *p_CallBackManager = NULL;
-		p_CallBackManager = CallBackManager::GetInstance();
+		//CallBackReturn Return;
+		//CallBackManager *p_CallBackManager = NULL;
+		//p_CallBackManager = CallBackManager::GetInstance();
 
-		Return = p_CallBackManager->SendBackAllWhenStop();
-		if(Return == CallBackError){
-			printf("Stop CallBack error\n");		
-		}	
+		//Return = p_CallBackManager->SendBackAllWhenStop();
+		//if(Return == CallBackError){
+			//printf("Stop CallBack error\n");		
+		//}	
 
 		//SoftwareManager *p_SoftwareManager = NULL;
 	  //p_SoftwareManager = SoftwareManager::GetInstance();	

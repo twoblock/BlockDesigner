@@ -6,10 +6,7 @@
 
 g++ -fPIC -g -I$SYSTEMC_INCLUDE -L$SYSTEMC_LIBDIR -c -o sc_main.o sc_main.cpp
 g++ -fPIC -g -I$SYSTEMC_INCLUDE -L$SYSTEMC_LIBDIR sc_main.o -o VCM0DS -lsystemc
-g++ -shared -o libBD_sim.so sc_main.o /usr/local/systemc231/lib-linux64/libsystemc-2.3.1.so
-
-cp libBD_sim.so /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so 
-chown lucas:lucas /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so 
+g++ -shared -o libBD_sim.so sc_main.o $HOME/workspace/Install/systemc231/lib-linux64/libsystemc-2.3.1.so
 
 echo //////////////////////////////////////////////////////////////
 echo // If you want to get libBD_core.so, move the 'obj_dir' directory,

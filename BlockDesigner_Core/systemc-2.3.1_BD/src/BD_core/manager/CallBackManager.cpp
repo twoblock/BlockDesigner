@@ -75,8 +75,11 @@ namespace BDapi
 			return CallBackError;
 		}
 
+		jmethodID m_MethodID;
+		m_MethodID = p_Env->GetMethodID(p_Env->GetObjectClass(m_Jobject), "ModuleInfoCallBack", "(Ljava/lang/String;)V");
+
 		jstring string = p_Env->NewStringUTF(PMML.c_str());
-		p_Env->CallIntMethod(m_Jobject, m_MethodID, string);
+		p_Env->CallVoidMethod(m_Jobject, m_MethodID, string);
 
 		if (p_Env->ExceptionCheck()) {
 			p_Env->ExceptionDescribe();

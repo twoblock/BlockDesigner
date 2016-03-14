@@ -37,7 +37,6 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 	CallBackManager *p_CallBackManager = NULL;
 	p_CallBackManager = CallBackManager::GetInstance();	
 	p_CallBackManager->SetObject(env->NewGlobalRef(ths));
-	p_CallBackManager->SetMID(env->GetMethodID(env->GetObjectClass(ths), "ModuleInfoCallBack", "(Ljava/lang/String;)V"));
 }
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_ModuleInfoListener(JNIEnv *env, jobject ths)

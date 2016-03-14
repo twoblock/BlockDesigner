@@ -7,12 +7,12 @@ import com.twoblock.blockdesigner.view.View_SimulationEnvironment;
 public class Hanlder_CallBack {
 	static {
 		try {
-			System.load("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_sim.so");
+			System.load(System.getProperty("user.home")+"/workspace/BlockDesigner/TestPlatform/sc_main/libBD_sim.so");		
 		} catch (UnsatisfiedLinkError e) {
 			System.err.println("Native code library failed to load(callback)");
 		}
 	}
-	
+
 	
 	public long cycle;
 	public int status;
