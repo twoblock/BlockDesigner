@@ -26,6 +26,7 @@ public class Hanlder_CallBack {
 	private native void CycleListener();
 	private native void StatusListener();
 	private native void OutputListener();
+	private native void ResultListener();
 	private native void ModuleInfoListener();
 	private native void ErrorListener();
 	
@@ -40,6 +41,11 @@ public class Hanlder_CallBack {
 	}
 	private void OutputCallBack() {
 		System.out.println("receive Output");
+	}
+	private void ResultCallBack(String sim_result){
+		System.err.println(sim_result);
+		View_SimulationEnvironment sm = new View_SimulationEnvironment();
+		sm.SIM_Result(sim_result);
 	}
 	private void ModuleInfoCallBack(String pmml) {
 		System.err.println(pmml);

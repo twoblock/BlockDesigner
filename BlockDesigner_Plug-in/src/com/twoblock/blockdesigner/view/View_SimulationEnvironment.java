@@ -7,12 +7,6 @@ import java.util.ArrayList;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.ExpandEvent;
-import org.eclipse.swt.events.ExpandListener;
-import org.eclipse.swt.events.GestureEvent;
-import org.eclipse.swt.events.GestureListener;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -67,7 +61,8 @@ public class View_SimulationEnvironment extends ViewPart {
 	private Text txtStep;
 	private Image imgStep_n;
 	public static Label lblCyclesCnt;
-
+	public static Display display =null;
+	
 	private void setViewState(int state) {
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		int currentState = page.getPartState(page.getReference(this));
@@ -78,7 +73,13 @@ public class View_SimulationEnvironment extends ViewPart {
 	}
 
 	public void createPartControl(Composite parent) {
+		display = Display.getDefault();
 		Hanlder_CallBack.CallBack_Func();
+		Handler_Command.Command_Func(0,7,System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD","","","","");
+		Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
+				System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", 
+				"","","");
+		Handler_Command.Command_Func(0, 2, "BD_SRAM","par","write","0","0x20000000");
 		parent.setLayout(new GridLayout(11, false));
 
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
@@ -177,13 +178,13 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Handler_Command.Command_Func(0, 1, "SAVE", "NULL", "NULL", "NULL", "NULL");
-				// Hanlder_CallBack.CallBack_Func();
+				Hanlder_CallBack.CallBack_Func();
 			}
 		});
 		btnRun.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-//				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
+				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
 				btnStep.setEnabled(false);
 				btnStep_n.setEnabled(false);
 				btnRun.setEnabled(false);
@@ -195,7 +196,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnStop.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-//				Handler_Command.Command_Func(0, 1, "STOP", "NULL", "NULL", "NULL", "NULL");
+				Handler_Command.Command_Func(0, 1, "STOP", "NULL", "NULL", "NULL", "NULL");
 				btnStep.setEnabled(true);
 				btnStep_n.setEnabled(true);
 				btnRun.setEnabled(true);
@@ -206,13 +207,13 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnStep.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-//				Handler_Command.Command_Func(0, 1, "STEP", "1", "NULL", "NULL", "NULL");
+				Handler_Command.Command_Func(0, 1, "STEP", "1", "NULL", "NULL", "NULL");
 			}
 		});
 		btnStep_n.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-//				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
+				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
 				btnStep.setEnabled(false);
 				btnStep_n.setEnabled(false);
 				btnRun.setEnabled(false);
@@ -276,6 +277,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private int par_index;
 	private int ModuleInfoIndex;
 	private int reg_index;
+	
 
 	protected void ChannelInfoSet(final Composite composite){
 		try {
@@ -359,7 +361,9 @@ public class View_SimulationEnvironment extends ViewPart {
 					String first_Connection = (String) obj_Connection.get("name");
 					String first_Connection_source = "["+first_Connection.replaceAll("[$]", "]");
 					jrr_Connection = (JSONArray)obj_Connection.get("connection_info");
-					obj_Connection_info = (JSONObject) jrr_Connection.get(0);
+					if(jrr_Connection.size() != 0){
+						obj_Connection_info = (JSONObject) jrr_Connection.get(0);
+					}
 					String first_Connection_dest = "["+(String) obj_Connection_info.get("module_name") + "]"
 						+ (String) obj_Connection_info.get("port_name");
 //					String padded = padRight(first_Connection_source, 70-first_Connection_source.length()*2);
@@ -519,7 +523,7 @@ public class View_SimulationEnvironment extends ViewPart {
 						public void handleEvent(Event arg0) {
 							// TODO Auto-generated method stub
 							System.err.println("0/2/"+module_name+"/par/write/"+table_par_index+"/"+txt_ParValue.getText());
-//							Handler_Command.Command_Func(0, 2, module_name ,"par", "write", table_par_index+"", txt_ParValue.getText());
+							Handler_Command.Command_Func(0, 2, module_name ,"par", "write", table_par_index+"", txt_ParValue.getText());
 						}
 					});
 				}
@@ -584,7 +588,7 @@ public class View_SimulationEnvironment extends ViewPart {
 						public void handleEvent(Event arg0) {
 							// TODO Auto-generated method stub
 							System.err.println("0/2/"+module_name+"/reg/write/"+table_reg_index+"/"+txt_regValue.getText());
-//							Handler_Command.Command_Func(0, 2, module_name ,"reg", "write", table_reg_index"", txt_regValue.getText());
+							Handler_Command.Command_Func(0, 2, module_name ,"reg", "write", table_reg_index+"", txt_regValue.getText());
 						}
 					});
 				}
@@ -592,21 +596,25 @@ public class View_SimulationEnvironment extends ViewPart {
 			Expanditem.get(ModuleInfoIndex + 1).setHeight(150);
 		}
 
-//		expandBar.getVerticalBar().addListener(SWT.Selection, new Listener() {
-//			@Override
-//			public void handleEvent(Event arg0) {
-//				// TODO Auto-generated method stub
-//				for (int i = 0; i < expandBar.getItemCount(); i++) {
-//					expandBar.getItem(i).setHeight(150);
+		expandBar.getVerticalBar().addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event arg0) {
+				// TODO Auto-generated method stub
+				for (int i = 0; i < expandBar.getItemCount(); i++) {
+					composite_ExpandItem.get(i).layout(true,true);
+					expandBar.getItem(i).setHeight(150);
+					composite_ExpandItem.get(i).update();
+					composite_ExpandItem.get(i).redraw();
+					composite_ExpandItem.get(i).pack();
+					
 //					Control ctrol = expandBar.getItem(i).getControl();
 //						ctrol.redraw();
 //						ctrol.update();
 //						ctrol.pack();
 //						System.err.println("11");
-//					
-//				}
-//			}
-//		});
+				}
+			}
+		});
 	}
 
 	public static String padRight(String s, int n) {
@@ -616,6 +624,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	public void setFocus() {
 		setViewState(1);
 	}
+	
 	void SetTableState(Boolean state){
 		for(int moduleindex=1; moduleindex< composite_ExpandItem.size(); moduleindex++){
 			Control[] ctrol_tables = composite_ExpandItem.get(moduleindex).getChildren();
@@ -635,5 +644,50 @@ public class View_SimulationEnvironment extends ViewPart {
 				text_reg.setEnabled(state);
 			}
 		}
+	}
+	
+	
+	protected JSONArray arr_Result_ModuleList;
+	protected JSONObject obj_Result_Module;
+	protected JSONArray arr_reg_value;
+	protected JSONObject obj_reg_value;
+	
+	public void SIM_Result(String sim_result){
+		System.err.println("===========================in Sim result=============");
+		 display.asyncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					obj = (JSONObject)parser.parse(sim_result);
+					jsonObject = (JSONObject) obj;
+					arr_Result_ModuleList = (JSONArray) jsonObject.get("SIM_Result");
+					String value=null;
+					
+					for (int refesh_index = 0; refesh_index < arr_Result_ModuleList.size(); refesh_index++) {
+						obj_Result_Module=(JSONObject)arr_Result_ModuleList.get(refesh_index);
+						arr_reg_value=(JSONArray)obj_Result_Module.get("register_value");
+						
+						Control[] ctrol_tables = composite_ExpandItem.get(refesh_index + 1).getChildren();
+						Table tb_reg = (Table)ctrol_tables[2];	// get reg table
+						Control[] Ctrol_reg_arg = tb_reg.getChildren();
+						
+						for(int reg_index=0; refesh_index<arr_reg_value.size(); reg_index++){
+							obj_reg_value = (JSONObject)arr_reg_value.get(reg_index);
+							value=(String)obj_reg_value.get("value");
+							
+							Text text_reg = (Text)Ctrol_reg_arg[reg_index*2+1];
+							text_reg.setText(value);
+						}
+					}
+					
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}); 
 	}
 }
