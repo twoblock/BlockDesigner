@@ -49,7 +49,8 @@ H_FILES = \
 	PMMLGenerationManager.h \
 	SignalTraceManager.h \
 	SoftwareManager.h \
-	CallBackManager.h
+	CallBackManager.h \
+	BDDIJsonManager.h
  
 CXX_FILES = \
 	ExecutionManager.cpp \
@@ -61,7 +62,8 @@ CXX_FILES = \
 	PMMLGenerationManager.cpp \
 	SignalTraceManager.cpp \
 	SoftwareManager.cpp \
-	CallBackManager.cpp 
+	CallBackManager.cpp \
+	BDDIJsonManager.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)

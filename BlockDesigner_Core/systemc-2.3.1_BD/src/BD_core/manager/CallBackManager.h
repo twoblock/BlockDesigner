@@ -33,6 +33,7 @@ using namespace std;
 namespace BDapi
 {
 	class SoftwareManager;
+	class BDDIJsonManager;
 
 	// CallBack Return Type
 	enum CallBackReturn
@@ -54,7 +55,7 @@ namespace BDapi
 
 			CallBackReturn SendBackAllWhenStart();
 			CallBackReturn SendBackAllWhenStop();
-			CallBackReturn SendBackPMML(string PMML);
+			CallBackReturn SendBackJson(string Json, const char *MethodName);
 
 			void SetObject(jobject Jobject);
 			jobject GetObject();
@@ -76,6 +77,7 @@ namespace BDapi
 			jmethodID m_MethodID;
 
 			SoftwareManager *p_SoftwarwManager;
+			BDDIJsonManager *p_BDDIJsonManager;
 
 			static CallBackManager *_CallBackManager;
 			// mutex for singleton pattern 
