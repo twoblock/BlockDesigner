@@ -75,7 +75,8 @@ libmanager_la_LIBADD =
 am__objects_1 = ExecutionManager.lo BDDIManager.lo \
 	ModuleListManager.lo ModuleLoader.lo ModuleConnector.lo \
 	BDPMDInitManager.lo PMMLGenerationManager.lo \
-	SignalTraceManager.lo SoftwareManager.lo CallBackManager.lo
+	SignalTraceManager.lo SoftwareManager.lo CallBackManager.lo \
+	BDDIJsonManager.lo
 am_libmanager_la_OBJECTS = $(am__objects_1)
 libmanager_la_OBJECTS = $(am_libmanager_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -318,7 +319,8 @@ H_FILES = \
 	PMMLGenerationManager.h \
 	SignalTraceManager.h \
 	SoftwareManager.h \
-	CallBackManager.h
+	CallBackManager.h \
+	BDDIJsonManager.h
 
 CXX_FILES = \
 	ExecutionManager.cpp \
@@ -330,7 +332,8 @@ CXX_FILES = \
 	PMMLGenerationManager.cpp \
 	SignalTraceManager.cpp \
 	SoftwareManager.cpp \
-	CallBackManager.cpp 
+	CallBackManager.cpp \
+	BDDIJsonManager.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -388,6 +391,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDDIJsonManager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDDIManager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDPMDInitManager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/CallBackManager.Plo@am__quote@

@@ -85,11 +85,10 @@ namespace BDapi
 		CallBackManager *p_CallBackManager = NULL;
 		p_CallBackManager = CallBackManager::GetInstance();
 
-		Return = p_CallBackManager->SendBackPMML(JsonFileOfPMModuleList);
+		Return = p_CallBackManager->SendBackJson(JsonFileOfPMModuleList, "ModuleInfoCallBack");
 		if(Return == CallBackError){
-			printf("SendBackPMML call back error\n");		
+			printf("SendBackJson call back error\n");		
 		}	
-
 
 		return JsonFileOfPMModuleList;
 	}
@@ -308,6 +307,17 @@ namespace BDapi
 	PMMLGenerationManager::PMMLGenerationManager()
 	{
 		p_ModuleLoader = new ModuleLoader();
+		Root.clear();
+		PMModuleList.clear();
+		Module.clear();
+		PortList.clear();
+		Port.clear();
+		ParameterList.clear();
+		Parameter.clear();
+		RegisterList.clear();
+		Register.clear();
+		MemoryMapList.clear();
+		MemoryMap.clear();
 	}
 
 	/*

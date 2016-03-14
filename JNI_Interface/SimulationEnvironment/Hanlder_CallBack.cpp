@@ -39,6 +39,16 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 	p_CallBackManager->SetObject(env->NewGlobalRef(ths));
 }
 
+JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_ResultListener(JNIEnv *env, jobject ths)
+{
+	jclass cls = env->GetObjectClass(ths);
+	jmethodID mid = env->GetMethodID(cls, "ResultCallBack", "()V");
+	if (mid == NULL) {
+		return; /*method not found*/
+	}
+	env->CallVoidMethod(ths, mid);
+}
+
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_ModuleInfoListener(JNIEnv *env, jobject ths)
 {
 	jclass cls = env->GetObjectClass(ths);

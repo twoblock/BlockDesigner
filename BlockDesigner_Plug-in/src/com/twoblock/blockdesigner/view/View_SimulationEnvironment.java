@@ -79,7 +79,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
 				System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", 
 				"","","");
-		Handler_Command.Command_Func(0, 2, "BD_SRAM","par","write","0","0x20000000");
+//		Handler_Command.Command_Func(0, 2, "BD_SRAM","par","write","0","0x20000000");
 		parent.setLayout(new GridLayout(11, false));
 
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
@@ -245,9 +245,9 @@ public class View_SimulationEnvironment extends ViewPart {
 	private JSONArray arr_ModuleData;
 	private JSONArray arr_ChannelInfo;
 
-	private ExpandBar expandBar;
-	private ArrayList<ExpandItem> Expanditem = new ArrayList<ExpandItem>();
-	private ArrayList<Composite> composite_ExpandItem = new ArrayList<Composite>();
+	private static ExpandBar expandBar;
+	private static ArrayList<ExpandItem> Expanditem = new ArrayList<ExpandItem>();
+	private static ArrayList<Composite> composite_ExpandItem = new ArrayList<Composite>();
 	private JSONObject obj_module;
 
 	private JSONArray jrr_Connection;
@@ -647,10 +647,13 @@ public class View_SimulationEnvironment extends ViewPart {
 	}
 	
 	
-	protected JSONArray arr_Result_ModuleList;
-	protected JSONObject obj_Result_Module;
-	protected JSONArray arr_reg_value;
-	protected JSONObject obj_reg_value;
+	protected static JSONArray arr_Result_ModuleList;
+	protected static JSONObject obj_Result_Module;
+	protected static JSONArray arr_reg_value;
+	protected static JSONObject obj_reg_value;
+	protected static Control[] ctrol_tables;
+	protected static Table tb_reg;
+	protected static Control[] Ctrol_reg_arg;
 	
 	public void SIM_Result(String sim_result){
 		System.err.println("===========================in Sim result=============");
@@ -663,22 +666,31 @@ public class View_SimulationEnvironment extends ViewPart {
 					obj = (JSONObject)parser.parse(sim_result);
 					jsonObject = (JSONObject) obj;
 					arr_Result_ModuleList = (JSONArray) jsonObject.get("SIM_Result");
+					String InstanceName=null;
 					String value=null;
 					
 					for (int refesh_index = 0; refesh_index < arr_Result_ModuleList.size(); refesh_index++) {
 						obj_Result_Module=(JSONObject)arr_Result_ModuleList.get(refesh_index);
 						arr_reg_value=(JSONArray)obj_Result_Module.get("register_value");
+						InstanceName = (String) obj_Result_Module.get("instance_name");
 						
-						Control[] ctrol_tables = composite_ExpandItem.get(refesh_index + 1).getChildren();
-						Table tb_reg = (Table)ctrol_tables[2];	// get reg table
-						Control[] Ctrol_reg_arg = tb_reg.getChildren();
-						
-						for(int reg_index=0; refesh_index<arr_reg_value.size(); reg_index++){
-							obj_reg_value = (JSONObject)arr_reg_value.get(reg_index);
-							value=(String)obj_reg_value.get("value");
+						for(int expandItem_index=1; expandItem_index<Expanditem.size(); expandItem_index++){
 							
-							Text text_reg = (Text)Ctrol_reg_arg[reg_index*2+1];
-							text_reg.setText(value);
+							if(InstanceName.equals(Expanditem.get(expandItem_index).getText())){
+								ctrol_tables = composite_ExpandItem.get(expandItem_index).getChildren();
+								tb_reg = (Table)ctrol_tables[2];	// get reg table
+								Ctrol_reg_arg = tb_reg.getChildren();
+								for (int reg_index = 0; reg_index < arr_reg_value.size(); reg_index++) {
+									
+									obj_reg_value = (JSONObject) arr_reg_value.get(reg_index);
+									value = (String) obj_reg_value.get("value");
+
+									if (value != null) {
+										Text text_reg = (Text) Ctrol_reg_arg[reg_index*2+1];
+										text_reg.setText(value);
+									}
+								}
+							}
 						}
 					}
 					

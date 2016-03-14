@@ -23,5 +23,6 @@
 #include "SignalTraceManager.h"
 #include "SoftwareManager.h"
 #include "CallBackManager.h"
+#include "BDDIJsonManager.h"
 
 #endif	// __ALLMANAGER_H__
