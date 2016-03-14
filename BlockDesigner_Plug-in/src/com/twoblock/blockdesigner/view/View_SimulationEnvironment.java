@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ExpandEvent;
+import org.eclipse.swt.events.ExpandListener;
+import org.eclipse.swt.events.GestureEvent;
+import org.eclipse.swt.events.GestureListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -17,6 +23,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ExpandBar;
@@ -60,19 +67,20 @@ public class View_SimulationEnvironment extends ViewPart {
 	private Text txtStep;
 	private Image imgStep_n;
 	public static Label lblCyclesCnt;
+
 	private void setViewState(int state) {
-		IWorkbenchPage page 
-                    = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		int currentState = page.getPartState(page.getReference(this));
-		if(currentState != state) {
+		if (currentState != state) {
 			page.activate(this);
 			page.setPartState(page.getReference(this), state);
 		}
 	}
+
 	public void createPartControl(Composite parent) {
 		Hanlder_CallBack.CallBack_Func();
 		parent.setLayout(new GridLayout(11, false));
-		
+
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
 		Image imgOpen = idOpen.createImage();
 		ImageDescriptor idSave = ImageDescriptor.createFromFile(this.getClass(), "/images/save_btn.png");
@@ -85,58 +93,54 @@ public class View_SimulationEnvironment extends ViewPart {
 		Image imgStep = idStep.createImage();
 		ImageDescriptor idStep_n = ImageDescriptor.createFromFile(this.getClass(), "/images/step_n_btn16.png");
 		imgStep_n = idStep_n.createImage();
-//		Image imgSave = new Image(null, "images/save_btn.png");
-//		Image imgRun = new Image(null, "images/run_btn.png");
-//		Image imgStop = new Image(null, "images/stop_btn.png");
-//		Image imgStep = new Image(null, "images/step_btn.png");
-//		Image imgStep_n = new Image(null, "images/step_n_btn.png");
-		
-		 
-		
-		
+		// Image imgSave = new Image(null, "images/save_btn.png");
+		// Image imgRun = new Image(null, "images/run_btn.png");
+		// Image imgStop = new Image(null, "images/stop_btn.png");
+		// Image imgStep = new Image(null, "images/step_btn.png");
+		// Image imgStep_n = new Image(null, "images/step_n_btn.png");
+
 		Button btnOpen = new Button(parent, SWT.NONE);
 		btnOpen.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		btnOpen.setImage(imgOpen);
-		
-		Button btnSave= new Button(parent, SWT.NONE);
+
+		Button btnSave = new Button(parent, SWT.NONE);
 		btnSave.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		btnSave.setImage(imgSave);
-		
+
 		Label sepBar1 = new Label(parent, SWT.SEPARATOR | SWT.CENTER);
 		sepBar1.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 2));
-		
+
 		Button btnRun = new Button(parent, SWT.NONE);
 		btnRun.setImage(imgRun);
-		
+
 		Button btnStop = new Button(parent, SWT.NONE);
 		btnStop.setImage(imgStop);
-		
+
 		Button btnStep = new Button(parent, SWT.NONE);
 		btnStep.setImage(imgStep);
-		
+
 		txtStep = new Text(parent, SWT.BORDER);
 		GridData txtStep_n = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
 		txtStep_n.widthHint = 50;
 		txtStep.setLayoutData(txtStep_n);
-		
+
 		Button btnStep_n = new Button(parent, SWT.NONE);
 		btnStep_n.setImage(imgStep_n);
-		
+
 		Label sepBar2 = new Label(parent, SWT.SEPARATOR | SWT.CENTER);
 		sepBar2.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 2));
-		
-		lblCyclesCnt = new Label(parent, SWT.BORDER|SWT.RIGHT);
-		GridData gd_label = new GridData(SWT.RIGHT,SWT.CENTER,false,false,1,1);
-		gd_label.widthHint=200;
+
+		lblCyclesCnt = new Label(parent, SWT.BORDER | SWT.RIGHT);
+		GridData gd_label = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd_label.widthHint = 200;
 		lblCyclesCnt.setLayoutData(gd_label);
 		lblCyclesCnt.setText("110254");
-//		lblCyclesCnt.setAlignment(SWT.CENTER);
-		
+		// lblCyclesCnt.setAlignment(SWT.CENTER);
+
 		Label lblCycles = new Label(parent, SWT.NONE);
 		lblCycles.setAlignment(SWT.CENTER);
 		lblCycles.setText("cycles");
 
-		
 		Label lblOpen = new Label(parent, SWT.NONE);
 		lblOpen.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblOpen.setText("Open");
@@ -144,25 +148,23 @@ public class View_SimulationEnvironment extends ViewPart {
 		Label lblSave = new Label(parent, SWT.NONE);
 		lblSave.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblSave.setText("Save");
-		
+
 		Label lblRun = new Label(parent, SWT.NONE);
 		lblRun.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblRun.setText("Run");
-		
+
 		Label lblStop = new Label(parent, SWT.NONE);
 		lblStop.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblStop.setText("Stop");
-		
+
 		Label lblStep = new Label(parent, SWT.NONE);
 		lblStep.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblStep.setText("Step");
-		
-		
+
 		Label lblStep_n = new Label(parent, SWT.NONE);
 		lblStep_n.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblStep_n.setText("n Step");
-		
-		
+
 		/* START--- Button Listener & Action --- */
 		btnOpen.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -175,96 +177,106 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Handler_Command.Command_Func(0, 1, "SAVE", "NULL", "NULL", "NULL", "NULL");
-//				Hanlder_CallBack.CallBack_Func();
+				// Hanlder_CallBack.CallBack_Func();
 			}
 		});
 		btnRun.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
+//				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
 				btnStep.setEnabled(false);
 				btnStep_n.setEnabled(false);
 				btnRun.setEnabled(false);
+				
+				SetTableState(false);
+				
 			}
 		});
 		btnStop.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				Handler_Command.Command_Func(0, 1, "STOP", "NULL", "NULL", "NULL", "NULL");
+//				Handler_Command.Command_Func(0, 1, "STOP", "NULL", "NULL", "NULL", "NULL");
 				btnStep.setEnabled(true);
 				btnStep_n.setEnabled(true);
 				btnRun.setEnabled(true);
+
+				SetTableState(true);
 			}
 		});
 		btnStep.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				Handler_Command.Command_Func(0, 1, "STEP", "1", "NULL", "NULL", "NULL");
+//				Handler_Command.Command_Func(0, 1, "STEP", "1", "NULL", "NULL", "NULL");
 			}
 		});
 		btnStep_n.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				Handler_Command.Command_Func(0, 1, "STEP",txtStep.getText(), "NULL", "NULL", "NULL");
+//				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
 				btnStep.setEnabled(false);
 				btnStep_n.setEnabled(false);
 				btnRun.setEnabled(false);
+				
+				SetTableState(false);
 			}
 		});
 		/* --- Button Listener & Action ---END */
-		
-		
-//		Canvas canvas = new Canvas(parent, SWT.NONE);
-//		canvas.setBackground(canvas.getDisplay().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT)); 
-//		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 11, 1));
-//		
+
+		// Canvas canvas = new Canvas(parent, SWT.NONE);
+		// canvas.setBackground(canvas.getDisplay().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
+		// canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 11,
+		// 1));
+		//
 		Composite composite = new Composite(parent, SWT.BORDER);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 11, 1));
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
-		
+
 		ChannelInfoSet(composite);
 	}
-	
+
 	private Device device = Display.getCurrent();
 	private Color color_gray = new Color(device, 150, 150, 150);
-//	private Color color_skyblue = new Color(device, 204, 204, 255);
+	// private Color color_skyblue = new Color(device, 204, 204, 255);
 	private Object obj;
 	private JSONParser parser = new JSONParser();
 	private JSONObject jsonObject;
 	private JSONObject obj_BDPMD;
 	private JSONArray arr_ModuleData;
 	private JSONArray arr_ChannelInfo;
-	
+
 	private ExpandBar expandBar;
 	private ArrayList<ExpandItem> Expanditem = new ArrayList<ExpandItem>();
 	private ArrayList<Composite> composite_ExpandItem = new ArrayList<Composite>();
 	private JSONObject obj_module;
-	
+
 	private JSONArray jrr_Connection;
 	private JSONObject obj_Connection;
 	private JSONObject obj_Connection_info;
-	
-//	private JSONArray jrr_HCLK_connection;
-//	private JSONObject obj_HCLK;
-//	private JSONObject obj_HCLK_info;
-//	
-//	private JSONArray jrr_HRESETn_connection;
-//	private JSONObject obj_HRESETn;
-//	private JSONObject obj_HRESETn_info;
-	
+
+	// private JSONArray jrr_HCLK_connection;
+	// private JSONObject obj_HCLK;
+	// private JSONObject obj_HCLK_info;
+	//
+	// private JSONArray jrr_HRESETn_connection;
+	// private JSONObject obj_HRESETn;
+	// private JSONObject obj_HRESETn_info;
+
 	private JSONObject obj_module_info;
 	private Table table_channel;
 	private Table table_port;
 	private Table table_par;
 	private Table table_reg;
-	
+
 	private JSONArray arr_port_info;
 	private JSONArray arr_par_info;
 	private JSONArray arr_reg_info;
 	private JSONObject obj_port;
 	private JSONObject obj_par;
 	private JSONObject obj_reg;
-	
+	private int par_index;
+	private int ModuleInfoIndex;
+	private int reg_index;
+
 	protected void ChannelInfoSet(final Composite composite){
 		try {
 			obj = parser.parse(new FileReader(System.getProperty("user.home")+"/BlockDesigner/testmodule.BDPMD"));
@@ -278,6 +290,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 		expandBar = new ExpandBar(composite, SWT.V_SCROLL);
+		
 		
 		Expanditem.add(0,new ExpandItem(expandBar, SWT.NONE));
 		Expanditem.get(0).setExpanded(true);
@@ -372,7 +385,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		Expanditem.get(0).setHeight(150);
 
 		
-		int ModuleInfoIndex;
+		ModuleInfoIndex=0;
 		for(ModuleInfoIndex=0; ModuleInfoIndex<arr_ModuleData.size(); ModuleInfoIndex++ )
 		{
 			Expanditem.add(new ExpandItem(expandBar, SWT.NONE));
@@ -474,7 +487,7 @@ public class View_SimulationEnvironment extends ViewPart {
 
 				TableItem[] items_par = table_par.getItems();
 
-				for (int par_index = 0; par_index < items_par.length; par_index++) {
+				for (par_index = 0; par_index < items_par.length; par_index++) {
 					obj_par = (JSONObject) arr_par_info.get(par_index);
 
 					TableEditor editor_par_table = new TableEditor(table_par);
@@ -492,13 +505,21 @@ public class View_SimulationEnvironment extends ViewPart {
 					txt_ParValue.setText((String) obj_par.get("default_value"));
 					editor_par_table.grabHorizontal = true;
 					editor_par_table.setEditor(txt_ParValue, items_par[par_index], 1);
-					txt_ParValue.addListener(SWT.FocusOut, new Listener() {
+					txt_ParValue.addListener(SWT.FOCUSED, new Listener() {
 						@Override
 						public void handleEvent(Event arg0) {
 							// TODO Auto-generated method stub
-							System.err.println("0/2/");
-//							Handler_Command.Command_Func(0, 2, "STEP",txtStep.getText(), "NULL", "NULL", "NULL");
-//							Handler_Command.Command_Func(0, 2, instance name ,0, 0, register index, value);
+							txt_ParValue.selectAll();
+						}
+					});
+					txt_ParValue.addListener(SWT.FocusOut, new Listener() {
+						final int table_par_index = par_index;
+						final String module_name = Expanditem.get(ModuleInfoIndex + 1).getText();
+						@Override
+						public void handleEvent(Event arg0) {
+							// TODO Auto-generated method stub
+							System.err.println("0/2/"+module_name+"/par/write/"+table_par_index+"/"+txt_ParValue.getText());
+//							Handler_Command.Command_Func(0, 2, module_name ,"par", "write", table_par_index+"", txt_ParValue.getText());
 						}
 					});
 				}
@@ -528,8 +549,9 @@ public class View_SimulationEnvironment extends ViewPart {
 				}
 
 				TableItem[] items_reg = table_reg.getItems();
-
-				for (int reg_index = 0; reg_index < items_reg.length; reg_index++) {
+				
+				reg_index = 0;
+				for (reg_index = 0; reg_index < items_reg.length; reg_index++) {
 					obj_reg = (JSONObject) arr_reg_info.get(reg_index);
 
 					TableEditor editor_reg_table = new TableEditor(table_reg);
@@ -546,17 +568,72 @@ public class View_SimulationEnvironment extends ViewPart {
 					txt_regValue.setTouchEnabled(true);
 					editor_reg_table.grabHorizontal = true;
 					editor_reg_table.setEditor(txt_regValue, items_reg[reg_index], 1);
+					txt_regValue.addListener(SWT.FOCUSED, new Listener() {
+						
+						@Override
+						public void handleEvent(Event arg0) {
+							// TODO Auto-generated method stub
+							txt_regValue.selectAll();
+						}
+					});
+					
+					txt_regValue.addListener(SWT.FocusOut, new Listener() {
+						final int table_reg_index = reg_index;
+						final String module_name = Expanditem.get(ModuleInfoIndex + 1).getText();
+						@Override
+						public void handleEvent(Event arg0) {
+							// TODO Auto-generated method stub
+							System.err.println("0/2/"+module_name+"/reg/write/"+table_reg_index+"/"+txt_regValue.getText());
+//							Handler_Command.Command_Func(0, 2, module_name ,"reg", "write", table_reg_index"", txt_regValue.getText());
+						}
+					});
 				}
 			}
 			Expanditem.get(ModuleInfoIndex + 1).setHeight(150);
 		}
+
+//		expandBar.getVerticalBar().addListener(SWT.Selection, new Listener() {
+//			@Override
+//			public void handleEvent(Event arg0) {
+//				// TODO Auto-generated method stub
+//				for (int i = 0; i < expandBar.getItemCount(); i++) {
+//					expandBar.getItem(i).setHeight(150);
+//					Control ctrol = expandBar.getItem(i).getControl();
+//						ctrol.redraw();
+//						ctrol.update();
+//						ctrol.pack();
+//						System.err.println("11");
+//					
+//				}
+//			}
+//		});
 	}
-	
+
 	public static String padRight(String s, int n) {
-	     return String.format("%1$-" + n + "s", s);  
+		return String.format("%1$-" + n + "s", s);
 	}
-	
+
 	public void setFocus() {
 		setViewState(1);
+	}
+	void SetTableState(Boolean state){
+		for(int moduleindex=1; moduleindex< composite_ExpandItem.size(); moduleindex++){
+			Control[] ctrol_tables = composite_ExpandItem.get(moduleindex).getChildren();
+			Table tb_par = (Table)ctrol_tables[1];	// get par table
+			Table tb_reg = (Table)ctrol_tables[2];	// get reg table
+			
+			Control[] Ctrol_par_arg = tb_par.getChildren();
+			Control[] Ctrol_reg_arg = tb_reg.getChildren();
+			
+			for(int i=0; i<Ctrol_par_arg.length/2;i++){
+				Text text_par = (Text)Ctrol_par_arg[i*2+1];
+				text_par.setEnabled(state);
+			}
+			
+			for(int j=0; j<Ctrol_reg_arg.length/2;j++){
+				Text text_reg = (Text)Ctrol_reg_arg[j*2+1];
+				text_reg.setEnabled(state);
+			}
+		}
 	}
 }
