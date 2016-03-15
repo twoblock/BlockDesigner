@@ -36,8 +36,10 @@ public class Hanlder_CallBack {
 //		System.out.println("cycle = "+cycle);
 //		View_SimulationEnvironment.lblCyclesCnt.setText(""+cycle);
 	}
-	private void StatusCallBack(int status) {
-		//System.out.println("Status = "+status);
+	private void StatusCallBack(int state) {
+		System.out.println("STATE = "+state);
+		View_SimulationEnvironment bc = new View_SimulationEnvironment();
+		bc.Btn_Control(state);
 	}
 	private void OutputCallBack() {
 		System.out.println("receive Output");
