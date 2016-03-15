@@ -38,6 +38,10 @@ namespace BDapi
 	void Step();
 	void Stop();
 
+	void StartCallBack();
+	void StopCallBack();
+	void CycleCallBack(int Status);
+
 	extern long long glw_Cycle;
 } 
 

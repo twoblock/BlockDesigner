@@ -16,6 +16,7 @@
 #include "../manager/SoftwareManager.h"
 
 #define	 SECOND_UNIT(X)		((X)*1000000)
+#define	 CYCLE_DISPLAY_UNIT 1371
 
 namespace BDapi
 {
@@ -50,10 +51,7 @@ namespace BDapi
 		p_SoftwareManager = SoftwareManager::GetInstance();	
 		p_CallBackManager = CallBackManager::GetInstance();
 
-		//Return = p_CallBackManager->SendBackAllWhenStart();
-		//if(Return == CallBackError){
-		//printf("Start CallBack error\n");		
-		//}	
+		StartCallBack();
 
 		while(1){
 			dw_SimControl = ExecutionManager::GetExecutionFlag();
@@ -84,12 +82,7 @@ namespace BDapi
 			}
 
 			if(sc_is_running() == false){
-				Return = p_CallBackManager->SendBackAllWhenStop();
-				if(Return == CallBackError){
-					printf("Stop CallBack error\n");		
-				}	
-				ExecutionManager::SetExecutionFlag(NOTHING);
-
+				Stop();
 				return -1; // Exit
 			}
 		}
@@ -107,12 +100,8 @@ namespace BDapi
 		// Get pc value
 		p_SoftwareManager->PCAnalyzer();	
 
-		// cycle
 		glw_Cycle++;
-		p_CallBackManager->SendBackLongLong(glw_Cycle, "CycleCallBack");
-		if(Return == CallBackError){
-			printf("Cycle CallBack error\n");		
-		}
+		CycleCallBack(RUN);
 	}
 
 	/*
@@ -130,22 +119,14 @@ namespace BDapi
 			// Get pc value
 			p_SoftwareManager->PCAnalyzer();	
 
-			// cycle
 			glw_Cycle++;
-			p_CallBackManager->SendBackLongLong(glw_Cycle, "CycleCallBack");
-			if(Return == CallBackError){
-				printf("Cycle CallBack error\n");		
-			}
+			CycleCallBack(STEP);
+
 			dw_StepValue -= 10;
 			ExecutionManager::SetStepValue(dw_StepValue);
 		}
 		else{
-			Return = p_CallBackManager->SendBackAllWhenStop();
-			if(Return == CallBackError){
-				printf("Stop CallBack error\n");		
-			}
-
-			ExecutionManager::SetExecutionFlag(NOTHING);
+			Stop();
 		}
 	}
 
@@ -156,12 +137,42 @@ namespace BDapi
 	 */
 	void Stop()
 	{
+		StopCallBack();
+		CycleCallBack(STOP);
+		ExecutionManager::SetExecutionFlag(NOTHING);
+	}
+
+	void StartCallBack()
+	{
+		Return = p_CallBackManager->SendBackAllWhenStart();
+		if(Return == CallBackError){
+			printf("Start CallBack error\n");		
+		}	
+	}
+
+	void StopCallBack()
+	{
 		Return = p_CallBackManager->SendBackAllWhenStop();
 		if(Return == CallBackError){
 			printf("Stop CallBack error\n");		
-		}	
+		}
+	}
 
-		ExecutionManager::SetExecutionFlag(NOTHING);
+	void CycleCallBack(int Status)
+	{
+		bool b_Check = false;
+
+		if(Status == STOP)
+			b_Check = true;
+		else
+			b_Check = ((glw_Cycle % CYCLE_DISPLAY_UNIT) == 0);	
+
+		if(b_Check){
+			p_CallBackManager->SendBackLongLong(glw_Cycle, "CycleCallBack");
+			if(Return == CallBackError){
+				printf("Cycle CallBack error\n");		
+			}
+		}
 	}
 }
 
