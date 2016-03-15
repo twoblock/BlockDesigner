@@ -51,7 +51,7 @@ namespace BDapi
 		p_SoftwareManager = SoftwareManager::GetInstance();	
 		p_CallBackManager = CallBackManager::GetInstance();
 
-		StartCallBack();
+		//StartCallBack();
 
 		while(1){
 			dw_SimControl = ExecutionManager::GetExecutionFlag();
