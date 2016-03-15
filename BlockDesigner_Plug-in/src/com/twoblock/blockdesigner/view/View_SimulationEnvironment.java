@@ -65,11 +65,11 @@ public class View_SimulationEnvironment extends ViewPart {
 	protected Shell parent;
 	private Text txtStep;
 	private Image imgStep_n;
-	private Button btnRun;
-	private Button btnStop;
-	private Button btnStep;
-	private Button btnStep_n;
-	public static Label lblCyclesCnt;
+	private static Button btnRun;
+	private static Button btnStop;
+	private static Button btnStep;
+	private static Button btnStep_n;
+	private static Label lblCyclesCnt;
 	public static Display display = null;
 
 	private void setViewState(int state) {
@@ -146,8 +146,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		GridData gd_label = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
 		gd_label.widthHint = 200;
 		lblCyclesCnt.setLayoutData(gd_label);
-		lblCyclesCnt.setText("110254");
-		// lblCyclesCnt.setAlignment(SWT.CENTER);
+		lblCyclesCnt.setText("0");
 
 		Label lblCycles = new Label(parent, SWT.NONE);
 		lblCycles.setAlignment(SWT.CENTER);
@@ -718,19 +717,40 @@ public class View_SimulationEnvironment extends ViewPart {
 		 * state 2 : step 
 		 * state 3 : stop
 		 */
-		switch (state) {
-		case 1:
-			btnStop.setEnabled(true);
-			btnStep.setEnabled(false);
-			btnStep_n.setEnabled(false);
-			btnRun.setEnabled(false);
-			break;
-		case 3:
-			btnStop.setEnabled(false);
-			btnStep.setEnabled(true);
-			btnStep_n.setEnabled(true);
-			btnRun.setEnabled(true);
-			break;
-		}
+		display.asyncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				switch (state) {
+				case 1:
+					System.err.println("RUN");
+					btnStop.setEnabled(true);
+					btnStep.setEnabled(false);
+					btnStep_n.setEnabled(false);
+					btnRun.setEnabled(false);
+					SetTableState(false);
+					break;
+				case 3:
+					System.err.println("STOP");
+					btnStop.setEnabled(false);
+					btnStep.setEnabled(true);
+					btnStep_n.setEnabled(true);
+					btnRun.setEnabled(true);
+					SetTableState(true);
+					break;
+				}
+			}
+		});
+	}
+
+	public void Cycle_Setter(long cycles){
+		display.asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				lblCyclesCnt.setText(""+cycles);
+			}
+		});
 	}
 }
