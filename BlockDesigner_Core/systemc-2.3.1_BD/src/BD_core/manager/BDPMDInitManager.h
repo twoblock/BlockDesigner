@@ -63,6 +63,7 @@ namespace BDapi
 			BDPMDReturnStatus ParsingChannelInformation(unsigned int Index, ChannelInfo* ChannelObject);
 			BDPMDReturnStatus ParsingConnectionInformation(unsigned int PIndex, unsigned int CIndex, BindingInfo* BindingObject);
 
+			void SetDefaultParValue();
 			void SetMemoryMap();
 			void SetCPUInfo();
 
@@ -84,6 +85,7 @@ namespace BDapi
 			Json::Value InfoRoot;
 			Json::Value InfoChannel;
 			Json::Value InfoModule;
+			Json::Value InfoPar;
 			Json::Value InfoMemoryMap;
 			Json::Value InfoSlave;
 

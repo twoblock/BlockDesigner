@@ -37,6 +37,7 @@ namespace BDapi
 
 		LoadModules();
 		ConnectModules();
+		SetDefaultParValue();
 		SetMemoryMap();
 		//set cpu connection informations to load software
 		SetCPUInfo();
@@ -198,6 +199,34 @@ namespace BDapi
 			BindingObject->ChannelName = InfoChannel[PIndex]["name"].asCString();
 
 			return BDPMDReturnStatusOk;
+		}
+	}
+
+	void BDPMDInitManager::SetDefaultParValue()
+	{
+		unsigned int dw_ModuleNum = 0;
+		unsigned int dw_ModuleIndex = 0;
+
+		unsigned int dw_ParNum = 0;
+		unsigned int dw_ParIndex = 0;
+
+		char a_ModuleInstanceName[256] = {0,};
+
+		sc_module *p_SCmodule= NULL;
+
+		dw_ModuleNum = InfoModule.size();
+
+		for(dw_ModuleIndex = 0; dw_ModuleIndex < dw_ModuleNum; dw_ModuleIndex++)	{
+			strcpy(a_ModuleInstanceName, InfoModule[dw_ModuleIndex]["module_info"]["instance_name"].asCString());
+			p_SCmodule = p_ModuleListManager->FindModule(a_ModuleInstanceName);
+
+			InfoPar = InfoModule[dw_ModuleIndex]["module_info"]["parameter"];
+
+			dw_ParNum = InfoPar.size();
+
+			for(dw_ParIndex = 0; dw_ParIndex < dw_ParNum; dw_ParIndex++)	{
+				p_SCmodule->GetBDDI()->BDDISetParameterValues(dw_ParIndex, InfoPar[dw_ParIndex]["default_value"].asCString());
+			}
 		}
 	}
 
