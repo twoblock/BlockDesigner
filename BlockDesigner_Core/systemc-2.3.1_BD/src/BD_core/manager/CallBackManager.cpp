@@ -54,43 +54,64 @@ namespace BDapi
 		p_SoftwareProfiler->GetJsonOfProfilingTable();	
 		p_SoftwareProfiler->GetJsonOfFunctionFlowGragh();
 		SendBackJson(p_BDDIJsonManager->GenerateBDDIJsonFile(), "ResultCallBack");
-
+		SendBackInt(STOP, "StatusCallBack");
 		return CallBackOK;
 	}
 
 	CallBackReturn CallBackManager::SendBackJson(string Json, const char *MethodName)
 	{
-		printf("SendBackJson func - MethodName : %s\n", MethodName);
+		SetEnv();	
+		jmethodID m_MethodID;
+		m_MethodID = m_Env->GetMethodID(m_Env->GetObjectClass(m_Jobject), MethodName, "(Ljava/lang/String;)V");
 
-		JNIEnv *p_Env = NULL;
+		if(m_MethodID == NULL){
+			return CallBackError; /*method not found*/
+		}
+		jstring string = m_Env->NewStringUTF(Json.c_str());
+		m_Env->CallVoidMethod(m_Jobject, m_MethodID, string);
+		return CallBackOK;
+	}
 
-		int getEnvStat = m_JVM->GetEnv((void **)&p_Env, JNI_VERSION_1_6);
+
+	CallBackReturn CallBackManager::SendBackLongLong(long long LongLong, const char *MethodName)
+	{
+		SetEnv();	
+		jmethodID m_MethodID;
+		m_MethodID = m_Env->GetMethodID(m_Env->GetObjectClass(m_Jobject), MethodName, "(J)V");
+
+		if(m_MethodID == NULL){
+			return CallBackError; /*method not found*/
+		}
+		m_Env->CallVoidMethod(m_Jobject, m_MethodID, LongLong);
+		return CallBackOK;
+	}
+
+	CallBackReturn CallBackManager::SendBackInt(int Integer, const char *MethodName)
+	{
+		SetEnv();	
+		jmethodID m_MethodID;
+		m_MethodID = m_Env->GetMethodID(m_Env->GetObjectClass(m_Jobject), MethodName, "(I)V");
+
+		if(m_MethodID == NULL){
+			return CallBackError; /*method not found*/
+		}
+		m_Env->CallVoidMethod(m_Jobject, m_MethodID, Integer);
+		return CallBackOK;
+	}
+
+	void CallBackManager::SetEnv()
+	{
+		int getEnvStat = m_JVM->GetEnv((void **)&m_Env, JNI_VERSION_1_6);
 		if (getEnvStat == JNI_EDETACHED) {
 			printf("GetEnv: not attached\n");
-			if (m_JVM->AttachCurrentThread((void **) &p_Env, NULL) != 0) {
+			if (m_JVM->AttachCurrentThread((void **) &m_Env, NULL) != 0) {
 				printf("Failed to attach\n");
-				return CallBackError;
 			}
 		} else if (getEnvStat == JNI_OK) {
 			//
 		} else if (getEnvStat == JNI_EVERSION) {
 			printf("GetEnv: version not supported\n");
-			return CallBackError;
 		}
-
-		jmethodID m_MethodID;
-		m_MethodID = p_Env->GetMethodID(p_Env->GetObjectClass(m_Jobject), MethodName, "(Ljava/lang/String;)V");
-
-		jstring string = p_Env->NewStringUTF(Json.c_str());
-		p_Env->CallVoidMethod(m_Jobject, m_MethodID, string);
-
-		if (p_Env->ExceptionCheck()) {
-			p_Env->ExceptionDescribe();
-		}
-
-		m_JVM->DetachCurrentThread();
-
-		return CallBackOK;
 	}
 
 	void CallBackManager::SetJVM(JavaVM* JVM)
@@ -156,6 +177,7 @@ namespace BDapi
 	 */
 	CallBackManager::CallBackManager()
 	{
+		m_Env = NULL;
 		p_SoftwarwManager = SoftwareManager::GetInstance();
 		p_BDDIJsonManager = BDDIJsonManager::GetInstance();
 	}
@@ -166,5 +188,6 @@ namespace BDapi
 	 */
 	CallBackManager::~CallBackManager()
 	{
+		m_JVM->DetachCurrentThread();
 	}
 }

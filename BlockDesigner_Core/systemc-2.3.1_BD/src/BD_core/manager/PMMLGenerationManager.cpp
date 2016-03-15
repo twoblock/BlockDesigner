@@ -223,7 +223,7 @@ namespace BDapi
 				sprintf(a_Temp, "%d", (int)pst_ParInfo[dw_Index].Type);	
 				Parameter["type"] = a_Temp;
 				Parameter["value"] = pst_ParInfo[dw_Index].Value;
-				ParameterList.append(Parameter);
+				ParameterList[dw_Index] = Parameter;
 			}
 
 			/********************************************
@@ -239,7 +239,7 @@ namespace BDapi
 				Register["bits_wide"] = a_Temp;
 				sprintf(a_Temp, "%d", (int)pst_RegInfo[dw_Index].Type);	
 				Register["type"] = a_Temp;
-				RegisterList.append(Register);
+				RegisterList[dw_Index] = Register;
 			}	
 
 			/********************************************

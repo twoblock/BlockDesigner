@@ -51,7 +51,7 @@ namespace BDapi
 
 		//Return = p_CallBackManager->SendBackAllWhenStart();
 		//if(Return == CallBackError){
-			//printf("Start CallBack error\n");		
+		//printf("Start CallBack error\n");		
 		//}	
 
 		while(1){
@@ -98,14 +98,22 @@ namespace BDapi
 	 */
 	void Run()
 	{
+		CallBackReturn Return;
+		CallBackManager *p_CallBackManager = NULL;
+		p_CallBackManager = CallBackManager::GetInstance();
+
 		sc_start(10, SC_NS);
 
-			// Get pc value
+		// Get pc value
 		SoftwareManager *p_SoftwareManager = NULL;
 		p_SoftwareManager = SoftwareManager::GetInstance();	
 		p_SoftwareManager->PCAnalyzer();	
 
 		glw_Cycle++;
+		p_CallBackManager->SendBackLongLong(glw_Cycle, "CycleCallBack");
+		if(Return == CallBackError){
+			printf("Cycle CallBack error\n");		
+		}
 	}
 
 	/*
@@ -118,19 +126,35 @@ namespace BDapi
 		int dw_StepValue = 0;
 		dw_StepValue = ExecutionManager::GetStepValue();
 
+		// Stop Call Back
+			CallBackReturn Return;
+			CallBackManager *p_CallBackManager = NULL;
+			p_CallBackManager = CallBackManager::GetInstance();
+
 		if(dw_StepValue != 0){
 			sc_start(10, SC_NS);
-		
+
 			// Get pc value
 			SoftwareManager *p_SoftwareManager = NULL;
 			p_SoftwareManager = SoftwareManager::GetInstance();	
 			p_SoftwareManager->PCAnalyzer();	
 
 			glw_Cycle++;
+			p_CallBackManager->SendBackLongLong(glw_Cycle, "CycleCallBack");
+			if(Return == CallBackError){
+				printf("Cycle CallBack error\n");		
+			}
+
 			dw_StepValue -= 10;
 			ExecutionManager::SetStepValue(dw_StepValue);
 		}
 		else{
+
+			Return = p_CallBackManager->SendBackAllWhenStop();
+			if(Return == CallBackError){
+				printf("Stop CallBack error\n");		
+			}
+
 			ExecutionManager::SetExecutionFlag(NOTHING);
 		}
 	}
@@ -153,7 +177,7 @@ namespace BDapi
 		}	
 
 		//SoftwareManager *p_SoftwareManager = NULL;
-	  //p_SoftwareManager = SoftwareManager::GetInstance();	
+		//p_SoftwareManager = SoftwareManager::GetInstance();	
 		//p_SoftwareManager->DisplayAssemblyCode();	
 		//p_SoftwareManager->DisplayProfilingData();	
 
