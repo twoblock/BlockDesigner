@@ -75,6 +75,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 		CallBackManager *p_CallBackManager = NULL;
 		p_CallBackManager = CallBackManager::GetInstance();	
 		p_CallBackManager->SetJVM(vm);
+		//p_CallBackManager->SetEnv();
  
     return JNI_VERSION_1_6;
 }

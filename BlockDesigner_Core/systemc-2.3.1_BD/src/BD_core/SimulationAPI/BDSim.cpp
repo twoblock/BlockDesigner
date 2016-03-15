@@ -19,6 +19,9 @@
 
 namespace BDapi
 {
+	SoftwareManager *p_SoftwareManager = NULL;
+	CallBackManager *p_CallBackManager = NULL;
+	CallBackReturn Return = CallBackOK;
 	long long glw_Cycle = 0;
 
 	/*
@@ -44,14 +47,12 @@ namespace BDapi
 		fp = popen("shmidcat wave.vcd | gtkwave -v -I /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.gtkw", "r");	
 		if(fp == NULL) printf("\n\033[31m Error : Can not open GTKWAVE\033[0m\n");
 
-		// Start Call Back
-		//CallBackReturn Return;
-		//CallBackManager *p_CallBackManager = NULL;
-		//p_CallBackManager = CallBackManager::GetInstance();
+		p_SoftwareManager = SoftwareManager::GetInstance();	
+		p_CallBackManager = CallBackManager::GetInstance();
 
 		//Return = p_CallBackManager->SendBackAllWhenStart();
 		//if(Return == CallBackError){
-			//printf("Start CallBack error\n");		
+		//printf("Start CallBack error\n");		
 		//}	
 
 		while(1){
@@ -83,6 +84,10 @@ namespace BDapi
 			}
 
 			if(sc_is_running() == false){
+				Return = p_CallBackManager->SendBackAllWhenStop();
+				if(Return == CallBackError){
+					printf("Stop CallBack error\n");		
+				}	
 				ExecutionManager::SetExecutionFlag(NOTHING);
 
 				return -1; // Exit
@@ -99,13 +104,15 @@ namespace BDapi
 	void Run()
 	{
 		sc_start(10, SC_NS);
-
-			// Get pc value
-		SoftwareManager *p_SoftwareManager = NULL;
-		p_SoftwareManager = SoftwareManager::GetInstance();	
+		// Get pc value
 		p_SoftwareManager->PCAnalyzer();	
 
+		// cycle
 		glw_Cycle++;
+		p_CallBackManager->SendBackLongLong(glw_Cycle, "CycleCallBack");
+		if(Return == CallBackError){
+			printf("Cycle CallBack error\n");		
+		}
 	}
 
 	/*
@@ -120,17 +127,24 @@ namespace BDapi
 
 		if(dw_StepValue != 0){
 			sc_start(10, SC_NS);
-		
 			// Get pc value
-			SoftwareManager *p_SoftwareManager = NULL;
-			p_SoftwareManager = SoftwareManager::GetInstance();	
 			p_SoftwareManager->PCAnalyzer();	
 
+			// cycle
 			glw_Cycle++;
+			p_CallBackManager->SendBackLongLong(glw_Cycle, "CycleCallBack");
+			if(Return == CallBackError){
+				printf("Cycle CallBack error\n");		
+			}
 			dw_StepValue -= 10;
 			ExecutionManager::SetStepValue(dw_StepValue);
 		}
 		else{
+			Return = p_CallBackManager->SendBackAllWhenStop();
+			if(Return == CallBackError){
+				printf("Stop CallBack error\n");		
+			}
+
 			ExecutionManager::SetExecutionFlag(NOTHING);
 		}
 	}
@@ -142,20 +156,10 @@ namespace BDapi
 	 */
 	void Stop()
 	{
-		// Stop Call Back
-		CallBackReturn Return;
-		CallBackManager *p_CallBackManager = NULL;
-		p_CallBackManager = CallBackManager::GetInstance();
-
 		Return = p_CallBackManager->SendBackAllWhenStop();
 		if(Return == CallBackError){
 			printf("Stop CallBack error\n");		
 		}	
-
-		//SoftwareManager *p_SoftwareManager = NULL;
-	  //p_SoftwareManager = SoftwareManager::GetInstance();	
-		//p_SoftwareManager->DisplayAssemblyCode();	
-		//p_SoftwareManager->DisplayProfilingData();	
 
 		ExecutionManager::SetExecutionFlag(NOTHING);
 	}

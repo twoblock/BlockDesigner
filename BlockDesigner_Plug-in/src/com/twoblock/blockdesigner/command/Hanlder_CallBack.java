@@ -18,7 +18,7 @@ public class Hanlder_CallBack {
 	public int status;
 	public String message;
 	public int errorcode;
-	
+	View_SimulationEnvironment VSE = new View_SimulationEnvironment();
 	public Hanlder_CallBack() {}
 	
 	
@@ -33,19 +33,18 @@ public class Hanlder_CallBack {
 	
 	/* --- Define Callback method --- */
 	private void CycleCallBack(long cycle) {
-//		System.out.println("cycle = "+cycle);
-//		View_SimulationEnvironment.lblCyclesCnt.setText(""+cycle);
+		VSE.Cycle_Setter(cycle);
 	}
-	private void StatusCallBack(int status) {
-		//System.out.println("Status = "+status);
+	private void StatusCallBack(int state) {
+		System.out.println("STATE = "+state);
+		VSE.Btn_Control(state);
 	}
 	private void OutputCallBack() {
 		System.out.println("receive Output");
 	}
 	private void ResultCallBack(String sim_result){
 		System.err.println(sim_result);
-		View_SimulationEnvironment sm = new View_SimulationEnvironment();
-		sm.SIM_Result(sim_result);
+		VSE.SIM_Result(sim_result);
 	}
 	private void ModuleInfoCallBack(String pmml) {
 		System.err.println(pmml);
