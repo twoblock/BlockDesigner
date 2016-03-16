@@ -37,6 +37,7 @@ class AHBL2MEM_BDDI : public BDDIBase
 		AHBL2MEM *p_Target;
 		BDDIRegInfo *pst_OutRegInfo;
 		BDDIParInfo *pst_OutParInfo;
+		sc_module* p_Module;
 };
 
 #endif	// __AHBL2MEM_BDDI_H__

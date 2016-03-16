@@ -53,9 +53,25 @@ namespace BDapi
 
 		Json::StyledWriter writer;
 		JsonFileOfBDDI = writer.write(Root);
-		cout<< endl << "JSON WriteTest" << endl << JsonFileOfBDDI << endl; 
+		//cout<< endl << "JSON WriteTest" << endl << JsonFileOfBDDI << endl; 
 
 		return JsonFileOfBDDI;
+	}
+
+	string BDDIJsonManager::GenerateMemoryViewJsonFile()
+	{
+		MemoryViewRoot.clear();
+		MemoryViewList.clear();
+
+		AddMemoryViewInformation();
+
+		MemoryViewRoot["MemoryView"] = MemoryViewList;
+
+		Json::StyledWriter writer;
+		JsonFileOfMemoryView = writer.write(MemoryViewRoot);
+		cout<< endl << "MemoryView WriteTest" << endl << JsonFileOfMemoryView << endl; 
+
+		return JsonFileOfMemoryView;
 	}
 
 	void BDDIJsonManager::AddRegisterValueInformation()
@@ -74,18 +90,18 @@ namespace BDapi
 		/********************************************
 		 * Iterate sc_modules in sc_module list
 		 ********************************************/
-		for(IndexOfModule = FirstModule; IndexOfModule != LastModule; ++IndexOfModule){  		
+		for(IndexOfModule = FirstModule; IndexOfModule != LastModule; ++IndexOfModule)	{  		
 			p_SCmodule = (*IndexOfModule);
 
 			dw_RegNum = p_SCmodule->GetBDDI()->BDDIGetModuleTotalRegNum();		
 
-			for(dw_Index = 0; dw_Index < dw_RegNum; dw_Index++){
+			for(dw_Index = 0; dw_Index < dw_RegNum; dw_Index++)	{
 				memset(a_TempBuf, 0, sizeof(a_TempBuf));				
 
 				p_SCmodule->GetBDDI()->BDDIGetRegisterValues(dw_Index, a_TempBuf);
 				Register["value"] = a_TempBuf;
 				RegisterList[dw_Index] = Register;
-				
+
 				Register.clear();
 			}
 
@@ -96,6 +112,38 @@ namespace BDapi
 
 				RegisterList.clear();
 				Module.clear();
+			}
+		}
+	}
+
+	void BDDIJsonManager::AddMemoryViewInformation()
+	{
+		ModuleList = p_ModuleListManager->GetModuleList();
+
+		sc_module *p_SCmodule;
+
+		char *p_ModuleType = NULL;
+		unsigned int dw_MemoryNum = 0;
+
+		list<sc_module*>::iterator FirstModule = ModuleList.begin();
+		list<sc_module*>::iterator LastModule = ModuleList.end();
+		list<sc_module*>::iterator IndexOfModule = FirstModule;
+
+		/********************************************
+		 * Iterate sc_modules in sc_module list
+		 ********************************************/
+		for(IndexOfModule = FirstModule; IndexOfModule != LastModule; ++IndexOfModule)	{  		
+			p_SCmodule = (*IndexOfModule);
+			p_ModuleType = p_SCmodule->GetBDDI()->BDDIGetModuleType();
+
+			if(strcmp(p_ModuleType, "mem") == 0)	{
+				MemoryViewList[dw_MemoryNum] = p_SCmodule->GetBDDI()->InstanceName;
+				MemoryViewList[dw_MemoryNum]["change_value"] = p_SCmodule->GetBDDI()->ChangeList;
+
+				p_SCmodule->GetBDDI()->ChangeList.clear();
+				p_SCmodule->GetBDDI()->dw_JsonIndex = 0;
+
+				dw_MemoryNum++;
 			}
 		}
 	}
@@ -136,12 +184,14 @@ namespace BDapi
 	BDDIJsonManager::BDDIJsonManager()
 	{
 		p_ModuleListManager = ModuleListManager::GetInstance();
-	
+
 		Root.clear();
 		BDDIJsonList.clear();
 		Module.clear();
 		Register.clear();
 		RegisterList.clear();
+		MemoryViewRoot.clear();
+		MemoryViewList.clear();
 	}
 
 	/*

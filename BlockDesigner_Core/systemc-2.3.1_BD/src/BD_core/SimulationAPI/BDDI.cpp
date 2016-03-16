@@ -380,4 +380,35 @@ namespace BDapi
 		return BDDIStatusOK;
 	}
 
+	void BDDI::BDDIGenerateMemoryViewJsonFile(unsigned int Address, unsigned int Value)
+	{
+		memset(a_ChangeAddr, 0, sizeof(a_ChangeAddr));
+		memset(a_ChangeValue, 0, sizeof(a_ChangeValue));
+
+		sprintf(a_ChangeAddr, "0x%08x", Address);
+		sprintf(a_ChangeValue, "0x%08x", Value);
+
+		Change["address"] = a_ChangeAddr;
+		Change["value"] = a_ChangeValue;
+		ChangeList[dw_JsonIndex++] = Change;
+
+		Change.clear();
+	}
+
+	void BDDI::BDDISetModuleInstanceName(const char* Name)
+	{
+		memset(a_InstanceName, 0, sizeof(a_InstanceName));
+		strcpy(a_InstanceName, Name);
+
+		InstanceName["instance_name"] = a_InstanceName;
+	}
+
+	BDDI::BDDI()
+	{
+		InstanceName.clear();
+		Change.clear();
+		ChangeList.clear();
+
+		dw_JsonIndex = 0;
+	}
 }

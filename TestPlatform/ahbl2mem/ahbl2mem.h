@@ -135,6 +135,8 @@ SC_MODULE(AHBL2MEM)	{
 		if((we & 0x4))	dw_C = (dw_C & 0xFF00FFFF) | (dw_D & 0x00FF0000);
 		if((we & 0x8))	dw_C = (dw_C & 0x00FFFFFF) | (dw_D & 0xFF000000);
 
+		this->bddi->BDDIGenerateMemoryViewJsonFile(addr + base_addr, dw_C);
+
 		memory[dw_A] = dw_C;
 	}
 	
