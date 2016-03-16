@@ -54,7 +54,7 @@ namespace BDapi
 	 */
 	void SoftwareLoader::ProcessLoading(int CPUIndex)
 	{
-		BDDI *p_BDDI = NULL; 
+		sc_module *p_SCmodule = NULL; 
 		ReturnType_Of_Parsing ReturnType;   
 
 		UINT32 dw_Value = 0;
@@ -62,6 +62,7 @@ namespace BDapi
 		UINT32 dw_StartAddress = 1;
 		UINT32 dw_EndAddress = 0;
 		UINT32 dw_AddressSize = 0;
+		bool b_Check = false;
 
 		FILE* fHex;
 		fHex = fopen("BDsoftware.txt", "rt");
@@ -75,19 +76,30 @@ namespace BDapi
 				ReturnType = ParsingHexFile(fHex, &dw_Value);	
 
 				if(ReturnType == Binary){
-					p_BDDI->BDDISetMemoryAddressValue(dw_Address, dw_Value);
+					PushBinaryToJson(p_SCmodule->name(), dw_Address, dw_Value);
+					p_SCmodule->GetBDDI()->BDDISetMemoryAddressValue(dw_Address, dw_Value);
 					dw_Address += 4;
 				}
 				else if(ReturnType == Address){
+
+					if(b_Check == false)
+						b_Check = true;
+					else
+						continue;
+
 					dw_Address = dw_Value;
 
 					if(dw_StartAddress <= dw_Address && dw_Address < dw_EndAddress)
 						continue;
 					else{
-						p_BDDI = FindTargetMemoryBDDI(CPUIndex, dw_Address);
+						p_SCmodule = FindTargetMemoryBDDI(CPUIndex, dw_Address);
 
-						dw_StartAddress = p_BDDI->BDDIGetMemoryBaseAddress();
-						dw_AddressSize = p_BDDI->BDDIGetMemoryAddressSize();
+						if(p_SCmodule == NULL){
+							printf("can't find memory (Software Loader)\n");
+							continue;
+						}
+						dw_StartAddress = p_SCmodule->GetBDDI()->BDDIGetMemoryBaseAddress();
+						dw_AddressSize = p_SCmodule->GetBDDI()->BDDIGetMemoryAddressSize();
 						dw_EndAddress = dw_StartAddress + dw_AddressSize;
 					}
 				}
@@ -103,23 +115,23 @@ namespace BDapi
 	 * function    	: FindTargetMemoryBDDI 
 	 * design	      : find taget memory BDDI 
 	 * param	      : CPUIndex - index of CPU in member variable CPUs(vector<CPUInfo*>)
-   *                           in SoftwareManager 
+	 *                           in SoftwareManager 
 	 *              : Address - find memory based on this address
-	 * rerturn      : BDDI* 
+	 * rerturn      : sc_module* 
 	 */
-	BDDI* SoftwareLoader::FindTargetMemoryBDDI(int CPUIndex, UINT32 Address)
+	sc_module* SoftwareLoader::FindTargetMemoryBDDI(int CPUIndex, UINT32 dw_Address)
 	{
 		sc_module *p_ConnectedSCmodule = NULL;
 
 		// declare variables to check address range of memory
+		sc_module *p_SCmoduleTemp = NULL;
 		BDDI *p_BDDITemp = NULL;
-		BDDI *p_BDDITargetMemory = NULL;
 		UINT32 dw_StartAddress = 0;
 		UINT32 dw_EndAddress = 0;
 		UINT32 dw_Size = 0;
 
 		SoftwareManager *p_SoftwareManager = SoftwareManager::GetInstance();
-			
+
 		vector<CPUInfo*> *p_CPUs = p_SoftwareManager->GetCPUInfo();
 
 		CPUInfo *p_CPUInfo = p_CPUs->at(CPUIndex);	
@@ -141,29 +153,25 @@ namespace BDapi
 
 				/******* bus ******/
 				if(strcmp(p_ConnectedSCmodule->GetBDDI()->BDDIGetModuleType(), "bus") == 0){		
-
 					//p_BDDITemp = SearchTargetMemoryInBus(p_BusMemoryMap);			
-					p_BDDITemp = SearchTargetMemoryInBus(p_ConnectedSCmodule);			
-			
+					p_SCmoduleTemp = SearchTargetMemoryInBus(p_ConnectedSCmodule, dw_Address);			
+
 					// if Find target memory, return!	
-					if(p_BDDITemp != NULL){
-						p_BDDITargetMemory = p_BDDITemp;
-						return p_BDDITargetMemory;
-					}					
+					if(p_SCmoduleTemp != NULL)
+						return p_SCmoduleTemp;
 				}
 				/******* memory ******/
 				else if(strcmp(p_ConnectedSCmodule->GetBDDI()->BDDIGetModuleType(), "mem") == 0){		
 					p_BDDITemp = p_ConnectedSCmodule->GetBDDI();
-			
+
 					// Ger memory address range
 					dw_StartAddress =	p_BDDITemp->BDDIGetMemoryBaseAddress();
 					dw_Size =	p_BDDITemp->BDDIGetMemoryAddressSize();
 					dw_EndAddress =	dw_StartAddress + dw_Size;
 
 					// if range is right, return memory!	
-					if(dw_StartAddress <= Address && Address < dw_EndAddress){
-						p_BDDITargetMemory = p_ConnectedSCmodule->GetBDDI();
-						return p_BDDITargetMemory;
+					if(dw_StartAddress <= dw_Address && dw_Address < dw_EndAddress){
+						return p_ConnectedSCmodule;
 					}
 					else
 						p_BDDITemp = NULL;
@@ -177,9 +185,9 @@ namespace BDapi
 	 * function    	: SearchTargetMemoryInBus
 	 * design	      : find taget memory in this bus( SCmodule ) 
 	 * param	      : SCmodule - bus module 
-	 * rerturn      : BDDI* 
+	 * rerturn      : sc_module* 
 	 */
-	BDDI* SoftwareLoader::SearchTargetMemoryInBus(sc_module *SCmodule)
+	sc_module* SoftwareLoader::SearchTargetMemoryInBus(sc_module *SCmodule, UINT32 dw_Address)
 	{
 		// declare variables that relate to memory map 
 		BDMMI *p_BDMMI = NULL;
@@ -187,13 +195,13 @@ namespace BDapi
 		sc_module *p_ConnectedSCmodule = NULL;
 
 		// declare variables to check address range of memory
+		sc_module *p_SCmoduleTemp = NULL;
 		BDDI *p_BDDITemp = NULL;
-		BDDI *p_BDDITargetMemory = NULL;
 		UINT32 dw_StartAddress = 0;
 		UINT32 dw_EndAddress = 0;
 		UINT32 dw_Size = 0;
 
-	  p_BDMMI = SCmodule->GetBDMMI();	
+		p_BDMMI = SCmodule->GetBDMMI();	
 		p_BusMemoryMap = p_BDMMI->GetMemoryMap();
 
 		// ready to iterate sc_modules connected to bus
@@ -215,14 +223,11 @@ namespace BDapi
 				if(strcmp(p_ConnectedSCmodule->GetBDDI()->BDDIGetModuleType(), "bus") == 0){		
 
 					// Find target memory in Bus memory map
-					p_BDDITemp = SearchTargetMemoryInBus(p_ConnectedSCmodule);			
-		
+					p_SCmoduleTemp = SearchTargetMemoryInBus(p_ConnectedSCmodule, dw_Address);			
 					// if Find target memory, return!	
-					if(p_BDDITemp != NULL){
-						p_BDDITargetMemory = p_BDDITemp;
-						return p_BDDITargetMemory;
-					}					
-				}
+					if(p_SCmoduleTemp != NULL)
+						return p_SCmoduleTemp;
+				}					
 				/******* memory ******/
 				else if(strcmp(p_ConnectedSCmodule->GetBDDI()->BDDIGetModuleType(), "mem") == 0){		
 					p_BDDITemp = p_ConnectedSCmodule->GetBDDI();
@@ -233,9 +238,8 @@ namespace BDapi
 					dw_EndAddress =	dw_StartAddress + dw_Size;
 
 					// if range is right, return memory!	
-					if(dw_StartAddress <= Address && Address < dw_EndAddress){
-						p_BDDITargetMemory = p_BDDITemp;
-						return p_BDDITargetMemory;
+					if(dw_StartAddress <= dw_Address && dw_Address < dw_EndAddress){
+						return p_ConnectedSCmodule;
 					}
 					else
 						p_BDDITemp = NULL;
@@ -251,11 +255,11 @@ namespace BDapi
 	 * param	      : HexFile - file pointer
 	 *              : Value - store 4 btye to this space(call by reference)  
 	 * rerturn      : ReturnType_Of_Parsing - to check what kind of retuen value is	
-   *								 
-   *							  three kind
-   *                1. End of file
- 	 *							  2. Address
-   *                3. Binary( code or data )
+	 *								 
+	 *							  three kind
+	 *                1. End of file
+	 *							  2. Address
+	 *                3. Binary( code or data )
 	 */
 	ReturnType_Of_Parsing SoftwareLoader::ParsingHexFile(FILE *HexFile, UINT32 *Value)
 	{
@@ -265,7 +269,7 @@ namespace BDapi
 		char a_Byte4[2] = {0,};
 		char a_Token[10] = {0,};
 		char a_HexFourBytes[10] = {0,};
-			
+
 		UINT32 dw_HexValue = 0;
 
 		while(1){
@@ -312,6 +316,58 @@ namespace BDapi
 		}
 	}
 
+	void SoftwareLoader::PushBinaryToJson(const char *ModuleInstanceName, unsigned int Address, unsigned int Value)
+	{
+		char a_Buffer[128] = {0,};
+
+		unsigned int dw_Index= 0;
+		unsigned int dw_MemoryNum = 0;
+		dw_MemoryNum = MemoryViewList.size();
+
+		for(dw_Index = 0; dw_Index < dw_MemoryNum; dw_Index++){
+			if(strcmp(MemoryViewList[dw_Index]["instance_name"].asCString(), ModuleInstanceName) == 0)
+				break;
+		}
+
+		memset(a_Buffer, 0, sizeof(a_Buffer));
+		sprintf(a_Buffer, "0x%08x", Address);
+		BinaryValue["address"] = a_Buffer;
+
+		memset(a_Buffer, 0, sizeof(a_Buffer));
+		sprintf(a_Buffer, "0x%08x", Value);
+		BinaryValue["value"] = a_Buffer;
+
+		if(dw_Index == dw_MemoryNum){
+			MemoryView["instance_name"] = ModuleInstanceName;
+			BinaryValueList.append(BinaryValue);
+			MemoryView["binary_value"] = BinaryValueList;
+			MemoryViewList.append(MemoryView);
+
+			MemoryView.clear();
+			BinaryValueList.clear();
+			BinaryValue.clear();
+		}
+		else{
+			MemoryViewList[dw_Index]["binary_value"].append(BinaryValue);
+			BinaryValue.clear();
+		}
+	}
+
+	/*
+	 * function 	: GetMemoryView 
+	 * design	    : get json string to show binary(software) on memory
+	 */
+	string SoftwareLoader::GetMemoryViewList()
+	{
+		Root_MemoryViewList["MemoryView"] = MemoryViewList;
+
+		Json::StyledWriter writer;
+		string StringBinary = writer.write(Root_MemoryViewList);
+		cout<< endl << StringBinary << endl; 
+
+		return StringBinary;
+	}
+
 	/*
 	 * function 	: SoftwareLoader 
 	 * design	    : Constructor 
@@ -319,6 +375,11 @@ namespace BDapi
 	SoftwareLoader::SoftwareLoader()
 	{
 		p_ModuleListManager = ModuleListManager::GetInstance();
+		Root_MemoryViewList.clear();
+		MemoryViewList.clear();
+		MemoryView.clear();
+		BinaryValueList.clear();
+		BinaryValue.clear();
 	}
 
 	/*

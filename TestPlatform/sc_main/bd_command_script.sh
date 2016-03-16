@@ -24,8 +24,6 @@
 0 7 BDPMD.json
 0 0 BD_CORTEXM0DS CM0DS.elf
 
-0 2 BD_SRAM par write 0 0x20000000
-
 0 4 0 BD_CORTEXM0DS$HCLK
 0 4 0 BD_CORTEXM0DS$HRESETn
 0 4 0 BD_CORTEXM0DS$MM_M0&BD_AHB_LITE$MS_M0 AHB
@@ -39,7 +37,7 @@
 0 1 STEP 1323
 0 1 STOP
 
-0 1 RUN
+0 1 RUN 
 
 ######################### Block Designer command set ########################
 ##                                                                         ##

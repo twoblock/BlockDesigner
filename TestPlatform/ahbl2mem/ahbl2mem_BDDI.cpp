@@ -138,7 +138,7 @@ unsigned int AHBL2MEM_BDDI::BDDIGetModuleTotalParNum()
 BDDIReturn AHBL2MEM_BDDI::BDDIGetMemoryAddressValue(unsigned int Address, unsigned int *Value)
 {
 	if( (Address >= p_Target->base_addr) && (Address < (p_Target->base_addr + p_Target->addr_size)) )	{
-		UINT32 dw_TempAddr = (Address >> 2) & 0x3FFFFFFF;
+		UINT32 dw_TempAddr = ( (Address - p_Target->base_addr) >> 2) & 0x3FFFFFFF;
 
 		*Value = p_Target->memory[dw_TempAddr];
 
@@ -150,7 +150,7 @@ BDDIReturn AHBL2MEM_BDDI::BDDIGetMemoryAddressValue(unsigned int Address, unsign
 BDDIReturn AHBL2MEM_BDDI::BDDISetMemoryAddressValue(unsigned int Address, unsigned int Value)
 {
 	if( (Address >= p_Target->base_addr) && (Address < (p_Target->base_addr + p_Target->addr_size)) )	{
-		UINT32 dw_TempAddr = (Address >> 2) & 0x3FFFFFFF;
+		UINT32 dw_TempAddr = ( (Address - p_Target->base_addr) >> 2) & 0x3FFFFFFF;
 
 		p_Target->memory[dw_TempAddr] = Value;
 

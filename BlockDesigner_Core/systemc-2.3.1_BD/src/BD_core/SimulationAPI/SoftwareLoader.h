@@ -14,6 +14,7 @@
 #ifndef __SOFTWARE_LOADER_H__
 #define __SOFTWARE_LOADER_H__
 
+#include "BD_core/PlatformAPI/json/json.h"
 #include "systemc.h"
 #include <pthread.h>
 #include <vector>
@@ -35,7 +36,7 @@ namespace BDapi
 	{
 		End_Of_File,
 		Address,
-	  Binary	
+		Binary	
 	};
 
 	/*
@@ -47,14 +48,24 @@ namespace BDapi
 		public:
 			void LoadSoftware(int CPUIndex, char *SoftwarePath);
 			void ProcessLoading(int CPUIndex);
-			BDDI* FindTargetMemoryBDDI(int CPUIndex, UINT32 Address);
-			BDDI* SearchTargetMemoryInBus(sc_module *SCmodule);
+			sc_module* FindTargetMemoryBDDI(int CPUIndex, UINT32 dw_Address);
+			sc_module* SearchTargetMemoryInBus(sc_module *SCmodule, UINT32 dw_Address);
 			ReturnType_Of_Parsing ParsingHexFile(FILE *HexFile, UINT32 *Value);
 
+			void PushBinaryToJson(const char *ModuleInstanceName, unsigned int Address, unsigned int Value);
+			string GetMemoryViewList();
+
 			SoftwareLoader();
-		  ~SoftwareLoader();
+			~SoftwareLoader();
 
 		private:
+			// json format entities
+			Json::Value Root_MemoryViewList;
+			Json::Value MemoryViewList;
+			Json::Value MemoryView;
+			Json::Value BinaryValueList;
+			Json::Value BinaryValue;
+
 			ModuleListManager *p_ModuleListManager;
 	};
 } // namespace BDapi 
