@@ -36,6 +36,10 @@ AHBL2MEM_BDDI::AHBL2MEM_BDDI(AHBL2MEM *c) : p_Target(c)
 
 		strcpy(pst_OutParInfo[dw_Index].Value,				a_Temp);
 	}
+
+	p_Module = static_cast<sc_module*>(p_Target);
+
+	BDDISetModuleInstanceName(p_Module->name());
 }
 
 AHBL2MEM_BDDI::~AHBL2MEM_BDDI()

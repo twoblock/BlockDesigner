@@ -24,6 +24,9 @@
 // for converting return value to string
 #include <stdio.h>
 
+// for callback function
+#include "BD_core/PlatformAPI/json/json.h"
+
 /*
  * namespace	: BDapi 
  * design	    : Block Designer API 
@@ -68,6 +71,25 @@ namespace BDapi
 
 			BDDIReturn BDDIConvertStringToParameterValue(BDDIParValue *ReturnValue, BDDIParInfo *ParInfo, const char *Value);
 			BDDIReturn BDDIConvertParameterValueToString(BDDIParValue *ReturnValue, char *Value);
+
+			void BDDIGenerateMemoryViewJsonFile(unsigned int Address, unsigned int Value);
+
+			void BDDISetModuleInstanceName(const char* Name);
+
+		protected:
+			
+			BDDI();
+
+		public:
+
+			Json::Value InstanceName;
+			Json::Value Change;
+			Json::Value ChangeList;
+
+			char a_InstanceName[128];
+			char a_ChangeAddr[128];
+			char a_ChangeValue[128];
+			unsigned int dw_JsonIndex;
 
 			/*
 			 * function			: BDDIExtractRegisterValue

@@ -45,8 +45,10 @@ namespace BDapi
 			void GetOperationControl(GUI_COMMAND Command);
 
 			string GenerateBDDIJsonFile();
+			string GenerateMemoryViewJsonFile();
 
 			void AddRegisterValueInformation();
+			void AddMemoryViewInformation();
 			
 			static BDDIJsonManager* GetInstance();
 			static void DeleteInstance();
@@ -62,8 +64,11 @@ namespace BDapi
 			Json::Value Module;
 			Json::Value Register;
 			Json::Value RegisterList;
+			Json::Value MemoryViewRoot;
+			Json::Value MemoryViewList;
 
 			string JsonFileOfBDDI;
+			string JsonFileOfMemoryView;
 
 			ModuleListManager *p_ModuleListManager;
 			list<sc_module*> ModuleList;
