@@ -49,6 +49,16 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 	env->CallVoidMethod(ths, mid);
 }
 
+JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_MemoryViewListener(JNIEnv *env, jobject ths)
+{
+	jclass cls = env->GetObjectClass(ths);
+	jmethodID mid = env->GetMethodID(cls, "MemoryViewCallBack", "()V");
+	if (mid == NULL) {
+		return; /*method not found*/
+	}
+	env->CallVoidMethod(ths, mid);
+}
+
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_ModuleInfoListener(JNIEnv *env, jobject ths)
 {
 	jclass cls = env->GetObjectClass(ths);
