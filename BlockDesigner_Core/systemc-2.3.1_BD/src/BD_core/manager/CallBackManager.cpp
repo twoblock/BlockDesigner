@@ -54,7 +54,7 @@ namespace BDapi
 		p_SoftwareProfiler->GetJsonOfProfilingTable();	
 		p_SoftwareProfiler->GetJsonOfFunctionFlowGragh();
 		SendBackJson(p_BDDIJsonManager->GenerateBDDIJsonFile(), "ResultCallBack");
-		p_BDDIJsonManager->GenerateMemoryViewJsonFile();
+		SendBackJson(p_BDDIJsonManager->GenerateMemoryViewJsonFile(), "MemoryViewCallBack");
 		SendBackInt(STOP, "StatusCallBack");
 		return CallBackOK;
 	}

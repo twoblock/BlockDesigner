@@ -43,6 +43,15 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 	(JNIEnv *, jobject);
 
 /*
+ * Class:     Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_MemoryViewListener
+ * Method:    MemoryViewListener
+ * Signature: ()V
+ */
+
+JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_MemoryViewListener
+	(JNIEnv *, jobject);
+
+/*
  * Class:     com_twoblock_blockdesigner_command_Hanlder_CallBack
  * Method:    ModuleInfoListener
  * Signature: ()V
