@@ -346,34 +346,36 @@ namespace BDapi
 			strcpy(a_ChannelType, InfoChannel[ChannelIndex]["channel_type"].asCString());
 			strcpy(a_ChannelNum, InfoChannel[ChannelIndex]["connection_num"].asCString());
 
-			if((strcmp(a_ChannelType, "AHB") == 0) && (strcmp(a_ChannelNum, "0") != 0)){
+			if(strcmp(a_ChannelNum, "0") != 0){
+				if((strcmp(a_ChannelType, "AHB") == 0) || (strcmp(a_ChannelType, "AHBLITE") == 0)){
 
-				// Find first module
-				strcpy(a_FisrtModuleName, InfoChannel[ChannelIndex]["name"].asCString());
-				p_FirstModuleName = strtok(a_FisrtModuleName, "$");
-				p_FirstSCmodule = p_ModuleListManager->FindModule(p_FirstModuleName);
+					// Find first module
+					strcpy(a_FisrtModuleName, InfoChannel[ChannelIndex]["name"].asCString());
+					p_FirstModuleName = strtok(a_FisrtModuleName, "$");
+					p_FirstSCmodule = p_ModuleListManager->FindModule(p_FirstModuleName);
 
-				// Find Second module
-				strcpy(a_SecondModuleName, InfoChannel[ChannelIndex]["connection_info"][0]["module_name"].asCString());
-				p_SecondSCmodule = p_ModuleListManager->FindModule(a_SecondModuleName);
+					// Find Second module
+					strcpy(a_SecondModuleName, InfoChannel[ChannelIndex]["connection_info"][0]["module_name"].asCString());
+					p_SecondSCmodule = p_ModuleListManager->FindModule(a_SecondModuleName);
 
 
-				if((p_FirstSCmodule != NULL) && (p_SecondSCmodule != NULL)){
-					if(strcmp(p_FirstSCmodule->GetBDDI()->BDDIGetModuleType(), "cpu") == 0){
+					if((p_FirstSCmodule != NULL) && (p_SecondSCmodule != NULL)){
+						if(strcmp(p_FirstSCmodule->GetBDDI()->BDDIGetModuleType(), "cpu") == 0){
 
-						CPUName = p_FirstModuleName;
-						ConnectedModuleName = a_SecondModuleName;
+							CPUName = p_FirstModuleName;
+							ConnectedModuleName = a_SecondModuleName;
 
-						p_SoftwareManager->AddConnectionInfo(CPUName, ConnectedModuleName);
-					}
-					else if(strcmp(p_SecondSCmodule->GetBDDI()->BDDIGetModuleType(), "cpu") == 0){
+							p_SoftwareManager->AddConnectionInfo(CPUName, ConnectedModuleName);
+						}
+						else if(strcmp(p_SecondSCmodule->GetBDDI()->BDDIGetModuleType(), "cpu") == 0){
 
-						CPUName = a_SecondModuleName;
-						ConnectedModuleName = p_FirstModuleName;
+							CPUName = a_SecondModuleName;
+							ConnectedModuleName = p_FirstModuleName;
 
-						p_SoftwareManager->AddConnectionInfo(CPUName, ConnectedModuleName);
-					}
-				}	
+							p_SoftwareManager->AddConnectionInfo(CPUName, ConnectedModuleName);
+						}
+					}	
+				}
 			}
 		}
 	}
