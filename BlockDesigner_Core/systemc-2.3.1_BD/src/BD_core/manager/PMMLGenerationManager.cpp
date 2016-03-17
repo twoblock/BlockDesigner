@@ -79,7 +79,7 @@ namespace BDapi
 
 		Json::StyledWriter writer;
 		JsonFileOfPMModuleList = writer.write(Root);
-		//cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
+		cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
 
 		CallBackReturn Return;
 		CallBackManager *p_CallBackManager = NULL;
@@ -149,10 +149,14 @@ namespace BDapi
 		std::vector<sc_port_base*>::iterator LastPort = p_PortList->end();
 		std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;  
 
+
+
 		/********************************************
 		 * Iterate ports in sc_module
 		 ********************************************/
 		for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
+
+			Port.clear();
 
 			p_PortName = (*IndexOfPort)->get_port_name();
 
@@ -162,7 +166,40 @@ namespace BDapi
 				// case : AHB port
 				if(p_PortName[0] == '$'){
 
-					if( p_PortName[1] == 'H' &&
+					if( p_PortName[1] == 'A' &&
+							p_PortName[2] == 'H' &&
+							p_PortName[3] == 'B' &&
+							p_PortName[4] == 'H' &&
+							p_PortName[5] == 'A' &&
+							p_PortName[6] == 'D' &&
+							p_PortName[7] == 'D' &&
+							p_PortName[8] == 'R' 
+						){
+
+						// parse port information
+						strcpy(a_PortTypeInfo, (*IndexOfPort)->get_port_name());
+						strtok(a_PortTypeInfo, "_");
+						p_PortName = strtok(NULL," ");
+
+
+						// add Port to PortList in json format
+						if(p_PortName != NULL){
+							Port["port_name"] = p_PortName;
+							a_AHBType[0] = p_PortName[0];	
+							a_AHBType[1] = p_PortName[1];	
+							a_AHBType[2] = 0; 
+							Port["data_type"] = a_AHBType;
+							Port["sc_type"]   = "AHB"; 
+						}
+						else{
+							Port["port_name"] = "null";
+							Port["sc_type"]   = "null"; 
+							Port["data_type"] = "null";
+						}
+
+						PortList.append(Port);	
+					}
+					else if( p_PortName[1] == 'H' &&
 							p_PortName[2] == 'A' &&
 							p_PortName[3] == 'D' &&
 							p_PortName[4] == 'D' &&
@@ -180,14 +217,15 @@ namespace BDapi
 							a_AHBType[0] = p_PortName[0];	
 							a_AHBType[1] = p_PortName[1];	
 							a_AHBType[2] = 0; 
-							Port["sc_type"]   = a_AHBType; 
+							Port["data_type"] = a_AHBType;
+							Port["sc_type"]   = "AHBLITE"; 
 						}
 						else{
 							Port["port_name"] = "null";
+							Port["data_type"] = "null";
 							Port["sc_type"]   = "null"; 
 						}
 
-						Port["data_type"] = "AHB";
 						PortList.append(Port);	
 					}
 					else{

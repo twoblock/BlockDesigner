@@ -29,19 +29,19 @@ namespace sc_core
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
 				
-				strcpy(temp[0], "$HADDR_");
-				strcpy(temp[1], "$HBURST_");
-				strcpy(temp[2], "$HPROT_");
-				strcpy(temp[3], "$HSIZE_");
-				strcpy(temp[4], "$HTRANS_");
-				strcpy(temp[5], "$HWDATA_");
-				strcpy(temp[6], "$HWRITE_");
-				strcpy(temp[7], "$HBUSREQ_");
-				strcpy(temp[8], "$HGRANT_");
-				strcpy(temp[9], "$HLCOK_");
-				strcpy(temp[10], "$HREADY_");
-				strcpy(temp[11], "$HRESP_");
-				strcpy(temp[12], "$HRDATA_");
+				strcpy(temp[0], "$AHBHADDR_");
+				strcpy(temp[1], "$AHBHBURST_");
+				strcpy(temp[2], "$AHBHPROT_");
+				strcpy(temp[3], "$AHBHSIZE_");
+				strcpy(temp[4], "$AHBHTRANS_");
+				strcpy(temp[5], "$AHBHWDATA_");
+				strcpy(temp[6], "$AHBHWRITE_");
+				strcpy(temp[7], "$AHBHBUSREQ_");
+				strcpy(temp[8], "$AHBHGRANT_");
+				strcpy(temp[9], "$AHBHLCOK_");
+				strcpy(temp[10], "$AHBHREADY_");
+				strcpy(temp[11], "$AHBHRESP_");
+				strcpy(temp[12], "$AHBHRDATA_");
 
 				if(Name != NULL)	{
 					for(int i=0; i<13; i++)
@@ -88,19 +88,19 @@ namespace sc_core
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
 				
-				strcpy(temp[0], "$HADDR_");
-				strcpy(temp[1], "$HBURST_");
-				strcpy(temp[2], "$HPROT_");
-				strcpy(temp[3], "$HSIZE_");
-				strcpy(temp[4], "$HTRANS_");
-				strcpy(temp[5], "$HWDATA_");
-				strcpy(temp[6], "$HWRITE_");
-				strcpy(temp[7], "$HBUSREQ_");
-				strcpy(temp[8], "$HGRANT_");
-				strcpy(temp[9], "$HLOCK_");
-				strcpy(temp[10], "$HREADY_");
-				strcpy(temp[11], "$HRESP_");
-				strcpy(temp[12], "$HRDATA_");
+				strcpy(temp[0], "$AHBHADDR_");
+				strcpy(temp[1], "$AHBHBURST_");
+				strcpy(temp[2], "$AHBHPROT_");
+				strcpy(temp[3], "$AHBHSIZE_");
+				strcpy(temp[4], "$AHBHTRANS_");
+				strcpy(temp[5], "$AHBHWDATA_");
+				strcpy(temp[6], "$AHBHWRITE_");
+				strcpy(temp[7], "$AHBHBUSREQ_");
+				strcpy(temp[8], "$AHBHGRANT_");
+				strcpy(temp[9], "$AHBHLOCK_");
+				strcpy(temp[10], "$AHBHREADY_");
+				strcpy(temp[11], "$AHBHRESP_");
+				strcpy(temp[12], "$AHBHRDATA_");
 
 				if(Name != NULL)	{
 					for(int i=0; i<13; i++)
@@ -148,19 +148,19 @@ namespace sc_core
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
 
-				strcpy(temp[0], "$HADDR_");
-				strcpy(temp[1], "$HBURST_");
-				strcpy(temp[2], "$HLOCK_");
-				strcpy(temp[3], "$HPROT_");
-				strcpy(temp[4], "$HSIZE_");
-				strcpy(temp[5], "$HTRANS_");
-				strcpy(temp[6], "$HWDATA_");
-				strcpy(temp[7], "$HWRITE_");
-				strcpy(temp[8], "$HREADY_");
-				strcpy(temp[9], "$HSEL_");
-				strcpy(temp[10], "$HREADYOUT_");
-				strcpy(temp[11], "$HRESP_");
-				strcpy(temp[12], "$HRDATA_");
+				strcpy(temp[0], "$AHBHADDR_");
+				strcpy(temp[1], "$AHBHBURST_");
+				strcpy(temp[2], "$AHBHLOCK_");
+				strcpy(temp[3], "$AHBHPROT_");
+				strcpy(temp[4], "$AHBHSIZE_");
+				strcpy(temp[5], "$AHBHTRANS_");
+				strcpy(temp[6], "$AHBHWDATA_");
+				strcpy(temp[7], "$AHBHWRITE_");
+				strcpy(temp[8], "$AHBHREADY_");
+				strcpy(temp[9], "$AHBHSEL_");
+				strcpy(temp[10], "$AHBHREADYOUT_");
+				strcpy(temp[11], "$AHBHRESP_");
+				strcpy(temp[12], "$AHBHRDATA_");
 
 				if(Name != NULL)	{
 					for(int i=0; i<13; i++)
@@ -207,19 +207,19 @@ namespace sc_core
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
 
-				strcpy(temp[0], "$HADDR_");
-				strcpy(temp[1], "$HBURST_");
-				strcpy(temp[2], "$HLOCK_");
-				strcpy(temp[3], "$HPROT_");
-				strcpy(temp[4], "$HSIZE_");
-				strcpy(temp[5], "$HTRANS_");
-				strcpy(temp[6], "$HWDATA_");
-				strcpy(temp[7], "$HWRITE_");
-				strcpy(temp[8], "$HREADY_");
-				strcpy(temp[9], "$HSEL_");
-				strcpy(temp[10], "$HREADYOUT_");
-				strcpy(temp[11], "$HRESP_");
-				strcpy(temp[12], "$HRDATA_");
+				strcpy(temp[0], "$AHBHADDR_");
+				strcpy(temp[1], "$AHBHBURST_");
+				strcpy(temp[2], "$AHBHLOCK_");
+				strcpy(temp[3], "$AHBHPROT_");
+				strcpy(temp[4], "$AHBHSIZE_");
+				strcpy(temp[5], "$AHBHTRANS_");
+				strcpy(temp[6], "$AHBHWDATA_");
+				strcpy(temp[7], "$AHBHWRITE_");
+				strcpy(temp[8], "$AHBHREADY_");
+				strcpy(temp[9], "$AHBHSEL_");
+				strcpy(temp[10], "$AHBHREADYOUT_");
+				strcpy(temp[11], "$AHBHRESP_");
+				strcpy(temp[12], "$AHBHRDATA_");
 
 				if(Name != NULL)	{
 					for(int i=0; i<13; i++)
