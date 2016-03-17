@@ -64,6 +64,7 @@ namespace BDapi
 			void AddSCsignal(const char *ChannelName, const char *DataType);
 			void AddSCclock(const char *ChannelName, const char *DataType);
 			void AddAHBSignal(const char *ChannelName, const char *DataType);
+			void AddAHBLiteSignal(const char *ChannelName, const char *DataType);
 
 			std::map<std::string, ChannelObject*> RealChannelMap;
 			std::map<std::string, ChannelObject*>::iterator ChannelFinder; 

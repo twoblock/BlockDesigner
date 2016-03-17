@@ -43,6 +43,79 @@ namespace BDapi
 			char a_TempChannelName[256] = {0,};
 
 			if(strcmp(ChannelMatching->DataType, "Master") == 0)	{
+				char a_MasterTemp[13][256] = { "$AHBHADDR_", "$AHBHBURST_", "$AHBHRDATA_",
+					"$AHBHSIZE_", "$AHBHTRANS_", "$AHBHWDATA_", "$AHBHPROT_", 
+					"$AHBHLOCK_", "$AHBHWRITE_", "$AHBHREADY_", "$AHBHRESP_", "$AHBHBUSREQ_", "$AHBHGRANT_" };
+
+				for(int MasterIndex = 0; MasterIndex < 13; MasterIndex++)	{
+					strcpy(a_TempChannelName, BindingObject->ChannelName);
+					strcat(a_TempChannelName, a_MasterTemp[MasterIndex]);
+
+					ChannelObject *p_ChannelObject = NULL;
+					p_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+					sc_interface *p_SCinterface = NULL;
+					p_SCinterface = p_ChannelObject->p_SCinterface;
+
+					sc_port_base *p_SCportbase = NULL;
+					std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
+					std::vector<sc_port_base*>::iterator LastPort = p_PortList->end(); 
+					std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;
+
+					char a_TempPortName[256] = {0,};
+
+					strcpy(a_TempPortName, a_MasterTemp[MasterIndex]);
+					strcat(a_TempPortName, BindingObject->ModulePortName);
+
+					for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
+						p_SCportbase = (*IndexOfPort);
+						if(strcmp(p_SCportbase->get_port_name(), a_TempPortName) == 0){
+							p_SCportbase->BDbind(*p_SCinterface);
+						}
+					}				
+				}
+			}
+			else if(strcmp(ChannelMatching->DataType, "Slave") == 0)	{
+				char a_SlaveTemp[13][256] = { "$AHBHADDR_", "$AHBHBURST_", "$AHBHRDATA_",
+																			"$AHBHPROT_", "$AHBHTRANS_", "$AHBHWDATA_", 
+																			"$AHBHSIZE_", "$AHBHLOCK_", "$AHBHWRITE_", 
+																			"$AHBHREADY_", "$AHBHSEL_", "$AHBHREADYOUT_", "$AHBHRESP_" };
+
+				for(int SlaveIndex = 0; SlaveIndex < 13; SlaveIndex++)	{
+					strcpy(a_TempChannelName, BindingObject->ChannelName);
+					strcat(a_TempChannelName, a_SlaveTemp[SlaveIndex]);
+
+					ChannelObject *p_ChannelObject = NULL;
+					p_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+					sc_interface *p_SCinterface = NULL;
+					p_SCinterface = p_ChannelObject->p_SCinterface;
+
+					sc_port_base *p_SCportbase = NULL;
+					std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
+					std::vector<sc_port_base*>::iterator LastPort = p_PortList->end(); 
+					std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;
+
+					char a_TempPortName[256] = {0,};
+
+					strcpy(a_TempPortName, a_SlaveTemp[SlaveIndex]);
+					strcat(a_TempPortName, BindingObject->ModulePortName);
+
+					for(IndexOfPort = FirstPort; IndexOfPort != LastPort; ++IndexOfPort){   
+						p_SCportbase = (*IndexOfPort);
+						if(strcmp(p_SCportbase->get_port_name(), a_TempPortName) == 0){
+							p_SCportbase->BDbind(*p_SCinterface);
+						}
+					}				
+				}
+			}
+			else
+				return;
+		}
+		else if(strcmp(ChannelMatching->ChannelType, "AHBLITE") == 0)	{
+			char a_TempChannelName[256] = {0,};
+
+			if(strcmp(ChannelMatching->DataType, "Master") == 0)	{
 				char a_MasterTemp[11][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
 					"$HSIZE_", "$HTRANS_", "$HWDATA_", "$HPROT_", 
 					"$HLOCK_", "$HWRITE_", "$HREADY_", "$HRESP_" };

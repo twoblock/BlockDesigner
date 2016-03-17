@@ -36,6 +36,8 @@ namespace BDapi
 			AddSCclock(st_ChannelInfo->ChannelName, st_ChannelInfo->DataType);
 		else if(strcmp(st_ChannelInfo->ChannelType, "AHB") == 0)
 			AddAHBSignal(st_ChannelInfo->ChannelName, st_ChannelInfo->DataType);
+		else if(strcmp(st_ChannelInfo->ChannelType, "AHBLITE") == 0)
+			AddAHBLiteSignal(st_ChannelInfo->ChannelName, st_ChannelInfo->DataType);
 		else
 			return;
 	}
@@ -151,10 +153,11 @@ namespace BDapi
 		char a_NameTemp[256] = {0,};
 
 		if(strcmp(DataType, "Master") == 0)	{
-			char a_UINTTemp[7][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
-															 		"$HSIZE_", "$HTRANS_", "$HWDATA_", "$HPROT_" };
+			char a_UINTTemp[7][256] = { "$AHBHADDR_", "$AHBHBURST_", "$AHBHRDATA_",
+															 		"$AHBHSIZE_", "$AHBHTRANS_", "$AHBHWDATA_", "$AHBHPROT_" };
 
-			char a_BOOLTemp[4][256] = { "$HLOCK_", "$HWRITE_", "$HREADY_", "$HRESP_" };
+			char a_BOOLTemp[6][256] = { "$AHBHLOCK_", "$AHBHWRITE_", "$AHBHREADY_",
+																	"$AHBHRESP_", "$AHBHBUSREQ_", "$AHBHGRANT_" };
 
 			for(int UINTIndex = 0; UINTIndex < 7; UINTIndex++)	{
 				strcpy(a_NameTemp, ChannelName);
@@ -173,7 +176,7 @@ namespace BDapi
 				RealChannelMap[TempString] = p_ChannelObject;
 			}
 
-			for(int BOOLIndex = 0; BOOLIndex < 4; BOOLIndex++)	{
+			for(int BOOLIndex = 0; BOOLIndex < 6; BOOLIndex++)	{
 				strcpy(a_NameTemp, ChannelName);
 				strcat(a_NameTemp, a_BOOLTemp[BOOLIndex]);
 
@@ -191,11 +194,11 @@ namespace BDapi
 			}
 		}
 		else if(strcmp(DataType, "Slave") == 0)	{
-			char a_UINTTemp[7][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
-																	"$HPROT_", "$HTRANS_", "$HWDATA_", "$HSIZE_" };
+			char a_UINTTemp[7][256] = { "$AHBHADDR_", "$AHBHBURST_", "$AHBHRDATA_",
+																	"$AHBHPROT_", "$AHBHTRANS_", "$AHBHWDATA_", "$AHBHSIZE_" };
 
-			char a_BOOLTemp[6][256] = { "$HLOCK_", "$HWRITE_", "$HREADY_", 
-																	"$HSEL_", "$HREADYOUT_", "$HRESP_" };
+			char a_BOOLTemp[6][256] = { "$AHBHLOCK_", "$AHBHWRITE_", "$AHBHREADY_", 
+																	"$AHBHSEL_", "$AHBHREADYOUT_", "$AHBHRESP_" };
 
 			for(int UINTIndex = 0; UINTIndex < 7; UINTIndex++)	{
 				strcpy(a_NameTemp, ChannelName);
@@ -223,6 +226,102 @@ namespace BDapi
 				ChannelObject *p_ChannelObject = new ChannelObject();
 
 				strcpy(p_ChannelObject->ChannelType, "AHB");
+				strcpy(p_ChannelObject->DataType, DataType);
+				p_ChannelObject->p_SCinterface = p_SCinterface;
+
+				std::string TempString(a_NameTemp);
+
+				RealChannelMap[TempString] = p_ChannelObject;
+			}
+		}
+		else
+			return;
+	}
+
+	/*
+	 * function    : add sc_signal 
+	 * design      : allocate sc_signal and push it to map
+	 * param       : char * - channel name
+	 * param       : char * - data type
+	 */
+	void ChannelMap::AddAHBLiteSignal(const char *ChannelName, const char *DataType)
+	{
+		sc_interface *p_SCinterface = NULL;
+		char a_NameTemp[256] = {0,};
+
+		if(strcmp(DataType, "Master") == 0)	{
+			char a_UINTTemp[7][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
+															 		"$HSIZE_", "$HTRANS_", "$HWDATA_", "$HPROT_" };
+
+			char a_BOOLTemp[4][256] = { "$HLOCK_", "$HWRITE_", "$HREADY_", "$HRESP_" };
+
+			for(int UINTIndex = 0; UINTIndex < 7; UINTIndex++)	{
+				strcpy(a_NameTemp, ChannelName);
+				strcat(a_NameTemp, a_UINTTemp[UINTIndex]);	
+
+				p_SCinterface = new sc_signal<unsigned int>(a_NameTemp);
+
+				ChannelObject *p_ChannelObject = new ChannelObject();
+				
+				strcpy(p_ChannelObject->ChannelType, "AHBLITE");
+				strcpy(p_ChannelObject->DataType, DataType);
+				p_ChannelObject->p_SCinterface = p_SCinterface;
+
+				std::string TempString(a_NameTemp);
+
+				RealChannelMap[TempString] = p_ChannelObject;
+			}
+
+			for(int BOOLIndex = 0; BOOLIndex < 4; BOOLIndex++)	{
+				strcpy(a_NameTemp, ChannelName);
+				strcat(a_NameTemp, a_BOOLTemp[BOOLIndex]);
+
+				p_SCinterface = new sc_signal<bool>(a_NameTemp);
+
+				ChannelObject *p_ChannelObject = new ChannelObject();
+
+				strcpy(p_ChannelObject->ChannelType, "AHBLITE");
+				strcpy(p_ChannelObject->DataType, DataType);
+				p_ChannelObject->p_SCinterface = p_SCinterface;
+
+				std::string TempString(a_NameTemp);
+
+				RealChannelMap[TempString] = p_ChannelObject;
+			}
+		}
+		else if(strcmp(DataType, "Slave") == 0)	{
+			char a_UINTTemp[7][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
+																	"$HPROT_", "$HTRANS_", "$HWDATA_", "$HSIZE_" };
+
+			char a_BOOLTemp[6][256] = { "$HLOCK_", "$HWRITE_", "$HREADY_", 
+																	"$HSEL_", "$HREADYOUT_", "$HRESP_" };
+
+			for(int UINTIndex = 0; UINTIndex < 7; UINTIndex++)	{
+				strcpy(a_NameTemp, ChannelName);
+				strcat(a_NameTemp, a_UINTTemp[UINTIndex]);
+
+				p_SCinterface = new sc_signal<unsigned int>(a_NameTemp);
+
+				ChannelObject *p_ChannelObject = new ChannelObject();
+				
+				strcpy(p_ChannelObject->ChannelType, "AHBLITE");
+				strcpy(p_ChannelObject->DataType, DataType);
+				p_ChannelObject->p_SCinterface = p_SCinterface;
+
+				std::string TempString(a_NameTemp);
+
+				RealChannelMap[TempString] = p_ChannelObject;
+			}
+
+			for(int BOOLIndex = 0; BOOLIndex < 6; BOOLIndex++)	{
+				strcpy(a_NameTemp, ChannelName);
+				strcat(a_NameTemp, a_BOOLTemp[BOOLIndex]);
+
+				p_SCinterface = new sc_signal<bool>(a_NameTemp);
+
+				ChannelObject *p_ChannelObject = new ChannelObject();
+
+				strcpy(p_ChannelObject->ChannelType, "AHBLITE");
 				strcpy(p_ChannelObject->DataType, DataType);
 				p_ChannelObject->p_SCinterface = p_SCinterface;
 

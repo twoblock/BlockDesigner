@@ -51,6 +51,105 @@ namespace BDapi
 		ChannelObject *pst_ChannelObject = NULL;
 
 		if(strcmp(ChannelType, "AHB") == 0)	{
+			char a_UINTTemp[7][256] = { "$AHBHADDR_", "$AHBHBURST_", "$AHBHRDATA_",
+															 		"$AHBHSIZE_", "$AHBHTRANS_", "$AHBHWDATA_", "$AHBHPROT_" };
+
+			char a_BOOLTemp[4][256] = { "$AHBHLOCK_", "$AHBHWRITE_", "$AHBHREADY_", "$AHBHRESP_" };
+
+			char a_UINTName[7][256] = { "_HADDR", "_HBURST", "_HRDATA",
+															 		"_HSIZE", "_HTRANS", "_HWDATA", "_HPROT" };
+
+			char a_BOOLName[4][256] = { "_HLOCK", "_HWRITE", "_HREADY", "_HRESP" };
+
+			char a_TempChannelName[1024] = {0,};
+			char a_TempTargetName[1024] = {0,};
+			char a_TempTraceName[1024] = {0,};
+
+			strcpy(a_TempBuf, ChannelName);
+			p_CatBuf1 = strtok(a_TempBuf, "&");
+			p_CatBuf2 = strtok(NULL, "&");
+
+			for(int UINTIndex = 0; UINTIndex < 7; UINTIndex++)	{
+				strcpy(a_TempChannelName, p_CatBuf1);
+				strcat(a_TempChannelName, a_UINTTemp[UINTIndex]);
+
+				pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+				
+				// naming tracing channel
+				strcpy(a_TempTraceName, p_CatBuf1);
+				strcpy(a_TempTargetName, p_CatBuf2);
+				strcat(a_TempTraceName, a_UINTName[UINTIndex]);
+				strcat(a_TempTraceName, "<--->");
+				strcat(a_TempTraceName, a_TempTargetName);
+				strcat(a_TempTraceName, a_UINTName[UINTIndex]);
+
+				sc_trace(tf, *(dynamic_cast<sc_signal<unsigned int>*>(pst_ChannelObject->p_SCinterface)), a_TempTraceName);
+			}
+
+			for(int BOOLIndex = 0; BOOLIndex < 4; BOOLIndex++)	{
+				strcpy(a_TempChannelName, p_CatBuf1);
+				strcat(a_TempChannelName, a_BOOLTemp[BOOLIndex]);
+
+				pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+				// naming tracing channel
+				strcpy(a_TempTraceName, p_CatBuf1);
+				strcpy(a_TempTargetName, p_CatBuf2);
+				strcat(a_TempTraceName, a_BOOLName[BOOLIndex]);
+				strcat(a_TempTraceName, "<--->");
+				strcat(a_TempTraceName, a_TempTargetName);
+				strcat(a_TempTraceName, a_BOOLName[BOOLIndex]);
+
+				sc_trace(tf, *(dynamic_cast<sc_signal<bool>*>(pst_ChannelObject->p_SCinterface)), a_TempTraceName);
+			}
+
+			if(strcmp(pst_ChannelObject->DataType, "Master") == 0)	{
+				char a_RestTemp[2][256] = { "$AHBHGRANT_", "$AHBHBUSREQ_" };
+
+				char a_RestName[2][256] = { "_HGRANT", "_HBUSREQ" };
+
+				for(int RestIndex = 0; RestIndex < 2; RestIndex++)	{
+					strcpy(a_TempChannelName, p_CatBuf1);
+					strcat(a_TempChannelName, a_RestTemp[RestIndex]);
+
+					pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+					// naming tracing channel
+					strcpy(a_TempTraceName, p_CatBuf1);
+					strcpy(a_TempTargetName, p_CatBuf2);
+					strcat(a_TempTraceName, a_RestName[RestIndex]);
+					strcat(a_TempTraceName, "<--->");
+					strcat(a_TempTraceName, a_TempTargetName);
+					strcat(a_TempTraceName, a_RestName[RestIndex]);
+
+					sc_trace(tf, *(dynamic_cast<sc_signal<bool>*>(pst_ChannelObject->p_SCinterface)), a_TempTraceName);
+				}
+			}
+			//if(strcmp(pst_ChannelObject->DataType, "Slave") == 0)	{
+			else	{
+				char a_RestTemp[2][256] = { "$HSEL_", "$HREADYOUT_" };
+
+				char a_RestName[2][256] = { "_HSEL", "_HREADYOUT" };
+
+				for(int RestIndex = 0; RestIndex < 2; RestIndex++)	{
+					strcpy(a_TempChannelName, p_CatBuf1);
+					strcat(a_TempChannelName, a_RestTemp[RestIndex]);
+
+					pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+					// naming tracing channel
+					strcpy(a_TempTraceName, p_CatBuf1);
+					strcpy(a_TempTargetName, p_CatBuf2);
+					strcat(a_TempTraceName, a_RestName[RestIndex]);
+					strcat(a_TempTraceName, "<--->");
+					strcat(a_TempTraceName, a_TempTargetName);
+					strcat(a_TempTraceName, a_RestName[RestIndex]);
+
+					sc_trace(tf, *(dynamic_cast<sc_signal<bool>*>(pst_ChannelObject->p_SCinterface)), a_TempTraceName);
+				}
+			}
+		}
+		else if(strcmp(ChannelType, "AHBLITE") == 0)	{
 			char a_UINTTemp[7][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
 															 		"$HSIZE_", "$HTRANS_", "$HWDATA_", "$HPROT_" };
 
