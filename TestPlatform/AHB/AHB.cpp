@@ -21,11 +21,6 @@ void AHB::BDInit()
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");
 
-	// Master Interface
-	M_HRDATA.set_port_name("M_HRDATA");
-	M_HREADY.set_port_name("M_HREADY");
-	M_HRESP.set_port_name("M_HRESP");
-
 	AHBMaster_M0 = new BD_AHBPort_MS((char*)"MS_M0");
 	AHBMaster_M1 = new BD_AHBPort_MS((char*)"MS_M1");
 	AHBMaster_M2 = new BD_AHBPort_MS((char*)"MS_M2");

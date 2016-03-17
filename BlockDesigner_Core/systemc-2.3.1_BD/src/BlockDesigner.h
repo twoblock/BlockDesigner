@@ -18,12 +18,15 @@ namespace sc_core
 			sc_out<bool>   HWRITE;
 			sc_out<bool>	HLOCK;
 			sc_in<bool>		HGRANT;
+			sc_in<bool>		HREADY;
+			sc_in<bool>		HRESP;
+			sc_in<unsigned int>	HRDATA;
 
-			char temp[10][256];
+			char temp[13][256];
 
 			BD_AHBPort_MM(char *Name)
 			{
-				for(int i=0; i<10; i++)
+				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
 				
 				strcpy(temp[0], "$HADDR_");
@@ -36,9 +39,12 @@ namespace sc_core
 				strcpy(temp[7], "$HBUSREQ_");
 				strcpy(temp[8], "$HGRANT_");
 				strcpy(temp[9], "$HLCOK_");
+				strcpy(temp[10], "$HREADY_");
+				strcpy(temp[11], "$HRESP_");
+				strcpy(temp[12], "$HRDATA_");
 
 				if(Name != NULL)	{
-					for(int i=0; i<10; i++)
+					for(int i=0; i<13; i++)
 						strcat(temp[i], Name);
 				}
 
@@ -52,6 +58,9 @@ namespace sc_core
 				HBUSREQ.set_port_name(temp[7]);
 				HGRANT.set_port_name(temp[8]);
 				HLOCK.set_port_name(temp[9]);
+				HREADY.set_port_name(temp[10]);
+				HRESP.set_port_name(temp[11]);
+				HRDATA.set_port_name(temp[12]);
 			}
 	};
 
@@ -68,12 +77,15 @@ namespace sc_core
 			sc_in<bool>   HWRITE;
 			sc_in<bool>		HLOCK;
 			sc_out<bool>		HGRANT;
+			sc_out<bool>		HREADY;
+			sc_out<bool>		HRESP;
+			sc_out<unsigned int>		HRDATA;
 
-			char temp[10][256];
+			char temp[13][256];
 
 			BD_AHBPort_MS(char *Name)
 			{
-				for(int i=0; i<10; i++)
+				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
 				
 				strcpy(temp[0], "$HADDR_");
@@ -86,9 +98,12 @@ namespace sc_core
 				strcpy(temp[7], "$HBUSREQ_");
 				strcpy(temp[8], "$HGRANT_");
 				strcpy(temp[9], "$HLOCK_");
+				strcpy(temp[10], "$HREADY_");
+				strcpy(temp[11], "$HRESP_");
+				strcpy(temp[12], "$HRDATA_");
 
 				if(Name != NULL)	{
-					for(int i=0; i<10; i++)
+					for(int i=0; i<13; i++)
 						strcat(temp[i], Name);
 				}
 
@@ -102,6 +117,10 @@ namespace sc_core
 				HBUSREQ.set_port_name(temp[7]);
 				HGRANT.set_port_name(temp[8]);
 				HLOCK.set_port_name(temp[9]);
+				HREADY.set_port_name(temp[10]);
+				HRESP.set_port_name(temp[11]);
+				HRDATA.set_port_name(temp[12]);
+
 			}
 	};
 
