@@ -19,10 +19,6 @@ SC_MODULE(AHB)	{
   BD_AHBPort_MS *AHBMaster_M1;
   BD_AHBPort_MS *AHBMaster_M2;
 
-	sc_out<unsigned int>			M_HRDATA;
-	sc_out<bool>							M_HREADY;
-	sc_out<bool>							M_HRESP;
-
 	// Slave Interface
 	BD_AHBPort_SM *AHBSlave_S0;
 	BD_AHBPort_SM *AHBSlave_S1;
@@ -48,6 +44,11 @@ SC_MODULE(AHB)	{
 	sc_signal<unsigned int>		M_HWDATA;
 	sc_signal<bool>						M_HLOCK;
 
+	// out signal
+	sc_signal<unsigned int>			M_HRDATA;
+	sc_signal<bool>							M_HREADY;
+	sc_signal<bool>							M_HRESP;
+
 	AHB_Lite* 				U_AHB_Lite;
 	AHB_ARBITER_M3*		U_AHB_ARBITER_M3;
 	AHB_M2S_M3*				U_AHB_M2S_M3;
@@ -59,6 +60,19 @@ SC_MODULE(AHB)	{
 	BDMMI* GetBDMMI();
 	char* GetModuleName();
 	void BDInit();
+
+	void do_tranfer_receive()
+	{
+		AHBMaster_M0->HRDATA = M_HRDATA;
+		AHBMaster_M0->HREADY = M_HREADY;
+		AHBMaster_M0->HRESP = M_HRESP;
+		AHBMaster_M1->HRDATA = M_HRDATA;
+		AHBMaster_M1->HREADY = M_HREADY;
+		AHBMaster_M1->HRESP = M_HRESP;
+		AHBMaster_M2->HRDATA = M_HRDATA;
+		AHBMaster_M2->HREADY = M_HREADY;
+		AHBMaster_M2->HRESP = M_HRESP;
+	}
 
 	SC_CTOR(AHB)	{
 
@@ -258,6 +272,12 @@ SC_MODULE(AHB)	{
 		U_AHB_Lite->HRESP_S9			(AHBSlave_S9->HRESP);
 		U_AHB_Lite->HRDATA_S9			(AHBSlave_S9->HRDATA);
 		U_AHB_Lite->HSEL_NOMAP		(HSEL_NOMAP);
+
+		SC_METHOD(do_tranfer_receive);
+		sensitive << M_HRDATA;
+		sensitive << M_HREADY;
+		sensitive << M_HRESP;
+
 	}
 
 };
