@@ -12,6 +12,11 @@ make clean
 make
 cd ..
 
+cd LiteToAHB
+make clean
+make
+cd ..
+
 cd ahbl2mem 
 make clean
 make

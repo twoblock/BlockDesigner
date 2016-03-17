@@ -14,21 +14,14 @@ SC_MODULE(LITETOAHB)	{
 
 	// AHB Interface
 	BD_AHBPort_MM *AHBMaster_M0;
-	sc_in<unsigned int>			M_HRDATA;
-	sc_in<bool>							M_HREADY;
-	sc_in<bool>							M_HRESP;
 
 	char* GetModuleName();
 	void BDInit();
 
-	
-
-
-
-
+	void do_transfer();
+	void assign_signals(BD_AHBPort_MM *Master, BD_AHBLitePort_MS *Slave);
 
 	SC_CTOR(LITETOAHB)	{
-
 		BDInit();
 
 	}
