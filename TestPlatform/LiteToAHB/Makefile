@@ -6,8 +6,9 @@ CXXFLAGS = -fPIC -I$(SYSTEMC_INCLUDE)
 LDFLAGS  = -Wl,--export-dynamic
 COMMON_LIBS = -L$(SYSTEMC_LIBDIR) -lsystemc
 
-PACKAGE_SOURCES = LITETOAHB.cpp 
-
+PACKAGE_SOURCES = LITETOAHB.cpp \
+									LITETOAHB_BDDI.cpp \
+									LITETOAHB_BDMMI.cpp
 SO = lib$(PACKAGE).so
 
 $(SO) : $(PACKAGE_SOURCES:.cpp=.o)

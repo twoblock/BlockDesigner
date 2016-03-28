@@ -38,7 +38,7 @@ namespace sc_core
 				strcpy(temp[6], "$AHBHWRITE_");
 				strcpy(temp[7], "$AHBHBUSREQ_");
 				strcpy(temp[8], "$AHBHGRANT_");
-				strcpy(temp[9], "$AHBHLCOK_");
+				strcpy(temp[9], "$AHBHLOCK_");
 				strcpy(temp[10], "$AHBHREADY_");
 				strcpy(temp[11], "$AHBHRESP_");
 				strcpy(temp[12], "$AHBHRDATA_");

@@ -13,6 +13,16 @@
 
 #include "LITETOAHB.h"
 
+BDDI* LITETOAHB::GetBDDI()
+{
+	return bddi;
+}
+
+BDMMI* LITETOAHB::GetBDMMI()
+{
+	return bdmmi;
+}
+
 void LITETOAHB::do_transfer()	
 {
   assign_signals(AHBMaster_M0, AHBLiteMaster_M0);
@@ -34,7 +44,8 @@ void LITETOAHB::assign_signals(BD_AHBPort_MM *Master, BD_AHBLitePort_MS *Slave)
 	else
 		Master->HBUSREQ = false;
 
-	Slave->HREADY = (Master->HREADY && Master->HGRANT);
+	//Slave->HREADY = (Master->HREADY && Master->HGRANT);
+	Slave->HREADY = Master->HREADY;
 	Slave->HRESP = Master->HRESP;
 	Slave->HRDATA = Master->HRDATA;
 }
@@ -55,8 +66,8 @@ void LITETOAHB::BDInit()
 	// Slave 0 Interface
 	AHBLiteMaster_M0 = new BD_AHBLitePort_MS((char*)"MS_M0");
 
-	//bddi = new LITETOAHB_BDDI(this);
-	//bdmmi = new LITETOAHB_BDMMI(this);
+	bddi = new LITETOAHB_BDDI(this);
+	bdmmi = new LITETOAHB_BDMMI(this);
 }
 
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
