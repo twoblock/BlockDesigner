@@ -26,19 +26,16 @@
 
 0 4 0 BD_CORTEXM0DS$HCLK
 0 4 0 BD_CORTEXM0DS$HRESETn
-0 4 0 BD_CORTEXM0DS$MM_M0&BD_AHB_LITE$MS_M0 AHB
-0 4 0 BD_ROM$SS_S0&BD_AHB_LITE$SM_S0 AHB
-0 4 0 BD_SRAM$SS_S0&BD_AHB_LITE$SM_S1 AHB
+0 4 0 BD_CORTEXM0DS$MM_M0&BD_LITETOAHB$MS_M0 AHBLITE
+#0 4 0 BD_LITETOAHB$MS_M0&BD_CORTEXM0DS$MM_M0 AHBLITE
+0 4 0 BD_AHB$MS_M0&BD_LITETOAHB$MM_M0 AHB
+0 4 0 BD_ROM$SS_S0&BD_AHB$SM_S0 AHB
+#0 4 0 BD_SRAM$SS_S0&BD_AHB$SM_S1 AHB
 
-0 1 STEP 2000 
+0 1 STEP 5000 
 0 1 STOP  
-0 1 STEP 2000 
-0 1 STOP  
-0 1 STEP 1323
-0 1 STOP
 
 0 1 RUN 
-
 ######################### Block Designer command set ########################
 ##                                                                         ##
 ## ################# Way 0 Put #################                           ##

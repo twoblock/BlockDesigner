@@ -52,12 +52,12 @@ namespace BDapi
 
 		if(strcmp(ChannelType, "AHB") == 0)	{
 			char a_UINTTemp[7][256] = { "$AHBHADDR_", "$AHBHBURST_", "$AHBHRDATA_",
-															 		"$AHBHSIZE_", "$AHBHTRANS_", "$AHBHWDATA_", "$AHBHPROT_" };
+				"$AHBHSIZE_", "$AHBHTRANS_", "$AHBHWDATA_", "$AHBHPROT_" };
 
 			char a_BOOLTemp[4][256] = { "$AHBHLOCK_", "$AHBHWRITE_", "$AHBHREADY_", "$AHBHRESP_" };
 
 			char a_UINTName[7][256] = { "_HADDR", "_HBURST", "_HRDATA",
-															 		"_HSIZE", "_HTRANS", "_HWDATA", "_HPROT" };
+				"_HSIZE", "_HTRANS", "_HWDATA", "_HPROT" };
 
 			char a_BOOLName[4][256] = { "_HLOCK", "_HWRITE", "_HREADY", "_HRESP" };
 
@@ -74,7 +74,15 @@ namespace BDapi
 				strcat(a_TempChannelName, a_UINTTemp[UINTIndex]);
 
 				pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
-				
+
+				if(pst_ChannelObject == NULL)	{
+					memset(a_TempChannelName, 0, sizeof(a_TempChannelName));
+					strcpy(a_TempChannelName, p_CatBuf2);
+					strcat(a_TempChannelName, a_UINTTemp[UINTIndex]);
+
+					pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+				}
+
 				// naming tracing channel
 				strcpy(a_TempTraceName, p_CatBuf1);
 				strcpy(a_TempTargetName, p_CatBuf2);
@@ -91,6 +99,14 @@ namespace BDapi
 				strcat(a_TempChannelName, a_BOOLTemp[BOOLIndex]);
 
 				pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+				if(pst_ChannelObject == NULL)	{
+					memset(a_TempChannelName, 0, sizeof(a_TempChannelName));
+					strcpy(a_TempChannelName, p_CatBuf2);
+					strcat(a_TempChannelName, a_BOOLTemp[BOOLIndex]);
+
+					pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+				}
 
 				// naming tracing channel
 				strcpy(a_TempTraceName, p_CatBuf1);
@@ -114,6 +130,14 @@ namespace BDapi
 
 					pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
 
+					if(pst_ChannelObject == NULL)	{		
+						memset(a_TempChannelName, 0, sizeof(a_TempChannelName));
+						strcpy(a_TempChannelName, p_CatBuf2);
+						strcat(a_TempChannelName, a_RestTemp[RestIndex]);
+
+						pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+					}
+
 					// naming tracing channel
 					strcpy(a_TempTraceName, p_CatBuf1);
 					strcpy(a_TempTargetName, p_CatBuf2);
@@ -127,7 +151,7 @@ namespace BDapi
 			}
 			//if(strcmp(pst_ChannelObject->DataType, "Slave") == 0)	{
 			else	{
-				char a_RestTemp[2][256] = { "$HSEL_", "$HREADYOUT_" };
+				char a_RestTemp[2][256] = { "$AHBHSEL_", "$AHBHREADYOUT_" };
 
 				char a_RestName[2][256] = { "_HSEL", "_HREADYOUT" };
 
@@ -136,6 +160,14 @@ namespace BDapi
 					strcat(a_TempChannelName, a_RestTemp[RestIndex]);
 
 					pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+					if(pst_ChannelObject == NULL)	{
+						memset(a_TempChannelName, 0, sizeof(a_TempChannelName));
+						strcpy(a_TempChannelName, p_CatBuf2);
+						strcat(a_TempChannelName, a_RestTemp[RestIndex]);
+
+						pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+					}
 
 					// naming tracing channel
 					strcpy(a_TempTraceName, p_CatBuf1);
@@ -151,12 +183,12 @@ namespace BDapi
 		}
 		else if(strcmp(ChannelType, "AHBLITE") == 0)	{
 			char a_UINTTemp[7][256] = { "$HADDR_", "$HBURST_", "$HRDATA_",
-															 		"$HSIZE_", "$HTRANS_", "$HWDATA_", "$HPROT_" };
+				"$HSIZE_", "$HTRANS_", "$HWDATA_", "$HPROT_" };
 
 			char a_BOOLTemp[4][256] = { "$HLOCK_", "$HWRITE_", "$HREADY_", "$HRESP_" };
 
 			char a_UINTName[7][256] = { "_HADDR", "_HBURST", "_HRDATA",
-															 		"_HSIZE", "_HTRANS", "_HWDATA", "_HPROT" };
+				"_HSIZE", "_HTRANS", "_HWDATA", "_HPROT" };
 
 			char a_BOOLName[4][256] = { "_HLOCK", "_HWRITE", "_HREADY", "_HRESP" };
 
@@ -173,7 +205,15 @@ namespace BDapi
 				strcat(a_TempChannelName, a_UINTTemp[UINTIndex]);
 
 				pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
-				
+
+				if(pst_ChannelObject == NULL)	{
+					memset(a_TempChannelName, 0, sizeof(a_TempChannelName));
+					strcpy(a_TempChannelName, p_CatBuf2);
+					strcat(a_TempChannelName, a_UINTTemp[UINTIndex]);
+
+					pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+				}
+
 				// naming tracing channel
 				strcpy(a_TempTraceName, p_CatBuf1);
 				strcpy(a_TempTargetName, p_CatBuf2);
@@ -190,6 +230,14 @@ namespace BDapi
 				strcat(a_TempChannelName, a_BOOLTemp[BOOLIndex]);
 
 				pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+				if(pst_ChannelObject == NULL)	{
+					memset(a_TempChannelName, 0, sizeof(a_TempChannelName));
+					strcpy(a_TempChannelName, p_CatBuf2);
+					strcat(a_TempChannelName, a_BOOLTemp[BOOLIndex]);
+
+					pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+				}
 
 				// naming tracing channel
 				strcpy(a_TempTraceName, p_CatBuf1);
@@ -212,6 +260,14 @@ namespace BDapi
 					strcat(a_TempChannelName, a_RestTemp[RestIndex]);
 
 					pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+
+					if(pst_ChannelObject == NULL)	{
+						memset(a_TempChannelName, 0, sizeof(a_TempChannelName));
+						strcpy(a_TempChannelName, p_CatBuf2);
+						strcat(a_TempChannelName, a_RestTemp[RestIndex]);
+
+						pst_ChannelObject = p_ChannelMap->FindChannel(a_TempChannelName);
+					}
 
 					// naming tracing channel
 					strcpy(a_TempTraceName, p_CatBuf1);
@@ -270,52 +326,52 @@ namespace BDapi
 				}
 			}
 		}
-	}
-
-	/*
-	 * function 	: GetInstance
-	 * design	    : singleton design
-	 */
-	SignalTraceManager* SignalTraceManager::GetInstance()
-	{
-		// lock
-		pthread_mutex_lock(&SignalTraceManagerInstanceMutex); 
-
-		if( _SignalTraceManager == NULL ){
-			_SignalTraceManager = new SignalTraceManager();
 		}
-		// unlock
-		pthread_mutex_unlock(&SignalTraceManagerInstanceMutex);
 
-		return _SignalTraceManager;
-	}
+		/*
+		 * function 	: GetInstance
+		 * design	    : singleton design
+		 */
+		SignalTraceManager* SignalTraceManager::GetInstance()
+		{
+			// lock
+			pthread_mutex_lock(&SignalTraceManagerInstanceMutex); 
 
-	/*
-	 * function 	: DeleteInstance 
-	 * design	    : Delete SignalTraceManager instance 
-	 */
-	void SignalTraceManager::DeleteInstance()
-	{	
-		delete _SignalTraceManager;
-		_SignalTraceManager = NULL;
-	}
+			if( _SignalTraceManager == NULL ){
+				_SignalTraceManager = new SignalTraceManager();
+			}
+			// unlock
+			pthread_mutex_unlock(&SignalTraceManagerInstanceMutex);
 
-	/*
-	 * function 	: SignalTraceManager 
-	 * design	    : Constructor 
-	 */
-	SignalTraceManager::SignalTraceManager()
-	{
-		p_ChannelMap = ChannelMap::GetInstance();
-		tf = sc_create_vcd_trace_file("wave");
-	}
+			return _SignalTraceManager;
+		}
 
-	/*
-	 * function 	: ~SignalTraceManager 
-	 * design	    : Destructor 
-	 */
-	SignalTraceManager::~SignalTraceManager()
-	{
-		sc_close_vcd_trace_file(tf);
+		/*
+		 * function 	: DeleteInstance 
+		 * design	    : Delete SignalTraceManager instance 
+		 */
+		void SignalTraceManager::DeleteInstance()
+		{	
+			delete _SignalTraceManager;
+			_SignalTraceManager = NULL;
+		}
+
+		/*
+		 * function 	: SignalTraceManager 
+		 * design	    : Constructor 
+		 */
+		SignalTraceManager::SignalTraceManager()
+		{
+			p_ChannelMap = ChannelMap::GetInstance();
+			tf = sc_create_vcd_trace_file("wave");
+		}
+
+		/*
+		 * function 	: ~SignalTraceManager 
+		 * design	    : Destructor 
+		 */
+		SignalTraceManager::~SignalTraceManager()
+		{
+			sc_close_vcd_trace_file(tf);
+		}
 	}
-}

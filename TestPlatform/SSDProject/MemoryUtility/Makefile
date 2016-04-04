@@ -1,14 +1,14 @@
 
-PACKAGE    = LITETOAHB
+PACKAGE    = MemoryUtility
 BUILDFLAGS = -g3 -fPIC  -Wall -W -pedantic -Wno-long-long -Wwrite-strings -Wpointer-arith 
 CXX        = g++ 
 CXXFLAGS = -fPIC -I$(SYSTEMC_INCLUDE)
 LDFLAGS  = -Wl,--export-dynamic
 COMMON_LIBS = -L$(SYSTEMC_LIBDIR) -lsystemc
 
-PACKAGE_SOURCES = LITETOAHB.cpp \
-									LITETOAHB_BDDI.cpp \
-									LITETOAHB_BDMMI.cpp
+PACKAGE_SOURCES = MemoryUtility.cpp \
+									MemoryUtility_BDDI.cpp
+
 SO = lib$(PACKAGE).so
 
 $(SO) : $(PACKAGE_SOURCES:.cpp=.o)

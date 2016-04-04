@@ -18,7 +18,7 @@ SC_MODULE(AHB_ARBITER_M3)	{
 	sc_out<unsigned int>				HMASTER;
 
 	///// [local variable] /////
-	sc_signal<unsigned int>			hbusreq;
+	unsigned int			hbusreq;
 	sc_signal<unsigned int>			hgrant;
 
 	///// [process function] /////
@@ -103,18 +103,17 @@ SC_MODULE(AHB_ARBITER_M3)	{
 	void do_assign_hmaster()
 	{
 		while(1)	{
-			if(!HRESETn)	HMASTER = 0xF;
+			if(!HRESETn)	HMASTER = 0x0;
 			else	{
 				if(HREADY)	{
 					switch(hgrant)	{
 						case	0x4:	HMASTER = 0x0;	break;
 						case	0x2:	HMASTER = 0x1;	break;
 						case	0x1:	HMASTER = 0x2;	break;
-						default:		HMASTER = 0xF;	break;
+						default:		HMASTER = 0x0;	break;
 					}
 				}
 			}
-
 			wait();
 		}
 	}

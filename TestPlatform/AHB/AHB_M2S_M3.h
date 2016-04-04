@@ -65,6 +65,7 @@ SC_MODULE(AHB_M2S_M3)	{
 
 	void do_master_haddr()
 	{
+			//HADDR = HADDR_0;			
 		switch(HMASTER)
 		{
 			case 0:		HADDR = HADDR_0;			break;
@@ -76,28 +77,31 @@ SC_MODULE(AHB_M2S_M3)	{
 
 	void do_master_hprot()
 	{
+			//HPROT = HPROT_0;	
 		switch(HMASTER)
 		{
 			case 0:		HPROT = HPROT_0;			break;
 			case 1:		HPROT = HPROT_1;			break;
 			case 2:		HPROT = HPROT_2;			break;
 			default:	HPROT = 0;						break;
-		}
+		} 
 	}
 
 	void do_master_htrans()
 	{
+			//HTRANS = HTRANS_0;			
 		switch(HMASTER)
 		{
 			case 0:		HTRANS = HTRANS_0;			break;
 			case 1:		HTRANS = HTRANS_1;			break;
 			case 2:		HTRANS = HTRANS_2;			break;
 			default:	HTRANS = 0;							break;
-		}
+		} 
 	}
 
 	void do_master_hwrite()
 	{
+			//HWRITE = HWRITE_0;			
 		switch(HMASTER)
 		{
 			case 0:		HWRITE = HWRITE_0;			break;
@@ -109,35 +113,38 @@ SC_MODULE(AHB_M2S_M3)	{
 
 	void do_master_hsize()
 	{
+			//HSIZE = HSIZE_0;				
 		switch(HMASTER)
 		{
 			case 0:		HSIZE = HSIZE_0;				break;
 			case 1:		HSIZE = HSIZE_1;				break;
 			case 2:		HSIZE = HSIZE_2;				break;
 			default:	HSIZE = 0;							break;
-		}
+		} 
 	}
 
 	void do_master_hburst()
 	{
+			//HBURST = HBURST_0;			
 		switch(HMASTER)
 		{
 			case 0:		HBURST = HBURST_0;			break;
 			case 1:		HBURST = HBURST_1;			break;
 			case 2:		HBURST = HBURST_2;			break;
 			default:	HBURST = 0;							break;
-		}
+		} 
 	}
 
 	void do_master_hwdata()
 	{
+			//HWDATA = HWDATA_0;			
 		switch(hmaster_delay)
 		{
 			case 0:		HWDATA = HWDATA_0;			break;
 			case 1:		HWDATA = HWDATA_1;			break;
 			case 2:		HWDATA = HWDATA_2;			break;
 			default:	HWDATA = 0;							break;
-		}
+		} 
 	}
 
 	SC_CTOR(AHB_M2S_M3)	{

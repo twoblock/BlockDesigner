@@ -162,7 +162,7 @@
       },
       {
         "module_info": {
-          "instance_name": "BD_AHB_LITE",
+          "instance_name": "BD_AHB",
           "memory_map": [
             {
               "slave_module": "BD_ROM",
@@ -263,8 +263,8 @@
           ]
         },
         "module_type": "bus",
-        "module_location": "/home/bryan/workspace/BlockDesigner/TestPlatform/AHB_Lite/libAHB_Lite.so",
-        "module_name": "AHB_Lite"
+        "module_location": "/home/bryan/workspace/BlockDesigner/TestPlatform/AHB/libAHB.so",
+        "module_name": "AHB"
       },
       {
         "module_info": {
@@ -413,7 +413,7 @@
             {
               "sc_type": "MM",
               "port": "MM_M0",
-              "data_type": "AHB"
+              "data_type": "AHBLITE"
             }
           ],
           "parameter": [
@@ -511,6 +511,48 @@
         "module_location": "/home/bryan/workspace/BlockDesigner/TestPlatform/VCORTEXM0DS/libVCORTEXM0DS.so",
         "module_name": "VCORTEXM0DS"
       },
+			{
+        "module_info": {
+          "instance_name": "BD_LITETOAHB",
+					"memory_map": [
+            {
+              "slave_module": "BD_AHB",
+              "slave_module_port": "MS_M0",
+              "start_address": "0x0000000",
+							"size": "0x30000000"
+						} 
+					],
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHBLITE",
+              "port": "MS_M0",
+              "data_type": "MS"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MM_M0",
+              "data_type": "MM"
+            }
+          ],
+          "parameter": [
+          ],
+          "register": [
+          ]
+        },
+        "module_type": "bus",
+        "module_location": "/home/bryan/workspace/BlockDesigner/TestPlatform/LiteToAHB/libLITETOAHB.so",
+        "module_name": "LITETOAHB"
+      },
       {
         "module_info": {
           "instance_name": "BD_ROM",
@@ -589,7 +631,7 @@
         "channel_type": "sc_clock",
         "connection_info": [
           {
-            "module_name": "BD_AHB_LITE",
+            "module_name": "BD_AHB",
             "port_name": "HCLK"
           },
           {
@@ -607,7 +649,12 @@
           {
             "module_name": "BD_TB",
             "port_name": "HCLK"
+          },
+          {
+            "module_name": "BD_LITETOAHB",
+            "port_name": "HCLK"
           }
+
         ],
         "connection_num": "5",
         "data_type": "bool",
@@ -617,7 +664,7 @@
         "channel_type": "sc_signal",
         "connection_info": [
           {
-            "module_name": "BD_AHB_LITE",
+            "module_name": "BD_AHB",
             "port_name": "HRESETn"
           },
           {
@@ -635,17 +682,22 @@
           {
             "module_name": "BD_TB",
             "port_name": "HRESETn"
+          },
+          {
+            "module_name": "BD_LITETOAHB",
+            "port_name": "HRESETn"
           }
+
         ],
         "connection_num": "5",
         "data_type": "bool",
         "name": "BD_CORTEXM0DS$HRESETn"
       },
       {
-        "channel_type": "AHB",
+        "channel_type": "AHBLITE",
         "connection_info": [
           {
-            "module_name": "BD_AHB_LITE",
+            "module_name": "BD_LITETOAHB",
             "port_name": "MS_M0"
           }
         ],
@@ -657,7 +709,19 @@
         "channel_type": "AHB",
         "connection_info": [
           {
-            "module_name": "BD_AHB_LITE",
+            "module_name": "BD_LITETOAHB",
+            "port_name": "MM_M0"
+          }
+        ],
+        "connection_num": "1",
+        "data_type": "Master",
+        "name": "BD_AHB$MS_M0"
+      },
+      {
+        "channel_type": "AHB",
+        "connection_info": [
+          {
+            "module_name": "BD_AHB",
             "port_name": "SM_S0"
           }
         ],
@@ -669,7 +733,7 @@
         "channel_type": "AHB",
         "connection_info": [
           {
-            "module_name": "BD_AHB_LITE",
+            "module_name": "BD_AHB",
             "port_name": "SM_S1"
           }
         ],
@@ -681,7 +745,7 @@
         "channel_type": "AHB",
         "connection_info": [
           {
-            "module_name": "BD_AHB_LITE",
+            "module_name": "BD_AHB",
             "port_name": "SM_S2"
           }
         ],
@@ -704,11 +768,18 @@
       {
         "channel_type": "AHB",
         "connection_info": [
-          
-        ],
+					],
         "connection_num": "0",
-        "data_type": "Slave",
-        "name": "BD_AHB_LITE$SM_S3"
+        "data_type": "Master",
+        "name": "BD_AHB$MS_M1"
+      },
+			{
+        "channel_type": "AHB",
+        "connection_info": [
+					],
+        "connection_num": "0",
+        "data_type": "Master",
+        "name": "BD_AHB$MS_M2"
       },
       {
         "channel_type": "AHB",
@@ -717,7 +788,7 @@
         ],
         "connection_num": "0",
         "data_type": "Slave",
-        "name": "BD_AHB_LITE$SM_S4"
+        "name": "BD_AHB$SM_S3"
       },
       {
         "channel_type": "AHB",
@@ -726,7 +797,7 @@
         ],
         "connection_num": "0",
         "data_type": "Slave",
-        "name": "BD_AHB_LITE$SM_S5"
+        "name": "BD_AHB$SM_S4"
       },
       {
         "channel_type": "AHB",
@@ -735,7 +806,7 @@
         ],
         "connection_num": "0",
         "data_type": "Slave",
-        "name": "BD_AHB_LITE$SM_S6"
+        "name": "BD_AHB$SM_S5"
       },
       {
         "channel_type": "AHB",
@@ -744,7 +815,7 @@
         ],
         "connection_num": "0",
         "data_type": "Slave",
-        "name": "BD_AHB_LITE$SM_S7"
+        "name": "BD_AHB$SM_S6"
       },
       {
         "channel_type": "AHB",
@@ -753,7 +824,7 @@
         ],
         "connection_num": "0",
         "data_type": "Slave",
-        "name": "BD_AHB_LITE$SM_S8"
+        "name": "BD_AHB$SM_S7"
       },
       {
         "channel_type": "AHB",
@@ -762,7 +833,16 @@
         ],
         "connection_num": "0",
         "data_type": "Slave",
-        "name": "BD_AHB_LITE$SM_S9"
+        "name": "BD_AHB$SM_S8"
+      },
+      {
+        "channel_type": "AHB",
+        "connection_info": [
+          
+        ],
+        "connection_num": "0",
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S9"
       },
       {
         "channel_type": "sc_signal",
@@ -771,7 +851,7 @@
         ],
         "connection_num": "0",
         "data_type": "bool",
-        "name": "BD_AHB_LITE$HSEL_NOMAP"
+        "name": "BD_AHB$HSEL_NOMAP"
       },
       {
         "channel_type": "sc_signal",
