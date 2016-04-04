@@ -5,6 +5,73 @@
 
 namespace sc_core
 {
+
+	enum AHBSignal 
+	{
+			HBUSREQ,
+			HADDR,
+			HBURST,
+			HPROT,
+			HSIZE,
+			HTRANS,
+			HWDATA,
+			HWRITE,
+			HLOCK,
+			HGRANT,
+			HREADY,
+			HRESP,
+			HRDATA,
+			HSEL,
+			HREADYOUT
+	};
+
+enum AHB2_TRANS
+{
+  AHB2_TRANS_IDLE   = 0, /*!< Idle transfer */
+  AHB2_TRANS_BUSY   = 1, /*!< Busy transfer */
+  AHB2_TRANS_NONSEQ = 2, /*!< NonSeq transfer */
+  AHB2_TRANS_SEQ    = 3  /*!< Seg transfer */
+};
+
+enum AHB2_SIZE
+{
+  AHB2_SIZE_DATA8    = 0,
+  AHB2_SIZE_DATA16   = 1,
+  AHB2_SIZE_DATA32   = 2,
+  AHB2_SIZE_DATA64   = 3,
+  AHB2_SIZE_DATA128  = 4,
+  AHB2_SIZE_DATA256  = 5,
+  AHB2_SIZE_DATA512  = 6,
+  AHB2_SIZE_DATA1024 = 7
+};
+
+
+/*!
+ * This enum provides the possible HBURST (3 bits) values for specifying burst type.
+ */
+enum AHB2_BURST
+{
+  AHB2_BURST_SINGLE = 0,
+  AHB2_BURST_INCR   = 1,
+  AHB2_BURST_WRAP4  = 2,
+  AHB2_BURST_INCR4  = 3,
+  AHB2_BURST_WRAP8  = 4,
+  AHB2_BURST_INCR8  = 5,
+  AHB2_BURST_WRAP16 = 6,
+  AHB2_BURST_INCR16 = 7
+};
+
+/*!
+ * This enum provides the possible HBURST (3 bits) values for specifying burst type.
+ */
+//enum AHB2_WRITE
+//{
+  //READ  = 0,
+  //WRITE = 1
+//};
+
+
+	
 	class BD_AHBPort_MM 
 	{
 		public:
@@ -62,6 +129,35 @@ namespace sc_core
 				HRESP.set_port_name(temp[11]);
 				HRDATA.set_port_name(temp[12]);
 			}
+	
+			void clear()
+			{
+			}
+			void setSig(AHBSignal Signal, bool Value)
+			{
+				if(Signal == HBUSREQ)
+			    HBUSREQ = Value;	
+			}
+			unsigned int getSig(AHBSignal Signal)
+			{
+				//if(Signal == HWRITE)
+				//return (bool)HWRITE;	
+			}
+
+			void setWData(unsigned int Value, unsigned int Par)
+			{
+					HWDATA = Value;
+			}
+			unsigned int getRData(unsigned int Par)
+			{
+			}
+			
+
+			void setAddr(unsigned int dw_Addr, unsigned int dw_Trans, bool dw_Write, unsigned int dw_Size, unsigned int dw_Burst, unsigned int dw_Prot, bool b_Lock)
+			{
+			}
+
+
 	};
 
 	class BD_AHBPort_MS 
@@ -120,7 +216,18 @@ namespace sc_core
 				HREADY.set_port_name(temp[10]);
 				HRESP.set_port_name(temp[11]);
 				HRDATA.set_port_name(temp[12]);
+			}
 
+void clear()
+			{
+			}
+			void setSig(AHBSignal Signal, bool Value)
+			{
+			}
+			unsigned int getSig(AHBSignal Signal)
+			{
+				//if(Signal == HWRITE)
+					//return (bool)HWRITE;	
 			}
 	};
 
@@ -181,6 +288,18 @@ namespace sc_core
 				HRESP.set_port_name(temp[11]);
 				HRDATA.set_port_name(temp[12]);
 			}
+
+			void clear()
+			{
+			}
+			void setSig(AHBSignal Signal, bool Value)
+			{
+			}
+			unsigned int getSig(AHBSignal Signal)
+			{
+				//if(Signal == HWRITE)
+				//return (bool)HWRITE;	
+			}
 	};
 
 	class BD_AHBPort_SS
@@ -240,6 +359,28 @@ namespace sc_core
 				HRESP.set_port_name(temp[11]);
 				HRDATA.set_port_name(temp[12]);
 			}
+
+			void clear()
+			{
+			}
+
+			void setSig(AHBSignal Signal, bool Value)
+			{
+				if(Signal == HREADYOUT)
+					HREADYOUT = Value;	
+			}
+			unsigned int getSig(AHBSignal Signal)
+			{
+				//if(Signal == HWRITE)
+					//return (bool)HWRITE;	
+			}
+			void setRData(unsigned int Value)
+			{
+			}
+			unsigned int getWData(unsigned int Par)
+			{
+			}
+	
 	};
 
 	class BD_AHBLitePort_MM
@@ -293,6 +434,32 @@ namespace sc_core
 				HREADY.set_port_name(temp[9]);
 				HRESP.set_port_name(temp[10]);
 			}
+
+			void clear()
+			{
+			}
+
+			void setSig(AHBSignal Signal, bool Value)
+			{
+			}
+
+			unsigned int getSig(AHBSignal Signal)
+			{
+				//if(Signal == HWRITE)
+				//return (bool)HWRITE;	
+			}
+			void setWData(unsigned int Value, unsigned int Par)
+			{
+					HWDATA = Value;
+			}
+			unsigned int getRData(unsigned int Par)
+			{
+			}
+			void setAddr(unsigned int dw_Addr, unsigned int dw_Trans, bool dw_Write, unsigned int dw_Size, unsigned int dw_Burst, unsigned int dw_Prot, bool b_Lock)
+			{
+			}
+
+
 	};
 
 	class BD_AHBLitePort_MS 
@@ -345,6 +512,18 @@ namespace sc_core
 				HRDATA.set_port_name(temp[8]);
 				HREADY.set_port_name(temp[9]);
 				HRESP.set_port_name(temp[10]);
+			}
+
+			void clear()
+			{
+			}
+			void setSig(AHBSignal Signal, bool Value)
+			{
+			}
+			unsigned int getSig(AHBSignal Signal)
+			{
+				//if(Signal == HWRITE)
+					//return (bool)HWRITE;	
 			}
 	};
 
@@ -405,6 +584,17 @@ namespace sc_core
 				HRESP.set_port_name(temp[11]);
 				HRDATA.set_port_name(temp[12]);
 			}
+			void clear()
+			{
+			}
+			void setSig(AHBSignal Signal, bool Value)
+			{
+			}
+			unsigned int getSig(AHBSignal Signal)
+			{
+				//if(Signal == HWRITE)
+				//return (bool)HWRITE;	
+			}
 	};
 
 	class BD_AHBLitePort_SS
@@ -464,6 +654,28 @@ namespace sc_core
 				HRESP.set_port_name(temp[11]);
 				HRDATA.set_port_name(temp[12]);
 			}
+
+			void clear()
+			{
+			}
+
+			void setSig(AHBSignal Signal, bool Value)
+			{
+				if(Signal == HREADYOUT)
+					HREADYOUT = Value;	
+			}
+			unsigned int getSig(AHBSignal Signal)
+			{
+				//if(Signal == HWRITE)
+					//return (bool)HWRITE;	
+			}
+			void setRData(unsigned int Value)
+			{
+			}
+			unsigned int getWData(unsigned int Par)
+			{
+			}
+	
 	};
 }
 
