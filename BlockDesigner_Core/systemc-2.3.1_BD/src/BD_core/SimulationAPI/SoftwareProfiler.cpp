@@ -363,11 +363,15 @@ namespace BDapi
 		m_Symbol_Table[Table_element_num].Is_it_Called_Now = true;
 		m_Symbol_Table[Table_element_num].Is_Profilied= false;
 
+		Symbol.clear();
+		Symbol["function_name"] = "Summary"; 
+		SymbolTable[0] = Symbol;
+
 		// Normal Function Diaplay
 		for( i = 0; i < Table_element_num + 1 ; i++ ){
 			Symbol.clear();
 			Symbol["function_name"] = m_Symbol_Table[i].Function_Name;
-			SymbolTable[i] = Symbol;
+			SymbolTable[i+1] = Symbol;
 		}
 
 		Root_SymbolTable["SymbolTable"] = SymbolTable;
@@ -407,12 +411,12 @@ namespace BDapi
 
 		IndexOfFunctionFlow = Function_Search(Pre_pc);
 		if(IndexOfFunctionFlow == -1){
-			sprintf(a_Buffer, "%d", Table_element_num);
+			sprintf(a_Buffer, "%d", Table_element_num+1);
 			FunctionFG["function_index"] = a_Buffer;
 			//FunctionFG["function_name"] = m_Symbol_Table[Table_element_num].Function_Name;
 		}
 		else{
-			sprintf(a_Buffer, "%d", IndexOfFunctionFlow);
+			sprintf(a_Buffer, "%d", IndexOfFunctionFlow+1);
 			FunctionFG["function_index"] = a_Buffer;
 			//FunctionFG["function_name"] = m_Symbol_Table[IndexOfFunctionFlow].Function_Name;
 		}
@@ -457,7 +461,7 @@ namespace BDapi
 
 		Json::StyledWriter GraghWriter;
 		string StringFunctionFlowGragh = GraghWriter.write(Root_FunctionFlowGragh);
-		//printf("%s \n", StringFunctionFlowGragh.c_str()); 
+		printf("%s \n", StringFunctionFlowGragh.c_str()); 
 
 		FunctionFlowGragh.clear();
 
@@ -469,11 +473,30 @@ namespace BDapi
 		int i = 0;
 		char a_Buffer[128] = {0,};
 
+		// For Profiling
+		unsigned long Sum_Of_SelfDuration_Cycle= 0;
+		unsigned long Sum_Of_Call = 0;
+		float self_duration_Per = 0;
+		float Sum_Of_self_duration_Per = 0;
+		float duration_Per = 0;
+		int k;
+
+		for( k = 0; k < Table_element_num + 1; k++ )
+		{
+			Sum_Of_SelfDuration_Cycle += m_Symbol_Table[k].Self_Duration; 
+			Sum_Of_Call               += m_Symbol_Table[k].Call_Num; 
+		}
+
 		// Normal Function Diaplay
 		for( i = 0; i < Table_element_num + 1 ; i++ ){
+
+			self_duration_Per =  (float)m_Symbol_Table[i].Self_Duration/(float)Sum_Of_SelfDuration_Cycle ;
+			duration_Per      =  (float)m_Symbol_Table[i].Duration/(float)Global_Time ;
+			Sum_Of_self_duration_Per += self_duration_Per;
+
 			FunctionPT.clear();
 			if(m_Symbol_Table[i].Is_Profilied == true){
-				sprintf(a_Buffer, "%d", i);
+				sprintf(a_Buffer, "%d", i+1);
 				FunctionPT["function_index"] = a_Buffer;
 				memset(a_Buffer, 0, sizeof(a_Buffer));
 				sprintf(a_Buffer, "%lu", m_Symbol_Table[i].Call_Num);
@@ -482,8 +505,15 @@ namespace BDapi
 				sprintf(a_Buffer, "%lu", m_Symbol_Table[i].Duration);
 				FunctionPT["function_duration"] = a_Buffer;
 				memset(a_Buffer, 0, sizeof(a_Buffer));
+				sprintf(a_Buffer, "%f", duration_Per*100);
+				FunctionPT["function_duration_per"] = a_Buffer;
+				memset(a_Buffer, 0, sizeof(a_Buffer));
 				sprintf(a_Buffer, "%lu", m_Symbol_Table[i].Self_Duration);
 				FunctionPT["function_selfduration"] = a_Buffer;
+				memset(a_Buffer, 0, sizeof(a_Buffer));
+				sprintf(a_Buffer, "%f", self_duration_Per*100);
+				FunctionPT["function_selfduration_per"] = a_Buffer;
+
 				memset(a_Buffer, 0, sizeof(a_Buffer));
 
 				ProfilingTable.append(FunctionPT);
@@ -492,11 +522,27 @@ namespace BDapi
 					m_Symbol_Table[i].Is_Profilied = false;
 			}
 		}
+
+		FunctionPT["function_index"] = "0";
+		memset(a_Buffer, 0, sizeof(a_Buffer));
+		sprintf(a_Buffer, "%lu", Sum_Of_Call);
+		FunctionPT["function_call"] = a_Buffer;
+		memset(a_Buffer, 0, sizeof(a_Buffer));
+		sprintf(a_Buffer, "%lu", Global_Time);
+		FunctionPT["function_duration"] = a_Buffer;
+		FunctionPT["function_duration_per"] = "100.000000";
+		memset(a_Buffer, 0, sizeof(a_Buffer));
+		sprintf(a_Buffer, "%lu", Sum_Of_SelfDuration_Cycle); 
+		FunctionPT["function_selfduration"] = a_Buffer;
+		FunctionPT["function_selfduration_per"] = "100.000000";
+
+		ProfilingTable.append(FunctionPT);
+
 		Root_ProfilingTable["ProfilingTable"] = ProfilingTable;
 
 		Json::StyledWriter writer;
 		string StringProfilingTable= writer.write(Root_ProfilingTable);
-		//printf("%s \n", StringProfilingTable.c_str()); 
+		printf("%s \n", StringProfilingTable.c_str()); 
 		
 		ProfilingTable.clear();
 

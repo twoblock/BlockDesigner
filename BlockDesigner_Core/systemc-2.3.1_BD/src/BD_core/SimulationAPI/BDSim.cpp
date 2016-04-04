@@ -51,7 +51,7 @@ namespace BDapi
 		p_SoftwareManager = SoftwareManager::GetInstance();	
 		p_CallBackManager = CallBackManager::GetInstance();
 
-		//StartCallBack();
+		StartCallBack();
 
 		while(1){
 			dw_SimControl = ExecutionManager::GetExecutionFlag();
@@ -101,7 +101,7 @@ namespace BDapi
 		p_SoftwareManager->PCAnalyzer();	
 
 		glw_Cycle++;
-		//CycleCallBack(RUN);
+		CycleCallBack(RUN);
 	}
 
 	/*
@@ -120,7 +120,7 @@ namespace BDapi
 			p_SoftwareManager->PCAnalyzer();	
 
 			glw_Cycle++;
-			//CycleCallBack(STEP);
+			CycleCallBack(STEP);
 
 			dw_StepValue -= 10;
 			ExecutionManager::SetStepValue(dw_StepValue);
@@ -137,8 +137,8 @@ namespace BDapi
 	 */
 	void Stop()
 	{
-		//StopCallBack();
-		//CycleCallBack(STOP);
+		StopCallBack();
+		CycleCallBack(STOP);
 		ExecutionManager::SetExecutionFlag(NOTHING);
 	}
 
