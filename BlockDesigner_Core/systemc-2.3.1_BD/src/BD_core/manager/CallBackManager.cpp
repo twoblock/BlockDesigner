@@ -37,11 +37,11 @@ namespace BDapi
 	{
 		SoftwareProfiler *p_SoftwareProfiler = NULL;
 		p_SoftwareProfiler = p_SoftwarwManager->GetSoftwareProfiler();
-		p_SoftwareProfiler->GetJsonOfSymbolTable();	
+		SendBackJson(p_SoftwareProfiler->GetJsonOfSymbolTable(), "SymbolTableCallBack");
 
 		SoftwareDisplayer *p_SoftwareDisplayer = NULL;
 		p_SoftwareDisplayer = p_SoftwarwManager->GetSoftwareDisplayer();
-		p_SoftwareDisplayer->GetJsonOfSourceCode();	
+		SendBackJson(p_SoftwareDisplayer->GetJsonOfSourceCode(), "SourceCodeCallBack");
 
 		return CallBackOK;
 	}
@@ -50,9 +50,9 @@ namespace BDapi
 	{
 		SoftwareProfiler *p_SoftwareProfiler = NULL;
 		p_SoftwareProfiler = p_SoftwarwManager->GetSoftwareProfiler();
+		SendBackJson(p_SoftwareProfiler->GetJsonOfProfilingTable(), "ProfilingTableCallBack");
+		SendBackJson(p_SoftwareProfiler->GetJsonOfFunctionFlowGragh(), "FunctionFlowCallBack");
 
-		p_SoftwareProfiler->GetJsonOfProfilingTable();	
-		p_SoftwareProfiler->GetJsonOfFunctionFlowGragh();
 		SendBackJson(p_BDDIJsonManager->GenerateBDDIJsonFile(), "ResultCallBack");
 		SendBackJson(p_BDDIJsonManager->GenerateMemoryViewJsonFile(), "MemoryViewCallBack");
 		SendBackInt(STOP, "StatusCallBack");
@@ -72,7 +72,6 @@ namespace BDapi
 		m_Env->CallVoidMethod(m_Jobject, m_MethodID, string);
 		return CallBackOK;
 	}
-
 
 	CallBackReturn CallBackManager::SendBackLongLong(long long LongLong, const char *MethodName)
 	{
