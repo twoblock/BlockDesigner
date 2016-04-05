@@ -18,6 +18,8 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -32,6 +34,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
@@ -52,6 +55,10 @@ import com.twoblock.blockdesigner.datastore.ModuleInfo.Module;
 import com.twoblock.blockdesigner.datastore.ModuleInfo.Parameter;
 import com.twoblock.blockdesigner.datastore.ModuleInfo.Port;
 import com.twoblock.blockdesigner.datastore.Set_BDPMD;
+import com.twoblock.blockdesigner.popup.BDF;
+import com.twoblock.blockdesigner.popup.BDMemoryMapEditor;
+import com.twoblock.blockdesigner.popup.BDMemoryMapItem;
+import com.twoblock.blockdesigner.popup.IBDMemoryMapEditorListener;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -88,22 +95,22 @@ public class View_PlatformManager extends ViewPart {
 	private Color color_gray = new Color(device, 150, 150, 150);
 	private Color color_skyblue = new Color(device, 204, 204, 255);
 	private ArrayList<ExpandItem> Expanditem = new ArrayList<ExpandItem>();
-
+	
 	private JSONParser parser = new JSONParser();
 	private Object obj;
 	private JSONObject jsonObject;
 	private JSONArray ModuleInfoList;
 	private int list_Cnt = 0;
-	private ArrayList<String> UsedModuleList = new ArrayList<String>();
+	private static ArrayList<String> UsedModuleList = new ArrayList<String>();
 	private String PastItem;
 	private CCombo PastLinkedModule;
 	private int PastLinkedModuleIndex=0;
-	public static ModuleInfo ModuleInfoData;
-	public static ModuleInfo UsedModuleDataList;
-	private Module ModuleData;
+	private static ModuleInfo ModuleInfoData;
+	private static ModuleInfo UsedModuleDataList = new ModuleInfo();
+	private static Module ModuleData;
 	private int Selected_Index;
 	private int UsedModuleIndex;
-	
+	private String Instance_Module_Name;
 	public static Display display =null;
 	
 	public void createPartControl(Composite parent) {
@@ -185,7 +192,68 @@ public class View_PlatformManager extends ViewPart {
 			Button btn_Module_Add = new Button(composite_ModuleSetter, SWT.FLAT | SWT.CENTER);
 			btn_Module_Add.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 			btn_Module_Add.setText("<");
+			
+			btn_Module_Add.addSelectionListener(new SelectionListener() {
+				public void widgetSelected(SelectionEvent e) {
+					final Shell dialog = new Shell(shell.getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+					dialog.setLayout(new FillLayout(SWT.HORIZONTAL));
+					dialog.setText("Plz write Instance name");
 
+					final Text txt_InstanceName = new Text(dialog, SWT.NONE);
+					txt_InstanceName.pack();
+					Button btn_OK = new Button(dialog, SWT.PUSH);
+					btn_OK.setText("OK");
+					btn_OK.pack();
+					btn_OK.addSelectionListener(new SelectionListener() {
+						@Override
+						public void widgetSelected(SelectionEvent arg0) {
+							// TODO Auto-generated method stub
+							Instance_Module_Name = txt_InstanceName.getText();
+							String Module_name=null;
+							if (list_All.getSelectionIndex() != -1) {
+								Module_name = list_All.getItem(list_All.getSelectionIndex());
+								AddModuleSelected(Module_name);
+							} else if (list_cpu.getSelectionIndex() != -1) {
+								Module_name = list_cpu.getItem(list_cpu.getSelectionIndex());
+								AddModuleSelected(Module_name);
+							} else if (list_bus.getSelectionIndex() != -1) {
+								Module_name = list_bus.getItem(list_bus.getSelectionIndex());
+								AddModuleSelected(Module_name);
+							} else if (list_mem.getSelectionIndex() != -1) {
+								Module_name = list_mem.getItem(list_mem.getSelectionIndex());
+								AddModuleSelected(Module_name);
+							} else if (list_other.getSelectionIndex() != -1) {
+								Module_name = list_other.getItem(list_other.getSelectionIndex());
+								AddModuleSelected(Module_name);
+							}
+							dialog.close();
+						}
+						
+						@Override
+						public void widgetDefaultSelected(SelectionEvent arg0) {
+							// TODO Auto-generated method stub
+						}
+						
+					});
+					
+					dialog.pack();
+					dialog.open();
+
+					// Move the dialog to the center of the top level shell.
+					Rectangle shellBounds = shell.getBounds();
+					Point dialogSize = dialog.getSize();
+
+					dialog.setLocation(shellBounds.x + (shellBounds.width - dialogSize.x) / 2,
+							shellBounds.y + (shellBounds.height - dialogSize.y) / 2);
+					dialog.setSize(300, 65);
+					
+				}
+
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			});
+			
+			
 			new Label(composite_ModuleSetter, SWT.NONE);
 			new Label(composite_ModuleSetter, SWT.NONE);
 
@@ -195,37 +263,6 @@ public class View_PlatformManager extends ViewPart {
 
 			Label lbl_Blank_bottom = new Label(composite_ModuleSetter, SWT.NONE);
 			lbl_Blank_bottom.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
-			btn_Module_Add.addSelectionListener(new SelectionListener() {
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					// TODO Auto-generated method stub
-					String Module_Name = null;
-					if (list_All.getSelectionIndex() != -1) {
-						Module_Name = list_All.getItem(list_All.getSelectionIndex());
-						AddModuleSelected(Module_Name);
-					} else if (list_cpu.getSelectionIndex() != -1) {
-						Module_Name = list_cpu.getItem(list_cpu.getSelectionIndex());
-						AddModuleSelected(Module_Name);
-					} else if (list_bus.getSelectionIndex() != -1) {
-						Module_Name = list_bus.getItem(list_bus.getSelectionIndex());
-						AddModuleSelected(Module_Name);
-					} else if (list_mem.getSelectionIndex() != -1) {
-						Module_Name = list_mem.getItem(list_mem.getSelectionIndex());
-						AddModuleSelected(Module_Name);
-					} else if (list_other.getSelectionIndex() != -1) {
-						Module_Name = list_other.getItem(list_other.getSelectionIndex());
-						AddModuleSelected(Module_Name);
-					}
-					
-				}
-
-				@Override
-				public void widgetDefaultSelected(SelectionEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-			});
 
 			btn_Module_Delete.addSelectionListener(new SelectionListener() {
 				@Override
@@ -407,15 +444,23 @@ public class View_PlatformManager extends ViewPart {
 				// TODO Auto-generated method stub
 			}
 		});
+		
+		expandBar.setSpacing(10);
+		expandBar.getVerticalBar().addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event arg0) {
+				// TODO Auto-generated method stub
+				for (int i = 0; i < expandBar.getItemCount(); i++) {
+				}
+			}
+		});
 	}
 	
 	protected void AddModuleSelected(final String Module_Name) {
 		// TODO Auto-generated method stub
-		
-		
 		String Module_Title = null;
 		UsedModuleIndex = 0;
-		Module_Title = Module_Name + " (" + Module_Name + ")";
+		Module_Title = Instance_Module_Name + " (" + Module_Name + ")";
 
 		// make Drawed module list. 
 		UsedModuleList.add(Module_Name);
@@ -429,8 +474,7 @@ public class View_PlatformManager extends ViewPart {
 		composite_ExpandItem.add(new Composite(expandBar, SWT.NONE));
 		composite_ExpandItem.get(UsedModuleIndex).setBackground(color_gray);
 		composite_ExpandItem.get(UsedModuleIndex).setLayout(new GridLayout(2, false));
-		
-		
+		composite_ExpandItem.get(UsedModuleIndex).setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		Expanditem.get(UsedModuleIndex).setControl(composite_ExpandItem.get(UsedModuleIndex));
 		Expanditem.get(UsedModuleIndex)
@@ -438,8 +482,10 @@ public class View_PlatformManager extends ViewPart {
 
 		
 		{/* --- port table --- */
-			table_port = new Table(composite_ExpandItem.get(UsedModuleIndex), SWT.BORDER | SWT.FULL_SELECTION);
-			table_port.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+			table_port = new Table(composite_ExpandItem.get(UsedModuleIndex), SWT.BORDER | SWT.FULL_SELECTION| SWT.V_SCROLL);
+			GridData gd_table_port = new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1);
+			gd_table_port.heightHint = 150;
+			table_port.setLayoutData(gd_table_port);
 			table_port.setHeaderVisible(true);
 			table_port.setLinesVisible(true);
 			TableColumn tblclmnNewColumn = new TableColumn(table_port, SWT.CENTER);
@@ -471,14 +517,15 @@ public class View_PlatformManager extends ViewPart {
 			ModuleData = ModuleInfoData.mList.get(Selected_Index);
 			// set add 
 			UsedModuleDataList.mList.add(ModuleData);
+			UsedModuleDataList.mList.get(UsedModuleIndex).module_instance_name = Instance_Module_Name;
+
 			final ArrayList<Port> PortDataList = UsedModuleDataList.mList.get(UsedModuleIndex).Port_List;
 			port_Cnt = PortDataList.size();
 			
 			
-			
 			switch (UsedModuleDataList.mList.get(UsedModuleIndex).module_type) {
 			case "cpu":
-				ImageDescriptor idItem1 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_cpu16.png");
+				ImageDescriptor idItem1 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_core16.png");
 				Image imgItemIcon1 = idItem1.createImage();
 				Expanditem.get(UsedModuleIndex).setImage(imgItemIcon1);
 				break;
@@ -547,7 +594,9 @@ public class View_PlatformManager extends ViewPart {
 				
 //				final CCombo cmb_DestPort = new CCombo(table_port, SWT.READ_ONLY);
 				PortDataList.get(port_index).cmb_dPort = new CCombo(table_port, SWT.READ_ONLY);
-				
+				if(PortDataList.get(port_index).SM_Index > 0){
+					PortDataList.get(port_index).cmb_dPort.setEnabled(false);
+				}
 				PortDataList.get(port_index).cmb_dPort.setText("");
 				
 				// when you click dropdown, show destmodule in port
@@ -562,7 +611,7 @@ public class View_PlatformManager extends ViewPart {
 							String module = null;
 							int port_Cnt = 0;
 							int DestModule_Index = 0;
-							for (DestModule_Index = 0; DestModule_Index < list_Cnt; DestModule_Index++) {
+							for (DestModule_Index = 0; DestModule_Index < UsedModuleDataList.mList.size(); DestModule_Index++) {
 								module = UsedModuleDataList.mList.get(DestModule_Index).module_name;
 								if (cmb_DestModule.getText().equals(module) == true)
 									break;
@@ -606,6 +655,21 @@ public class View_PlatformManager extends ViewPart {
 												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
 									}
 								}
+								
+								if( (source_scType.equals("SM")&&dest_scType.equals("SS")) 
+//										| (source_scType.equals("SS")&&dest_scType.equals("SM")) 
+										){
+									if(UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort.isEnabled())
+									{
+										PortDataList.get(SelectedPort_Index).cmb_dPort.add(
+												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).sc_type
+												+ "<" + 
+												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).data_type
+														+ ">" + 
+												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
+									}
+								}
+								
 							}
 						}
 					}
@@ -620,8 +684,6 @@ public class View_PlatformManager extends ViewPart {
 						if (PastItem.equals(cmb_DestModule.getItem((cmb_DestModule.getSelectionIndex()))) == false)
 							PortDataList.get(SelectedModule_Index).cmb_dPort.removeAll();
 						
-						
-						
 					}
 
 					@Override
@@ -635,9 +697,24 @@ public class View_PlatformManager extends ViewPart {
 				PortDataList.get(port_index).cmb_dPort.addSelectionListener(new SelectionListener() {
 					final int SelectedPort_Index=port_index;
 					final int sourceModule_Index=UsedModuleIndex;
+
 					@Override
 					public void widgetSelected(SelectionEvent arg0) {
 						// TODO Auto-generated method stub
+						
+						// SM SETTING
+						if(PortDataList.get(SelectedPort_Index).SM_Index >=0){
+							int ptr=PortDataList.get(SelectedPort_Index).SM_Index;
+							PortDataList.get(SelectedPort_Index+1).cmb_dPort.setEnabled(true);
+							for(int finder=SelectedPort_Index; finder < PortDataList.size(); finder++){
+								if(PortDataList.get(finder).SM_Index == ptr+1){
+									PortDataList.get(finder).cmb_dPort.setEnabled(true);
+								}
+							}
+						}
+						// SM SETTING END
+						
+						
 						String Destmodule=cmb_DestModule.getText();
 						String module=null;
 						int finder=0;
@@ -697,7 +774,6 @@ public class View_PlatformManager extends ViewPart {
 					@Override
 					public void widgetDefaultSelected(SelectionEvent arg0) {
 						// TODO Auto-generated method stub
-						
 					}
 				});
 				
@@ -713,7 +789,9 @@ public class View_PlatformManager extends ViewPart {
 		
 		{/* --- para table --- */
 			table_par = new Table(composite_ExpandItem.get(UsedModuleIndex), SWT.BORDER | SWT.FULL_SELECTION);
-			table_par.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
+			GridData gd_table_par = new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1);
+			gd_table_par.heightHint = 150;
+			table_par.setLayoutData(gd_table_par);
 			table_par.setHeaderVisible(true);
 			table_par.setLinesVisible(true);
 
@@ -822,7 +900,69 @@ public class View_PlatformManager extends ViewPart {
 			btnMemoryMapSetting.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 			btnMemoryMapSetting.setBackground(color_skyblue);
 			btnMemoryMapSetting.setText("Memory Map Setting");
-			padding = 25;
+			padding = 15;
+			
+			
+			btnMemoryMapSetting.addSelectionListener(new SelectionListener() {
+				final int MemoryMap_Index=UsedModuleIndex;
+				@Override
+				public void widgetSelected(SelectionEvent arg0) {
+					// TODO Auto-generated method stub
+					BDMemoryMapEditor MMEditor = new BDMemoryMapEditor(shell.getShell() , "System BUS(AXI)", new IBDMemoryMapEditorListener() {
+						
+						@Override
+						public void onOk(ArrayList<BDMemoryMapItem> items) {
+							// TODO Auto-generated method stub
+							int slave_cnt=UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.size();
+							for(BDMemoryMapItem item : items) {
+								System.out.println(String.format("ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s", 
+										item.SlaveName, 
+										item.SlavePort, 
+										BDF.LongDecimalToStringHex(item.StartAddr,8),
+										BDF.LongDecimalToStringHex(item.Size,8),
+										BDF.LongDecimalToStringHex(item.EndAddr,8)));
+								for(int setter_index=0; setter_index < slave_cnt; setter_index++){
+									if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).Dest_Port!=null){
+										if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).Dest_Port.port_name.equals(item.SlavePort)){
+											UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).startAddr=BDF.LongDecimalToStringHex(item.StartAddr,8);
+											UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).addrSize=BDF.LongDecimalToStringHex(item.Size,8);
+										}
+									}
+								}
+							}
+						}
+						
+						@Override
+						public void onCancel() {
+							// TODO Auto-generated method stub
+							System.out.println("BDMemoryMapEditor has dismissed");
+						}
+					});
+					
+					//Dummy data
+					int port_size = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.size();
+					for(int slave_index=0; slave_index< port_size; slave_index++){ // portList for 
+						if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).SM_Index>=0){ // SM Port find
+							if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).cmb_dPort.getEnabled()){ // Used SM port
+								if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port != null){
+									String Sname = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.Parent.module_name;
+									String Dport = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.port_name;
+									String addrSize = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).addrSize;
+									String startAddr = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).startAddr;
+									MMEditor.addSlave(Sname, Dport,startAddr,addrSize);
+								}
+							}
+						}
+					}
+					MMEditor.show();
+				}
+				
+				@Override
+				public void widgetDefaultSelected(SelectionEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		} else {
 			Label lbl_null = new Label(composite_ExpandItem.get(UsedModuleIndex), SWT.NONE);
 			lbl_null.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
@@ -840,37 +980,29 @@ public class View_PlatformManager extends ViewPart {
 		table_port.pack();
 		if(table_par.getSize().y >=table_port.getSize().y){
 			Expanditem.get(UsedModuleIndex)
-			.setHeight(table_par.getSize().y + btnCheckButton.get(UsedModuleIndex).getSize().y + padding);
+			.setHeight(200+ padding);
 		}else{
 			Expanditem.get(UsedModuleIndex)
-			.setHeight(table_port.getSize().y + btnCheckButton.get(UsedModuleIndex).getSize().y + padding);
+			.setHeight(200 + padding);
 		}
 		
 
 	}
 	
 	 public void viewsetting(String pmml) {
-		
 		 display.asyncExec(new Runnable() {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				 
 				/* --- Parser Module list setting--- */
 				String module = null;
 				String type = null;
 				try {
-//					obj = parser.parse(new FileReader("/home/lucas/modulelist.PMML"));
 					obj = (JSONObject)parser.parse(pmml);
-					
 					jsonObject = (JSONObject) obj;
-					
-					System.err.println(jsonObject.toJSONString());
-					
 					ModuleInfoList = (JSONArray) jsonObject.get("PMML");
-					
 					ModuleInfoData = new ModuleInfo(ModuleInfoList);
-					UsedModuleDataList = new ModuleInfo();	
+//					UsedModuleDataList = new ModuleInfo();	
 					
 					list_Cnt = ModuleInfoData.mList.size();
 					
@@ -879,6 +1011,8 @@ public class View_PlatformManager extends ViewPart {
 					list_bus.removeAll();
 					list_mem.removeAll();
 					list_other.removeAll();
+					
+					
 					
 					for (int i = 0; i < list_Cnt; i++) {
 						Module m =ModuleInfoData.mList.get(i);
@@ -902,7 +1036,6 @@ public class View_PlatformManager extends ViewPart {
 				/* --- Parser --- */
 			}
 		});
-		
 	}
 	
 	void ModuleClicked(List SelectedTab) {
@@ -911,8 +1044,8 @@ public class View_PlatformManager extends ViewPart {
 	}
 
 	void ModuleDoubleClicked(List SelectedTab) {
-		String SelectedModule = SelectedTab.getItem(SelectedTab.getSelectionIndex());
-		AddModuleSelected(SelectedModule);
+//		String SelectedModule = SelectedTab.getItem(SelectedTab.getSelectionIndex());
+//		AddModuleSelected(SelectedModule);
 	}
 	
 	protected void DeleteModuleSelected() {
@@ -923,7 +1056,7 @@ public class View_PlatformManager extends ViewPart {
 
 					UsedModuleList.remove(delete_index);
 					UsedModuleDataList.mList.remove(delete_index);
-					
+
 					Expanditem.get(delete_index).dispose();
 					Expanditem.remove(delete_index);
 					
@@ -942,4 +1075,5 @@ public class View_PlatformManager extends ViewPart {
 	
 	public void setFocus() {
 	}
+	
 }

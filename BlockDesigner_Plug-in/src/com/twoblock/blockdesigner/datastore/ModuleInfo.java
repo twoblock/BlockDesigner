@@ -37,6 +37,7 @@ public class ModuleInfo {
 			/*
 			 * add port
 			 */
+			int SM_Port_Index=-1;
 			try{
 				PortInfoList = (JSONArray) ModuleObject.get("port");
 				int Port_List_Size = PortInfoList.size();
@@ -52,7 +53,17 @@ public class ModuleInfo {
 					port.port_name = p_name;
 					port.sc_type = p_sc_type;
 					port.data_type = p_data_type;
-
+					if(p_sc_type.contains("SM"))
+					{
+						SM_Port_Index++;
+						port.SM_Index= SM_Port_Index;
+					}
+					else 
+						port.SM_Index= -1;
+					
+					port.startAddr="0";					
+					port.addrSize="0";
+					
 					port.Parent = module;
 					port.Dest_Port=null;
 					port.cmb_dPort=null;
@@ -113,6 +124,7 @@ public class ModuleInfo {
 	}
 
 	public class Module {
+		public String module_instance_name;
 		public String module_name;
 		public String module_location = null;
 		public String module_type;
@@ -128,6 +140,9 @@ public class ModuleInfo {
 		public String data_type;
 		public Module Parent;
 		
+		public int SM_Index;
+		public String startAddr;
+		public String addrSize;
 		public Port Dest_Port;
 		public CCombo cmb_dPort;
 	}

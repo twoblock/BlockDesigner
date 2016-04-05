@@ -137,7 +137,7 @@ public class Set_BDPMD {
 			
 			
 			/* ============================  Module Data setting Start  ============================ */
-			obj_Module_Info.put("instance_name", usedModuleDataList.mList.get(ModuleDataIndex).module_name);
+			obj_Module_Info.put("instance_name", usedModuleDataList.mList.get(ModuleDataIndex).module_instance_name);
 			
 			// add Port
 			arr_Port = new JSONArray();
@@ -189,23 +189,27 @@ public class Set_BDPMD {
 			}
 			obj_Module_Info.put("parameter", arr_Parameter);
 
-			// add MemoryMap
-//			for (int ModulePortIndex = 0; ModulePortIndex < usedModuleDataList.mList.get(ModuleDataIndex).Parameter_List
-//					.size(); ModulePortIndex++) {
-//				obj_Register = new JSONObject();
-//				arr_Register = new JSONArray();
+//			 add MemoryMap
+			arr_MemoryMap = new JSONArray();
+			int Memory_Map_Index=0;
+			for (int ModulePortIndex = 0; ModulePortIndex < usedModuleDataList.mList.get(ModuleDataIndex).Port_List
+					.size(); ModulePortIndex++) {
+				if(usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(ModulePortIndex).addrSize != "0"){
+					obj_MemoryMap = new JSONObject();
+					obj_MemoryMap.put("slave_module",
+							usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(ModulePortIndex).Dest_Port.Parent.module_instance_name);
+					obj_MemoryMap.put("slave_module_port",
+							usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(ModulePortIndex).Dest_Port.port_name);
+					obj_MemoryMap.put("start_address",
+							usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(ModulePortIndex).startAddr);
+					obj_MemoryMap.put("size",
+							usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(ModulePortIndex).addrSize);
+					arr_MemoryMap.add(Memory_Map_Index,obj_MemoryMap);
+					Memory_Map_Index++;
+				}
+			}
+			obj_Module_Info.put("memory_map", arr_MemoryMap);
 			
-//				obj_Parameter.put("par_name",
-//						usedModuleDataList.mList.get(ModuleDataIndex).Parameter_List.get(ModulePortIndex).par_name);
-//				obj_Parameter.put("data_type",
-//						usedModuleDataList.mList.get(ModuleDataIndex).Parameter_List.get(ModulePortIndex).data_type);
-//				obj_Parameter.put("default_value", usedModuleDataList.mList.get(ModuleDataIndex).Parameter_List
-//						.get(ModulePortIndex).default_value);
-//				obj_Parameter.put("bits_wide",
-//						usedModuleDataList.mList.get(ModuleDataIndex).Parameter_List.get(ModulePortIndex).bits_wide);
-//				arr_Parameter.add(obj_Parameter);
-//			}
-//			obj_Module_Info.put("port", arr_Parameter);
 			
 			obj_Module_Item.put("module_info", obj_Module_Info);
 			arr_Module_Data.add(obj_Module_Item);
