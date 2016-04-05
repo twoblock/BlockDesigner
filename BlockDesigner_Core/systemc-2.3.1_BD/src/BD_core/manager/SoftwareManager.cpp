@@ -142,6 +142,23 @@ namespace BDapi
 		CPUs[0]->p_SoftwareProfiler->PC_Analyzer(dw_PC);
 	}
 
+	string SoftwareManager::GetPC()
+	{
+		string PC;
+		unsigned int dw_PC;
+		char a_PC[128] = {0,};
+
+    ModuleListManager *p_ModuleListManager = NULL;
+		p_ModuleListManager = ModuleListManager::GetInstance();
+		dw_PC = p_ModuleListManager->FindModule(CPUs[0]->CPUName.c_str())->GetBDDI()->BDDIGetPCValue();
+		
+	  sprintf(a_PC, "%x", dw_PC); 	
+		PC = a_PC;
+
+		return PC;
+	}
+
+
 	/*
 	 * function    	: DisplayProfilingData
 	 * design	      : display profiling data in this cpu

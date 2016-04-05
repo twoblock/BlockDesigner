@@ -58,6 +58,7 @@ namespace BDapi
 	
 			void SetSoftwareProfiler(int CPUIndex, char *SoftwarePath);
 			void PCAnalyzer();
+			string GetPC();
 			void DisplayProfilingData();
 
 			SoftwareProfiler* GetSoftwareProfiler();
