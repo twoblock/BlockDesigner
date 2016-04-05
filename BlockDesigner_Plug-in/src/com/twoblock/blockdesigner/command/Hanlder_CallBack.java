@@ -28,6 +28,10 @@ public class Hanlder_CallBack {
 	private native void OutputListener();
 	private native void ResultListener();
 	private native void MemoryViewListener();
+	private native void SourceCodeListener();
+	private native void SymbolTableListener();
+	private native void ProfilingTableListener();
+	private native void FunctionFlowListener();
 	private native void ModuleInfoListener();
 	private native void ErrorListener();
 	
@@ -50,6 +54,21 @@ public class Hanlder_CallBack {
 	private void MemoryViewCallBack(String memoryjson){
 		System.err.println(memoryjson);
 	}
+	
+	private void SourceCodeCallBack(String jcode){
+		System.err.println(jcode);
+//		VSE.SourceCode=jcode;
+	}
+	private void SymbolTableCallBack(String simboltable){
+		System.err.println(simboltable);
+	}
+	private void ProfilingTableCallBack(String pftable){
+		System.err.println(pftable);
+	}
+	private void FunctionFlowCallBack(String functionflow){
+		System.err.println(functionflow);
+	}
+	
 	private void ModuleInfoCallBack(String pmml) {
 		System.err.println(pmml);
 		View_PlatformManager vs = new View_PlatformManager();

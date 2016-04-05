@@ -60,6 +60,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	protected Shell parent;
 	private Text txtStep;
 	private Image imgStep_n;
+	public static String SourceCode;
 	private static Button btnRun;
 	private static Button btnStop;
 	private static Button btnStep;
