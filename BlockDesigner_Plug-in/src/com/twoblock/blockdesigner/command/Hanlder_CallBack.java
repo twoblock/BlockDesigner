@@ -27,6 +27,7 @@ public class Hanlder_CallBack {
 	private native void StatusListener();
 	private native void OutputListener();
 	private native void ResultListener();
+	private native void MemoryViewListener();
 	private native void ModuleInfoListener();
 	private native void ErrorListener();
 	
@@ -45,6 +46,9 @@ public class Hanlder_CallBack {
 	private void ResultCallBack(String sim_result){
 		System.err.println(sim_result);
 		VSE.SIM_Result(sim_result);
+	}
+	private void MemoryViewCallBack(String memoryjson){
+		System.err.println(memoryjson);
 	}
 	private void ModuleInfoCallBack(String pmml) {
 		System.err.println(pmml);
@@ -69,10 +73,6 @@ public class Hanlder_CallBack {
 	public static void CallBack_Func() {
 		// TODO Auto-generated method stub
 		Hanlder_CallBack callback = new Hanlder_CallBack();
-//		callback.CycleListener();
-//		callback.StatusListener();
 		callback.OutputListener();
-//		callback.ModuleInfoListener();
-//		callback.ErrorListener();
 	}
 }

@@ -7,18 +7,14 @@ import java.util.ArrayList;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.ExpandEvent;
-import org.eclipse.swt.events.ExpandListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -27,7 +23,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -434,8 +429,6 @@ public class View_SimulationEnvironment extends ViewPart {
 				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon4);
 				break;
 			}
-			GridData gd_composite_ExpandItem = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-
 			composite_ExpandItem.add(new Composite(expandBar, SWT.NONE));
 
 			composite_ExpandItem.get(ModuleInfoIndex + 1).setLayout(new GridLayout(3, false));
@@ -610,17 +603,6 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 			Expanditem.get(ModuleInfoIndex + 1).setHeight(150);
 		}
-
-		expandBar.setSpacing(10);
-		expandBar.getVerticalBar().addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event arg0) {
-				// TODO Auto-generated method stub
-				for (int i = 0; i < expandBar.getItemCount(); i++) {
-					composite_ExpandItem.get(i).setRedraw(true);
-				}
-			}
-		});
 	}
 
 	public static String padRight(String s, int n) {
