@@ -13,5 +13,11 @@ cd objdir
 make 
 make install
 
-cd $HOME/workspace/BlockDesigner/testCommand/
+cd $HOME/workspace/BlockDesigner/TestPlatform/sc_main/
 
+source systemc.csh
+source $HOME/workspace/BlockDesigner/TestPlatform/sc_main/AllModuleMake.csh
+source $HOME/workspace/BlockDesigner/TestPlatform/sc_main/compile.csh
+source $HOME/workspace/BlockDesigner/TestPlatform/sc_main/make_shared_object.csh
+
+cd $HOME/workspace/BlockDesigner/testCommand/

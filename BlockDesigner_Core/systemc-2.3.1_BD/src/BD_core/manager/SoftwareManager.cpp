@@ -18,6 +18,7 @@
 
 #include "SoftwareManager.h"
 #include "ModuleListManager.h"
+#include "CallBackManager.h"
 
 namespace BDapi
 {	
@@ -38,6 +39,9 @@ namespace BDapi
 	 */
 	void SoftwareManager::PutOperationControl(GUI_COMMAND Command)
 	{
+		CallBackManager *p_CallBackManager = NULL;
+		p_CallBackManager = CallBackManager::GetInstance();
+
 		int CPUIndex = 0;
 		CPUIndex = FindCPU(Command.Argu1);	
 
@@ -46,8 +50,9 @@ namespace BDapi
 			LoadSoftware(CPUIndex, Command.Argu2);
 			// assembly code displayer
 			SetSoftwareDisplayer(CPUIndex, Command.Argu2);
-			
 			SetSoftwareProfiler(CPUIndex, Command.Argu2);
+
+			p_CallBackManager->SendBackAllWhenStart();
 		}
 		else{
 			printf("can not find %s cpu \n", Command.Argu1);
