@@ -40,6 +40,9 @@ import org.json.simple.parser.ParseException;
 import com.twoblock.blockdesigner.command.Handler_Command;
 import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
 import com.twoblock.blockdesigner.command.Hanlder_CallBack;
+import com.twoblock.blockdesigner.datastore.ModuleInfo;
+import com.twoblock.blockdesigner.popup.BDDisassembleView;
+import com.twoblock.blockdesigner.popup.BDF;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -61,6 +64,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private Text txtStep;
 	private Image imgStep_n;
 	public static String SourceCode;
+	public static String SymbolTable;
 	private static Button btnRun;
 	private static Button btnStop;
 	private static Button btnStep;
@@ -79,16 +83,29 @@ public class View_SimulationEnvironment extends ViewPart {
 
 	public void createPartControl(Composite parent) {
 		display = Display.getDefault();
-		Hanlder_CallBack.CallBack_Func();
-		Handler_Command.Command_Func(0, 7, System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD", "", "",
-				"", "");
-		Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
-				System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", "", "",
-				"");
+		
+		display.asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Hanlder_CallBack.CallBack_Func();
+				Handler_Command.Command_Func(0, 7, System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD", "", "",
+						"", "");
+				Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
+						System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", "", "",
+						"");
+//				try {
+//					Thread.sleep(500);
+//				} catch (Exception e) {
+//					// TODO: handle exception
+//				}
+//				AssemblySetter(parent);
+			}
+		});
+		
 		// Handler_Command.Command_Func(0, 2,
 		// "BD_SRAM","par","write","0","0x20000000");
 		parent.setLayout(new GridLayout(12, false));
-
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
 		Image imgOpen = idOpen.createImage();
 		ImageDescriptor idSave = ImageDescriptor.createFromFile(this.getClass(), "/images/save_btn.png");
@@ -206,6 +223,9 @@ public class View_SimulationEnvironment extends ViewPart {
 				Handler_Command.Command_Func(0, 1, "STOP", "NULL", "NULL", "NULL", "NULL");
 				Btn_Control(3);
 				SetTableState(true);
+				
+
+				
 			}
 		});
 		btnStep.addSelectionListener(new SelectionAdapter() {
@@ -288,6 +308,10 @@ public class View_SimulationEnvironment extends ViewPart {
 	private int par_index;
 	private int ModuleInfoIndex;
 	private int reg_index;
+	private JSONObject jsonObject_sc;
+	private JSONObject obj_sc;
+	private JSONArray arr_SourceLine;
+	private JSONObject obj_OneLine;
 
 	protected void ChannelInfoSet(final Composite composite) {
 		try {
@@ -735,5 +759,28 @@ public class View_SimulationEnvironment extends ViewPart {
 				lblCyclesCnt.setText(""+cycles);
 			}
 		});
+	}
+	
+	private void AssemblySetter(Composite parent) {
+		// TODO Auto-generated method stub
+		BDDisassembleView dv = new BDDisassembleView(parent.getShell(), "CORE");
+		try {
+			System.err.println("!!!!!"+SourceCode);
+			obj_sc = (JSONObject)parser.parse(SourceCode);
+			jsonObject_sc = (JSONObject) obj_sc;	
+			arr_SourceLine = (JSONArray) jsonObject_sc.get("SourceCode");
+
+			for (int i = 0; i < arr_SourceLine.size(); i++) {
+				obj_OneLine = (JSONObject) arr_SourceLine.get(i);
+				dv.addInstruction(BDF.StringHexToLongDecimal(((String)obj_OneLine.get("address")).trim())
+						,((String)obj_OneLine.get("assembly_code")).trim());
+			}
+			dv.show();
+//			long addr = 10 * 32;
+//			dv.select(addr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
