@@ -229,6 +229,14 @@ void BufferManager::BDInit()
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");
 
+	bm_read_inc_SSlave.set_port_name("bm_read_inc_SSlave");
+	bm_write_inc_SSlave.set_port_name("bm_write_inc_SSlave");
+	BM_R_size_SSlave.set_port_name("BM_R_size_SSlave");
+	BM_W_size_SSlave.set_port_name("BM_W_size_SSlave");
+                                                                       
+	BM_read_limit_SMaster.set_port_name("BM_read_limit_SMaster");
+	BM_write_limit_SMaster.set_port_name("BM_write_limit_SMaster");
+
 	AHBv2_spss = new BD_AHBPort_SS((char*)"SS_S0");
 
 	// for BDDI

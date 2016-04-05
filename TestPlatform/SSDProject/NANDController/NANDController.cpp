@@ -1489,6 +1489,29 @@ void NANDController::BDInit()
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");
 
+	flash_din_SSlave[0].set_port_name("flash_din_SSlave[0]");
+	flash_RBn_SSlave[0].set_port_name("flash_RBn_SSlave[0]");
+	flash_dout_SMaster[0].set_port_name("flash_dout_SMaster[0]");
+	flash_sout_SMaster[0].set_port_name("flash_sout_SMaster[0]");
+
+	flash_din_SSlave[1].set_port_name("flash_din_SSlave[1]");
+	flash_RBn_SSlave[1].set_port_name("flash_RBn_SSlave[1]");
+	flash_dout_SMaster[1].set_port_name("flash_dout_SMaster[1]");
+	flash_sout_SMaster[1].set_port_name("flash_sout_SMaster[1]");
+
+	flash_din_SSlave[2].set_port_name("flash_din_SSlave[2]");
+	flash_RBn_SSlave[2].set_port_name("flash_RBn_SSlave[2]");
+	flash_dout_SMaster[2].set_port_name("flash_dout_SMaster[2]");
+	flash_sout_SMaster[2].set_port_name("flash_sout_SMaster[2]");
+
+	flash_din_SSlave[3].set_port_name("flash_din_SSlave[3]");
+	flash_RBn_SSlave[3].set_port_name("flash_RBn_SSlave[3]");
+	flash_dout_SMaster[3].set_port_name("flash_dout_SMaster[3]");
+	flash_sout_SMaster[3].set_port_name("flash_sout_SMaster[3]");
+
+	bm_read_inc_SMaster.set_port_name("bm_read_inc_SMaster");
+	bm_write_inc_SMaster.set_port_name("bm_write_inc_SMaster");
+
 	ahb_m0_mpms = new BD_AHBPort_MM((char*)"MM_M0");
 	ahb_m1_mpms = new BD_AHBPort_MM((char*)"MM_M0");
 	ahb_s0_spss = new BD_AHBPort_SS((char*)"SS_S0");

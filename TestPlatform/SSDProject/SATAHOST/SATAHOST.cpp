@@ -836,6 +836,8 @@ void SATAHOST::BDInit()
 {
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");
+	Rx_SSlave.set_port_name("Rx_SSlave");
+	Tx_SMaster.set_port_name("Tx_SMaster");
 
 	AHBv2_Process_S_spss = new BD_AHBPort_SS((char*)"SS_S0");
 

@@ -2112,6 +2112,16 @@ void SATADevice::BDInit()
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");
 
+	BM_read_limit_SSlave.set_port_name("BM_read_limit_SSlave");    
+	BM_write_limit_SSlave.set_port_name("BM_write_limit_SSlave");
+	Rx_SSlave.set_port_name("Rx_SSlave");
+                                                                      
+	Tx_SMaster.set_port_name("Tx_SMaster");
+	BM_R_size_SMaster.set_port_name("BM_R_size_SMaster");
+	BM_W_size_SMaster.set_port_name("BM_W_size_SMaster");
+	dout_Switch_SMaster.set_port_name("dout_Switch_SMaster");
+	FIQ_int_SMaster.set_port_name("FIQ_int_SMaster");         
+
 	AHBv2_Dram_M_mpms = new BD_AHBPort_MM((char*)"MM_M0");
 	AHBv2_Process_S_spss = new BD_AHBPort_SS((char*)"SS_S0");
 
