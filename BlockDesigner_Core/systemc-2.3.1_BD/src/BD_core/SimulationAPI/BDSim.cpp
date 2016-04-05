@@ -51,6 +51,7 @@ namespace BDapi
 		p_SoftwareManager = SoftwareManager::GetInstance();	
 		p_CallBackManager = CallBackManager::GetInstance();
 
+		while(ExecutionManager::GetExecutionFlag() == NOTHING);
 		StartCallBack();
 
 		while(1){
