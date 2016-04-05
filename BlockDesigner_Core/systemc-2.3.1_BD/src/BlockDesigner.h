@@ -5,73 +5,57 @@
 
 namespace sc_core
 {
-
 	enum AHBSignal 
 	{
-			HBUSREQ,
-			HADDR,
-			HBURST,
-			HPROT,
-			HSIZE,
-			HTRANS,
-			HWDATA,
-			HWRITE,
-			HLOCK,
-			HGRANT,
-			HREADY,
-			HRESP,
-			HRDATA,
-			HSEL,
-			HREADYOUT
+		HBUSREQ,
+		HADDR,
+		HBURST,
+		HPROT,
+		HSIZE,
+		HTRANS,
+		HWDATA,
+		HWRITE,
+		HLOCK,
+		HGRANT,
+		HREADY,
+		HRESP,
+		HRDATA,
+		HSEL,
+		HREADYOUT
 	};
 
-enum AHB2_TRANS
-{
-  AHB2_TRANS_IDLE   = 0, /*!< Idle transfer */
-  AHB2_TRANS_BUSY   = 1, /*!< Busy transfer */
-  AHB2_TRANS_NONSEQ = 2, /*!< NonSeq transfer */
-  AHB2_TRANS_SEQ    = 3  /*!< Seg transfer */
-};
+	enum AHB2_TRANS
+	{
+		AHB2_TRANS_IDLE   = 0, /*!< Idle transfer */
+		AHB2_TRANS_BUSY   = 1, /*!< Busy transfer */
+		AHB2_TRANS_NONSEQ = 2, /*!< NonSeq transfer */
+		AHB2_TRANS_SEQ    = 3  /*!< Seg transfer */
+	};
 
-enum AHB2_SIZE
-{
-  AHB2_SIZE_DATA8    = 0,
-  AHB2_SIZE_DATA16   = 1,
-  AHB2_SIZE_DATA32   = 2,
-  AHB2_SIZE_DATA64   = 3,
-  AHB2_SIZE_DATA128  = 4,
-  AHB2_SIZE_DATA256  = 5,
-  AHB2_SIZE_DATA512  = 6,
-  AHB2_SIZE_DATA1024 = 7
-};
+	enum AHB2_SIZE
+	{
+		AHB2_SIZE_DATA8    = 0,
+		AHB2_SIZE_DATA16   = 1,
+		AHB2_SIZE_DATA32   = 2,
+		AHB2_SIZE_DATA64   = 3,
+		AHB2_SIZE_DATA128  = 4,
+		AHB2_SIZE_DATA256  = 5,
+		AHB2_SIZE_DATA512  = 6,
+		AHB2_SIZE_DATA1024 = 7
+	};
 
+	enum AHB2_BURST
+	{
+		AHB2_BURST_SINGLE = 0,
+		AHB2_BURST_INCR   = 1,
+		AHB2_BURST_WRAP4  = 2,
+		AHB2_BURST_INCR4  = 3,
+		AHB2_BURST_WRAP8  = 4,
+		AHB2_BURST_INCR8  = 5,
+		AHB2_BURST_WRAP16 = 6,
+		AHB2_BURST_INCR16 = 7
+	};
 
-/*!
- * This enum provides the possible HBURST (3 bits) values for specifying burst type.
- */
-enum AHB2_BURST
-{
-  AHB2_BURST_SINGLE = 0,
-  AHB2_BURST_INCR   = 1,
-  AHB2_BURST_WRAP4  = 2,
-  AHB2_BURST_INCR4  = 3,
-  AHB2_BURST_WRAP8  = 4,
-  AHB2_BURST_INCR8  = 5,
-  AHB2_BURST_WRAP16 = 6,
-  AHB2_BURST_INCR16 = 7
-};
-
-/*!
- * This enum provides the possible HBURST (3 bits) values for specifying burst type.
- */
-//enum AHB2_WRITE
-//{
-  //READ  = 0,
-  //WRITE = 1
-//};
-
-
-	
 	class BD_AHBPort_MM 
 	{
 		public:
@@ -95,7 +79,7 @@ enum AHB2_BURST
 			{
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
-				
+
 				strcpy(temp[0], "$AHBHADDR_");
 				strcpy(temp[1], "$AHBHBURST_");
 				strcpy(temp[2], "$AHBHPROT_");
@@ -129,35 +113,44 @@ enum AHB2_BURST
 				HRESP.set_port_name(temp[11]);
 				HRDATA.set_port_name(temp[12]);
 			}
-	
+
 			void clear()
 			{
 			}
+	
 			void setSig(AHBSignal Signal, bool Value)
 			{
 				if(Signal == HBUSREQ)
-			    HBUSREQ = Value;	
+					HBUSREQ = Value;	
 			}
 			unsigned int getSig(AHBSignal Signal)
 			{
-				//if(Signal == HWRITE)
-				//return (bool)HWRITE;	
+				if(Signal == HGRANT)
+					return (bool)HGRANT;	
+				else if(Signal == HREADY)
+					return (bool)HREADY;	
 			}
 
 			void setWData(unsigned int Value, unsigned int Par)
 			{
-					HWDATA = Value;
+				HWDATA = Value;
 			}
+
 			unsigned int getRData(unsigned int Par)
 			{
+				return (unsigned int)HRDATA;
 			}
-			
 
-			void setAddr(unsigned int dw_Addr, unsigned int dw_Trans, bool dw_Write, unsigned int dw_Size, unsigned int dw_Burst, unsigned int dw_Prot, bool b_Lock)
+			void setAddr(unsigned int dw_Addr, unsigned int dw_Trans, bool b_Write, unsigned int dw_Size, unsigned int dw_Burst, unsigned int dw_Prot, bool b_Lock)
 			{
+				HADDR = dw_Addr;
+				HTRANS = dw_Trans;
+				HWRITE = b_Write;
+				HSIZE = dw_Size;
+				HBURST = dw_Burst;
+				HPROT = dw_Prot;
+				HLOCK = b_Lock;
 			}
-
-
 	};
 
 	class BD_AHBPort_MS 
@@ -183,7 +176,7 @@ enum AHB2_BURST
 			{
 				for(int i=0; i<13; i++)
 					memset(temp[i], 0, 256);
-				
+
 				strcpy(temp[0], "$AHBHADDR_");
 				strcpy(temp[1], "$AHBHBURST_");
 				strcpy(temp[2], "$AHBHPROT_");
@@ -218,16 +211,16 @@ enum AHB2_BURST
 				HRDATA.set_port_name(temp[12]);
 			}
 
-void clear()
+			void clear()
 			{
 			}
+
 			void setSig(AHBSignal Signal, bool Value)
 			{
 			}
+
 			unsigned int getSig(AHBSignal Signal)
 			{
-				//if(Signal == HWRITE)
-					//return (bool)HWRITE;	
 			}
 	};
 
@@ -292,13 +285,13 @@ void clear()
 			void clear()
 			{
 			}
+
 			void setSig(AHBSignal Signal, bool Value)
 			{
 			}
+
 			unsigned int getSig(AHBSignal Signal)
 			{
-				//if(Signal == HWRITE)
-				//return (bool)HWRITE;	
 			}
 	};
 
@@ -369,18 +362,30 @@ void clear()
 				if(Signal == HREADYOUT)
 					HREADYOUT = Value;	
 			}
+
 			unsigned int getSig(AHBSignal Signal)
 			{
-				//if(Signal == HWRITE)
-					//return (bool)HWRITE;	
+				if(Signal == HTRANS)
+					return (unsigned int)HTRANS;
+				else if(Signal == HADDR)
+					return (unsigned int)HADDR;
+				else if(Signal == HSEL)
+					return (bool)HSEL;
+				else if(Signal == HREADY)
+					return (bool)HREADY;
+				else if(Signal == HWRITE)
+					return (bool)HWRITE;
 			}
+
 			void setRData(unsigned int Value)
 			{
+				HRDATA = Value;
 			}
+
 			unsigned int getWData(unsigned int Par)
 			{
+				return (unsigned int)HWDATA;
 			}
-	
 	};
 
 	class BD_AHBLitePort_MM
@@ -445,21 +450,30 @@ void clear()
 
 			unsigned int getSig(AHBSignal Signal)
 			{
-				//if(Signal == HWRITE)
-				//return (bool)HWRITE;	
+				if(Signal == HREADY)
+					return (bool)HREADY;	
 			}
+
 			void setWData(unsigned int Value, unsigned int Par)
 			{
-					HWDATA = Value;
+				HWDATA = Value;
 			}
+
 			unsigned int getRData(unsigned int Par)
 			{
+				return (unsigned int)HRDATA;
 			}
-			void setAddr(unsigned int dw_Addr, unsigned int dw_Trans, bool dw_Write, unsigned int dw_Size, unsigned int dw_Burst, unsigned int dw_Prot, bool b_Lock)
+
+			void setAddr(unsigned int dw_Addr, unsigned int dw_Trans, bool b_Write, unsigned int dw_Size, unsigned int dw_Burst, unsigned int dw_Prot, bool b_Lock)
 			{
+				HADDR = dw_Addr;
+				HTRANS = dw_Trans;
+				HWRITE = b_Write;
+				HSIZE = dw_Size;
+				HBURST = dw_Burst;
+				HPROT = dw_Prot;
+				HLOCK = b_Lock;
 			}
-
-
 	};
 
 	class BD_AHBLitePort_MS 
@@ -517,13 +531,13 @@ void clear()
 			void clear()
 			{
 			}
+
 			void setSig(AHBSignal Signal, bool Value)
 			{
 			}
+
 			unsigned int getSig(AHBSignal Signal)
 			{
-				//if(Signal == HWRITE)
-					//return (bool)HWRITE;	
 			}
 	};
 
@@ -584,16 +598,17 @@ void clear()
 				HRESP.set_port_name(temp[11]);
 				HRDATA.set_port_name(temp[12]);
 			}
+
 			void clear()
 			{
 			}
+
 			void setSig(AHBSignal Signal, bool Value)
 			{
 			}
+
 			unsigned int getSig(AHBSignal Signal)
 			{
-				//if(Signal == HWRITE)
-				//return (bool)HWRITE;	
 			}
 	};
 
@@ -655,30 +670,36 @@ void clear()
 				HRDATA.set_port_name(temp[12]);
 			}
 
-			void clear()
-			{
-			}
-
 			void setSig(AHBSignal Signal, bool Value)
 			{
 				if(Signal == HREADYOUT)
 					HREADYOUT = Value;	
 			}
+
 			unsigned int getSig(AHBSignal Signal)
 			{
-				//if(Signal == HWRITE)
-					//return (bool)HWRITE;	
+				if(Signal == HTRANS)
+					return (unsigned int)HTRANS;
+				else if(Signal == HADDR)
+					return (unsigned int)HADDR;
+				else if(Signal == HSEL)
+					return (bool)HSEL;
+				else if(Signal == HREADY)
+					return (bool)HREADY;
+				else if(Signal == HWRITE)
+					return (bool)HWRITE;
 			}
+
 			void setRData(unsigned int Value)
 			{
+				HRDATA = Value;
 			}
+
 			unsigned int getWData(unsigned int Par)
 			{
+				return (unsigned int)HWDATA;
 			}
-	
 	};
 }
-
-
 
 #endif
