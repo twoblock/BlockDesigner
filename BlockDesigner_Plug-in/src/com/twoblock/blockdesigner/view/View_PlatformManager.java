@@ -426,8 +426,9 @@ public class View_PlatformManager extends ViewPart {
 					Module_Location = Module_Location.replace("\\", "/");
 					System.err.println(Module_Location);
 					
-					Handler_Command.Command_Func(0, 6, Module_Location, "NULL", "NULL", "NULL", "NULL");
-					Handler_Command.Command_Func(1, 0, "NULL", "NULL", "NULL", "NULL", "NULL");
+					Handler_Command.Command_Func(Module_Location);
+//					Handler_Command.Command_Func(0, 6, Module_Location, "NULL", "NULL", "NULL", "NULL");
+//					Handler_Command.Command_Func(1, 0, "NULL", "NULL", "NULL", "NULL", "NULL");
 					
 					try {
 						Thread.sleep(500);

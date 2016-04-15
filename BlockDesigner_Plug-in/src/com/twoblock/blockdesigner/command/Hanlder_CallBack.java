@@ -28,6 +28,11 @@ public class Hanlder_CallBack {
 	private native void OutputListener();
 	private native void ResultListener();
 	private native void MemoryViewListener();
+	private native void SourceCodeListener();
+	private native void PCListener();
+	private native void SymbolTableListener();
+	private native void ProfilingTableListener();
+	private native void FunctionFlowListener();
 	private native void ModuleInfoListener();
 	private native void ErrorListener();
 	
@@ -47,11 +52,38 @@ public class Hanlder_CallBack {
 		System.err.println(sim_result);
 		VSE.SIM_Result(sim_result);
 	}
+	
+	//Memory View
 	private void MemoryViewCallBack(String memoryjson){
-		System.err.println(memoryjson);
+//		System.err.println(memoryjson);
 	}
+	
+	//assembly view
+	private void SourceCodeCallBack(String jcode){ 
+//		System.err.println(jcode);
+		VSE.SourceCode=jcode;
+	}
+	private void PCCallBack(String pc){
+		VSE.PCCode=pc;
+	}
+	
+	// function call & profiling table init 
+	private void SymbolTableCallBack(String symboltable){
+//		System.err.println(symboltable);
+		VSE.SymbolTable=symboltable;
+	}
+	//get
+	private void ProfilingTableCallBack(String pftable){
+//		System.err.println(pftable);
+		VSE.ProfilingTable=pftable;
+	}
+	private void FunctionFlowCallBack(String functionflow){
+//		System.err.println(functionflow);
+		VSE.FunctionFlowGragh=functionflow;
+	}
+	
 	private void ModuleInfoCallBack(String pmml) {
-		System.err.println(pmml);
+//		System.err.println(pmml);
 		View_PlatformManager vs = new View_PlatformManager();
 		vs.viewsetting(pmml);
 	}

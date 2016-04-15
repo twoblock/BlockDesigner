@@ -51,9 +51,6 @@ namespace BDapi
 		p_SoftwareManager = SoftwareManager::GetInstance();	
 		p_CallBackManager = CallBackManager::GetInstance();
 
-		while(ExecutionManager::GetExecutionFlag() == NOTHING);
-		StartCallBack();
-
 		while(1){
 			dw_SimControl = ExecutionManager::GetExecutionFlag();
 			dw_SimState = Simulate(dw_SimControl);			
@@ -141,14 +138,6 @@ namespace BDapi
 		StopCallBack();
 		CycleCallBack(STOP);
 		ExecutionManager::SetExecutionFlag(NOTHING);
-	}
-
-	void StartCallBack()
-	{
-		Return = p_CallBackManager->SendBackAllWhenStart();
-		if(Return == CallBackError){
-			printf("Start CallBack error\n");		
-		}	
 	}
 
 	void StopCallBack()

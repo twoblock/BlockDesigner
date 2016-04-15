@@ -36,12 +36,12 @@ namespace BDapi
 	CallBackReturn CallBackManager::SendBackAllWhenStart()
 	{
 		SoftwareProfiler *p_SoftwareProfiler = NULL;
-		p_SoftwareProfiler = p_SoftwarwManager->GetSoftwareProfiler();
-		p_SoftwareProfiler->GetJsonOfSymbolTable();	
+		p_SoftwareProfiler = p_SoftwareManager->GetSoftwareProfiler();
+		SendBackJson(p_SoftwareProfiler->GetJsonOfSymbolTable(), "SymbolTableCallBack");
 
 		SoftwareDisplayer *p_SoftwareDisplayer = NULL;
-		p_SoftwareDisplayer = p_SoftwarwManager->GetSoftwareDisplayer();
-		p_SoftwareDisplayer->GetJsonOfSourceCode();	
+		p_SoftwareDisplayer = p_SoftwareManager->GetSoftwareDisplayer();
+		SendBackJson(p_SoftwareDisplayer->GetJsonOfSourceCode(), "SourceCodeCallBack");
 
 		return CallBackOK;
 	}
@@ -49,12 +49,16 @@ namespace BDapi
 	CallBackReturn CallBackManager::SendBackAllWhenStop()
 	{
 		SoftwareProfiler *p_SoftwareProfiler = NULL;
-		p_SoftwareProfiler = p_SoftwarwManager->GetSoftwareProfiler();
+		p_SoftwareProfiler = p_SoftwareManager->GetSoftwareProfiler();
+		SendBackJson(p_SoftwareProfiler->GetJsonOfProfilingTable(), "ProfilingTableCallBack");
+		SendBackJson(p_SoftwareProfiler->GetJsonOfFunctionFlowGragh(), "FunctionFlowCallBack");
 
-		p_SoftwareProfiler->GetJsonOfProfilingTable();	
-		p_SoftwareProfiler->GetJsonOfFunctionFlowGragh();
+		SendBackJson(p_SoftwareManager->GetPC(), "PCCallBack");
+
 		SendBackJson(p_BDDIJsonManager->GenerateBDDIJsonFile(), "ResultCallBack");
 		SendBackJson(p_BDDIJsonManager->GenerateMemoryViewJsonFile(), "MemoryViewCallBack");
+
+		
 		SendBackInt(STOP, "StatusCallBack");
 		return CallBackOK;
 	}
@@ -72,7 +76,6 @@ namespace BDapi
 		m_Env->CallVoidMethod(m_Jobject, m_MethodID, string);
 		return CallBackOK;
 	}
-
 
 	CallBackReturn CallBackManager::SendBackLongLong(long long LongLong, const char *MethodName)
 	{
@@ -179,7 +182,7 @@ namespace BDapi
 	CallBackManager::CallBackManager()
 	{
 		m_Env = NULL;
-		p_SoftwarwManager = SoftwareManager::GetInstance();
+		p_SoftwareManager = SoftwareManager::GetInstance();
 		p_BDDIJsonManager = BDDIJsonManager::GetInstance();
 	}
 

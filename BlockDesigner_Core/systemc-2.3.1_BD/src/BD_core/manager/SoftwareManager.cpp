@@ -18,6 +18,7 @@
 
 #include "SoftwareManager.h"
 #include "ModuleListManager.h"
+#include "CallBackManager.h"
 
 namespace BDapi
 {	
@@ -38,6 +39,9 @@ namespace BDapi
 	 */
 	void SoftwareManager::PutOperationControl(GUI_COMMAND Command)
 	{
+		CallBackManager *p_CallBackManager = NULL;
+		p_CallBackManager = CallBackManager::GetInstance();
+
 		int CPUIndex = 0;
 		CPUIndex = FindCPU(Command.Argu1);	
 
@@ -46,8 +50,9 @@ namespace BDapi
 			LoadSoftware(CPUIndex, Command.Argu2);
 			// assembly code displayer
 			SetSoftwareDisplayer(CPUIndex, Command.Argu2);
-			
 			SetSoftwareProfiler(CPUIndex, Command.Argu2);
+
+			p_CallBackManager->SendBackAllWhenStart();
 		}
 		else{
 			printf("can not find %s cpu \n", Command.Argu1);
@@ -136,6 +141,23 @@ namespace BDapi
 		dw_PC = p_ModuleListManager->FindModule(CPUs[0]->CPUName.c_str())->GetBDDI()->BDDIGetPCValue();
 		CPUs[0]->p_SoftwareProfiler->PC_Analyzer(dw_PC);
 	}
+
+	string SoftwareManager::GetPC()
+	{
+		string PC;
+		unsigned int dw_PC;
+		char a_PC[128] = {0,};
+
+    ModuleListManager *p_ModuleListManager = NULL;
+		p_ModuleListManager = ModuleListManager::GetInstance();
+		dw_PC = p_ModuleListManager->FindModule(CPUs[0]->CPUName.c_str())->GetBDDI()->BDDIGetPCValue();
+		
+	  sprintf(a_PC, "%x", dw_PC); 	
+		PC = a_PC;
+
+		return PC;
+	}
+
 
 	/*
 	 * function    	: DisplayProfilingData

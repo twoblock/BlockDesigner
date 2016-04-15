@@ -80,7 +80,7 @@ namespace BDapi
 			jobject m_Jobject;
 			jmethodID m_MethodID;
 
-			SoftwareManager *p_SoftwarwManager;
+			SoftwareManager *p_SoftwareManager;
 			BDDIJsonManager *p_BDDIJsonManager;
 
 			static CallBackManager *_CallBackManager;
