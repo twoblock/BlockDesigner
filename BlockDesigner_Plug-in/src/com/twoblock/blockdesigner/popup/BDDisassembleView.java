@@ -102,7 +102,7 @@ public class BDDisassembleView {
 		m_table.setLayoutData(gdBottom);
 
 		TableColumn directCol = new TableColumn(m_table, SWT.LEFT);
-		directCol.setWidth(30);
+		directCol.setWidth(50);
 		TableColumn addrCol = new TableColumn(m_table, SWT.LEFT);
 		addrCol.setText("Address");
 		addrCol.setWidth(100);
@@ -161,21 +161,21 @@ public class BDDisassembleView {
 		long addr = BDF.StringHexToLongDecimal(text.getText());
 		int index = m_addrToIndex.indexOf(addr);
 		
-		if(m_lastSelectedItem != null) {
-			m_lastSelectedItem.setText(0, "");
+		if(index < 0) {
+			BDF.printLog("Invalid address");
+			return;
 		}
 		
-		m_lastSelectedItem = m_table.getItem(index);
-		m_lastSelectedItem.setText(0, "▶");
-		
 		m_table.select(index);
-		m_table.showItem(m_table.getItem(Math.min(index+20, m_table.getItemCount()-1)));
+		m_table.showItem(m_table.getItem(index));
 	}
 	
 	public void select(long addr) {
+		BDF.printLog("here::"+addr);
+		
 		int index = m_addrToIndex.indexOf(addr);
 		if(index < 0) {
-			BDF.printLog("Invalid addr");
+			BDF.printLog("Invalid addr: "+addr);
 			return;
 		}
 		
@@ -187,7 +187,7 @@ public class BDDisassembleView {
 		m_lastSelectedItem.setText(0, "▶");
 		
 		m_table.select(index);
-		m_table.showItem(m_table.getItem(Math.min(index+20, m_table.getItemCount()-1)));
+		m_table.showItem(m_table.getItem(index));
 		
 	}
 }

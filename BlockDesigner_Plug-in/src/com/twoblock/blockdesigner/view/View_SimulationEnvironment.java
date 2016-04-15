@@ -40,9 +40,10 @@ import org.json.simple.parser.ParseException;
 import com.twoblock.blockdesigner.command.Handler_Command;
 import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
 import com.twoblock.blockdesigner.command.Hanlder_CallBack;
-import com.twoblock.blockdesigner.datastore.ModuleInfo;
 import com.twoblock.blockdesigner.popup.BDDisassembleView;
 import com.twoblock.blockdesigner.popup.BDF;
+import com.twoblock.blockdesigner.popup.BDSWCallStackView;
+import com.twoblock.blockdesigner.popup.BDSWProfilingView;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -62,9 +63,15 @@ import com.twoblock.blockdesigner.popup.BDF;
 public class View_SimulationEnvironment extends ViewPart {
 	protected Shell parent;
 	private Text txtStep;
+	private static BDDisassembleView dv;
+	private static BDSWCallStackView csv;
+	private static BDSWProfilingView swpv;
 	private Image imgStep_n;
 	public static String SourceCode;
 	public static String SymbolTable;
+	public static String PCCode;
+	public static String FunctionFlowGragh;
+	public static String ProfilingTable;
 	private static Button btnRun;
 	private static Button btnStop;
 	private static Button btnStep;
@@ -85,6 +92,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		display = Display.getDefault();
 		
 		display.asyncExec(new Runnable() {
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -94,12 +102,17 @@ public class View_SimulationEnvironment extends ViewPart {
 				Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
 						System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", "", "",
 						"");
-//				try {
-//					Thread.sleep(500);
-//				} catch (Exception e) {
-//					// TODO: handle exception
-//				}
-//				AssemblySetter(parent);
+				try {
+					Thread.sleep(500);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				dv = new BDDisassembleView(parent.getShell(), "CORE");
+				csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
+				swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
+
+				AssemblySetter(parent);
+				SymbolSetter(parent);
 			}
 		});
 		
@@ -223,9 +236,6 @@ public class View_SimulationEnvironment extends ViewPart {
 				Handler_Command.Command_Func(0, 1, "STOP", "NULL", "NULL", "NULL", "NULL");
 				Btn_Control(3);
 				SetTableState(true);
-				
-
-				
 			}
 		});
 		btnStep.addSelectionListener(new SelectionAdapter() {
@@ -311,8 +321,23 @@ public class View_SimulationEnvironment extends ViewPart {
 	private JSONObject jsonObject_sc;
 	private JSONObject obj_sc;
 	private JSONArray arr_SourceLine;
-	private JSONObject obj_OneLine;
+	private JSONObject obj_sc_OneLine;
+	
+	private JSONObject jsonObject_sb;
+	private JSONObject obj_sb;
+	private JSONArray arr_SymbolLine;
+	private JSONObject obj_sb_OneLine;
 
+	private JSONObject jsonObject_ffg;
+	private JSONObject obj_ffg;
+	private JSONArray arr_ffgLine;
+	private JSONObject obj_ffg_OneLine;
+	
+	private JSONObject jsonObject_pt;
+	private JSONObject obj_pt;
+	private JSONArray arr_ptItem;
+	private JSONObject obj_pt_OneItem;
+	
 	protected void ChannelInfoSet(final Composite composite) {
 		try {
 			obj = parser.parse(new FileReader(System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD"));
@@ -668,7 +693,6 @@ public class View_SimulationEnvironment extends ViewPart {
 	protected static Control[] Ctrol_reg_arg;
 
 	public void SIM_Result(String sim_result) {
-		System.err.println("===========================in Sim result=============");
 		display.asyncExec(new Runnable() {
 
 			@Override
@@ -745,6 +769,30 @@ public class View_SimulationEnvironment extends ViewPart {
 					btnStep_n.setEnabled(true);
 					btnRun.setEnabled(true);
 					SetTableState(true);
+					
+					display.asyncExec(new Runnable() {
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							
+							/* --- Disassemble View Setter ---START--- */
+//							dv.show();
+//							dv.select(BDF.StringHexToLongDecimal(PCCode));
+							/* --- Disassemble View Setter ---END--- */
+							
+							
+							/* --- Call Stack View Setter ---START--- */
+//							csvSetter();
+							/* --- Call Stack View Setter ---END--- */
+							
+							
+							/* --- Profiling Table Setter ---START--- */
+							ptSetter();
+							/* --- Profiling Table Setter ---END--- */
+						}
+						
+					});
+					
 					break;
 				}
 			}
@@ -763,24 +811,90 @@ public class View_SimulationEnvironment extends ViewPart {
 	
 	private void AssemblySetter(Composite parent) {
 		// TODO Auto-generated method stub
-		BDDisassembleView dv = new BDDisassembleView(parent.getShell(), "CORE");
 		try {
-			System.err.println("!!!!!"+SourceCode);
 			obj_sc = (JSONObject)parser.parse(SourceCode);
 			jsonObject_sc = (JSONObject) obj_sc;	
 			arr_SourceLine = (JSONArray) jsonObject_sc.get("SourceCode");
 
 			for (int i = 0; i < arr_SourceLine.size(); i++) {
-				obj_OneLine = (JSONObject) arr_SourceLine.get(i);
-				dv.addInstruction(BDF.StringHexToLongDecimal(((String)obj_OneLine.get("address")).trim())
-						,((String)obj_OneLine.get("assembly_code")).trim());
+				obj_sc_OneLine = (JSONObject) arr_SourceLine.get(i);
+				dv.addInstruction(BDF.StringHexToLongDecimal(((String)obj_sc_OneLine.get("address")).trim())
+						,((String)obj_sc_OneLine.get("assembly_code")).trim());
 			}
-			dv.show();
-//			long addr = 10 * 32;
-//			dv.select(addr);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	private void SymbolSetter(Composite parent){
+		try {
+			obj_sb = (JSONObject)parser.parse(SymbolTable);
+			jsonObject_sb = (JSONObject) obj_sb;	
+			arr_SymbolLine = (JSONArray) jsonObject_sb.get("SymbolTable");
+			
+			String function_name=null;
+			for (int i = 0; i < arr_SymbolLine.size(); i++) {
+				obj_sb_OneLine = (JSONObject) arr_SymbolLine.get(i);
+				function_name= (String)obj_sb_OneLine.get("function_name");
+				csv.addFunctionName(function_name);
+				swpv.addFunctionName(function_name);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void ptSetter(){
+		swpv.show();
+		try {
+			obj_pt = (JSONObject)parser.parse(ProfilingTable);
+			jsonObject_pt = (JSONObject) obj_pt;	
+			arr_ptItem = (JSONArray) jsonObject_pt.get("ProfilingTable");
+			int index=0;
+			long call=0;
+			long durCycle=0;
+			float durPer=0;
+			long selfDurCycle=0;
+			float selfDurPer=0;
+			for (int i = 0; i < arr_ptItem.size(); i++) {
+				obj_pt_OneItem = (JSONObject) arr_ptItem.get(i);
+				
+				index=Integer.parseInt((String) obj_pt_OneItem.get("function_index"));
+				call=Long.parseLong((String)obj_pt_OneItem.get("function_call"));
+				durCycle=Long.parseLong((String)obj_pt_OneItem.get("function_duration"));
+				durPer=Float.parseFloat((String)obj_pt_OneItem.get("function_duration_per"));
+				selfDurCycle=Long.parseLong((String)obj_pt_OneItem.get("function_selfduration"));
+				selfDurPer=Float.parseFloat((String)obj_pt_OneItem.get("function_selfduration_per"));
+				
+				swpv.updateData(index, call, durCycle,  durPer,  selfDurCycle,   selfDurPer);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void csvSetter() {
+		// TODO Auto-generated method stub
+		csv.show();
+		try {
+			obj_ffg = (JSONObject)parser.parse(FunctionFlowGragh);
+			jsonObject_ffg = (JSONObject) obj_ffg;	
+			arr_ffgLine = (JSONArray) jsonObject_ffg.get("FunctionFlowGragh");
+			int ffg_index=0;
+			long ffg_cycle=0;
+			for (int i = 0; i < arr_ffgLine.size(); i++) {
+				obj_ffg_OneLine = (JSONObject) arr_ffgLine.get(i);
+				ffg_index=Integer.parseInt((String) obj_ffg_OneLine.get("function_index"));
+				ffg_cycle=Long.parseLong((String)obj_ffg_OneLine.get("function_cycle"));
+				csv.addCallData(ffg_index, ffg_cycle);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

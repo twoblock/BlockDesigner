@@ -52,29 +52,38 @@ public class Hanlder_CallBack {
 		System.err.println(sim_result);
 		VSE.SIM_Result(sim_result);
 	}
+	
+	//Memory View
 	private void MemoryViewCallBack(String memoryjson){
 //		System.err.println(memoryjson);
 	}
-	private void SourceCodeCallBack(String jcode){
-		System.err.println(jcode);
+	
+	//assembly view
+	private void SourceCodeCallBack(String jcode){ 
+//		System.err.println(jcode);
 		VSE.SourceCode=jcode;
 	}
 	private void PCCallBack(String pc){
-		System.err.println(pc);
+		VSE.PCCode=pc;
 	}
+	
+	// function call & profiling table init 
 	private void SymbolTableCallBack(String symboltable){
-		System.err.println(symboltable);
+//		System.err.println(symboltable);
 		VSE.SymbolTable=symboltable;
 	}
+	//get
 	private void ProfilingTableCallBack(String pftable){
 //		System.err.println(pftable);
+		VSE.ProfilingTable=pftable;
 	}
 	private void FunctionFlowCallBack(String functionflow){
 //		System.err.println(functionflow);
+		VSE.FunctionFlowGragh=functionflow;
 	}
 	
 	private void ModuleInfoCallBack(String pmml) {
-		System.err.println(pmml);
+//		System.err.println(pmml);
 		View_PlatformManager vs = new View_PlatformManager();
 		vs.viewsetting(pmml);
 	}

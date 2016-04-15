@@ -1,14 +1,7 @@
 package com.twoblock.blockdesigner.popup;
-import java.util.Random;
-
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -24,7 +17,7 @@ import org.eclipse.swt.widgets.TableItem;
  * 
  		BDSWCallStackView csv = new BDSWCallStackView(shell, "CM0(big)", null);
 		for(int i=0; i<30; i++) {
-			csv.addFunctionName("func"+i);
+			csv.addFunctionName("func");
 		}
 		csv.show();
 		
@@ -34,7 +27,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 public class BDSWCallStackView {
 
-	private final int MAX_COLUMN_SIZE = 50;
+	private final int MAX_COLUMN_SIZE = 100;
 	private final int COLUMN_WIDTH = 150;
 
 	private Shell m_shell;
@@ -50,14 +43,14 @@ public class BDSWCallStackView {
 
 
 	public BDSWCallStackView(Shell shell, String compName, BDSWProfilingItemArray data) {
-		m_shell = shell;
-		m_display = shell.getDisplay();
+		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+		m_display = m_shell.getDisplay();
 
-		shell.setText("Software Profiling View - "+compName);
-		shell.setSize(930, 500);
-		shell.setLayout(new FillLayout());
+		m_shell.setText("Software Profiling View - "+compName);
+		m_shell.setSize(1000, 600);
+		m_shell.setLayout(new FillLayout());
 
-		m_dataTable = new Table(shell, SWT.FULL_SELECTION|SWT.BORDER);
+		m_dataTable = new Table(m_shell, SWT.FULL_SELECTION|SWT.BORDER);
 		m_dataTable.setHeaderVisible(false);
 		m_dataTable.setLinesVisible(false);
 		m_dataTable.addListener(SWT.Selection, new Listener() {
@@ -70,7 +63,7 @@ public class BDSWCallStackView {
 		});
 
 		TableColumn col = new TableColumn(m_dataTable, SWT.CENTER);
-		col.setWidth(150);
+		col.setWidth(200);
 	}
 
 	public void addFunctionName(String str) {
@@ -82,7 +75,7 @@ public class BDSWCallStackView {
 		
 		int colCount = m_dataTable.getColumnCount(); 
 		if(colCount > 1) {
-			System.out.println("add");
+//			System.out.println("add");
 			TableItem tableItem = m_dataTable.getItem(m_lastFuncIndex);
 			tableItem.setBackground(colCount-1, new Color(m_display, 192, 192, 192));
 		}
