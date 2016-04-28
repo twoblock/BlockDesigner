@@ -426,9 +426,9 @@ public class View_PlatformManager extends ViewPart {
 					Module_Location = Module_Location.replace("\\", "/");
 					System.err.println(Module_Location);
 					
-					Handler_Command.Command_Func(Module_Location);
-//					Handler_Command.Command_Func(0, 6, Module_Location, "NULL", "NULL", "NULL", "NULL");
-//					Handler_Command.Command_Func(1, 0, "NULL", "NULL", "NULL", "NULL", "NULL");
+//					Handler_Command.Command_Func(Module_Location);
+					Handler_Command.Command_Func(0, 6, Module_Location, "NULL", "NULL", "NULL", "NULL");
+					Handler_Command.Command_Func(1, 0, "NULL", "NULL", "NULL", "NULL", "NULL");
 					
 					try {
 						Thread.sleep(500);
@@ -657,9 +657,8 @@ public class View_PlatformManager extends ViewPart {
 									}
 								}
 								
-								if( (source_scType.equals("SM")&&dest_scType.equals("SS")) 
-//										| (source_scType.equals("SS")&&dest_scType.equals("SM")) 
-										){
+								if( (source_DataType.equals("SM")&&dest_DataType.equals("SS")) 
+										| (source_DataType.equals("SS")&&dest_DataType.equals("SM"))){
 									if(UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort.isEnabled())
 									{
 										PortDataList.get(SelectedPort_Index).cmb_dPort.add(
@@ -951,17 +950,54 @@ public class View_PlatformManager extends ViewPart {
 									String addrSize = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).addrSize;
 									String startAddr = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).startAddr;
 									MMEditor.addSlave(Sname, Dport,startAddr,addrSize);
+									System.err.println("Checker="+Sname+"/"+Dport+"/"+startAddr+"/"+addrSize);
 								}
 							}
 						}
 					}
 					MMEditor.show();
+					
+					
+					/*
+					 * Example code
+					 * Ryan, TwoBlock
+					 * 
+						BDMemoryMapEditor MMEditor = new BDMemoryMapEditor(shell, "System BUS(AXI)", new IBDMemoryMapEditorListener() {
+								
+								@Override
+								public void onOk(ArrayList<BDMemoryMapItem> items) {
+									// TODO Auto-generated method stub
+									
+									for(BDMemoryMapItem item : items) {
+										System.out.println(String.format("ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s", 
+												item.SlaveName, 
+												item.SlavePort, 
+												BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.StartAddr),
+												BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.Size),
+												BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.EndAddr)));
+									}
+								}
+								
+								@Override
+								public void onCancel() {
+									// TODO Auto-generated method stub
+									System.out.println("BDMemoryMapEditor has dismissed");
+								}
+							});
+							
+							//Dummy data
+							MMEditor.addSlave("Slave1", "port1");
+							MMEditor.addSlave("Slave2", "port2");
+							MMEditor.addSlave("Slave3", "port3");
+							MMEditor.addSlave("Slave4", "port4");
+							MMEditor.addSlave("Slave5", "port5");
+							MMEditor.show();
+					 */
 				}
 				
 				@Override
 				public void widgetDefaultSelected(SelectionEvent arg0) {
 					// TODO Auto-generated method stub
-					
 				}
 			});
 		} else {

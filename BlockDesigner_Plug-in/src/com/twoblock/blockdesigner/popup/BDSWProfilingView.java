@@ -111,6 +111,9 @@ public class BDSWProfilingView {
 		refreshTable();
 	}
 
+	
+	
+	
 	public void refreshTable() {
 		m_tableViewer.setInput(m_data.toArray());
 	}

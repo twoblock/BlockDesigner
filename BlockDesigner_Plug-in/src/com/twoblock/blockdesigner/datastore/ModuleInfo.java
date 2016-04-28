@@ -53,7 +53,7 @@ public class ModuleInfo {
 					port.port_name = p_name;
 					port.sc_type = p_sc_type;
 					port.data_type = p_data_type;
-					if(p_sc_type.contains("SM"))
+					if(p_data_type.contains("SM"))
 					{
 						SM_Port_Index++;
 						port.SM_Index= SM_Port_Index;

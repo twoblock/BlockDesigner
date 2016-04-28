@@ -42,10 +42,10 @@ public class Handler_Command {
 		}
 	}
 	
-	public static void Command_Func(String cmd){
-		Handler_Command hc = new Handler_Command(cmd);
-		hc.PMCommand();
-	}
+//	public static void Command_Func(String cmd){
+//		Handler_Command hc = new Handler_Command(cmd);
+//		hc.PMCommand();
+//	}
 	public static void Command_Func(int oper, int cmd, String argu1,String argu2,String argu3,String argu4,String argu5) {
 		// TODO Auto-generated method stub
 		Handler_Command pushcomm = new Handler_Command(oper, cmd, argu1, argu2, argu3, argu4, argu5);
