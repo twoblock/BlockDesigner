@@ -1941,7 +1941,7 @@ void MemoryUtility::BDInit()
 	HRESETn.set_port_name("HRESETn");
 
 	SRAM_M_AHBv2_mpms = new BD_AHBPort_MM((char*)"MM_M0");
-	DRAM_M_AHBv2_mpms = new BD_AHBPort_MM((char*)"MM_M0");
+	DRAM_M_AHBv2_mpms = new BD_AHBPort_MM((char*)"MM_M1");
 	S_AHBv2_spss = new BD_AHBPort_SS((char*)"SS_S0");
 
 	// for BDDI

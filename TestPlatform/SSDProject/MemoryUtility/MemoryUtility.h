@@ -1,4 +1,3 @@
-
 #ifndef __MemoryUtility_H__
 #define __MemoryUtility_H__
 
@@ -94,33 +93,10 @@ SC_MODULE(MemoryUtility){
 	BDDI*						bddi;
 
 	// parameters
+	uint32_t p_Base_Addr;
+	uint32_t p_Addr_Size;
 	bool p_enableDbgMsg;
-	uint64_t p_Addr_Size;
-	uint64_t p_Base_Addr;
 	int p_Data_Bit_Width;
-
-	/////// for test of BDDI ///////
-	UINT8						hw_reg;
-	UINT16					w_reg;
-	UINT32					dw_reg;
-	UINT64					lw_reg;
-	bool						b_reg;
-	UINT32					h_reg;	// hex
-	float						f_reg;
-	double					df_reg;
-	char						a_reg[128];
-
-	char						hw_par;
-	short						w_par;
-	int							dw_par;
-	long long				lw_par;
-	bool						b_par;
-	UINT32					dw_paru;	// hex
-	float						f_par;
-	double					df_par;
-	char						a_par[128];
-
-
 
 	// ************************************ //
 	// ***** Memory Utility Register ****** //

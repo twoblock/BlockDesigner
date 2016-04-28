@@ -3,28 +3,19 @@
 
 BDDIRegInfo ast_ConsoleRegInfo[] = 
 {
-	{"hw_reg", 8, BDDIRegTypeUINT},
-	{"w_reg", 16, BDDIRegTypeUINT},
-	{"dw_reg", 32, BDDIRegTypeUINT},
-	{"lw_reg", 64, BDDIRegTypeUINT},
-	{"b_reg", 8, BDDIRegTypeBOOL},
-	{"h_reg", 32, BDDIRegTypeHEX},
-	{"f_reg", 32, BDDIRegTypeFLOAT},
-	{"df_reg", 64, BDDIRegTypeFLOAT},
-	{"a_reg", 8, BDDIRegTypeSTRING}
+	{"MU_SRC_ADDR", 32, BDDIRegTypeUINT},
+	{"MU_DST_ADDR", 32, BDDIRegTypeUINT},
+	{"MU_VALUE", 32, BDDIRegTypeUINT},
+	{"MU_SIZE", 32, BDDIRegTypeUINT},
+	{"MU_RESULT", 32, BDDIRegTypeUINT},
+	{"MU_CMD", 32, BDDIRegTypeUINT},
+	{"MU_UNITSTEP", 32, BDDIRegTypeUINT}
 };
 
 BDDIParInfo ast_ConsoleParInfo[] = 
 {
-	{"hw_par", 8, BDDIParTypeINT, ""},
-	{"w_par", 16, BDDIParTypeINT, ""},
-	{"dw_par", 32, BDDIParTypeINT, ""},
-	{"lw_par", 64, BDDIParTypeINT, ""},
-	{"b_par", 8, BDDIParTypeBOOL, ""},
-	{"dw_paru", 32, BDDIParTypeUINT, ""},
-	{"f_par", 32, BDDIParTypeFLOAT, ""},
-	{"df_par", 64, BDDIParTypeFLOAT, ""},
-	{"a_par", 8, BDDIParTypeSTRING, ""}
+	{"p_Base_Addr", 32, BDDIParTypeINT, ""},
+	{"p_Addr_Size", 32, BDDIParTypeINT, ""}
 };
 
 static const UINT32 dw_RegCnt = sizeof(ast_ConsoleRegInfo) / sizeof(ast_ConsoleRegInfo[0]);
@@ -50,7 +41,7 @@ MemoryUtility_BDDI::MemoryUtility_BDDI(MemoryUtility *c) : p_Target(c)
 		pst_OutParInfo[dw_Index].Type								= ast_ConsoleParInfo[dw_Index].Type;
 
 		BDDIGetParameterValues(dw_Index, a_Temp);
-	
+
 		strcpy(pst_OutParInfo[dw_Index].Value,				a_Temp);
 	}
 }
@@ -66,77 +57,62 @@ BDDIReturn MemoryUtility_BDDI::BDDIGetRegisterValues(unsigned int RegIndex, char
 {
 	BDDIRegValue st_Temp;
 
-	UINT8 hw_Temp;
-	UINT16 w_Temp;
-	UINT32 dw_Temp;
-	UINT64 lw_Temp;
-	bool b_Temp;
-	UINT32 h_Temp;
-	float f_Temp;
-	double df_Temp;
-	char a_Temp[128];
+	uint32_t r_MU_SRC_ADDR_temp;
+	uint32_t r_MU_DST_ADDR_temp;
+	uint32_t r_MU_VALUE_temp;
+	uint32_t r_MU_SIZE_temp;
+	uint32_t r_MU_RESULT_temp;
+	uint32_t r_MU_CMD_temp;
+	uint32_t r_MU_UNITSTEP_temp;
 
 	switch(RegIndex)
 	{
 		case 0:
-			hw_Temp = p_Target->hw_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &hw_Temp);
+			r_MU_SRC_ADDR_temp = p_Target->r_MU_SRC_ADDR;
+			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &r_MU_SRC_ADDR_temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 1:
-			w_Temp = p_Target->w_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &w_Temp);
+			r_MU_DST_ADDR_temp = p_Target->r_MU_DST_ADDR;
+			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &r_MU_DST_ADDR_temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 2:
-			dw_Temp = p_Target->dw_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &dw_Temp);
+			r_MU_VALUE_temp = p_Target->r_MU_VALUE;
+			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &r_MU_VALUE_temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 3:
-			lw_Temp = p_Target->lw_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &lw_Temp);
+			r_MU_SIZE_temp = p_Target->r_MU_SIZE;
+			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &r_MU_SIZE_temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 4:
-			b_Temp = p_Target->b_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &b_Temp);
+			r_MU_RESULT_temp = p_Target->r_MU_RESULT;
+			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &r_MU_RESULT_temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 5:
-			h_Temp = p_Target->h_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &h_Temp);
+			r_MU_CMD_temp = p_Target->r_MU_CMD;
+			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &r_MU_CMD_temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 6:
-			f_Temp = p_Target->f_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &f_Temp);
+			r_MU_UNITSTEP_temp = p_Target->r_MU_UNITSTEP;
+			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &r_MU_UNITSTEP_temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 7:
-			df_Temp = p_Target->df_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &df_Temp);
-			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 8:
-			strcpy(a_Temp, p_Target->a_reg);
-			strcpy(OutValue, a_Temp);
 
 			break;
 
@@ -152,84 +128,63 @@ BDDIReturn MemoryUtility_BDDI::BDDISetRegisterValues(unsigned int RegIndex, cons
 {
 	BDDIRegValue st_Temp;
 
-	UINT8 hw_Temp;
-	UINT16 w_Temp;
-	UINT32 dw_Temp;
-	UINT64 lw_Temp;
-	bool b_Temp;
-	UINT32 h_Temp;
-	float f_Temp;
-	double df_Temp;
-	char a_Temp[128];
+	uint32_t r_MU_SRC_ADDR_temp;
+	uint32_t r_MU_DST_ADDR_temp;
+	uint32_t r_MU_VALUE_temp;
+	uint32_t r_MU_SIZE_temp;
+	uint32_t r_MU_RESULT_temp;
+	uint32_t r_MU_CMD_temp;
+	uint32_t r_MU_UNITSTEP_temp;
 
 	switch(RegIndex)
 	{
 		case 0:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &hw_Temp);
-			p_Target->hw_reg = hw_Temp;
+			BDDIExtractRegisterValue(&st_Temp, &r_MU_SRC_ADDR_temp);
+			p_Target->r_MU_SRC_ADDR = r_MU_SRC_ADDR_temp;
 
 			break;
 
 		case 1:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &w_Temp);
-			p_Target->w_reg = w_Temp;
+			BDDIExtractRegisterValue(&st_Temp, &r_MU_DST_ADDR_temp);
+			p_Target->r_MU_DST_ADDR = r_MU_DST_ADDR_temp;
 
 			break;
 
 		case 2:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &dw_Temp);
-			p_Target->dw_reg = dw_Temp;
+			BDDIExtractRegisterValue(&st_Temp, &r_MU_VALUE_temp);
+			p_Target->r_MU_VALUE = r_MU_VALUE_temp;
 
 			break;
-
 		case 3:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &lw_Temp);
-			p_Target->lw_reg = lw_Temp;
+			BDDIExtractRegisterValue(&st_Temp, &r_MU_SIZE_temp);
+			p_Target->r_MU_SIZE = r_MU_SIZE_temp;
 
 			break;
-
 		case 4:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &b_Temp);
-			p_Target->b_reg = b_Temp;
+			BDDIExtractRegisterValue(&st_Temp, &r_MU_RESULT_temp);
+			p_Target->r_MU_RESULT = r_MU_RESULT_temp;
 
 			break;
-
 		case 5:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &h_Temp);
-			p_Target->h_reg = h_Temp;
+			BDDIExtractRegisterValue(&st_Temp, &r_MU_CMD_temp);
+			p_Target->r_MU_CMD = r_MU_CMD_temp;
 
 			break;
-
 		case 6:
 			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &f_Temp);
-			p_Target->f_reg = f_Temp;
-
-			break;
-
-		case 7:
-			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &df_Temp);
-			p_Target->df_reg = df_Temp;
-
-			break;
-
-		case 8:
-			strcpy(a_Temp, SetValue);
-			strcpy(p_Target->a_reg, a_Temp);
+			BDDIExtractRegisterValue(&st_Temp, &r_MU_UNITSTEP_temp);
+			p_Target->r_MU_UNITSTEP = r_MU_UNITSTEP_temp;
 
 			break;
 
 		default:	return BDDIStatusError;	
-
 	}
-
 	return BDDIStatusOK;
 }
 
@@ -238,84 +193,27 @@ BDDIReturn MemoryUtility_BDDI::BDDIGetParameterValues(unsigned int ParIndex, cha
 {
 	BDDIParValue st_Temp;
 
-	char hw_Temp;
-	short w_Temp;
-	int dw_Temp;
-	long long lw_Temp;
-	bool b_Temp;
-	UINT32 dw_TempU;
-	float f_Temp;
-	double df_Temp;
-	char a_Temp[128];
+	uint32_t p_Base_Addr_temp;
+	uint32_t p_Addr_Size_temp;
 
 	switch(ParIndex)
 	{
 		case 0:
-			hw_Temp = p_Target->hw_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &hw_Temp);
+			p_Base_Addr_temp = p_Target->p_Base_Addr;
+			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &p_Base_Addr_temp);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 1:
-			w_Temp = p_Target->w_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &w_Temp);
+			p_Addr_Size_temp = p_Target->p_Addr_Size;
+			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &p_Addr_Size_temp);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 2:
-			dw_Temp = p_Target->dw_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &dw_Temp);
-			BDDIConvertParameterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 3:
-			lw_Temp = p_Target->lw_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &lw_Temp);
-			BDDIConvertParameterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 4:
-			b_Temp = p_Target->b_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &b_Temp);
-			BDDIConvertParameterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 5:
-			dw_TempU = p_Target->dw_paru;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &dw_TempU);
-			BDDIConvertParameterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 6:
-			f_Temp = p_Target->f_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &f_Temp);
-			BDDIConvertParameterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 7:
-			df_Temp = p_Target->df_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &df_Temp);
-			BDDIConvertParameterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 8:
-			strcpy(a_Temp, p_Target->a_par);
-			strcpy(OutValue, a_Temp);
 
 			break;
 
 		default:	return BDDIStatusError;	
-
 	}
-
 	return BDDIStatusOK;
 }
 
@@ -324,84 +222,27 @@ BDDIReturn MemoryUtility_BDDI::BDDISetParameterValues(unsigned int ParIndex, con
 {
 	BDDIParValue st_Temp;
 
-	UINT8 hw_Temp;
-	UINT16 w_Temp;
-	UINT32 dw_Temp;
-	UINT64 lw_Temp;
-	bool b_Temp;
-	UINT32 dw_TempU;
-	float f_Temp;
-	double df_Temp;
-	char a_Temp[128];
+	uint32_t p_Base_Addr_temp;
+	uint32_t p_Addr_Size_temp;
 
 	switch(ParIndex)
 	{
 		case 0:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &hw_Temp);
-			p_Target->hw_par = hw_Temp;
+			BDDIExtractParameterValue(&st_Temp, &p_Base_Addr_temp);
+			p_Target->p_Base_Addr = p_Base_Addr_temp;
 
 			break;
 
 		case 1:
 			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &w_Temp);
-			p_Target->w_par = w_Temp;
-
-			break;
-
-		case 2:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &dw_Temp);
-			p_Target->dw_par = dw_Temp;
-
-			break;
-
-		case 3:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &lw_Temp);
-			p_Target->lw_par = lw_Temp;
-
-			break;
-
-		case 4:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &b_Temp);
-			p_Target->b_par = b_Temp;
-
-			break;
-
-		case 5:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
-			p_Target->dw_paru = dw_TempU;
-
-			break;
-
-		case 6:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &f_Temp);
-			p_Target->f_par = f_Temp;
-
-			break;
-
-		case 7:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &df_Temp);
-			p_Target->df_par = df_Temp;
-
-			break;
-
-		case 8:
-			strcpy(a_Temp, SetValue);
-			strcpy(p_Target->a_par, a_Temp);
+			BDDIExtractParameterValue(&st_Temp, &p_Addr_Size_temp);
+			p_Target->p_Addr_Size = p_Addr_Size_temp;
 
 			break;
 
 		default:	return BDDIStatusError;	
-
 	}
-
 	return BDDIStatusOK;
 }
 
