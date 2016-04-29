@@ -51,9 +51,10 @@ import com.twoblock.blockdesigner.command.Handler_Command;
 import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
 import com.twoblock.blockdesigner.command.Hanlder_CallBack;
 import com.twoblock.blockdesigner.datastore.ModuleInfo;
-import com.twoblock.blockdesigner.datastore.ModuleInfo.Module;
-import com.twoblock.blockdesigner.datastore.ModuleInfo.Parameter;
-import com.twoblock.blockdesigner.datastore.ModuleInfo.Port;
+import com.twoblock.blockdesigner.datastore.Module;
+import com.twoblock.blockdesigner.datastore.Port;
+import com.twoblock.blockdesigner.datastore.Register;
+import com.twoblock.blockdesigner.datastore.Parameter;
 import com.twoblock.blockdesigner.datastore.Set_BDPMD;
 import com.twoblock.blockdesigner.popup.BDF;
 import com.twoblock.blockdesigner.popup.BDMemoryMapEditor;
@@ -464,7 +465,7 @@ public class View_PlatformManager extends ViewPart {
 		Module_Title = Instance_Module_Name + " (" + Module_Name + ")";
 
 		// make Drawed module list. 
-		UsedModuleList.add(Module_Name);
+		UsedModuleList.add(Instance_Module_Name);
 		UsedModuleIndex = UsedModuleList.size() - 1;
 
 		Expanditem.add(new ExpandItem(expandBar, SWT.NONE));
@@ -509,15 +510,16 @@ public class View_PlatformManager extends ViewPart {
 			// find selected module(Index) for get info(ModuleInfo.java)
 			for (Selected_Index = 0; Selected_Index < ModuleInfoData.mList.size(); Selected_Index++) {
 				module = ModuleInfoData.mList.get(Selected_Index).module_name;
+//				module = UsedModuleList.get(Selected_Index);
 				if (Module_Name.equals(module) == true)
 					break;
 			}
 			
 			// Create DrawModule Struct(ArrayList).
-			// get module in port
-			ModuleData = ModuleInfoData.mList.get(Selected_Index);
-			// set add 
-			UsedModuleDataList.mList.add(ModuleData);
+			// get module in port		 
+			Module NewModule = new Module(ModuleInfoData.mList.get(Selected_Index));
+			ModuleData = NewModule;
+			UsedModuleDataList.mList.add(NewModule);
 			UsedModuleDataList.mList.get(UsedModuleIndex).module_instance_name = Instance_Module_Name;
 
 			final ArrayList<Port> PortDataList = UsedModuleDataList.mList.get(UsedModuleIndex).Port_List;
@@ -573,6 +575,7 @@ public class View_PlatformManager extends ViewPart {
 				final CCombo cmb_DestModule = new CCombo(table_port, SWT.READ_ONLY);
 				cmb_DestModule.setText("Plz choose Module");
 				cmb_DestModule.addListener(SWT.DROP_DOWN, new Listener() {
+					final String source_module_name=Instance_Module_Name;
 					@Override
 					public void handleEvent(Event event) {
 						PastItem = cmb_DestModule.getText();
@@ -580,7 +583,7 @@ public class View_PlatformManager extends ViewPart {
 						cmb_DestModule.removeAll();
 						// Modification is necessary code
 						for (int destModule = 0; destModule < UsedModuleList.size(); destModule++) {
-							if (UsedModuleList.get(destModule) != Module_Name) {
+							if (UsedModuleList.get(destModule) != source_module_name) {
 								cmb_DestModule.add((String) UsedModuleList.get(destModule));
 							}
 						}
@@ -613,7 +616,7 @@ public class View_PlatformManager extends ViewPart {
 							int port_Cnt = 0;
 							int DestModule_Index = 0;
 							for (DestModule_Index = 0; DestModule_Index < UsedModuleDataList.mList.size(); DestModule_Index++) {
-								module = UsedModuleDataList.mList.get(DestModule_Index).module_name;
+ 							module = UsedModuleDataList.mList.get(DestModule_Index).module_instance_name;
 								if (cmb_DestModule.getText().equals(module) == true)
 									break;
 							}
@@ -659,6 +662,18 @@ public class View_PlatformManager extends ViewPart {
 								
 								if( (source_DataType.equals("SM")&&dest_DataType.equals("SS")) 
 										| (source_DataType.equals("SS")&&dest_DataType.equals("SM"))){
+									if(UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort.isEnabled())
+									{
+										PortDataList.get(SelectedPort_Index).cmb_dPort.add(
+												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).sc_type
+												+ "<" + 
+												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).data_type
+														+ ">" + 
+												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
+									}
+								}
+								else if( (source_DataType.equals("MM")&&dest_DataType.equals("MS")) 
+										| (source_DataType.equals("MS")&&dest_DataType.equals("MM"))){
 									if(UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort.isEnabled())
 									{
 										PortDataList.get(SelectedPort_Index).cmb_dPort.add(
@@ -718,8 +733,8 @@ public class View_PlatformManager extends ViewPart {
 						String Destmodule=cmb_DestModule.getText();
 						String module=null;
 						int finder=0;
-						for (finder = 0; finder < ModuleInfoData.mList.size(); finder++) {
-							module = UsedModuleDataList.mList.get(finder).module_name;
+						for (finder = 0; finder < UsedModuleDataList.mList.size(); finder++) {
+							module = UsedModuleDataList.mList.get(finder).module_instance_name;
 							if (Destmodule.equals(module) == true)
 								break;
 						}
@@ -755,7 +770,7 @@ public class View_PlatformManager extends ViewPart {
 						Control[] ctr_DestModuleList = UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
 								.getParent().getChildren();
 						CCombo ctr_cmb_DestModule = (CCombo) ctr_DestModuleList[GetDestPortIndex * 3 + 1];
-						ctr_cmb_DestModule.setText(PortDataList.get(SelectedPort_Index).Parent.module_name);
+						ctr_cmb_DestModule.setText(PortDataList.get(SelectedPort_Index).Parent.module_instance_name);
 						
 						try {
 							Control[] ctr_TempModule = PastLinkedModule.getParent().getChildren();
@@ -914,6 +929,7 @@ public class View_PlatformManager extends ViewPart {
 						public void onOk(ArrayList<BDMemoryMapItem> items) {
 							// TODO Auto-generated method stub
 							int slave_cnt=UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.size();
+							int setter_index=0;
 							for(BDMemoryMapItem item : items) {
 								System.out.println(String.format("ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s", 
 										item.SlaveName, 
@@ -921,11 +937,13 @@ public class View_PlatformManager extends ViewPart {
 										BDF.LongDecimalToStringHex(item.StartAddr,8),
 										BDF.LongDecimalToStringHex(item.Size,8),
 										BDF.LongDecimalToStringHex(item.EndAddr,8)));
-								for(int setter_index=0; setter_index < slave_cnt; setter_index++){
+								for(; setter_index < slave_cnt; setter_index++){
 									if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).Dest_Port!=null){
 										if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).Dest_Port.port_name.equals(item.SlavePort)){
 											UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).startAddr=BDF.LongDecimalToStringHex(item.StartAddr,8);
 											UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).addrSize=BDF.LongDecimalToStringHex(item.Size,8);
+											setter_index++;
+											break;
 										}
 									}
 								}

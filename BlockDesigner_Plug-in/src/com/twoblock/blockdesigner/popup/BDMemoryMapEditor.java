@@ -319,7 +319,7 @@ public class BDMemoryMapEditor {
 
 	public int addSlave(String slaveName, String connectedPortName, String startAddr, String addrSize) {
 		m_mmItems.add(new BDMemoryMapItem(slaveName, connectedPortName, BDF.StringHexToLongDecimal(startAddr),
-				BDF.StringHexToLongDecimal(addrSize), BDF.StringHexToLongDecimal(startAddr + addrSize)));
+				BDF.StringHexToLongDecimal(addrSize),BDF.StringHexToLongDecimal(startAddr) + BDF.StringHexToLongDecimal(addrSize) - 1));
 		refreshList();
 
 		return m_mmItems.size();

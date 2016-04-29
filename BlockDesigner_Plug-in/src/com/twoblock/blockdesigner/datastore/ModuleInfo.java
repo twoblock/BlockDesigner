@@ -2,9 +2,9 @@ package com.twoblock.blockdesigner.datastore;
 
 import java.util.ArrayList;
 
-import org.eclipse.swt.custom.CCombo;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 
 public class ModuleInfo {
 	private JSONObject ModuleObject;
@@ -122,41 +122,5 @@ public class ModuleInfo {
 			mList.add(module);
 		}
 	}
-
-	public class Module {
-		public String module_instance_name;
-		public String module_name;
-		public String module_location = null;
-		public String module_type;
-
-		public ArrayList<Port> Port_List = new ArrayList<Port>();
-		public ArrayList<Register> Register_List = new ArrayList<Register>();
-		public ArrayList<Parameter> Parameter_List = new ArrayList<Parameter>();
-	}
-
-	public class Port {
-		public String port_name;
-		public String sc_type;
-		public String data_type;
-		public Module Parent;
-		
-		public int SM_Index;
-		public String startAddr;
-		public String addrSize;
-		public Port Dest_Port;
-		public CCombo cmb_dPort;
-	}
-
-	public class Parameter {
-		public String par_name;
-		public String data_type;
-		public String bits_wide;
-		public String default_value;
-	}
-
-	public class Register {
-		public String reg_name;
-		public String data_type;
-		public String bits_wide;
-	}
 }
+ 
