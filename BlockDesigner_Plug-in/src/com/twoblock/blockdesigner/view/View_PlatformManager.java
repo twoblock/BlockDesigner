@@ -551,13 +551,13 @@ public class View_PlatformManager extends ViewPart {
 			
 			
 			
-			for (int i = 0; i < port_Cnt; i++) {
+			for (int i = 0; i < port_Cnt-2; i++) {
 				new TableItem(table_port, SWT.NONE);
 			}
 
 			TableItem[] items = table_port.getItems();
 			
-			for (port_index = 0; port_index < items.length; port_index++) {
+			for (port_index = 2; port_index < items.length+2; port_index++) {
 				
 				TableEditor editor = new TableEditor(table_port);
 
@@ -569,7 +569,7 @@ public class View_PlatformManager extends ViewPart {
 								+ PortDataList.get(port_index).port_name);
 				
 				editor.grabHorizontal = true;
-				editor.setEditor(text, items[port_index], 0);
+				editor.setEditor(text, items[port_index-2], 0);
 
 				editor = new TableEditor(table_port);
 				final CCombo cmb_DestModule = new CCombo(table_port, SWT.READ_ONLY);
@@ -592,7 +592,7 @@ public class View_PlatformManager extends ViewPart {
 				});
 
 				editor.grabHorizontal = true;
-				editor.setEditor(cmb_DestModule, items[port_index], 1);
+				editor.setEditor(cmb_DestModule, items[port_index-2], 1);
 
 				editor = new TableEditor(table_port);
 				
@@ -794,10 +794,10 @@ public class View_PlatformManager extends ViewPart {
 				
 				
 				editor.grabHorizontal = true;
-				editor.setEditor(PortDataList.get(port_index).cmb_dPort, items[port_index], 2);
+				editor.setEditor(PortDataList.get(port_index).cmb_dPort, items[port_index-2], 2);
 				
 			}
-			port_index = 0;
+			port_index = 2;
 			
 		}
 
