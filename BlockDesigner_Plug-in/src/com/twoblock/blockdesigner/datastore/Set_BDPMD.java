@@ -65,6 +65,7 @@ public class Set_BDPMD {
 			else{
 				obj_Channel_Item_HCLK.put("channel_type", "sc_clock");
 				obj_Channel_Item_HCLK.put("data_type", "bool");
+				obj_Channel_Item_HCLK.put("connection_num", usedModuleDataList.mList.size()-1);
 				obj_Channel_Item_HCLK.put("name", usedModuleDataList.mList.get(0).module_name+"$HCLK");
 				
 			}
@@ -78,6 +79,7 @@ public class Set_BDPMD {
 			else{
 				obj_Channel_Item_HRESETn.put("channel_type", "sc_signal");
 				obj_Channel_Item_HRESETn.put("data_type", "bool");
+				obj_Channel_Item_HRESETn.put("connection_num", usedModuleDataList.mList.size()-1);
 				obj_Channel_Item_HRESETn.put("name", usedModuleDataList.mList.get(0).module_name+"$HRESETn");
 			}
 			
@@ -85,15 +87,19 @@ public class Set_BDPMD {
 			
 			/* --- set real connected port(START)--- */
 			
-			for (int PortIndex = 0; PortIndex < usedModuleDataList.mList.get(ModuleDataIndex).Port_List
+			for (int PortIndex = 2; PortIndex < usedModuleDataList.mList.get(ModuleDataIndex).Port_List
 					.size(); PortIndex++) {
-				if(!usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).cmb_dPort.getText().equals(""))
-				{
-					try {
-						String sModule = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).Parent.module_name;
+//				if(!usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).cmb_dPort.getText().equals("")){
+						Boolean deportCheck = false;
+						String dModule=null;
+						String dPort = null;
+						String sModule = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).Parent.module_instance_name;
 						String sPort = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).port_name;
-						String dModule = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).Dest_Port.Parent.module_name;
-						String dPort = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).Dest_Port.port_name;
+						if(usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).Dest_Port != null){
+							deportCheck = true;
+							dModule = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).Dest_Port.Parent.module_instance_name;
+							dPort = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).Dest_Port.port_name;
+						}
 						String data_type = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).data_type;
 						
 						Boolean isUsed = false;
@@ -101,36 +107,43 @@ public class Set_BDPMD {
 							isUsed = false;
 							JSONObject jobj = (JSONObject) arr_Channel_Info.get(finder);
 							JSONArray jarr = (JSONArray) jobj.get("connection_info");
-							JSONObject obj_cnecModule = (JSONObject) jarr.get(0);
-							String cnecModule = (String) obj_cnecModule.get("module_name");
-							String cnecPort = (String) obj_cnecModule.get("port_name");
+							
+//							JSONObject obj_cnecModule = (JSONObject) jarr.get(0);
+//							String cnecModule = (String) obj_cnecModule.get("module_name");
+//							String cnecPort = (String) obj_cnecModule.get("port_name");
 							
 							// This connection already write.
-							if ((cnecModule.equals(sModule)) && (cnecPort.equals(sPort))) {
-								isUsed = true;
-								break;
-							}
+//							if ((cnecModule.equals(sModule)) && (cnecPort.equals(sPort))) {
+//								isUsed = true;
+//								break;
+//							}
 						}
 						if(isUsed == false){
 							obj_Channel_Connection_Info = new JSONObject();
 							obj_Channel_Item = new JSONObject();
 							arr_Channel_Connection_Info = new JSONArray();
 							
-							obj_Channel_Connection_Info.put("module_name", dModule);
-							obj_Channel_Connection_Info.put("port_name", dPort);
+							if(deportCheck==true){
+								obj_Channel_Connection_Info.put("module_name", dModule);
+								obj_Channel_Connection_Info.put("port_name", dPort);
+							}
 							arr_Channel_Connection_Info.add(obj_Channel_Connection_Info);
 
 							obj_Channel_Item.put("channel_type", "sc_signal");
 							obj_Channel_Item.put("data_type", data_type );
 							obj_Channel_Item.put("name", sModule + "$"+sPort);
-							obj_Channel_Item.put("connection_info", arr_Channel_Connection_Info);
-
+							
+							if(deportCheck==true){
+								obj_Channel_Item.put("connection_num", "1");
+								obj_Channel_Item.put("connection_info", arr_Channel_Connection_Info);
+							}
+							else{
+								obj_Channel_Item.put("connection_num", "0");
+								obj_Channel_Item.put("connection_info", null);
+							}
 							arr_Channel_Info.add(obj_Channel_Item);
 						}
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-				}
+//				}
 			}
 			
 			/* --- set real connected port(END)--- */
