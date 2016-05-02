@@ -769,7 +769,7 @@ public class View_PlatformManager extends ViewPart {
 								.setText(DestModuleSet);
 						Control[] ctr_DestModuleList = UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
 								.getParent().getChildren();
-						CCombo ctr_cmb_DestModule = (CCombo) ctr_DestModuleList[GetDestPortIndex * 3 + 1];
+						CCombo ctr_cmb_DestModule = (CCombo) ctr_DestModuleList[GetDestPortIndex * 3 - 5];
 						ctr_cmb_DestModule.setText(PortDataList.get(SelectedPort_Index).Parent.module_instance_name);
 						
 						try {
