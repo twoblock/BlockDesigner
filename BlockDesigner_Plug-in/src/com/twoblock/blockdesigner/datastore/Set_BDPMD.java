@@ -101,6 +101,7 @@ public class Set_BDPMD {
 							dPort = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).Dest_Port.port_name;
 						}
 						String data_type = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).data_type;
+						String sc_type = usedModuleDataList.mList.get(ModuleDataIndex).Port_List.get(PortIndex).sc_type;
 						
 						Boolean isUsed = false;
 						for (int finder = 0; finder < arr_Channel_Info.size(); finder++) {
@@ -129,8 +130,17 @@ public class Set_BDPMD {
 							}
 							arr_Channel_Connection_Info.add(obj_Channel_Connection_Info);
 
-							obj_Channel_Item.put("channel_type", "sc_signal");
-							obj_Channel_Item.put("data_type", data_type );
+							obj_Channel_Item.put("channel_type", sc_type);
+							if(data_type.equals("MS") | data_type.equals("MM")){
+								obj_Channel_Item.put("data_type", "Master" );
+							}
+							else if (data_type.equals("SS") | data_type.equals("SM")) {
+								obj_Channel_Item.put("data_type", "Slave" );
+							}
+							else{
+								obj_Channel_Item.put("data_type", data_type );
+							}
+							
 							obj_Channel_Item.put("name", sModule + "$"+sPort);
 							
 							if(deportCheck==true){
