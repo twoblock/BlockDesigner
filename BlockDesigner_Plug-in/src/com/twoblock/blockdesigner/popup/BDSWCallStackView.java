@@ -43,7 +43,8 @@ public class BDSWCallStackView {
 
 
 	public BDSWCallStackView(Shell shell, String compName, BDSWProfilingItemArray data) {
-		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+//		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+		m_shell = new Shell(shell, SWT.CLOSE);
 		m_display = m_shell.getDisplay();
 
 		m_shell.setText("Software Profiling View - "+compName);

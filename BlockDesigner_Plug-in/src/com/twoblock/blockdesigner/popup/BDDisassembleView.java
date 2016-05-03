@@ -31,7 +31,8 @@ public class BDDisassembleView {
 	private TableItem m_lastSelectedItem = null;
 
 	public BDDisassembleView(Shell shell, String compName) {
-		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+//		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+		m_shell = new Shell(shell, SWT.CLOSE);
 		
 		m_shell.setText("Software Profiling View - "+compName);
 		m_shell.setSize(750, 700);

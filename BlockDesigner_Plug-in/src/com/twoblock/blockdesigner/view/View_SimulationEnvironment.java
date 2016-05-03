@@ -61,7 +61,7 @@ import com.twoblock.blockdesigner.popup.BDSWProfilingView;
  */
 
 public class View_SimulationEnvironment extends ViewPart {
-	protected Shell parent;
+	public static Composite c_parent;
 	private Text txtStep;
 	private static BDDisassembleView dv;
 	private static BDSWCallStackView csv;
@@ -91,13 +91,15 @@ public class View_SimulationEnvironment extends ViewPart {
 	public void createPartControl(Composite parent) {
 		display = Display.getDefault();
 		
+		c_parent=parent;
+		
 		display.asyncExec(new Runnable() {
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				Hanlder_CallBack.CallBack_Func();
-				Handler_Command.Command_Func(0, 7, System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD", "", "",
+				Handler_Command.Command_Func(0, 7, System.getProperty("user.home") + "/BlockDesigner/testmodule1.BDPMD", "", "",
 						"", "");
 				Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
 						System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", "", "",
@@ -107,12 +109,12 @@ public class View_SimulationEnvironment extends ViewPart {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				dv = new BDDisassembleView(parent.getShell(), "CORE");
-				csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
-				swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
+//				dv = new BDDisassembleView(parent.getShell(), "CORE");
+//				csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
+//				swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
 
-				AssemblySetter(parent);
-				SymbolSetter(parent);
+//				AssemblySetter();
+//				SymbolSetter();
 			}
 		});
 		
@@ -224,10 +226,31 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnRun.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
+				/* --- Tracing Process ---START--- */
+				Control[] ctr_channel_info = table_channel.getChildren();
+				for(int index=0; index<ctr_channel_info.length/2; index++){
+					if(((Button)ctr_channel_info[index*2+1]).getSelection() == true){
+						if(index==0)
+							Handler_Command.Command_Func(0, 4, "0", HCLK_channel_name , "NULL", "NULL", "NULL");
+						else if(index==1)
+							Handler_Command.Command_Func(0, 4, "0", HRESETn_channel_name , "NULL", "NULL", "NULL");
+						else{
+							String rex = "(\\[|\\]|<-----|----->)";
+							String str = ((Text)ctr_channel_info[index*2]).getText();
+							String[] strlist =str.split(rex, 0);
+							String tracing_cmd = strlist[1]+"$"+strlist[2]+"&"+strlist[5]+"$"+strlist[6];
+							if(strlist[3].equals("sc_signal"))
+								Handler_Command.Command_Func(0, 4, "0", strlist[1]+"$"+strlist[2],"NULL", "NULL", "NULL");	
+							else
+								Handler_Command.Command_Func(0, 4, "0", tracing_cmd, strlist[3], "NULL", "NULL");
+						}
+					}
+				}
+				/* --- Tracing Process ---END--- */
+				
 				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
 				Btn_Control(1);
 				SetTableState(false);
-
 			}
 		});
 		btnStop.addSelectionListener(new SelectionAdapter() {
@@ -241,12 +264,56 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnStep.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
+				/* --- Tracing Process ---START--- */
+				Control[] ctr_channel_info = table_channel.getChildren();
+				for(int index=0; index<ctr_channel_info.length/2; index++){
+					if(((Button)ctr_channel_info[index*2+1]).getSelection() == true){
+						if(index==0)
+							Handler_Command.Command_Func(0, 4, "0", HCLK_channel_name , "NULL", "NULL", "NULL");
+						else if(index==1)
+							Handler_Command.Command_Func(0, 4, "0", HRESETn_channel_name , "NULL", "NULL", "NULL");
+						else{
+							String rex = "(\\[|\\]|<-----|----->)";
+							String str = ((Text)ctr_channel_info[index*2]).getText();
+							String[] strlist =str.split(rex, 0);
+							String tracing_cmd = strlist[1]+"$"+strlist[2]+"&"+strlist[5]+"$"+strlist[6];
+							if(strlist[3].equals("sc_signal"))
+								Handler_Command.Command_Func(0, 4, "0", strlist[1]+"$"+strlist[2],"NULL", "NULL", "NULL");	
+							else
+								Handler_Command.Command_Func(0, 4, "0", tracing_cmd, strlist[3], "NULL", "NULL");
+						}
+					}
+				}
+				/* --- Tracing Process ---END--- */
+				
 				Handler_Command.Command_Func(0, 1, "STEP", "1", "NULL", "NULL", "NULL");
 			}
 		});
 		btnStep_n.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
+				/* --- Tracing Process ---START--- */
+				Control[] ctr_channel_info = table_channel.getChildren();
+				for(int index=0; index<ctr_channel_info.length/2; index++){
+					if(((Button)ctr_channel_info[index*2+1]).getSelection() == true){
+						if(index==0)
+							Handler_Command.Command_Func(0, 4, "0", HCLK_channel_name , "NULL", "NULL", "NULL");
+						else if(index==1)
+							Handler_Command.Command_Func(0, 4, "0", HRESETn_channel_name , "NULL", "NULL", "NULL");
+						else{
+							String rex = "(\\[|\\]|<-----|----->)";
+							String str = ((Text)ctr_channel_info[index*2]).getText();
+							String[] strlist =str.split(rex, 0);
+							String tracing_cmd = strlist[1]+"$"+strlist[2]+"&"+strlist[5]+"$"+strlist[6];
+							if(strlist[3].equals("sc_signal"))
+								Handler_Command.Command_Func(0, 4, "0", strlist[1]+"$"+strlist[2],"NULL", "NULL", "NULL");	
+							else
+								Handler_Command.Command_Func(0, 4, "0", tracing_cmd, strlist[3], "NULL", "NULL");
+						}
+					}
+				}
+				/* --- Tracing Process ---END--- */
+				
 				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
 				Btn_Control(1);
 				SetTableState(false);
@@ -337,10 +404,12 @@ public class View_SimulationEnvironment extends ViewPart {
 	private JSONObject obj_pt;
 	private JSONArray arr_ptItem;
 	private JSONObject obj_pt_OneItem;
+	private String HCLK_channel_name;
+	private String HRESETn_channel_name;
 	
 	protected void ChannelInfoSet(final Composite composite) {
 		try {
-			obj = parser.parse(new FileReader(System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD"));
+			obj = parser.parse(new FileReader(System.getProperty("user.home") + "/BlockDesigner/testmodule1.BDPMD"));
 			jsonObject = (JSONObject) obj;
 			obj_BDPMD = (JSONObject) jsonObject.get("BDPMD");
 
@@ -412,14 +481,23 @@ public class View_SimulationEnvironment extends ViewPart {
 			editor_channel_table.grabHorizontal = true;
 			editor_channel_table.setEditor(ckb_HRESETn_Tracing, items[1], 1);
 		}
+		
+		obj_Connection = (JSONObject) arr_ChannelInfo.get(0);
+		HCLK_channel_name = (String) obj_Connection.get("name");
+		obj_Connection = (JSONObject) arr_ChannelInfo.get(1);
+		HRESETn_channel_name = (String) obj_Connection.get("name");
+		
 		int channel_temp=1;
 		for (int channel_index = 2; channel_index < arr_ChannelInfo.size();	channel_index++ ) {
 			obj_Connection = (JSONObject) arr_ChannelInfo.get(channel_index);
+			
 			String first_Connection = (String) obj_Connection.get("name");
 			String first_Connection_source = "[" + first_Connection.replaceAll("[$]", "]");
 			jrr_Connection = (JSONArray) obj_Connection.get("connection_info");
 			
 			if (jrr_Connection.size() != 0) {
+				String channel_type = (String) obj_Connection.get("channel_type");
+				
 				channel_temp++;
 				obj_Connection_info = (JSONObject) jrr_Connection.get(0);
 				String first_Connection_dest = "[" + (String) obj_Connection_info.get("module_name") + "]"
@@ -429,7 +507,7 @@ public class View_SimulationEnvironment extends ViewPart {
 
 				final Text txt_ChannelName = new Text(table_channel, SWT.READ_ONLY);
 				txt_ChannelName.setTouchEnabled(true);
-				txt_ChannelName.setText(first_Connection_source + " <---> " + first_Connection_dest);
+				txt_ChannelName.setText(first_Connection_source + "<-----"+channel_type+"----->" + first_Connection_dest);
 				editor_channel_table.grabHorizontal = true;
 				editor_channel_table.setEditor(txt_ChannelName, items[channel_temp], 0);
 
@@ -777,18 +855,20 @@ public class View_SimulationEnvironment extends ViewPart {
 							// TODO Auto-generated method stub
 							
 							/* --- Disassemble View Setter ---START--- */
-//							dv.show();
-//							dv.select(BDF.StringHexToLongDecimal(PCCode));
+							dv = new BDDisassembleView(c_parent.getShell(), "CORE");
+							AssemblySetter();
+							dv.show();
+							dv.select(BDF.StringHexToLongDecimal(PCCode));
 							/* --- Disassemble View Setter ---END--- */
 							
 							
 							/* --- Call Stack View Setter ---START--- */
-//							csvSetter();
+							csvSetter(c_parent);
 							/* --- Call Stack View Setter ---END--- */
 							
 							
 							/* --- Profiling Table Setter ---START--- */
-							ptSetter();
+							ptSetter(c_parent);
 							/* --- Profiling Table Setter ---END--- */
 						}
 						
@@ -810,7 +890,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		});
 	}
 	
-	private void AssemblySetter(Composite parent) {
+	private void AssemblySetter() {
 		// TODO Auto-generated method stub
 		try {
 			obj_sc = (JSONObject)parser.parse(SourceCode);
@@ -828,7 +908,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		}
 	}
 	
-	private void SymbolSetter(Composite parent){
+	private void SymbolSetter_csv(){
 		try {
 			obj_sb = (JSONObject)parser.parse(SymbolTable);
 			jsonObject_sb = (JSONObject) obj_sb;	
@@ -839,6 +919,23 @@ public class View_SimulationEnvironment extends ViewPart {
 				obj_sb_OneLine = (JSONObject) arr_SymbolLine.get(i);
 				function_name= (String)obj_sb_OneLine.get("function_name");
 				csv.addFunctionName(function_name);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void SymbolSetter_swpv(){
+		try {
+			obj_sb = (JSONObject)parser.parse(SymbolTable);
+			jsonObject_sb = (JSONObject) obj_sb;	
+			arr_SymbolLine = (JSONArray) jsonObject_sb.get("SymbolTable");
+			
+			String function_name=null;
+			for (int i = 0; i < arr_SymbolLine.size(); i++) {
+				obj_sb_OneLine = (JSONObject) arr_SymbolLine.get(i);
+				function_name= (String)obj_sb_OneLine.get("function_name");
 				swpv.addFunctionName(function_name);
 			}
 		} catch (ParseException e) {
@@ -846,8 +943,11 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 	}
+	
 
-	private void ptSetter(){
+	private void ptSetter(Composite parent){
+		swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
+		SymbolSetter_swpv();
 		swpv.show();
 		try {
 			obj_pt = (JSONObject)parser.parse(ProfilingTable);
@@ -877,8 +977,11 @@ public class View_SimulationEnvironment extends ViewPart {
 		}
 	}
 	
-	private void csvSetter() {
+	private void csvSetter(Composite parent) {
 		// TODO Auto-generated method stub
+		csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
+		SymbolSetter_csv();
+		
 		csv.show();
 		try {
 			obj_ffg = (JSONObject)parser.parse(FunctionFlowGragh);
