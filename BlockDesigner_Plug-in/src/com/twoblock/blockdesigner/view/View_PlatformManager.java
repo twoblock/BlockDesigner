@@ -198,7 +198,7 @@ public class View_PlatformManager extends ViewPart {
 				public void widgetSelected(SelectionEvent e) {
 					final Shell dialog = new Shell(shell.getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 					dialog.setLayout(new FillLayout(SWT.HORIZONTAL));
-					dialog.setText("Plz write Instance name");
+					dialog.setText("Please write instance name");
 
 					final Text txt_InstanceName = new Text(dialog, SWT.NONE);
 					txt_InstanceName.pack();
@@ -469,7 +469,7 @@ public class View_PlatformManager extends ViewPart {
 		UsedModuleIndex = UsedModuleList.size() - 1;
 
 		Expanditem.add(new ExpandItem(expandBar, SWT.NONE));
-		Expanditem.get(UsedModuleIndex).setExpanded(true);
+		Expanditem.get(UsedModuleIndex).setExpanded(false);
 		Expanditem.get(UsedModuleIndex).setText(Module_Title);
 
 		// make composite, divide (port&par) grid
@@ -573,7 +573,7 @@ public class View_PlatformManager extends ViewPart {
 
 				editor = new TableEditor(table_port);
 				final CCombo cmb_DestModule = new CCombo(table_port, SWT.READ_ONLY);
-				cmb_DestModule.setText("Plz choose Module");
+				cmb_DestModule.setText("none");
 				cmb_DestModule.addListener(SWT.DROP_DOWN, new Listener() {
 					final String source_module_name=Instance_Module_Name;
 					@Override
@@ -610,7 +610,7 @@ public class View_PlatformManager extends ViewPart {
 					public void handleEvent(Event event) {
 						// TODO Auto-generated method stub
 						if ((PortDataList.get(SelectedPort_Index).cmb_dPort.getText().equals(""))
-								&& (cmb_DestModule.getText().equals("Plz choose Module") == false)
+								&& (cmb_DestModule.getText().equals("none") == false)
 								&& (cmb_DestModule.getText().equals("") == false)) {
 							String module = null;
 							int port_Cnt = 0;
@@ -776,7 +776,7 @@ public class View_PlatformManager extends ViewPart {
 							Control[] ctr_TempModule = PastLinkedModule.getParent().getChildren();
 							CCombo ctr_cmb_TempPort = (CCombo)ctr_TempModule[PastLinkedModuleIndex];
 							if(ctr_cmb_TempPort.getText().equals("") | ctr_cmb_TempPort.getText().equals(null))
-								PastLinkedModule.setText("Plz choose Module");
+								PastLinkedModule.setText("none");
 						} catch (Exception e) {
 							// TODO: handle exception
 						}
