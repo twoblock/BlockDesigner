@@ -379,9 +379,11 @@ public class View_SimulationEnvironment extends ViewPart {
 		tb_clmn_Tracing.setWidth(120);
 		tb_clmn_Tracing.setText("Tracing");
 
-		int par_Cnt = arr_ChannelInfo.size();
-		for (int i = 0; i < par_Cnt; i++) {
-			new TableItem(table_channel, SWT.NONE);
+		for (int channel_index = 0; channel_index < arr_ChannelInfo.size();	channel_index++ ) {
+			obj_Connection = (JSONObject) arr_ChannelInfo.get(channel_index);
+			jrr_Connection = (JSONArray) obj_Connection.get("connection_info");
+			if(jrr_Connection.size() != 0)
+				new TableItem(table_channel, SWT.NONE);
 		}
 
 		TableItem[] items = table_channel.getItems();
@@ -410,34 +412,33 @@ public class View_SimulationEnvironment extends ViewPart {
 			editor_channel_table.grabHorizontal = true;
 			editor_channel_table.setEditor(ckb_HRESETn_Tracing, items[1], 1);
 		}
-
-		for (int channel_index = 2; channel_index < items.length; channel_index++) {
-
+		int channel_temp=1;
+		for (int channel_index = 2; channel_index < arr_ChannelInfo.size();	channel_index++ ) {
 			obj_Connection = (JSONObject) arr_ChannelInfo.get(channel_index);
 			String first_Connection = (String) obj_Connection.get("name");
 			String first_Connection_source = "[" + first_Connection.replaceAll("[$]", "]");
 			jrr_Connection = (JSONArray) obj_Connection.get("connection_info");
+			
 			if (jrr_Connection.size() != 0) {
+				channel_temp++;
 				obj_Connection_info = (JSONObject) jrr_Connection.get(0);
+				String first_Connection_dest = "[" + (String) obj_Connection_info.get("module_name") + "]"
+						+ (String) obj_Connection_info.get("port_name");
+				
+				editor_channel_table = new TableEditor(table_channel);
+
+				final Text txt_ChannelName = new Text(table_channel, SWT.READ_ONLY);
+				txt_ChannelName.setTouchEnabled(true);
+				txt_ChannelName.setText(first_Connection_source + " <---> " + first_Connection_dest);
+				editor_channel_table.grabHorizontal = true;
+				editor_channel_table.setEditor(txt_ChannelName, items[channel_temp], 0);
+
+				editor_channel_table = new TableEditor(table_channel);
+
+				final Button ckb_Tracing = new Button(table_channel, SWT.CHECK);
+				editor_channel_table.grabHorizontal = true;
+				editor_channel_table.setEditor(ckb_Tracing, items[channel_temp], 1);
 			}
-			String first_Connection_dest = "[" + (String) obj_Connection_info.get("module_name") + "]"
-					+ (String) obj_Connection_info.get("port_name");
-			// String padded = padRight(first_Connection_source,
-			// 70-first_Connection_source.length()*2);
-
-			editor_channel_table = new TableEditor(table_channel);
-
-			final Text txt_ChannelName = new Text(table_channel, SWT.READ_ONLY);
-			txt_ChannelName.setTouchEnabled(true);
-			txt_ChannelName.setText(first_Connection_source + " <---> " + first_Connection_dest);
-			editor_channel_table.grabHorizontal = true;
-			editor_channel_table.setEditor(txt_ChannelName, items[channel_index], 0);
-
-			editor_channel_table = new TableEditor(table_channel);
-
-			final Button ckb_Tracing = new Button(table_channel, SWT.CHECK);
-			editor_channel_table.grabHorizontal = true;
-			editor_channel_table.setEditor(ckb_Tracing, items[channel_index], 1);
 		}
 
 		table_channel.pack();
