@@ -16,18 +16,10 @@ void MemoryUtility::update()
 	// ************************************ //
 	// ******  FSM implementation   ******* //
 	// ************************************ //
-
+/*
 	switch(c_STATE)
 	{
 		case S_ILDE:
-	/*		if( Debug_Flag_Read == true )
-			{
-				Debug_Flag_Read = false;
-			}
-			if( Debug_Flag_Write == true )
-			{
-				Debug_Flag_Write = false;
-			}*/
 			Select_NextState();
 			break;
 		case S_SRAM_MEMSET:	
@@ -107,7 +99,7 @@ void MemoryUtility::update()
 	default :
 		break;
 	}
-
+*/
 
 	// *** Memory Utility Register I/O **** //
 
@@ -1774,7 +1766,7 @@ void MemoryUtility::RegisterIO()
 			c_Slave_isDataCycleActive = false;
 
 			offset = c_Slave_addr - (uint32_t)p_Base_Addr;
-			write_data = S_AHBv2_spss->getWData(0);
+			write_data = S_AHBv2_spss->HWDATA;
 
 			if (c_Slave_isWrite)
 			{
@@ -1785,23 +1777,23 @@ void MemoryUtility::RegisterIO()
 				ReadRegister(offset);	
 			}
 
-			S_AHBv2_spss->setSig(HREADYOUT, true);
+			S_AHBv2_spss->HREADYOUT = true;
 		} //if wait == 0
 	}  
 	else
 	{
-		S_AHBv2_spss->setSig(HREADYOUT, false);
+		S_AHBv2_spss->HREADYOUT = false;
 	}
 
 	// ******** Address Phase ********* // 
-	if ((S_AHBv2_spss->getSig(HTRANS) != AHB2_TRANS_IDLE) && 
-		(S_AHBv2_spss->getSig(HTRANS) != AHB2_TRANS_BUSY) &&
-		(S_AHBv2_spss->getSig(HSEL)) && 
-		(S_AHBv2_spss->getSig(HREADY)))
+	if ((S_AHBv2_spss->HTRANS != AHB2_TRANS_IDLE) && 
+		(S_AHBv2_spss->HTRANS != AHB2_TRANS_BUSY) &&
+		S_AHBv2_spss->HSEL && 
+		S_AHBv2_spss->HREADY)
 	{
-		c_Slave_addr = (uint32_t)S_AHBv2_spss->getSig(HADDR);
+		c_Slave_addr = (uint32_t)S_AHBv2_spss->HADDR;
 
-		if (S_AHBv2_spss->getSig(HWRITE))
+		if (S_AHBv2_spss->HWRITE)
 		{
 			c_Slave_isWrite = true;
 		}
@@ -1820,11 +1812,11 @@ void MemoryUtility::RegisterIO()
 		if( c_Slave_currentWait <= 0)
 		{
 			//read
-			S_AHBv2_spss->setSig(HREADYOUT, true);
+			S_AHBv2_spss->HREADYOUT= true;
 		}
 		else
 		{
-			S_AHBv2_spss->setSig(HREADYOUT, false);
+			S_AHBv2_spss->HREADYOUT = false;
 		}
 	}
 	else
@@ -1892,35 +1884,33 @@ void MemoryUtility::WriteRegieter(uint32_t offset, uint32_t w_data)
 
 void MemoryUtility::ReadRegister(uint32_t offset)
 {
-
 	switch(offset){
 	case MU_SRC_ADDR:		
-		S_AHBv2_spss->setRData(r_MU_SRC_ADDR );
+	 S_AHBv2_spss->HRDATA = r_MU_SRC_ADDR;
 		break;
 	case MU_DST_ADDR:
-		S_AHBv2_spss->setRData( r_MU_DST_ADDR);
+		S_AHBv2_spss->HRDATA = r_MU_DST_ADDR;
 		break;
 	case MU_VALUE:     
-		S_AHBv2_spss->setRData( r_MU_VALUE);
+		S_AHBv2_spss->HRDATA = r_MU_VALUE;
 		break;
 	case MU_SIZE:		
-		S_AHBv2_spss->setRData(r_MU_SIZE );
+		S_AHBv2_spss->HRDATA = r_MU_SIZE;
 		break;
 	case MU_RESULT:
-		S_AHBv2_spss->setRData(r_MU_RESULT );
+		S_AHBv2_spss->HRDATA = r_MU_RESULT;
 		break;
 	case MU_CMD:
-		S_AHBv2_spss->setRData(r_MU_CMD );
+		S_AHBv2_spss->HRDATA = r_MU_CMD;
 		break;
 	case MU_UNITSTEP:
-		S_AHBv2_spss->setRData(r_MU_UNITSTEP );
+		S_AHBv2_spss->HRDATA = r_MU_UNITSTEP;
 		break;
 	default: 
 		//if (p_enableDbgMsg == true)
 		//{
 			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "(Error! Access to out of range!(offset : 0x%x))\n", offset);
 		//}
-		S_AHBv2_spss->setRData( 0 );
 		break;
 	}
 }

@@ -14,8 +14,8 @@ BDDIRegInfo ast_ConsoleRegInfo[] =
 
 BDDIParInfo ast_ConsoleParInfo[] = 
 {
-	{"p_Base_Addr", 32, BDDIParTypeINT, ""},
-	{"p_Addr_Size", 32, BDDIParTypeINT, ""}
+	{"p_Base_Addr", 32, BDDIParTypeUINT, ""},
+	{"p_Addr_Size", 32, BDDIParTypeUINT, ""}
 };
 
 static const UINT32 dw_RegCnt = sizeof(ast_ConsoleRegInfo) / sizeof(ast_ConsoleRegInfo[0]);
@@ -224,6 +224,7 @@ BDDIReturn MemoryUtility_BDDI::BDDISetParameterValues(unsigned int ParIndex, con
 
 	uint32_t p_Base_Addr_temp;
 	uint32_t p_Addr_Size_temp;
+
 
 	switch(ParIndex)
 	{
