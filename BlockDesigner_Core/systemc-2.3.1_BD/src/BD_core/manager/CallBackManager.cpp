@@ -43,6 +43,8 @@ namespace BDapi
 		p_SoftwareDisplayer = p_SoftwareManager->GetSoftwareDisplayer();
 		SendBackJson(p_SoftwareDisplayer->GetJsonOfSourceCode(), "SourceCodeCallBack");
 
+		SendBackJson(p_SoftwareManager->GetInitialMemoryView(), "InitialMemoryViewCallBack");
+
 		return CallBackOK;
 	}
 
