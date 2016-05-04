@@ -1,5 +1,6 @@
 package com.twoblock.blockdesigner.popup;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -49,8 +50,12 @@ public class BDSWProfilingView {
 
 	public BDSWProfilingView(Shell shell, String compName) {
 //		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-		m_shell = new Shell(shell, SWT.CLOSE);
+		m_shell = new Shell(shell.getDisplay(), SWT.CLOSE);
 
+		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/img_spt_64.png");
+		Image imgOpen = idOpen.createImage();
+		m_shell.setImage(imgOpen);
+		
 		m_shell.setText("Software Profiling View - "+compName);
 		m_shell.setSize(980, 700);
 		m_shell.setLayout(new FillLayout());

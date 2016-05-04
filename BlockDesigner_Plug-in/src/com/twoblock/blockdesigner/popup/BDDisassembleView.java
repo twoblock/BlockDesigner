@@ -1,11 +1,14 @@
 package com.twoblock.blockdesigner.popup;
 
 import java.util.ArrayList;
+
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -32,9 +35,13 @@ public class BDDisassembleView {
 
 	public BDDisassembleView(Shell shell, String compName) {
 //		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-		m_shell = new Shell(shell, SWT.CLOSE);
+		m_shell = new Shell(shell.getDisplay(), SWT.CLOSE);
 		
-		m_shell.setText("Software Profiling View - "+compName);
+		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/img_sbt_64.png");
+		Image imgOpen = idOpen.createImage();
+		m_shell.setImage(imgOpen);
+		
+		m_shell.setText("Disassemble View - "+compName);
 		m_shell.setSize(750, 700);
 		
 		GridLayout gridLayout = new GridLayout();
