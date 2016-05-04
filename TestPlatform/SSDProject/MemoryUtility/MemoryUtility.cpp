@@ -16,10 +16,18 @@ void MemoryUtility::update()
 	// ************************************ //
 	// ******  FSM implementation   ******* //
 	// ************************************ //
-/*
+
 	switch(c_STATE)
 	{
 		case S_ILDE:
+	/*		if( Debug_Flag_Read == true )
+			{
+				Debug_Flag_Read = false;
+			}
+			if( Debug_Flag_Write == true )
+			{
+				Debug_Flag_Write = false;
+			}*/
 			Select_NextState();
 			break;
 		case S_SRAM_MEMSET:	
@@ -99,7 +107,7 @@ void MemoryUtility::update()
 	default :
 		break;
 	}
-*/
+
 
 	// *** Memory Utility Register I/O **** //
 
@@ -113,11 +121,11 @@ void MemoryUtility::update()
 
 bool MemoryUtility::S_Memset_OneBurst()
 {
-	bool c_SRAM_Granted = SRAM_M_AHBv2_mpms->getSig(HGRANT);
-	bool HReady = SRAM_M_AHBv2_mpms->getSig(HREADY);
+	bool c_SRAM_Granted = SRAM_M_AHBv2_mpms->getSig(BD_HGRANT);
+	bool HReady = SRAM_M_AHBv2_mpms->getSig(BD_HREADY);
 
 	SRAM_M_AHBv2_mpms->clear();
-	SRAM_M_AHBv2_mpms->setSig(HBUSREQ, true); //default
+	SRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, true); //default
 
 	// ********************************** //
 	// *** SRAM AHB Master Interface **** //
@@ -138,7 +146,7 @@ bool MemoryUtility::S_Memset_OneBurst()
 		{
 			// IDLE
 			SRAM_M_AHBv2_mpms->setAddr( 0x20000000 , AHB2_TRANS_IDLE,Read, AHB2_SIZE_DATA8 , AHB2_BURST_SINGLE, 0, false);
-			SRAM_M_AHBv2_mpms->setSig(HBUSREQ, false);
+			SRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 			return true;
 		}
 		//***** Address phase *****//
@@ -193,11 +201,11 @@ void MemoryUtility::S_MemsetBusrt_And_Select_NextState()
 
 bool MemoryUtility::D_Memset_OneBurst()
 {
-	bool c_DRAM_Granted = DRAM_M_AHBv2_mpms->getSig(HGRANT);
-	bool HReady = DRAM_M_AHBv2_mpms->getSig(HREADY);
+	bool c_DRAM_Granted = DRAM_M_AHBv2_mpms->getSig(BD_HGRANT);
+	bool HReady = DRAM_M_AHBv2_mpms->getSig(BD_HREADY);
 
 	DRAM_M_AHBv2_mpms->clear();
-	DRAM_M_AHBv2_mpms->setSig(HBUSREQ, true); //default
+	DRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, true); //default
 
 	// ********************************** //
 	// *** DRAM AHB Master Interface **** //
@@ -219,7 +227,7 @@ bool MemoryUtility::D_Memset_OneBurst()
 		{
 			// IDLE
 			DRAM_M_AHBv2_mpms->setAddr( 0x60000000 , AHB2_TRANS_IDLE ,Read, AHB2_SIZE_DATA8, AHB2_BURST_SINGLE, 0, false);
-			DRAM_M_AHBv2_mpms->setSig(HBUSREQ, false);
+			DRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 			return true;
 		}
 		//***** Address phase *****//
@@ -275,13 +283,13 @@ void MemoryUtility::D_MemsetBusrt_And_Select_NextState()
 bool MemoryUtility::SRAM_Memcopy( uint32_t Addr)
 {
 
-	bool c_SRAM_Granted = SRAM_M_AHBv2_mpms->getSig(HGRANT);
-	bool HReady = SRAM_M_AHBv2_mpms->getSig(HREADY);
+	bool c_SRAM_Granted = SRAM_M_AHBv2_mpms->getSig(BD_HGRANT);
+	bool HReady = SRAM_M_AHBv2_mpms->getSig(BD_HREADY);
 
 	uint32_t l_Index ;
 
 	SRAM_M_AHBv2_mpms->clear();
-	SRAM_M_AHBv2_mpms->setSig(HBUSREQ, true); //default
+	SRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, true); //default
 
 	// ********************************** //
 	// *** SRAM AHB Master Interface **** //
@@ -329,7 +337,7 @@ bool MemoryUtility::SRAM_Memcopy( uint32_t Addr)
 		{
 			// IDLE
 			SRAM_M_AHBv2_mpms->setAddr( 0x20000000 , AHB2_TRANS_IDLE ,Read, AHB2_SIZE_DATA8, AHB2_BURST_SINGLE, 0, false);
-			SRAM_M_AHBv2_mpms->setSig(HBUSREQ, false);
+			SRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 
 			if( c_SRAM_write == Write)
 				return true; 
@@ -409,13 +417,13 @@ void MemoryUtility::S_MemCopy_Busrt_And_Select_NextState( uint32_t Addr )
 
 bool MemoryUtility::DRAM_Memcopy( uint32_t Addr  )
 { 
-	bool c_DRAM_Granted = DRAM_M_AHBv2_mpms->getSig(HGRANT);
-	bool HReady = DRAM_M_AHBv2_mpms->getSig(HREADY);
+	bool c_DRAM_Granted = DRAM_M_AHBv2_mpms->getSig(BD_HGRANT);
+	bool HReady = DRAM_M_AHBv2_mpms->getSig(BD_HREADY);
 
 	uint32_t l_Index ;
 
 	DRAM_M_AHBv2_mpms->clear();
-	DRAM_M_AHBv2_mpms->setSig(HBUSREQ, true); //default
+	DRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, true); //default
 
 	// ********************************** //
 	// *** DRAM AHB Master Interface **** //
@@ -463,7 +471,7 @@ bool MemoryUtility::DRAM_Memcopy( uint32_t Addr  )
 		{
 			// IDLE
 			DRAM_M_AHBv2_mpms->setAddr( 0x60000000 , AHB2_TRANS_IDLE ,Read, AHB2_SIZE_DATA8, AHB2_BURST_SINGLE, 0, false);
-			DRAM_M_AHBv2_mpms->setSig(HBUSREQ, false);
+			DRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 
 			if( c_DRAM_write == Write)
 				return true; 
@@ -540,13 +548,13 @@ void MemoryUtility::D_MemCopy_Busrt_And_Select_NextState( uint32_t Addr)
 
 bool MemoryUtility::SRAM_MemSearch(uint32_t Min_Max_Equal)
 {
-	bool c_SRAM_Granted = SRAM_M_AHBv2_mpms->getSig(HGRANT);
-	bool HReady = SRAM_M_AHBv2_mpms->getSig(HREADY);
+	bool c_SRAM_Granted = SRAM_M_AHBv2_mpms->getSig(BD_HGRANT);
+	bool HReady = SRAM_M_AHBv2_mpms->getSig(BD_HREADY);
 
 	int32_t l_Data;
 
 	SRAM_M_AHBv2_mpms->clear();
-	SRAM_M_AHBv2_mpms->setSig(HBUSREQ, true); //default
+	SRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, true); //default
 
 	// ********************************** //
 	// *** SRAM AHB Master Interface **** //
@@ -591,7 +599,7 @@ bool MemoryUtility::SRAM_MemSearch(uint32_t Min_Max_Equal)
 		{
 			// IDLE
 			SRAM_M_AHBv2_mpms->setAddr( 0x20000000 , AHB2_TRANS_IDLE ,Read, AHB2_SIZE_DATA8, AHB2_BURST_SINGLE, 0, false);
-			SRAM_M_AHBv2_mpms->setSig(HBUSREQ, false);
+			SRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 		}
 		//***** Address phase *****//
 		if( c_Index == 0)
@@ -650,13 +658,13 @@ void MemoryUtility::S_MemSearch_Burst_And_Select_NextState(uint32_t Min_Max_Equa
 
 bool MemoryUtility::DRAM_MemSearch(uint32_t Min_Max_Equal)
 {
-	bool c_DRAM_Granted = DRAM_M_AHBv2_mpms->getSig(HGRANT);
-	bool HReady = DRAM_M_AHBv2_mpms->getSig(HREADY);
+	bool c_DRAM_Granted = DRAM_M_AHBv2_mpms->getSig(BD_HGRANT);
+	bool HReady = DRAM_M_AHBv2_mpms->getSig(BD_HREADY);
 
 	int32_t l_Data;
 
 	DRAM_M_AHBv2_mpms->clear();
-	DRAM_M_AHBv2_mpms->setSig(HBUSREQ, true); //default
+	DRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, true); //default
 
 	// ********************************** //
 	// *** DRAM AHB Master Interface **** //
@@ -669,7 +677,7 @@ bool MemoryUtility::DRAM_MemSearch(uint32_t Min_Max_Equal)
 	
 		// IDLE
 		DRAM_M_AHBv2_mpms->setAddr( 0x60000000 , AHB2_TRANS_IDLE ,Read, AHB2_SIZE_DATA8, AHB2_BURST_SINGLE, 0, false);
-		DRAM_M_AHBv2_mpms->setSig(HBUSREQ, false);
+		DRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 
 		c_Remain_Bytes = 0;
 		return true;
@@ -714,7 +722,7 @@ bool MemoryUtility::DRAM_MemSearch(uint32_t Min_Max_Equal)
 		{
 			// IDLE
 			DRAM_M_AHBv2_mpms->setAddr( 0x60000000 , AHB2_TRANS_IDLE ,Read, AHB2_SIZE_DATA8, AHB2_BURST_SINGLE, 0, false);
-			DRAM_M_AHBv2_mpms->setSig(HBUSREQ, false);
+			DRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 		}
 		//***** Address phase *****//
 		if( c_Index == 0)
@@ -1749,7 +1757,7 @@ void MemoryUtility::RegisterIO()
 	uint32_t write_data = 0;
 
 	S_AHBv2_spss->clear();
-	S_AHBv2_spss->setSig(HREADYOUT, true);
+	S_AHBv2_spss->setSig(BD_HREADYOUT, true);
 
 	// ********************************** //
 	// ******* AHB Slave Interface ****** //
@@ -1766,7 +1774,7 @@ void MemoryUtility::RegisterIO()
 			c_Slave_isDataCycleActive = false;
 
 			offset = c_Slave_addr - (uint32_t)p_Base_Addr;
-			write_data = S_AHBv2_spss->HWDATA;
+			write_data = S_AHBv2_spss->getWData(0);
 
 			if (c_Slave_isWrite)
 			{
@@ -1777,23 +1785,23 @@ void MemoryUtility::RegisterIO()
 				ReadRegister(offset);	
 			}
 
-			S_AHBv2_spss->HREADYOUT = true;
+			S_AHBv2_spss->setSig(BD_HREADYOUT, true);
 		} //if wait == 0
 	}  
 	else
 	{
-		S_AHBv2_spss->HREADYOUT = false;
+		S_AHBv2_spss->setSig(BD_HREADYOUT, false);
 	}
 
 	// ******** Address Phase ********* // 
-	if ((S_AHBv2_spss->HTRANS != AHB2_TRANS_IDLE) && 
-		(S_AHBv2_spss->HTRANS != AHB2_TRANS_BUSY) &&
-		S_AHBv2_spss->HSEL && 
-		S_AHBv2_spss->HREADY)
+	if ((S_AHBv2_spss->getSig(BD_HTRANS) != AHB2_TRANS_IDLE) && 
+		(S_AHBv2_spss->getSig(BD_HTRANS) != AHB2_TRANS_BUSY) &&
+		(S_AHBv2_spss->getSig(BD_HSEL)) && 
+		(S_AHBv2_spss->getSig(BD_HREADY)))
 	{
-		c_Slave_addr = (uint32_t)S_AHBv2_spss->HADDR;
+		c_Slave_addr = (uint32_t)S_AHBv2_spss->getSig(BD_HADDR);
 
-		if (S_AHBv2_spss->HWRITE)
+		if (S_AHBv2_spss->getSig(BD_HWRITE))
 		{
 			c_Slave_isWrite = true;
 		}
@@ -1812,11 +1820,11 @@ void MemoryUtility::RegisterIO()
 		if( c_Slave_currentWait <= 0)
 		{
 			//read
-			S_AHBv2_spss->HREADYOUT= true;
+			S_AHBv2_spss->setSig(BD_HREADYOUT, true);
 		}
 		else
 		{
-			S_AHBv2_spss->HREADYOUT = false;
+			S_AHBv2_spss->setSig(BD_HREADYOUT, false);
 		}
 	}
 	else
@@ -1884,33 +1892,35 @@ void MemoryUtility::WriteRegieter(uint32_t offset, uint32_t w_data)
 
 void MemoryUtility::ReadRegister(uint32_t offset)
 {
+
 	switch(offset){
 	case MU_SRC_ADDR:		
-	 S_AHBv2_spss->HRDATA = r_MU_SRC_ADDR;
+		S_AHBv2_spss->setRData(r_MU_SRC_ADDR );
 		break;
 	case MU_DST_ADDR:
-		S_AHBv2_spss->HRDATA = r_MU_DST_ADDR;
+		S_AHBv2_spss->setRData( r_MU_DST_ADDR);
 		break;
 	case MU_VALUE:     
-		S_AHBv2_spss->HRDATA = r_MU_VALUE;
+		S_AHBv2_spss->setRData( r_MU_VALUE);
 		break;
 	case MU_SIZE:		
-		S_AHBv2_spss->HRDATA = r_MU_SIZE;
+		S_AHBv2_spss->setRData(r_MU_SIZE );
 		break;
 	case MU_RESULT:
-		S_AHBv2_spss->HRDATA = r_MU_RESULT;
+		S_AHBv2_spss->setRData(r_MU_RESULT );
 		break;
 	case MU_CMD:
-		S_AHBv2_spss->HRDATA = r_MU_CMD;
+		S_AHBv2_spss->setRData(r_MU_CMD );
 		break;
 	case MU_UNITSTEP:
-		S_AHBv2_spss->HRDATA = r_MU_UNITSTEP;
+		S_AHBv2_spss->setRData(r_MU_UNITSTEP );
 		break;
 	default: 
 		//if (p_enableDbgMsg == true)
 		//{
 			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "(Error! Access to out of range!(offset : 0x%x))\n", offset);
 		//}
+		S_AHBv2_spss->setRData( 0 );
 		break;
 	}
 }

@@ -69,7 +69,7 @@ namespace BDapi
 
 		Json::StyledWriter writer;
 		JsonFileOfMemoryView = writer.write(MemoryViewRoot);
-		cout<< endl << "MemoryView WriteTest" << endl << JsonFileOfMemoryView << endl; 
+		//cout<< endl << "MemoryView WriteTest" << endl << JsonFileOfMemoryView << endl; 
 
 		return JsonFileOfMemoryView;
 	}

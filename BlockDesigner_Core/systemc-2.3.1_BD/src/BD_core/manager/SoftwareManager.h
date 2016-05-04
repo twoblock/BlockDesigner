@@ -61,6 +61,7 @@ namespace BDapi
 			string GetPC();
 			void DisplayProfilingData();
 
+			string GetInitialMemoryView();
 			SoftwareProfiler* GetSoftwareProfiler();
 			SoftwareDisplayer* GetSoftwareDisplayer();
 
@@ -79,6 +80,7 @@ namespace BDapi
 			vector<CPUInfo*> CPUs;
 
 			SoftwareLoader *p_SoftwareLoader;
+			string InitialMemoryView;
 
 			static SoftwareManager *_SoftwareManager;
 			// mutex for singleton pattern 

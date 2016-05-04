@@ -99,7 +99,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void run() {
 				// TODO Auto-generated method stub
 				Hanlder_CallBack.CallBack_Func();
-				Handler_Command.Command_Func(0, 7, System.getProperty("user.home") + "/BlockDesigner/testmodule1.BDPMD", "", "",
+				Handler_Command.Command_Func(0, 7, System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD", "", "",
 						"", "");
 				Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
 						System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", "", "",
@@ -409,7 +409,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	
 	protected void ChannelInfoSet(final Composite composite) {
 		try {
-			obj = parser.parse(new FileReader(System.getProperty("user.home") + "/BlockDesigner/testmodule1.BDPMD"));
+			obj = parser.parse(new FileReader(System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD"));
 			jsonObject = (JSONObject) obj;
 			obj_BDPMD = (JSONObject) jsonObject.get("BDPMD");
 

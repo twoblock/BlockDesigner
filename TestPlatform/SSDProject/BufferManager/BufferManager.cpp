@@ -65,7 +65,7 @@ void BufferManager::update()
 
 	AHBv2_spss->clear();
 
-	AHBv2_spss->setSig(HREADYOUT, true);
+	AHBv2_spss->setSig(BD_HREADYOUT, true);
 
 	if(_isDataCycleActive)
 	{
@@ -134,23 +134,23 @@ void BufferManager::update()
 
 			}
 
-			AHBv2_spss->setSig(HREADYOUT, true);
+			AHBv2_spss->setSig(BD_HREADYOUT, true);
 
 		} //if wait == 0
 
 	}  // data phase
 
-	AHBv2_spss->setSig(HREADYOUT, false);
+	AHBv2_spss->setSig(BD_HREADYOUT, false);
 
-	if ((AHBv2_spss->getSig(HTRANS) != AHB2_TRANS_IDLE) && 
-			(AHBv2_spss->getSig(HTRANS) != AHB2_TRANS_BUSY) &&
-			(AHBv2_spss->getSig(HSEL)) && 
-			(AHBv2_spss->getSig(HREADY)))
+	if ((AHBv2_spss->getSig(BD_HTRANS) != AHB2_TRANS_IDLE) && 
+			(AHBv2_spss->getSig(BD_HTRANS) != AHB2_TRANS_BUSY) &&
+			(AHBv2_spss->getSig(BD_HSEL)) && 
+			(AHBv2_spss->getSig(BD_HREADY)))
 	{
 
-		_addr = AHBv2_spss->getSig(HADDR);
+		_addr = AHBv2_spss->getSig(BD_HADDR);
 
-		if (AHBv2_spss->getSig(HWRITE))
+		if (AHBv2_spss->getSig(BD_HWRITE))
 		{
 			_isWrite = true;
 		}
@@ -193,11 +193,11 @@ void BufferManager::update()
 		if( _currentWait <= 0)
 		{
 			//read
-			AHBv2_spss->setSig(HREADYOUT, true);
+			AHBv2_spss->setSig(BD_HREADYOUT, true);
 		}
 		else
 		{
-			AHBv2_spss->setSig(HREADYOUT, false);
+			AHBv2_spss->setSig(BD_HREADYOUT, false);
 		}
 
 	}

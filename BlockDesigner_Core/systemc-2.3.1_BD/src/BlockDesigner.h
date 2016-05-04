@@ -7,21 +7,21 @@ namespace sc_core
 {
 	enum AHBSignal 
 	{
-		HBUSREQ,
-		HADDR,
-		HBURST,
-		HPROT,
-		HSIZE,
-		HTRANS,
-		HWDATA,
-		HWRITE,
-		HLOCK,
-		HGRANT,
-		HREADY,
-		HRESP,
-		HRDATA,
-		HSEL,
-		HREADYOUT
+		BD_HBUSREQ,
+		BD_HADDR,
+		BD_HBURST,
+		BD_HPROT,
+		BD_HSIZE,
+		BD_HTRANS,
+		BD_HWDATA,
+		BD_HWRITE,
+		BD_HLOCK,
+		BD_HGRANT,
+		BD_HREADY,
+		BD_HRESP,
+		BD_HRDATA,
+		BD_HSEL,
+		BD_HREADYOUT
 	};
 
 	enum AHB2_TRANS
@@ -120,14 +120,14 @@ namespace sc_core
 	
 			void setSig(AHBSignal Signal, bool Value)
 			{
-				if(Signal == HBUSREQ)
+				if(Signal == BD_HBUSREQ)
 					HBUSREQ = Value;	
 			}
 			unsigned int getSig(AHBSignal Signal)
 			{
-				if(Signal == HGRANT)
+				if(Signal == BD_HGRANT)
 					return (bool)HGRANT;	
-				else if(Signal == HREADY)
+				else if(Signal == BD_HREADY)
 					return (bool)HREADY;	
 			}
 
@@ -359,21 +359,21 @@ namespace sc_core
 
 			void setSig(AHBSignal Signal, bool Value)
 			{
-				if(Signal == HREADYOUT)
+				if(Signal == BD_HREADYOUT)
 					HREADYOUT = Value;	
 			}
 
 			unsigned int getSig(AHBSignal Signal)
 			{
-				if(Signal == HTRANS)
+				if(Signal == BD_HTRANS)
 					return (unsigned int)HTRANS;
-				else if(Signal == HADDR)
+				else if(Signal == BD_HADDR)
 					return (unsigned int)HADDR;
-				else if(Signal == HSEL)
+				else if(Signal == BD_HSEL)
 					return (bool)HSEL;
-				else if(Signal == HREADY)
+				else if(Signal == BD_HREADY)
 					return (bool)HREADY;
-				else if(Signal == HWRITE)
+				else if(Signal == BD_HWRITE)
 					return (bool)HWRITE;
 			}
 
@@ -450,7 +450,7 @@ namespace sc_core
 
 			unsigned int getSig(AHBSignal Signal)
 			{
-				if(Signal == HREADY)
+				if(Signal == BD_HREADY)
 					return (bool)HREADY;	
 			}
 
@@ -672,21 +672,21 @@ namespace sc_core
 
 			void setSig(AHBSignal Signal, bool Value)
 			{
-				if(Signal == HREADYOUT)
+				if(Signal == BD_HREADYOUT)
 					HREADYOUT = Value;	
 			}
 
 			unsigned int getSig(AHBSignal Signal)
 			{
-				if(Signal == HTRANS)
+				if(Signal == BD_HTRANS)
 					return (unsigned int)HTRANS;
-				else if(Signal == HADDR)
+				else if(Signal == BD_HADDR)
 					return (unsigned int)HADDR;
-				else if(Signal == HSEL)
+				else if(Signal == BD_HSEL)
 					return (bool)HSEL;
-				else if(Signal == HREADY)
+				else if(Signal == BD_HREADY)
 					return (bool)HREADY;
-				else if(Signal == HWRITE)
+				else if(Signal == BD_HWRITE)
 					return (bool)HWRITE;
 			}
 

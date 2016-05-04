@@ -638,7 +638,7 @@ void SATADevice::update() {
 	//uint64_t m_currentWait=0;
 	AHBv2_Process_S_spss->clear();
 
-	AHBv2_Process_S_spss->setSig(HREADYOUT, true);
+	AHBv2_Process_S_spss->setSig(BD_HREADYOUT, true);
 
 	if (first) {				// is changed by TB
 		//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "OUT addr %x\n", _addr);
@@ -1300,20 +1300,20 @@ void SATADevice::update() {
 
 				}
 			}
-			AHBv2_Process_S_spss->setSig(HREADYOUT, true);
+			AHBv2_Process_S_spss->setSig(BD_HREADYOUT, true);
 		}
 	}		//-----------------------------------------------DATA phase
 
-	AHBv2_Process_S_spss->setSig(HREADYOUT, false);
+	AHBv2_Process_S_spss->setSig(BD_HREADYOUT, false);
 
 	//-----------------------------------------------------------
-	if ((AHBv2_Process_S_spss->getSig(HTRANS) != AHB2_TRANS_IDLE)
-			&& (AHBv2_Process_S_spss->getSig(HTRANS) != AHB2_TRANS_BUSY)
-			&& (AHBv2_Process_S_spss->getSig(HSEL))
-			&& (AHBv2_Process_S_spss->getSig(HREADY))) {
-		_addr = AHBv2_Process_S_spss->getSig(HADDR);
+	if ((AHBv2_Process_S_spss->getSig(BD_HTRANS) != AHB2_TRANS_IDLE)
+			&& (AHBv2_Process_S_spss->getSig(BD_HTRANS) != AHB2_TRANS_BUSY)
+			&& (AHBv2_Process_S_spss->getSig(BD_HSEL))
+			&& (AHBv2_Process_S_spss->getSig(BD_HREADY))) {
+		_addr = AHBv2_Process_S_spss->getSig(BD_HADDR);
 
-		if (AHBv2_Process_S_spss->getSig(HWRITE)) {
+		if (AHBv2_Process_S_spss->getSig(BD_HWRITE)) {
 			_isWrite = true;
 		} else {
 			_isWrite = false;
@@ -1651,10 +1651,10 @@ void SATADevice::update() {
 		if (_currentWait <= 0) {
 			//read
 
-			AHBv2_Process_S_spss->setSig(HREADYOUT, true);
+			AHBv2_Process_S_spss->setSig(BD_HREADYOUT, true);
 		} else {
 
-			AHBv2_Process_S_spss->setSig(HREADYOUT, false);
+			AHBv2_Process_S_spss->setSig(BD_HREADYOUT, false);
 		}
 
 	} else {
@@ -1960,11 +1960,11 @@ bool SATADevice::runDMA(int bWrite, uint32_t DST_Addr, uint32_t m_Size) {
 		//		dma_cnt, dma_write);
 	}
 
-	bool busGranted = AHBv2_Dram_M_mpms->getSig(HGRANT);
-	bool HReady = AHBv2_Dram_M_mpms->getSig(HREADY);
+	bool busGranted = AHBv2_Dram_M_mpms->getSig(BD_HGRANT);
+	bool HReady = AHBv2_Dram_M_mpms->getSig(BD_HREADY);
 
 	AHBv2_Dram_M_mpms->clear();
-	AHBv2_Dram_M_mpms->setSig(HBUSREQ, true); //default
+	AHBv2_Dram_M_mpms->setSig(BD_HBUSREQ, true); //default
 
 	//////////////////////Bus granted//////////////////////
 	if (busGranted) {
@@ -2066,7 +2066,7 @@ bool SATADevice::runDMA(int bWrite, uint32_t DST_Addr, uint32_t m_Size) {
 				//		"[WRITE#] [End DMA] addr: 0x%X, cnt: %d, write: %d\n",
 				//		dma_addr, dma_cnt, dma_write);
 				dma_running_bank=0;
-				AHBv2_Dram_M_mpms->setSig(HBUSREQ, false);
+				AHBv2_Dram_M_mpms->setSig(BD_HBUSREQ, false);
 
 				return true;
 			}
@@ -2076,7 +2076,7 @@ bool SATADevice::runDMA(int bWrite, uint32_t DST_Addr, uint32_t m_Size) {
 				//		"[READ#] [End DMA] addr: 0x%X, cnt: %d, write: %d\n",
 				//		dma_addr, dma_cnt, dma_write);
 				dma_running_bank=0;
-				AHBv2_Dram_M_mpms->setSig(HBUSREQ, false);
+				AHBv2_Dram_M_mpms->setSig(BD_HBUSREQ, false);
 
 				return true;
 			}

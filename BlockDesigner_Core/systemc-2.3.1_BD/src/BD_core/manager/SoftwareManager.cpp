@@ -69,7 +69,13 @@ namespace BDapi
 	{
 		p_SoftwareLoader = new SoftwareLoader();
 		p_SoftwareLoader->LoadSoftware(CPUIndex, SoftwarePath);
+		InitialMemoryView = p_SoftwareLoader->GetMemoryViewList();
 		delete p_SoftwareLoader;
+	}
+
+	string SoftwareManager::GetInitialMemoryView()
+	{
+		return InitialMemoryView;
 	}
 
 	/*
