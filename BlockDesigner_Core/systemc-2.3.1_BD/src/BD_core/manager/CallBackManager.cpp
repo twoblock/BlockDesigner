@@ -107,14 +107,14 @@ namespace BDapi
 	{
 		int getEnvStat = m_JVM->GetEnv((void **)&m_Env, JNI_VERSION_1_6);
 		if (getEnvStat == JNI_EDETACHED) {
-			printf("GetEnv: not attached\n");
+			//printf("GetEnv: not attached\n");
 			if (m_JVM->AttachCurrentThread((void **) &m_Env, NULL) != 0) {
-				printf("Failed to attach\n");
+				////printf("Failed to attach\n");
 			}
 		} else if (getEnvStat == JNI_OK) {
 			//
 		} else if (getEnvStat == JNI_EVERSION) {
-			printf("GetEnv: version not supported\n");
+			//printf("GetEnv: version not supported\n");
 		}
 	}
 

@@ -190,7 +190,7 @@ SC_MODULE(CONSOLE)	{
 				printf("Simulation Stop by CM0DS!\n");
 				sc_stop();
 			}
-			else	printf("\033[33m%c\033[0m", (UINT8)REG_DATA);
+			else	printf("%c", (UINT8)REG_DATA);
 		}
 	}
 

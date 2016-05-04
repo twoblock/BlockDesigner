@@ -363,7 +363,7 @@ namespace BDapi
 
 		Json::StyledWriter writer;
 		string StringBinary = writer.write(Root_MemoryViewList);
-		cout<< endl << StringBinary << endl; 
+		//cout<< endl << StringBinary << endl; 
 
 		return StringBinary;
 	}

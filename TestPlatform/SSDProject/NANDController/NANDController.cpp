@@ -129,7 +129,7 @@ void NANDController::update()
 
 
 	ahb_s0_spss->clear();
-	ahb_s0_spss->setSig(HREADYOUT, true);
+	ahb_s0_spss->setSig(BD_HREADYOUT, true);
 
 
 	/**************************************************************************************
@@ -154,13 +154,13 @@ void NANDController::update()
 			}
 
 
-			ahb_s0_spss->setSig(HREADYOUT, true);
+			ahb_s0_spss->setSig(BD_HREADYOUT, true);
 			_currentReadWait = READ_WAIT_CYCLE;
 			_isDataCycleActive = false;
 		}
 		else
 		{
-			ahb_s0_spss->setSig(HREADYOUT, false);
+			ahb_s0_spss->setSig(BD_HREADYOUT, false);
 			return;
 		}
 	}
@@ -171,14 +171,14 @@ void NANDController::update()
 	/**************************************************************************************
 	 * Address Phase
 	 **************************************************************************************/
-	if ((ahb_s0_spss->getSig(HTRANS) != AHB2_TRANS_IDLE) &&
-			(ahb_s0_spss->getSig(HTRANS) != AHB2_TRANS_BUSY) &&
-			(ahb_s0_spss->getSig(HSEL)) &&
-			(ahb_s0_spss->getSig(HREADY)))
+	if ((ahb_s0_spss->getSig(BD_HTRANS) != AHB2_TRANS_IDLE) &&
+			(ahb_s0_spss->getSig(BD_HTRANS) != AHB2_TRANS_BUSY) &&
+			(ahb_s0_spss->getSig(BD_HSEL)) &&
+			(ahb_s0_spss->getSig(BD_HREADY)))
 	{
 		//get Trasnsection info
-		_addr = ahb_s0_spss->getSig(HADDR);
-		_isWrite = ahb_s0_spss->getSig(HWRITE);
+		_addr = ahb_s0_spss->getSig(BD_HADDR);
+		_isWrite = ahb_s0_spss->getSig(BD_HWRITE);
 
 		uint32_t _offset = _addr - p_addr_base;
 
@@ -198,10 +198,10 @@ void NANDController::update()
 
 		_isDataCycleActive = true;
 		if(_currentReadWait <= 0) {
-			ahb_s0_spss->setSig(HREADYOUT, true);
+			ahb_s0_spss->setSig(BD_HREADYOUT, true);
 		}
 		else {
-			ahb_s0_spss->setSig(HREADYOUT, false);
+			ahb_s0_spss->setSig(BD_HREADYOUT, false);
 		}
 
 
@@ -1381,11 +1381,11 @@ bool NANDController::runDMA(int bank, int bWrite)
 
 
 
-	bool busGranted = ahb_m1_mpms->getSig(HGRANT);
-	bool HReady = ahb_m1_mpms->getSig(HREADY);
+	bool busGranted = ahb_m1_mpms->getSig(BD_HGRANT);
+	bool HReady = ahb_m1_mpms->getSig(BD_HREADY);
 
 	ahb_m1_mpms->clear();
-	ahb_m1_mpms->setSig(HBUSREQ, true); //default
+	ahb_m1_mpms->setSig(BD_HBUSREQ, true); //default
 
 
 	//////////////////////Bus granted//////////////////////
@@ -1454,7 +1454,7 @@ bool NANDController::runDMA(int bank, int bWrite)
 		//////////////////////finish//////////////////////
 		if(curIdx[bank] >= dma_cnt) {
 			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] [End DMA] addr: 0x%X, cnt: %d, write: %d\n", bank, dma_addr, dma_cnt, dma_write);
-			ahb_m1_mpms->setSig(HBUSREQ, false);
+			ahb_m1_mpms->setSig(BD_HBUSREQ, false);
 
 			return true;
 		}

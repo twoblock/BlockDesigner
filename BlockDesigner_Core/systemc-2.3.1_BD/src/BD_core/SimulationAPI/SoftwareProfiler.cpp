@@ -461,7 +461,7 @@ namespace BDapi
 
 		Json::StyledWriter GraghWriter;
 		string StringFunctionFlowGragh = GraghWriter.write(Root_FunctionFlowGragh);
-		printf("%s \n", StringFunctionFlowGragh.c_str()); 
+		//printf("%s \n", StringFunctionFlowGragh.c_str()); 
 
 		FunctionFlowGragh.clear();
 
@@ -542,7 +542,7 @@ namespace BDapi
 
 		Json::StyledWriter writer;
 		string StringProfilingTable= writer.write(Root_ProfilingTable);
-		printf("%s \n", StringProfilingTable.c_str()); 
+		//printf("%s \n", StringProfilingTable.c_str()); 
 		
 		ProfilingTable.clear();
 

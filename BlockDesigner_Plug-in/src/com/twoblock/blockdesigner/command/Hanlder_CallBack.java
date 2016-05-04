@@ -42,14 +42,14 @@ public class Hanlder_CallBack {
 		VSE.Cycle_Setter(cycle);
 	}
 	private void StatusCallBack(int state) {
-		System.out.println("STATE = "+state);
+//		System.out.println("STATE = "+state);
 		VSE.Btn_Control(state);
 	}
 	private void OutputCallBack() {
 		System.out.println("receive Output");
 	}
 	private void ResultCallBack(String sim_result){
-		System.err.println(sim_result);
+//		System.err.println(sim_result);
 		VSE.SIM_Result(sim_result);
 	}
 	
