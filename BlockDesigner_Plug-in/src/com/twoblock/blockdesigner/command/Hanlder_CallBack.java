@@ -28,6 +28,7 @@ public class Hanlder_CallBack {
 	private native void OutputListener();
 	private native void ResultListener();
 	private native void MemoryViewListener();
+	private native void InitialMemoryViewListener();
 	private native void SourceCodeListener();
 	private native void PCListener();
 	private native void SymbolTableListener();
@@ -55,7 +56,11 @@ public class Hanlder_CallBack {
 	
 	//Memory View
 	private void MemoryViewCallBack(String memoryjson){
-//		System.err.println(memoryjson);
+		System.err.println(memoryjson);
+	}
+	//Memory View
+	private void InitialMemoryViewCallBack(String init_memoryjson){
+		System.err.println(init_memoryjson);
 	}
 	
 	//assembly view

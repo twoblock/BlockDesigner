@@ -1,6 +1,8 @@
 package com.twoblock.blockdesigner.popup;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -44,10 +46,14 @@ public class BDSWCallStackView {
 
 	public BDSWCallStackView(Shell shell, String compName, BDSWProfilingItemArray data) {
 //		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-		m_shell = new Shell(shell, SWT.CLOSE);
+		m_shell = new Shell(shell.getDisplay(), SWT.CLOSE);
 		m_display = m_shell.getDisplay();
 
-		m_shell.setText("Software Profiling View - "+compName);
+		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/img_csv_64.png");
+		Image imgOpen = idOpen.createImage();
+		m_shell.setImage(imgOpen);
+		
+		m_shell.setText("Software CallStack View - "+compName);
 		m_shell.setSize(1000, 600);
 		m_shell.setLayout(new FillLayout());
 

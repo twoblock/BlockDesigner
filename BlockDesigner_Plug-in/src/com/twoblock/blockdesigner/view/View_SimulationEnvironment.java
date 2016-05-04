@@ -9,6 +9,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
@@ -182,7 +183,7 @@ public class View_SimulationEnvironment extends ViewPart {
 
 		Button btnFold = new Button(parent, SWT.NONE);
 		btnFold.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 2));
-		btnFold.setText("Fold");
+		btnFold.setText("All Fold");
 
 		Label lblOpen = new Label(parent, SWT.NONE);
 		lblOpen.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
@@ -406,6 +407,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private JSONObject obj_pt_OneItem;
 	private String HCLK_channel_name;
 	private String HRESETn_channel_name;
+	private String InstanceName;
 	
 	protected void ChannelInfoSet(final Composite composite) {
 		try {
@@ -530,34 +532,13 @@ public class View_SimulationEnvironment extends ViewPart {
 			String module_type = (String) obj_module.get("module_type");
 
 			obj_module_info = (JSONObject) obj_module.get("module_info");
-			String InstanceName = (String) obj_module_info.get("instance_name");
+			InstanceName = (String) obj_module_info.get("instance_name");
 			Expanditem.get(ModuleInfoIndex + 1).setText(InstanceName);
 			arr_port_info = (JSONArray) obj_module_info.get("port");
 			arr_par_info = (JSONArray) obj_module_info.get("parameter");
 			arr_reg_info = (JSONArray) obj_module_info.get("register");
 
-			switch (module_type) {
-			case "Core":
-				ImageDescriptor idItem1 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_core16.png");
-				Image imgItemIcon1 = idItem1.createImage();
-				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon1);
-				break;
-			case "Mem":
-				ImageDescriptor idItem2 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_memory16.png");
-				Image imgItemIcon2 = idItem2.createImage();
-				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon2);
-				break;
-			case "Bus":
-				ImageDescriptor idItem3 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_bus16.png");
-				Image imgItemIcon3 = idItem3.createImage();
-				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon3);
-				break;
-			case "etc":
-				ImageDescriptor idItem4 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_etc16.png");
-				Image imgItemIcon4 = idItem4.createImage();
-				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon4);
-				break;
-			}
+			
 			composite_ExpandItem.add(new Composite(expandBar, SWT.NONE));
 
 			composite_ExpandItem.get(ModuleInfoIndex + 1).setLayout(new GridLayout(3, false));
@@ -569,8 +550,8 @@ public class View_SimulationEnvironment extends ViewPart {
 			{ /* --- port --- */
 				table_port = new Table(composite_ExpandItem.get(ModuleInfoIndex + 1),
 						SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
-				GridData gd_table_port = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-				gd_table_port.heightHint = 140;
+				GridData gd_table_port = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 0);
+				gd_table_port.heightHint = 120;
 				table_port.setLayoutData(gd_table_port);
 				table_port.setHeaderVisible(true);
 				table_port.setLinesVisible(true);
@@ -602,8 +583,8 @@ public class View_SimulationEnvironment extends ViewPart {
 			{ /* --- par --- */
 				table_par = new Table(composite_ExpandItem.get(ModuleInfoIndex + 1),
 						SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
-				GridData gd_table_par = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-				gd_table_par.heightHint = 140;
+				GridData gd_table_par = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 0);
+				gd_table_par.heightHint = 120;
 				table_par.setLayoutData(gd_table_par);
 				table_par.setHeaderVisible(true);
 				table_par.setLinesVisible(true);
@@ -667,8 +648,8 @@ public class View_SimulationEnvironment extends ViewPart {
 			{ /* --- reg --- */
 				table_reg = new Table(composite_ExpandItem.get(ModuleInfoIndex + 1),
 						SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
-				GridData gd_table_reg = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-				gd_table_reg.heightHint = 140;
+				GridData gd_table_reg = new GridData(SWT.FILL, SWT.TOP, true, false, 1, 0);
+				gd_table_reg.heightHint = 120;
 				table_reg.setLayoutData(gd_table_reg);
 				table_reg.setHeaderVisible(true);
 				table_reg.setLinesVisible(true);
@@ -731,6 +712,49 @@ public class View_SimulationEnvironment extends ViewPart {
 				}
 			}
 			Expanditem.get(ModuleInfoIndex + 1).setHeight(150);
+
+			switch (module_type) {
+			case "cpu":
+				ImageDescriptor idItem1 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_core16.png");
+				Image imgItemIcon1 = idItem1.createImage();
+				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon1);
+				break;
+			case "mem":
+				ImageDescriptor idItem2 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_memory16.png");
+				Image imgItemIcon2 = idItem2.createImage();
+				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon2);
+				Expanditem.get(ModuleInfoIndex + 1).setHeight(180);
+				
+				final Button btnMemorymap = new Button(composite_ExpandItem.get(ModuleInfoIndex + 1), SWT.NONE);
+				btnMemorymap.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true, 3, 1));
+				btnMemorymap.setText("Memory Map");
+				btnMemorymap.addSelectionListener(new SelectionListener() {
+					final String Memory_name = InstanceName;
+					@Override
+					public void widgetSelected(SelectionEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void widgetDefaultSelected(SelectionEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				
+				break;
+			case "bus":
+				ImageDescriptor idItem3 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_bus16.png");
+				Image imgItemIcon3 = idItem3.createImage();
+				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon3);
+				break;
+			case "other":
+				ImageDescriptor idItem4 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_etc16.png");
+				Image imgItemIcon4 = idItem4.createImage();
+				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon4);
+				break;
+			}
 		}
 	}
 
