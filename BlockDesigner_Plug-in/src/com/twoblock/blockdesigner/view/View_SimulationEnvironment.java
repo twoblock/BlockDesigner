@@ -233,27 +233,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnRun.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				/* --- Tracing Process ---START--- */
-				Control[] ctr_channel_info = table_channel.getChildren();
-				for(int index=0; index<ctr_channel_info.length/2; index++){
-					if(((Button)ctr_channel_info[index*2+1]).getSelection() == true){
-						if(index==0)
-							Handler_Command.Command_Func(0, 4, "0", HCLK_channel_name , "NULL", "NULL", "NULL");
-						else if(index==1)
-							Handler_Command.Command_Func(0, 4, "0", HRESETn_channel_name , "NULL", "NULL", "NULL");
-						else{
-							String rex = "(\\[|\\]|<-----|----->)";
-							String str = ((Text)ctr_channel_info[index*2]).getText();
-							String[] strlist =str.split(rex, 0);
-							String tracing_cmd = strlist[1]+"$"+strlist[2]+"&"+strlist[5]+"$"+strlist[6];
-							if(strlist[3].equals("sc_signal"))
-								Handler_Command.Command_Func(0, 4, "0", strlist[1]+"$"+strlist[2],"NULL", "NULL", "NULL");	
-							else
-								Handler_Command.Command_Func(0, 4, "0", tracing_cmd, strlist[3], "NULL", "NULL");
-						}
-					}
-				}
-				/* --- Tracing Process ---END--- */
+				Tracer();
 
 				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
 				Btn_Control(1);
@@ -271,27 +251,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnStep.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				/* --- Tracing Process ---START--- */
-				Control[] ctr_channel_info = table_channel.getChildren();
-				for(int index=0; index<ctr_channel_info.length/2; index++){
-					if(((Button)ctr_channel_info[index*2+1]).getSelection() == true){
-						if(index==0)
-							Handler_Command.Command_Func(0, 4, "0", HCLK_channel_name , "NULL", "NULL", "NULL");
-						else if(index==1)
-							Handler_Command.Command_Func(0, 4, "0", HRESETn_channel_name , "NULL", "NULL", "NULL");
-						else{
-							String rex = "(\\[|\\]|<-----|----->)";
-							String str = ((Text)ctr_channel_info[index*2]).getText();
-							String[] strlist =str.split(rex, 0);
-							String tracing_cmd = strlist[1]+"$"+strlist[2]+"&"+strlist[5]+"$"+strlist[6];
-							if(strlist[3].equals("sc_signal"))
-								Handler_Command.Command_Func(0, 4, "0", strlist[1]+"$"+strlist[2],"NULL", "NULL", "NULL");	
-							else
-								Handler_Command.Command_Func(0, 4, "0", tracing_cmd, strlist[3], "NULL", "NULL");
-						}
-					}
-				}
-				/* --- Tracing Process ---END--- */
+				Tracer();
 
 				Handler_Command.Command_Func(0, 1, "STEP", "1", "NULL", "NULL", "NULL");
 			}
@@ -299,28 +259,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnStep_n.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				/* --- Tracing Process ---START--- */
-				Control[] ctr_channel_info = table_channel.getChildren();
-				for(int index=0; index<ctr_channel_info.length/2; index++){
-					if(((Button)ctr_channel_info[index*2+1]).getSelection() == true){
-						if(index==0)
-							Handler_Command.Command_Func(0, 4, "0", HCLK_channel_name , "NULL", "NULL", "NULL");
-						else if(index==1)
-							Handler_Command.Command_Func(0, 4, "0", HRESETn_channel_name , "NULL", "NULL", "NULL");
-						else{
-							String rex = "(\\[|\\]|<-----|----->)";
-							String str = ((Text)ctr_channel_info[index*2]).getText();
-							String[] strlist =str.split(rex, 0);
-							String tracing_cmd = strlist[1]+"$"+strlist[2]+"&"+strlist[5]+"$"+strlist[6];
-							if(strlist[3].equals("sc_signal"))
-								Handler_Command.Command_Func(0, 4, "0", strlist[1]+"$"+strlist[2],"NULL", "NULL", "NULL");	
-							else
-								Handler_Command.Command_Func(0, 4, "0", tracing_cmd, strlist[3], "NULL", "NULL");
-						}
-					}
-				}
-				/* --- Tracing Process ---END--- */
-
+				Tracer();
+				
 				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
 				Btn_Control(1);
 				SetTableState(false);
@@ -864,7 +804,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		});
 	}
-
+	
 	public void Btn_Control(int state) {
 		/*
 		 * case state 
@@ -1209,5 +1149,34 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 	}
-
+	
+	private boolean TraceChecking=true;
+	
+	private void Tracer() {
+		// TODO Auto-generated method stub
+		/* --- Tracing Process ---START--- */
+		if(TraceChecking){
+			Control[] ctr_channel_info = table_channel.getChildren();
+			for(int index=0; index<ctr_channel_info.length/2; index++){
+				if(((Button)ctr_channel_info[index*2+1]).getSelection() == true){
+					if(index==0)
+						Handler_Command.Command_Func(0, 4, "0", HCLK_channel_name , "NULL", "NULL", "NULL");
+					else if(index==1)
+						Handler_Command.Command_Func(0, 4, "0", HRESETn_channel_name , "NULL", "NULL", "NULL");
+					else{
+						String rex = "(\\[|\\]|<-----|----->)";
+						String str = ((Text)ctr_channel_info[index*2]).getText();
+						String[] strlist =str.split(rex, 0);
+						String tracing_cmd = strlist[1]+"$"+strlist[2]+"&"+strlist[5]+"$"+strlist[6];
+						if(strlist[3].equals("sc_signal"))
+							Handler_Command.Command_Func(0, 4, "0", strlist[1]+"$"+strlist[2],"NULL", "NULL", "NULL");	
+						else
+							Handler_Command.Command_Func(0, 4, "0", tracing_cmd, strlist[3], "NULL", "NULL");
+					}
+				}
+			}
+			TraceChecking=false;
+		}
+		/* --- Tracing Process ---END--- */
+	}
 }
