@@ -151,6 +151,11 @@ namespace BDapi
 				return BDDIStatusCmdNotSupported;
 			}
 
+			virtual BDDIReturn BDDIGetMemoryView(unsigned int Address, std::string &OutValue)
+			{
+				return BDDIStatusCmdNotSupported;
+			}
+
 			virtual unsigned int BDDIGetMemoryBaseAddress()
 			{
 				return 0;

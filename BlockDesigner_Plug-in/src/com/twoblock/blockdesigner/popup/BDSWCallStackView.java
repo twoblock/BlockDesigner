@@ -1,4 +1,6 @@
 package com.twoblock.blockdesigner.popup;
+import java.util.ArrayList;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -37,6 +39,7 @@ public class BDSWCallStackView {
 	private Table m_dataTable;
 	
 	private int m_lastFuncIndex = -1;
+	private ArrayList<String> m_nameList = new ArrayList<String>();
 
 	public void show() {
 		m_shell.open();
@@ -76,6 +79,7 @@ public class BDSWCallStackView {
 	public void addFunctionName(String str) {
 		TableItem item = new TableItem(m_dataTable, SWT.NONE);
 		item.setText(str);
+		m_nameList.add(str);
 	}
 
 	public void addCallData(int funcIndex, long cycles) {
@@ -113,7 +117,7 @@ public class BDSWCallStackView {
 		int curColIndex = m_dataTable.indexOf(dataCol);
 		TableItem tableItem = m_dataTable.getItem(funcIndex);
 		
-		tableItem.setText(curColIndex, cycles+" cycles");
+		tableItem.setText(curColIndex, m_nameList.get(funcIndex)+"\n"+cycles+" cycles");
 		tableItem.setBackground(curColIndex, new Color(m_display, 255, 0, 0));
 		
 		

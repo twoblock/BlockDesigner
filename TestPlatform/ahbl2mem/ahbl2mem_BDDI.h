@@ -2,6 +2,7 @@
 #define __AHBL2MEM_BDDI_H__
 
 #include "systemc.h"
+#include <string>
 
 using namespace BDapi;
 
@@ -29,6 +30,8 @@ class AHBL2MEM_BDDI : public BDDIBase
 
 		BDDIReturn BDDIGetMemoryAddressValue(unsigned int Address, unsigned int *Value);
 		BDDIReturn BDDISetMemoryAddressValue(unsigned int Address, unsigned int Value);
+
+		BDDIReturn BDDIGetMemoryView(unsigned int Address, string &OutValue);
 
 		unsigned int BDDIGetMemoryBaseAddress();
 		unsigned int BDDIGetMemoryAddressSize();

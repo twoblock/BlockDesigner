@@ -12,6 +12,7 @@
 // ----------------------------------------------------------------------------
 
 #include "BDDIManager.h"
+#include "CallBackManager.h"
 #include "systemc.h"
 #include "BD_core/SimulationAPI/BDDI.h"
 
@@ -103,7 +104,17 @@ namespace BDapi
 			}
 		}
 		else if(strcmp(Command.Argu2, "mem") == 0)	{
-		
+			if(strcmp(Command.Argu3, "read") ==0)	{
+				unsigned int dw_Address = (unsigned int)strtoul(Command.Argu4, NULL, 16);
+
+				MemoryViewValue = "";
+
+				cout << MemoryViewValue << endl;
+
+				p_Module->GetBDDI()->BDDIGetMemoryView(dw_Address, MemoryViewValue);
+
+				p_CallBackManager->SendBackJson(MemoryViewValue, "MemoryViewCallBack");
+			}
 		}
 		else if(strcmp(Command.Argu2, "assem") == 0)	{
 
@@ -149,6 +160,9 @@ namespace BDapi
 	 */
 	BDDIManager::BDDIManager()
 	{
+		p_CallBackManager = CallBackManager::GetInstance();
+
+		MemoryViewValue = "";
 	}
 
 	/*

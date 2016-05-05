@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -43,8 +42,12 @@ import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
 import com.twoblock.blockdesigner.command.Hanlder_CallBack;
 import com.twoblock.blockdesigner.popup.BDDisassembleView;
 import com.twoblock.blockdesigner.popup.BDF;
+import com.twoblock.blockdesigner.popup.BDMemoryView;
+import com.twoblock.blockdesigner.popup.BDMemoryViewItem;
+import com.twoblock.blockdesigner.popup.BDMemoryViewItemArray;
 import com.twoblock.blockdesigner.popup.BDSWCallStackView;
 import com.twoblock.blockdesigner.popup.BDSWProfilingView;
+import com.twoblock.blockdesigner.popup.IBDMemoryViewListener;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -67,8 +70,11 @@ public class View_SimulationEnvironment extends ViewPart {
 	private static BDDisassembleView dv;
 	private static BDSWCallStackView csv;
 	private static BDSWProfilingView swpv;
+	private static BDMemoryView mv;
 	private Image imgStep_n;
 	public static String SourceCode;
+	public static String InitMemoryView;
+	public static String MemoryViewSet;
 	public static String SymbolTable;
 	public static String PCCode;
 	public static String FunctionFlowGragh;
@@ -91,9 +97,9 @@ public class View_SimulationEnvironment extends ViewPart {
 
 	public void createPartControl(Composite parent) {
 		display = Display.getDefault();
-		
+
 		c_parent=parent;
-		
+
 		display.asyncExec(new Runnable() {
 
 			@Override
@@ -110,15 +116,15 @@ public class View_SimulationEnvironment extends ViewPart {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-//				dv = new BDDisassembleView(parent.getShell(), "CORE");
-//				csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
-//				swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
+				//				dv = new BDDisassembleView(parent.getShell(), "CORE");
+				//				csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
+				//				swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
 
-//				AssemblySetter();
-//				SymbolSetter();
+				//				AssemblySetter();
+				//				SymbolSetter();
 			}
 		});
-		
+
 		// Handler_Command.Command_Func(0, 2,
 		// "BD_SRAM","par","write","0","0x20000000");
 		parent.setLayout(new GridLayout(12, false));
@@ -182,7 +188,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		lblCycles.setText("cycles");
 
 		Button btnFold = new Button(parent, SWT.NONE);
-		btnFold.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 2));
+		btnFold.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
 		btnFold.setText("All Fold");
 
 		Label lblOpen = new Label(parent, SWT.NONE);
@@ -206,7 +212,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		lblStep.setText("Step");
 
 		Label lblStep_n = new Label(parent, SWT.NONE);
-		lblStep_n.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
+		lblStep_n.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 2, 1));
 		lblStep_n.setText("n Step");
 
 		/* START--- Button Listener & Action --- */
@@ -248,7 +254,7 @@ public class View_SimulationEnvironment extends ViewPart {
 					}
 				}
 				/* --- Tracing Process ---END--- */
-				
+
 				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
 				Btn_Control(1);
 				SetTableState(false);
@@ -286,7 +292,7 @@ public class View_SimulationEnvironment extends ViewPart {
 					}
 				}
 				/* --- Tracing Process ---END--- */
-				
+
 				Handler_Command.Command_Func(0, 1, "STEP", "1", "NULL", "NULL", "NULL");
 			}
 		});
@@ -314,7 +320,7 @@ public class View_SimulationEnvironment extends ViewPart {
 					}
 				}
 				/* --- Tracing Process ---END--- */
-				
+
 				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
 				Btn_Control(1);
 				SetTableState(false);
@@ -386,11 +392,26 @@ public class View_SimulationEnvironment extends ViewPart {
 	private int par_index;
 	private int ModuleInfoIndex;
 	private int reg_index;
+
+	private JSONObject jsonObject_mv;
+	private JSONObject obj_mv;
+	private JSONArray arr_Memory;
+	private JSONObject obj_select_Memory;
+	private JSONArray arr_mm_binary;
+	private JSONObject obj_binary_value;
+
+	private JSONObject jsonObject_mvs;
+	private JSONObject obj_mvs;
+	private JSONArray arr_Memoryset;
+	private JSONObject obj_select_Memoryset;
+	private JSONArray arr_mm_binaryset;
+	private JSONObject obj_binary_valueset;
+
 	private JSONObject jsonObject_sc;
 	private JSONObject obj_sc;
 	private JSONArray arr_SourceLine;
 	private JSONObject obj_sc_OneLine;
-	
+
 	private JSONObject jsonObject_sb;
 	private JSONObject obj_sb;
 	private JSONArray arr_SymbolLine;
@@ -400,7 +421,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private JSONObject obj_ffg;
 	private JSONArray arr_ffgLine;
 	private JSONObject obj_ffg_OneLine;
-	
+
 	private JSONObject jsonObject_pt;
 	private JSONObject obj_pt;
 	private JSONArray arr_ptItem;
@@ -408,7 +429,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private String HCLK_channel_name;
 	private String HRESETn_channel_name;
 	private String InstanceName;
-	
+
 	protected void ChannelInfoSet(final Composite composite) {
 		try {
 			obj = parser.parse(new FileReader(System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD"));
@@ -483,28 +504,28 @@ public class View_SimulationEnvironment extends ViewPart {
 			editor_channel_table.grabHorizontal = true;
 			editor_channel_table.setEditor(ckb_HRESETn_Tracing, items[1], 1);
 		}
-		
+
 		obj_Connection = (JSONObject) arr_ChannelInfo.get(0);
 		HCLK_channel_name = (String) obj_Connection.get("name");
 		obj_Connection = (JSONObject) arr_ChannelInfo.get(1);
 		HRESETn_channel_name = (String) obj_Connection.get("name");
-		
+
 		int channel_temp=1;
 		for (int channel_index = 2; channel_index < arr_ChannelInfo.size();	channel_index++ ) {
 			obj_Connection = (JSONObject) arr_ChannelInfo.get(channel_index);
-			
+
 			String first_Connection = (String) obj_Connection.get("name");
 			String first_Connection_source = "[" + first_Connection.replaceAll("[$]", "]");
 			jrr_Connection = (JSONArray) obj_Connection.get("connection_info");
-			
+
 			if (jrr_Connection.size() != 0) {
 				String channel_type = (String) obj_Connection.get("channel_type");
-				
+
 				channel_temp++;
 				obj_Connection_info = (JSONObject) jrr_Connection.get(0);
 				String first_Connection_dest = "[" + (String) obj_Connection_info.get("module_name") + "]"
 						+ (String) obj_Connection_info.get("port_name");
-				
+
 				editor_channel_table = new TableEditor(table_channel);
 
 				final Text txt_ChannelName = new Text(table_channel, SWT.READ_ONLY);
@@ -538,7 +559,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			arr_par_info = (JSONArray) obj_module_info.get("parameter");
 			arr_reg_info = (JSONArray) obj_module_info.get("register");
 
-			
+
 			composite_ExpandItem.add(new Composite(expandBar, SWT.NONE));
 
 			composite_ExpandItem.get(ModuleInfoIndex + 1).setLayout(new GridLayout(3, false));
@@ -724,25 +745,26 @@ public class View_SimulationEnvironment extends ViewPart {
 				Image imgItemIcon2 = idItem2.createImage();
 				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon2);
 				Expanditem.get(ModuleInfoIndex + 1).setHeight(180);
-				
+
 				final Button btnMemorymap = new Button(composite_ExpandItem.get(ModuleInfoIndex + 1), SWT.NONE);
 				btnMemorymap.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true, 3, 1));
-				btnMemorymap.setText("Memory Map");
+				btnMemorymap.setText("Memory View");
 				btnMemorymap.addSelectionListener(new SelectionListener() {
 					final String Memory_name = InstanceName;
 					@Override
 					public void widgetSelected(SelectionEvent arg0) {
 						// TODO Auto-generated method stub
+//						MemoryViewSetter(c_parent,Memory_name);
 						
+						MemoryViewOpen(c_parent,Memory_name);
 					}
-					
+
 					@Override
 					public void widgetDefaultSelected(SelectionEvent arg0) {
 						// TODO Auto-generated method stub
-						
 					}
 				});
-				
+
 				break;
 			case "bus":
 				ImageDescriptor idItem3 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_bus16.png");
@@ -818,7 +840,7 @@ public class View_SimulationEnvironment extends ViewPart {
 							if (InstanceName.equals(Expanditem.get(expandItem_index).getText())) {
 								ctrol_tables = composite_ExpandItem.get(expandItem_index).getChildren();
 								tb_reg = (Table) ctrol_tables[2]; // get reg
-																	// table
+								// table
 								Ctrol_reg_arg = tb_reg.getChildren();
 								for (int reg_index = 0; reg_index < arr_reg_value.size(); reg_index++) {
 
@@ -852,7 +874,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		 * state 3 : stop
 		 */
 		display.asyncExec(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -872,32 +894,33 @@ public class View_SimulationEnvironment extends ViewPart {
 					btnStep_n.setEnabled(true);
 					btnRun.setEnabled(true);
 					SetTableState(true);
-					
+
 					display.asyncExec(new Runnable() {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							
+
 							/* --- Disassemble View Setter ---START--- */
 							dv = new BDDisassembleView(c_parent.getShell(), "CORE");
 							AssemblySetter();
 							dv.show();
 							dv.select(BDF.StringHexToLongDecimal(PCCode));
 							/* --- Disassemble View Setter ---END--- */
-							
-							
+
+
 							/* --- Call Stack View Setter ---START--- */
 							csvSetter(c_parent);
 							/* --- Call Stack View Setter ---END--- */
-							
-							
+
+
 							/* --- Profiling Table Setter ---START--- */
 							ptSetter(c_parent);
 							/* --- Profiling Table Setter ---END--- */
+
 						}
-						
+
 					});
-					
+
 					break;
 				}
 			}
@@ -913,7 +936,169 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		});
 	}
+
+	public void MemoryViewOpen(Composite parent, String memory_name){
+		
+		mv = new BDMemoryView(parent.getShell(), memory_name, new IBDMemoryViewListener() {
+			@Override
+			public void onChangeData(long addr, long data) {
+				// TODO Auto-generated method stub
+				System.out.println(String.format("Addr.:%s, Data:%s", 
+						BDF.LongDecimalToStringHex(addr, 8),
+						BDF.LongDecimalToStringHex(data, 8)));
+			}
+
+			@Override
+			public void onDataLoad(BDMemoryView view, long startAddr, long size) {
+				// TODO Auto-generated method stub
+				System.out.println("startAddr.:"+BDF.LongDecimalToStringHex(startAddr, 8)+" size:"+size);
+			}
+		});
+
+		MemoryViewSet=null;
+		Handler_Command.Command_Func(1, 1,memory_name ,"mem", "read", "0x00000000","NULL");
+		boolean datacheck=true;
+		while(datacheck){
+			if(MemoryViewSet != null)
+				datacheck=false;
+		}
+		
+		memory_name=MemoryViewSet;
+		
+		BDMemoryViewItemArray tmp_data = new BDMemoryViewItemArray();
+		tmp_data.baseAddr=BDF.StringHexToLongDecimal("0x00000000");
+		String[] value = memory_name.split(",");
+		
+		String Memory_value1,Memory_value2,Memory_value3,Memory_value4=null;
+		for(int memory_index=0; memory_index< value.length; memory_index++){
+				Memory_value1 = value[memory_index++];
+				if(memory_index==value.length){
+					Memory_value2 = "0";
+					Memory_value3 = "0";
+					Memory_value4 = "0";
+					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+							BDF.StringHexToLongDecimal(Memory_value2), 
+							BDF.StringHexToLongDecimal(Memory_value3), 
+							BDF.StringHexToLongDecimal(Memory_value4)));
+					break;
+				}
+				Memory_value2 = value[memory_index++];
+				if(memory_index==value.length){
+					Memory_value3 = "0";
+					Memory_value4 = "0";
+					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+							BDF.StringHexToLongDecimal(Memory_value2), 
+							BDF.StringHexToLongDecimal(Memory_value3), 
+							BDF.StringHexToLongDecimal(Memory_value4)));
+					break;
+				}
+				Memory_value3 = value[memory_index++];
+				if(memory_index==value.length){
+					Memory_value4 = "0";
+					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+							BDF.StringHexToLongDecimal(Memory_value2), 
+							BDF.StringHexToLongDecimal(Memory_value3), 
+							BDF.StringHexToLongDecimal(Memory_value4)));
+					break;
+				}
+				Memory_value4 = value[memory_index];
+			
+			tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+					BDF.StringHexToLongDecimal(Memory_value2), 
+					BDF.StringHexToLongDecimal(Memory_value3), 
+					BDF.StringHexToLongDecimal(Memory_value4)));
+		}
+		
+		mv.setData(tmp_data);
+		mv.show();
+	}
 	
+	
+	
+	
+	private void InitialMemorySetter(){
+		try {
+			obj_mv = (JSONObject)parser.parse(InitMemoryView);
+			jsonObject_mv = (JSONObject) obj_mv;	
+			arr_Memory = (JSONArray) jsonObject_mv.get("MemoryView");
+
+			for (int i = 0; i < arr_Memory.size(); i++) {
+				obj_select_Memory = (JSONObject) arr_Memory.get(i);
+				String Memory_Instance_Name = (String)obj_select_Memory.get("instance_name");
+				arr_mm_binary = (JSONArray) obj_select_Memory.get("binary_value");
+
+				BDMemoryViewItemArray tmp_data = new BDMemoryViewItemArray();
+				
+				String Memory_value1=null;
+				String Memory_value2=null;
+				String Memory_value3=null;
+				String Memory_value4=null;
+				for(int j=0; j+4<arr_mm_binary.size();j++){
+					
+					obj_binary_value=(JSONObject)arr_mm_binary.get(j);
+					if(j==0) {
+						tmp_data.baseAddr = BDF.StringHexToLongDecimal((String)obj_binary_value.get("address"));
+					}
+					
+					if(arr_mm_binary.get(j)!=null)
+						Memory_value1 = (String)((JSONObject) arr_mm_binary.get(j++)).get("value");
+					else
+						Memory_value1 = "0";
+						
+					if(arr_mm_binary.get(j)!=null)
+						Memory_value2 = (String)((JSONObject) arr_mm_binary.get(j++)).get("value");
+					else
+						Memory_value2 = "0";
+					
+					if(arr_mm_binary.get(j)!=null)
+						Memory_value3 = (String)((JSONObject) arr_mm_binary.get(j++)).get("value");
+					else
+						Memory_value3 = "0";
+					
+					if(arr_mm_binary.get(j)!=null)
+						Memory_value4 = (String)((JSONObject) arr_mm_binary.get(j)).get("value");
+					else
+						Memory_value4 = "0";
+					
+					
+					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1), 
+							BDF.StringHexToLongDecimal(Memory_value2),
+							BDF.StringHexToLongDecimal(Memory_value3),
+							BDF.StringHexToLongDecimal(Memory_value4)));
+				}
+
+				mv.setData(tmp_data);
+				mv.show();
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	private void MemoryViewSetter(Composite parent, String memory_name){
+
+		mv = new BDMemoryView(parent.getShell(), memory_name, new IBDMemoryViewListener() {
+
+			@Override
+			public void onChangeData(long addr, long data) {
+				// TODO Auto-generated method stub
+				System.out.println(String.format("Addr.:%s, Data:%s", 
+						BDF.LongDecimalToStringHex(addr, 8),
+						BDF.LongDecimalToStringHex(data, 8)));
+			}
+
+			@Override
+			public void onDataLoad(BDMemoryView view, long startAddr, long size) {
+				// TODO Auto-generated method stub
+				System.out.println("startAddr.:"+BDF.LongDecimalToStringHex(startAddr, 8)+" size:"+size);
+			}
+		});
+		InitialMemorySetter();
+	}
+
+
 	private void AssemblySetter() {
 		// TODO Auto-generated method stub
 		try {
@@ -931,13 +1116,13 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void SymbolSetter_csv(){
 		try {
 			obj_sb = (JSONObject)parser.parse(SymbolTable);
 			jsonObject_sb = (JSONObject) obj_sb;	
 			arr_SymbolLine = (JSONArray) jsonObject_sb.get("SymbolTable");
-			
+
 			String function_name=null;
 			for (int i = 0; i < arr_SymbolLine.size(); i++) {
 				obj_sb_OneLine = (JSONObject) arr_SymbolLine.get(i);
@@ -949,13 +1134,13 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void SymbolSetter_swpv(){
 		try {
 			obj_sb = (JSONObject)parser.parse(SymbolTable);
 			jsonObject_sb = (JSONObject) obj_sb;	
 			arr_SymbolLine = (JSONArray) jsonObject_sb.get("SymbolTable");
-			
+
 			String function_name=null;
 			for (int i = 0; i < arr_SymbolLine.size(); i++) {
 				obj_sb_OneLine = (JSONObject) arr_SymbolLine.get(i);
@@ -967,7 +1152,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	private void ptSetter(Composite parent){
 		swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
@@ -985,14 +1170,14 @@ public class View_SimulationEnvironment extends ViewPart {
 			float selfDurPer=0;
 			for (int i = 0; i < arr_ptItem.size(); i++) {
 				obj_pt_OneItem = (JSONObject) arr_ptItem.get(i);
-				
+
 				index=Integer.parseInt((String) obj_pt_OneItem.get("function_index"));
 				call=Long.parseLong((String)obj_pt_OneItem.get("function_call"));
 				durCycle=Long.parseLong((String)obj_pt_OneItem.get("function_duration"));
 				durPer=Float.parseFloat((String)obj_pt_OneItem.get("function_duration_per"));
 				selfDurCycle=Long.parseLong((String)obj_pt_OneItem.get("function_selfduration"));
 				selfDurPer=Float.parseFloat((String)obj_pt_OneItem.get("function_selfduration_per"));
-				
+
 				swpv.updateData(index, call, durCycle,  durPer,  selfDurCycle,   selfDurPer);
 			}
 		} catch (ParseException e) {
@@ -1000,12 +1185,12 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void csvSetter(Composite parent) {
 		// TODO Auto-generated method stub
 		csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
 		SymbolSetter_csv();
-		
+
 		csv.show();
 		try {
 			obj_ffg = (JSONObject)parser.parse(FunctionFlowGragh);

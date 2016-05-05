@@ -54,13 +54,14 @@ public class Hanlder_CallBack {
 		VSE.SIM_Result(sim_result);
 	}
 	
+	//InitialMemory 
+	private void InitialMemoryViewCallBack(String init_memoryjson){
+		VSE.InitMemoryView = init_memoryjson;
+	}
+
 	//Memory View
 	private void MemoryViewCallBack(String memoryjson){
-		System.err.println(memoryjson);
-	}
-	//Memory View
-	private void InitialMemoryViewCallBack(String init_memoryjson){
-		System.err.println(init_memoryjson);
+		VSE.MemoryViewSet = memoryjson;
 	}
 	
 	//assembly view
