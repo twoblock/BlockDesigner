@@ -20,6 +20,7 @@
 // for converting string to return value
 #include <stdlib.h>
 #include <string.h>
+#include <string>
 
 // for converting return value to string
 #include <stdio.h>
@@ -60,6 +61,8 @@ namespace BDapi
 
 			virtual BDDIReturn BDDIGetMemoryAddressValue(unsigned int Address, unsigned int *Value) = 0;
 			virtual BDDIReturn BDDISetMemoryAddressValue(unsigned int Address, unsigned int Value) = 0;
+
+			virtual BDDIReturn BDDIGetMemoryView(unsigned int Address, std::string &OutValue) = 0;
 
 			virtual unsigned int BDDIGetMemoryBaseAddress() = 0;
 			virtual unsigned int BDDIGetMemoryAddressSize() = 0;

@@ -43,7 +43,7 @@ namespace BDapi
 		p_SoftwareDisplayer = p_SoftwareManager->GetSoftwareDisplayer();
 		SendBackJson(p_SoftwareDisplayer->GetJsonOfSourceCode(), "SourceCodeCallBack");
 
-		SendBackJson(p_SoftwareManager->GetInitialMemoryView(), "InitialMemoryViewCallBack");
+		//SendBackJson(p_SoftwareManager->GetInitialMemoryView(), "InitialMemoryViewCallBack");
 
 		return CallBackOK;
 	}
@@ -58,7 +58,7 @@ namespace BDapi
 		SendBackJson(p_SoftwareManager->GetPC(), "PCCallBack");
 
 		SendBackJson(p_BDDIJsonManager->GenerateBDDIJsonFile(), "ResultCallBack");
-		SendBackJson(p_BDDIJsonManager->GenerateMemoryViewJsonFile(), "MemoryViewCallBack");
+		//SendBackJson(p_BDDIJsonManager->GenerateMemoryViewJsonFile(), "MemoryViewCallBack");
 
 		
 		SendBackInt(STOP, "StatusCallBack");

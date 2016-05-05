@@ -957,16 +957,13 @@ public class View_SimulationEnvironment extends ViewPart {
 
 		MemoryViewSet=null;
 		Handler_Command.Command_Func(1, 1,memory_name ,"mem", "read", "0x00000000","NULL");
-		boolean datacheck=false;
+		boolean datacheck=true;
 		while(datacheck){
-			System.err.println("!!!!!!!!!!!!!! = in");
 			if(MemoryViewSet != null)
-				datacheck=true;
+				datacheck=false;
 		}
-		System.err.println("!!!!!!!!!!!!!! = out");
-		System.err.println("!!!!!!!!!!!!!! ="+MemoryViewSet);
 		
-		memory_name="a,b,c,d,a,b,c,d,a,b,c,d,a,b,c,d,a,b,c,d,a,b,c,d,a,b,c,d,a,b,c,d,a,b,c,d,a,b,c,d,a,b,c,d";
+		memory_name=MemoryViewSet;
 		
 		BDMemoryViewItemArray tmp_data = new BDMemoryViewItemArray();
 		tmp_data.baseAddr=BDF.StringHexToLongDecimal("0x00000000");

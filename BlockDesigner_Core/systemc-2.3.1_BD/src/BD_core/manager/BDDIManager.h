@@ -19,6 +19,7 @@
 
 // for Debugging BDDI
 #include <stdio.h>
+#include <string>
 
 /*
  * namespace	: BDapi 
@@ -27,6 +28,7 @@
  */
 namespace BDapi
 {
+	class CallBackManager;
 	/*
 	 * class		    : BDDIManager
 	 * design	      : Control BDDI Function
@@ -47,6 +49,10 @@ namespace BDapi
 			virtual ~BDDIManager();
 
 		private:
+			string MemoryViewValue;
+
+			CallBackManager *p_CallBackManager;
+
 		 	static BDDIManager *_BDDIManager;
 			// mutex for singleton pattern 
 			static pthread_mutex_t BDDIManagerInstanceMutex;   
