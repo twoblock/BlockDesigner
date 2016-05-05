@@ -260,7 +260,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Tracer();
-				
+
 				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
 				Btn_Control(1);
 				SetTableState(false);
@@ -694,8 +694,8 @@ public class View_SimulationEnvironment extends ViewPart {
 					@Override
 					public void widgetSelected(SelectionEvent arg0) {
 						// TODO Auto-generated method stub
-//						MemoryViewSetter(c_parent,Memory_name);
-						
+						//						MemoryViewSetter(c_parent,Memory_name);
+
 						MemoryViewOpen(c_parent,Memory_name);
 					}
 
@@ -804,7 +804,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		});
 	}
-	
+
 	public void Btn_Control(int state) {
 		/*
 		 * case state 
@@ -877,165 +877,94 @@ public class View_SimulationEnvironment extends ViewPart {
 		});
 	}
 
-	public void MemoryViewOpen(Composite parent, String memory_name){
-		
-		mv = new BDMemoryView(parent.getShell(), memory_name, new IBDMemoryViewListener() {
-			@Override
-			public void onChangeData(long addr, long data) {
-				// TODO Auto-generated method stub
-				System.out.println(String.format("Addr.:%s, Data:%s", 
-						BDF.LongDecimalToStringHex(addr, 8),
-						BDF.LongDecimalToStringHex(data, 8)));
-			}
+	public void MemoryViewSetter(String start_addr, BDMemoryViewItemArray tmp_data){
 
-			@Override
-			public void onDataLoad(BDMemoryView view, long startAddr, long size) {
-				// TODO Auto-generated method stub
-				System.out.println("startAddr.:"+BDF.LongDecimalToStringHex(startAddr, 8)+" size:"+size);
-			}
-		});
+		tmp_data.clear();
 
-		MemoryViewSet=null;
-		Handler_Command.Command_Func(1, 1,memory_name ,"mem", "read", "0x00000000","NULL");
 		boolean datacheck=true;
 		while(datacheck){
 			if(MemoryViewSet != null)
 				datacheck=false;
 		}
-		
-		memory_name=MemoryViewSet;
-		
-		BDMemoryViewItemArray tmp_data = new BDMemoryViewItemArray();
-		tmp_data.baseAddr=BDF.StringHexToLongDecimal("0x00000000");
-		String[] value = memory_name.split(",");
-		
+		String receive_data=MemoryViewSet;
+//		System.err.println("MemoryViewSet="+receive_data);
+
+		tmp_data.baseAddr=BDF.StringHexToLongDecimal(start_addr);
+		String[] value = receive_data.split(",");
+
 		String Memory_value1,Memory_value2,Memory_value3,Memory_value4=null;
 		for(int memory_index=0; memory_index< value.length; memory_index++){
-				Memory_value1 = value[memory_index++];
-				if(memory_index==value.length){
-					Memory_value2 = "0";
-					Memory_value3 = "0";
-					Memory_value4 = "0";
-					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
-							BDF.StringHexToLongDecimal(Memory_value2), 
-							BDF.StringHexToLongDecimal(Memory_value3), 
-							BDF.StringHexToLongDecimal(Memory_value4)));
-					break;
-				}
-				Memory_value2 = value[memory_index++];
-				if(memory_index==value.length){
-					Memory_value3 = "0";
-					Memory_value4 = "0";
-					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
-							BDF.StringHexToLongDecimal(Memory_value2), 
-							BDF.StringHexToLongDecimal(Memory_value3), 
-							BDF.StringHexToLongDecimal(Memory_value4)));
-					break;
-				}
-				Memory_value3 = value[memory_index++];
-				if(memory_index==value.length){
-					Memory_value4 = "0";
-					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
-							BDF.StringHexToLongDecimal(Memory_value2), 
-							BDF.StringHexToLongDecimal(Memory_value3), 
-							BDF.StringHexToLongDecimal(Memory_value4)));
-					break;
-				}
-				Memory_value4 = value[memory_index];
-			
+			Memory_value1 = value[memory_index++];
+			if(memory_index==value.length){
+				Memory_value2 = "0";
+				Memory_value3 = "0";
+				Memory_value4 = "0";
+				tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+						BDF.StringHexToLongDecimal(Memory_value2), 
+						BDF.StringHexToLongDecimal(Memory_value3), 
+						BDF.StringHexToLongDecimal(Memory_value4)));
+				break;
+			}
+			Memory_value2 = value[memory_index++];
+			if(memory_index==value.length){
+				Memory_value3 = "0";
+				Memory_value4 = "0";
+				tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+						BDF.StringHexToLongDecimal(Memory_value2), 
+						BDF.StringHexToLongDecimal(Memory_value3), 
+						BDF.StringHexToLongDecimal(Memory_value4)));
+				break;
+			}
+			Memory_value3 = value[memory_index++];
+			if(memory_index==value.length){
+				Memory_value4 = "0";
+				tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+						BDF.StringHexToLongDecimal(Memory_value2), 
+						BDF.StringHexToLongDecimal(Memory_value3), 
+						BDF.StringHexToLongDecimal(Memory_value4)));
+				break;
+			}
+			Memory_value4 = value[memory_index];
+
+
 			tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
 					BDF.StringHexToLongDecimal(Memory_value2), 
 					BDF.StringHexToLongDecimal(Memory_value3), 
 					BDF.StringHexToLongDecimal(Memory_value4)));
 		}
-		
-		mv.setData(tmp_data);
-		mv.show();
-	}
-	
-	
-	
-	
-	private void InitialMemorySetter(){
-		try {
-			obj_mv = (JSONObject)parser.parse(InitMemoryView);
-			jsonObject_mv = (JSONObject) obj_mv;	
-			arr_Memory = (JSONArray) jsonObject_mv.get("MemoryView");
 
-			for (int i = 0; i < arr_Memory.size(); i++) {
-				obj_select_Memory = (JSONObject) arr_Memory.get(i);
-				String Memory_Instance_Name = (String)obj_select_Memory.get("instance_name");
-				arr_mm_binary = (JSONArray) obj_select_Memory.get("binary_value");
-
-				BDMemoryViewItemArray tmp_data = new BDMemoryViewItemArray();
-				
-				String Memory_value1=null;
-				String Memory_value2=null;
-				String Memory_value3=null;
-				String Memory_value4=null;
-				for(int j=0; j+4<arr_mm_binary.size();j++){
-					
-					obj_binary_value=(JSONObject)arr_mm_binary.get(j);
-					if(j==0) {
-						tmp_data.baseAddr = BDF.StringHexToLongDecimal((String)obj_binary_value.get("address"));
-					}
-					
-					if(arr_mm_binary.get(j)!=null)
-						Memory_value1 = (String)((JSONObject) arr_mm_binary.get(j++)).get("value");
-					else
-						Memory_value1 = "0";
-						
-					if(arr_mm_binary.get(j)!=null)
-						Memory_value2 = (String)((JSONObject) arr_mm_binary.get(j++)).get("value");
-					else
-						Memory_value2 = "0";
-					
-					if(arr_mm_binary.get(j)!=null)
-						Memory_value3 = (String)((JSONObject) arr_mm_binary.get(j++)).get("value");
-					else
-						Memory_value3 = "0";
-					
-					if(arr_mm_binary.get(j)!=null)
-						Memory_value4 = (String)((JSONObject) arr_mm_binary.get(j)).get("value");
-					else
-						Memory_value4 = "0";
-					
-					
-					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1), 
-							BDF.StringHexToLongDecimal(Memory_value2),
-							BDF.StringHexToLongDecimal(Memory_value3),
-							BDF.StringHexToLongDecimal(Memory_value4)));
-				}
-
-				mv.setData(tmp_data);
-				mv.show();
-			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
-
-	private void MemoryViewSetter(Composite parent, String memory_name){
+	public void MemoryViewOpen(Composite parent, String memory_name){
+		BDMemoryViewItemArray tmp_data = new BDMemoryViewItemArray();
 
 		mv = new BDMemoryView(parent.getShell(), memory_name, new IBDMemoryViewListener() {
-
 			@Override
 			public void onChangeData(long addr, long data) {
 				// TODO Auto-generated method stub
-				System.out.println(String.format("Addr.:%s, Data:%s", 
-						BDF.LongDecimalToStringHex(addr, 8),
-						BDF.LongDecimalToStringHex(data, 8)));
+				MemoryViewSet=null;
+				Handler_Command.Command_Func(0, 2,memory_name ,"mem", "write", BDF.LongDecimalToStringHex(addr, 8),BDF.LongDecimalToStringHex(data, 8));
 			}
 
 			@Override
 			public void onDataLoad(BDMemoryView view, long startAddr, long size) {
 				// TODO Auto-generated method stub
-				System.out.println("startAddr.:"+BDF.LongDecimalToStringHex(startAddr, 8)+" size:"+size);
+
+				MemoryViewSet=null;
+				Handler_Command.Command_Func(1, 1,memory_name ,"mem", "read", BDF.LongDecimalToStringHex(startAddr, 8),"NULL");
+
+				MemoryViewSetter(BDF.LongDecimalToStringHex(startAddr, 8), tmp_data);
+				view.setData(tmp_data);
+				view.show();
 			}
 		});
-		InitialMemorySetter();
+
+		MemoryViewSet=null;
+		Handler_Command.Command_Func(1, 1,memory_name ,"mem", "read", "0x00000000","NULL");
+
+		MemoryViewSetter("0x00000000", tmp_data);
+		mv.setData(tmp_data);
+		mv.show();
 	}
 
 
@@ -1149,9 +1078,9 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private boolean TraceChecking=true;
-	
+
 	private void Tracer() {
 		// TODO Auto-generated method stub
 		/* --- Tracing Process ---START--- */
