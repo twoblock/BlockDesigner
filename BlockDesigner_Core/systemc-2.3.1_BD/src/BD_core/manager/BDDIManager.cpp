@@ -60,7 +60,11 @@ namespace BDapi
 			}
 		}
 		else if(strcmp(Command.Argu2, "mem") == 0)	{
-		
+			if(strcmp(Command.Argu3, "write") == 0)	{
+					unsigned int dw_Address = (unsigned int)strtoul(Command.Argu4, NULL, 16);
+					unsigned int dw_Value = (unsigned int)strtoul(Command.Argu5, NULL, 16);
+					p_Module->GetBDDI()->BDDISetMemoryAddressValue(dw_Address, dw_Value);
+			}
 		}
 		else if(strcmp(Command.Argu2, "assem") == 0)	{
 
