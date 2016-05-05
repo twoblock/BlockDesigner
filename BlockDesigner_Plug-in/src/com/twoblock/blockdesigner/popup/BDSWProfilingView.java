@@ -50,7 +50,15 @@ public class BDSWProfilingView {
 
 	public BDSWProfilingView(Shell shell, String compName) {
 //		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+		Shell[] shell_list = shell.getDisplay().getShells();
+		for(int i =0; i<shell_list.length; i++){
+			if(shell_list[i].getText().contains("Software Profiling View")){
+				shell_list[i].dispose();
+				break;
+			}
+		}
 		m_shell = new Shell(shell.getDisplay(), SWT.CLOSE);
+		
 
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/img_spt_64.png");
 		Image imgOpen = idOpen.createImage();
