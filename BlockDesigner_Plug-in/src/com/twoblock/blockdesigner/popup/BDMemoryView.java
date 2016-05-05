@@ -221,8 +221,6 @@ public class BDMemoryView {
 					@Override
 					public void keyPressed(KeyEvent e) {
 						// TODO Auto-generated method stub
-						System.out.println("keycode: "+e.keyCode);
-
 						if(e.keyCode == SWT.CR) {
 							disposeOldEditorAndUpdateData(editor);
 						}

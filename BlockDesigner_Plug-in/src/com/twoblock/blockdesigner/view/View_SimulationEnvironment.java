@@ -260,7 +260,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Tracer();
-				
+
 				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
 				Btn_Control(1);
 				SetTableState(false);
@@ -694,8 +694,8 @@ public class View_SimulationEnvironment extends ViewPart {
 					@Override
 					public void widgetSelected(SelectionEvent arg0) {
 						// TODO Auto-generated method stub
-//						MemoryViewSetter(c_parent,Memory_name);
-						
+						//						MemoryViewSetter(c_parent,Memory_name);
+
 						MemoryViewOpen(c_parent,Memory_name);
 					}
 
@@ -804,7 +804,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		});
 	}
-	
+
 	public void Btn_Control(int state) {
 		/*
 		 * case state 
@@ -876,89 +876,84 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		});
 	}
-	
+
 	public void MemoryViewSetter(String start_addr, BDMemoryViewItemArray tmp_data){
-		
+
 		tmp_data.clear();
-		
+
 		boolean datacheck=true;
 		while(datacheck){
 			if(MemoryViewSet != null)
 				datacheck=false;
 		}
 		String receive_data=MemoryViewSet;
-		
+//		System.err.println("MemoryViewSet="+receive_data);
+
 		tmp_data.baseAddr=BDF.StringHexToLongDecimal(start_addr);
 		String[] value = receive_data.split(",");
-		
+
 		String Memory_value1,Memory_value2,Memory_value3,Memory_value4=null;
 		for(int memory_index=0; memory_index< value.length; memory_index++){
-				Memory_value1 = value[memory_index++];
-				if(memory_index==value.length){
-					Memory_value2 = "0";
-					Memory_value3 = "0";
-					Memory_value4 = "0";
-					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
-							BDF.StringHexToLongDecimal(Memory_value2), 
-							BDF.StringHexToLongDecimal(Memory_value3), 
-							BDF.StringHexToLongDecimal(Memory_value4)));
-					break;
-				}
-				Memory_value2 = value[memory_index++];
-				if(memory_index==value.length){
-					Memory_value3 = "0";
-					Memory_value4 = "0";
-					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
-							BDF.StringHexToLongDecimal(Memory_value2), 
-							BDF.StringHexToLongDecimal(Memory_value3), 
-							BDF.StringHexToLongDecimal(Memory_value4)));
-					break;
-				}
-				Memory_value3 = value[memory_index++];
-				if(memory_index==value.length){
-					Memory_value4 = "0";
-					tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
-							BDF.StringHexToLongDecimal(Memory_value2), 
-							BDF.StringHexToLongDecimal(Memory_value3), 
-							BDF.StringHexToLongDecimal(Memory_value4)));
-					break;
-				}
-				Memory_value4 = value[memory_index];
-			
-				
+			Memory_value1 = value[memory_index++];
+			if(memory_index==value.length){
+				Memory_value2 = "0";
+				Memory_value3 = "0";
+				Memory_value4 = "0";
+				tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+						BDF.StringHexToLongDecimal(Memory_value2), 
+						BDF.StringHexToLongDecimal(Memory_value3), 
+						BDF.StringHexToLongDecimal(Memory_value4)));
+				break;
+			}
+			Memory_value2 = value[memory_index++];
+			if(memory_index==value.length){
+				Memory_value3 = "0";
+				Memory_value4 = "0";
+				tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+						BDF.StringHexToLongDecimal(Memory_value2), 
+						BDF.StringHexToLongDecimal(Memory_value3), 
+						BDF.StringHexToLongDecimal(Memory_value4)));
+				break;
+			}
+			Memory_value3 = value[memory_index++];
+			if(memory_index==value.length){
+				Memory_value4 = "0";
+				tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
+						BDF.StringHexToLongDecimal(Memory_value2), 
+						BDF.StringHexToLongDecimal(Memory_value3), 
+						BDF.StringHexToLongDecimal(Memory_value4)));
+				break;
+			}
+			Memory_value4 = value[memory_index];
+
+
 			tmp_data.add(new BDMemoryViewItem(BDF.StringHexToLongDecimal(Memory_value1),
 					BDF.StringHexToLongDecimal(Memory_value2), 
 					BDF.StringHexToLongDecimal(Memory_value3), 
 					BDF.StringHexToLongDecimal(Memory_value4)));
-			}
-		
+		}
+
 	}
-	
+
 	public void MemoryViewOpen(Composite parent, String memory_name){
 		BDMemoryViewItemArray tmp_data = new BDMemoryViewItemArray();
-		
+
 		mv = new BDMemoryView(parent.getShell(), memory_name, new IBDMemoryViewListener() {
 			@Override
 			public void onChangeData(long addr, long data) {
 				// TODO Auto-generated method stub
-				System.out.println(String.format("Addr.:%s, Data:%s", 
-						BDF.LongDecimalToStringHex(addr, 16),
-						BDF.LongDecimalToStringHex(data, 16)));
-				
 				MemoryViewSet=null;
-				Handler_Command.Command_Func(0, 2,memory_name ,"mem", "write", BDF.LongDecimalToStringHex(addr, 16),BDF.LongDecimalToStringHex(data, 16));
-				mv.setData(tmp_data);
+				Handler_Command.Command_Func(0, 2,memory_name ,"mem", "write", BDF.LongDecimalToStringHex(addr, 8),BDF.LongDecimalToStringHex(data, 8));
 			}
 
 			@Override
 			public void onDataLoad(BDMemoryView view, long startAddr, long size) {
 				// TODO Auto-generated method stub
-				System.out.println("startAddr.:"+BDF.LongDecimalToStringHex(startAddr, 8)+" size:"+size);
-				
+
 				MemoryViewSet=null;
-				Handler_Command.Command_Func(1, 1,memory_name ,"mem", "read", BDF.LongDecimalToStringHex(startAddr, 16),"NULL");
-				
-				MemoryViewSetter(BDF.LongDecimalToStringHex(startAddr, 16), tmp_data);
+				Handler_Command.Command_Func(1, 1,memory_name ,"mem", "read", BDF.LongDecimalToStringHex(startAddr, 8),"NULL");
+
+				MemoryViewSetter(BDF.LongDecimalToStringHex(startAddr, 8), tmp_data);
 				view.setData(tmp_data);
 				view.show();
 			}
@@ -966,12 +961,12 @@ public class View_SimulationEnvironment extends ViewPart {
 
 		MemoryViewSet=null;
 		Handler_Command.Command_Func(1, 1,memory_name ,"mem", "read", "0x00000000","NULL");
-		
+
 		MemoryViewSetter("0x00000000", tmp_data);
 		mv.setData(tmp_data);
 		mv.show();
 	}
-	
+
 
 	private void AssemblySetter() {
 		// TODO Auto-generated method stub
@@ -1083,9 +1078,9 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private boolean TraceChecking=true;
-	
+
 	private void Tracer() {
 		// TODO Auto-generated method stub
 		/* --- Tracing Process ---START--- */
