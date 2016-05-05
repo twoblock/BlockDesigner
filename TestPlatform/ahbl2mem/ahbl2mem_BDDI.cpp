@@ -160,6 +160,28 @@ BDDIReturn AHBL2MEM_BDDI::BDDISetMemoryAddressValue(unsigned int Address, unsign
 
 }
 
+BDDIReturn AHBL2MEM_BDDI::BDDIGetMemoryView(unsigned int Address, string &OutValue)
+{
+	if( (Address >= p_Target->base_addr) && (Address < (p_Target->base_addr + p_Target->addr_size)) )	{
+		UINT32 dw_ViewIndex = 0;
+		char a_Value[10];
+
+		UINT32 dw_TempAddr = ( (Address - p_Target->base_addr) >> 2) & 0x3FFFFFFF;
+
+		for(dw_ViewIndex=0; dw_ViewIndex<BDDI_MEMORYVIEW_SIZE; dw_ViewIndex++)	{
+			sprintf(a_Value, "%08x", p_Target->memory[dw_TempAddr]);
+
+			string s_Value(a_Value);
+
+			OutValue = OutValue + s_Value + ",";
+			dw_TempAddr++;
+		} 
+
+		return BDDIStatusOK;
+	}
+	else	return BDDIStatusError;
+}
+
 unsigned int AHBL2MEM_BDDI::BDDIGetMemoryBaseAddress()
 {
 	return p_Target->base_addr;
