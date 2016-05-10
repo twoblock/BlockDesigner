@@ -196,58 +196,7 @@ public class View_PlatformManager extends ViewPart {
 			
 			btn_Module_Add.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent e) {
-					final Shell dialog = new Shell(shell.getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-					dialog.setLayout(new FillLayout(SWT.HORIZONTAL));
-					dialog.setText("Please write instance name");
-
-					final Text txt_InstanceName = new Text(dialog, SWT.NONE);
-					txt_InstanceName.pack();
-					Button btn_OK = new Button(dialog, SWT.PUSH);
-					btn_OK.setText("OK");
-					btn_OK.pack();
-					btn_OK.addSelectionListener(new SelectionListener() {
-						@Override
-						public void widgetSelected(SelectionEvent arg0) {
-							// TODO Auto-generated method stub
-							Instance_Module_Name = txt_InstanceName.getText();
-							String Module_name=null;
-							if (list_All.getSelectionIndex() != -1) {
-								Module_name = list_All.getItem(list_All.getSelectionIndex());
-								AddModuleSelected(Module_name);
-							} else if (list_cpu.getSelectionIndex() != -1) {
-								Module_name = list_cpu.getItem(list_cpu.getSelectionIndex());
-								AddModuleSelected(Module_name);
-							} else if (list_bus.getSelectionIndex() != -1) {
-								Module_name = list_bus.getItem(list_bus.getSelectionIndex());
-								AddModuleSelected(Module_name);
-							} else if (list_mem.getSelectionIndex() != -1) {
-								Module_name = list_mem.getItem(list_mem.getSelectionIndex());
-								AddModuleSelected(Module_name);
-							} else if (list_other.getSelectionIndex() != -1) {
-								Module_name = list_other.getItem(list_other.getSelectionIndex());
-								AddModuleSelected(Module_name);
-							}
-							dialog.close();
-						}
-						
-						@Override
-						public void widgetDefaultSelected(SelectionEvent arg0) {
-							// TODO Auto-generated method stub
-						}
-						
-					});
-					
-					dialog.pack();
-					dialog.open();
-
-					// Move the dialog to the center of the top level shell.
-					Rectangle shellBounds = shell.getBounds();
-					Point dialogSize = dialog.getSize();
-
-					dialog.setLocation(shellBounds.x + (shellBounds.width - dialogSize.x) / 2,
-							shellBounds.y + (shellBounds.height - dialogSize.y) / 2);
-					dialog.setSize(300, 65);
-					
+					InstanceName_Dialog();
 				}
 
 				public void widgetDefaultSelected(SelectionEvent e) {
@@ -293,6 +242,23 @@ public class View_PlatformManager extends ViewPart {
 			tb_All.setText("All");
 			list_All = new List(tab_ModuleList, SWT.NONE);
 			tb_All.setControl(list_All);
+			list_All.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyReleased(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					if ((arg0.keyCode == SWT.ARROW_LEFT) | (arg0.keyCode == SWT.CR))
+						InstanceName_Dialog();
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
+			
 			list_All.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -707,7 +673,7 @@ public class View_PlatformManager extends ViewPart {
 
 					}
 				});
-				
+
 				// if you select DestPort, setting to DestModule(DestPort) object.
 				PortDataList.get(port_index).cmb_dPort.addSelectionListener(new SelectionListener() {
 					final int SelectedPort_Index=port_index;
@@ -765,11 +731,25 @@ public class View_PlatformManager extends ViewPart {
 						
 						
 						
+						
 						UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
 								.setText(DestModuleSet);
+						// SM SETTING
+						if(UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index >=0){
+							int ptr=UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index;
+							UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex+1).cmb_dPort.setEnabled(true);
+							for(int checker=SelectedPort_Index; checker < UsedModuleDataList.mList.get(finder).Port_List.size(); checker++){
+								if(UsedModuleDataList.mList.get(finder).Port_List.get(checker).SM_Index == ptr+1){
+									UsedModuleDataList.mList.get(finder).Port_List.get(checker).cmb_dPort.setEnabled(true);
+								}
+							}
+						}
+						// SM SETTING END
+						
 						Control[] ctr_DestModuleList = UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
 								.getParent().getChildren();
 						CCombo ctr_cmb_DestModule = (CCombo) ctr_DestModuleList[GetDestPortIndex * 3 - 5];
+						
 						ctr_cmb_DestModule.setText(PortDataList.get(SelectedPort_Index).Parent.module_instance_name);
 						
 						try {
@@ -783,7 +763,7 @@ public class View_PlatformManager extends ViewPart {
 						
 						
 						PastLinkedModule=ctr_cmb_DestModule;
-						PastLinkedModuleIndex=(GetDestPortIndex * 3 + 2);
+						PastLinkedModuleIndex=(GetDestPortIndex * 3 - 5);
 					}
 					
 					@Override
@@ -1143,4 +1123,92 @@ public class View_PlatformManager extends ViewPart {
 	public void setFocus() {
 	}
 	
+	public void InstanceName_Dialog(){
+		final Shell dialog = new Shell(shell.getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+		dialog.setLayout(new FillLayout(SWT.HORIZONTAL));
+		dialog.setText("Please write instance name");
+
+		final Text txt_InstanceName = new Text(dialog, SWT.NONE);
+		txt_InstanceName.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				if(arg0.keyCode == SWT.CR){
+					Instance_Module_Name = txt_InstanceName.getText();
+					String Module_name=null;
+					if (list_All.getSelectionIndex() != -1) {
+						Module_name = list_All.getItem(list_All.getSelectionIndex());
+						AddModuleSelected(Module_name);
+					} else if (list_cpu.getSelectionIndex() != -1) {
+						Module_name = list_cpu.getItem(list_cpu.getSelectionIndex());
+						AddModuleSelected(Module_name);
+					} else if (list_bus.getSelectionIndex() != -1) {
+						Module_name = list_bus.getItem(list_bus.getSelectionIndex());
+						AddModuleSelected(Module_name);
+					} else if (list_mem.getSelectionIndex() != -1) {
+						Module_name = list_mem.getItem(list_mem.getSelectionIndex());
+						AddModuleSelected(Module_name);
+					} else if (list_other.getSelectionIndex() != -1) {
+						Module_name = list_other.getItem(list_other.getSelectionIndex());
+						AddModuleSelected(Module_name);
+					}
+					dialog.close();
+				}
+					
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		txt_InstanceName.pack();
+		Button btn_OK = new Button(dialog, SWT.PUSH);
+		btn_OK.setText("OK");
+		btn_OK.pack();
+		btn_OK.addSelectionListener(new SelectionListener() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				Instance_Module_Name = txt_InstanceName.getText();
+				String Module_name=null;
+				if (list_All.getSelectionIndex() != -1) {
+					Module_name = list_All.getItem(list_All.getSelectionIndex());
+					AddModuleSelected(Module_name);
+				} else if (list_cpu.getSelectionIndex() != -1) {
+					Module_name = list_cpu.getItem(list_cpu.getSelectionIndex());
+					AddModuleSelected(Module_name);
+				} else if (list_bus.getSelectionIndex() != -1) {
+					Module_name = list_bus.getItem(list_bus.getSelectionIndex());
+					AddModuleSelected(Module_name);
+				} else if (list_mem.getSelectionIndex() != -1) {
+					Module_name = list_mem.getItem(list_mem.getSelectionIndex());
+					AddModuleSelected(Module_name);
+				} else if (list_other.getSelectionIndex() != -1) {
+					Module_name = list_other.getItem(list_other.getSelectionIndex());
+					AddModuleSelected(Module_name);
+				}
+				dialog.close();
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+			
+		});
+		
+		dialog.pack();
+		dialog.open();
+
+		// Move the dialog to the center of the top level shell.
+		Rectangle shellBounds = shell.getBounds();
+		Point dialogSize = dialog.getSize();
+
+		dialog.setLocation(shellBounds.x + (shellBounds.width - dialogSize.x) / 2,
+				shellBounds.y + (shellBounds.height - dialogSize.y) / 2);
+		dialog.setSize(300, 65);
+	}
 }
