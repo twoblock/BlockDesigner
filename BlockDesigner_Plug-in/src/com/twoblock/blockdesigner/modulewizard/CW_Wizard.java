@@ -785,40 +785,56 @@ class Step7_complete extends WizardPage {
 		m_w.obj_ModuleWizard.put("module_location", modulewizardinfo[1]);
 		m_w.obj_ModuleWizard.put("module_type", m_w.Module_Type);
 		int ptr_index=0;
-		for (int port_index=0; port_index< Integer.parseInt(modulewizardinfo[2]); port_index++) {
-			m_w.obj_Port = new JSONObject();
-			m_w.obj_Port.put("port_name",modulewizardinfo[port_index*3+3]);
-			m_w.obj_Port.put("sc_type",modulewizardinfo[port_index*3+4]);
-			m_w.obj_Port.put("data_type",modulewizardinfo[port_index*3+5]);
-			
-			m_w.arr_Port_List.add(port_index,m_w.obj_Port);
-			
-			ptr_index=port_index*3+5;
+		if(modulewizardinfo[2].equals("0")){
+			ptr_index=2;
 		}
+		else {
+			for (int port_index=0; port_index< Integer.parseInt(modulewizardinfo[2]); port_index++) {
+				m_w.obj_Port = new JSONObject();
+				m_w.obj_Port.put("port_name",modulewizardinfo[port_index*3+3]);
+				m_w.obj_Port.put("sc_type",modulewizardinfo[port_index*3+4]);
+				m_w.obj_Port.put("data_type",modulewizardinfo[port_index*3+5]);
+				
+				m_w.arr_Port_List.add(port_index,m_w.obj_Port);
+				
+				ptr_index=port_index*3+5;
+			}
+		}
+		
 		// port_index*3+5 = 11
-		int reg_ptr=ptr_index;
-		for(int reg_index=0; reg_index<Integer.parseInt(modulewizardinfo[reg_ptr+1]); reg_index++){
-			m_w.obj_Register = new JSONObject();
-			m_w.obj_Register.put("reg_name", modulewizardinfo[reg_index*4+reg_ptr+2]);
-			m_w.obj_Register.put("data_type", modulewizardinfo[reg_index*4+reg_ptr+3]);
-			m_w.obj_Register.put("value", modulewizardinfo[reg_index*4+reg_ptr+4]);
-			m_w.obj_Register.put("data_size", Integer.parseInt(modulewizardinfo[reg_index*4+reg_ptr+5]));
-			
-			m_w.arr_Register_List.add(reg_index, m_w.obj_Register);
-			ptr_index=reg_index*4+reg_ptr+5;
+		int reg_ptr = ptr_index;
+		if(modulewizardinfo[reg_ptr+1].equals("0")){
+			ptr_index++;
+		}
+		else{
+			for (int reg_index = 0; reg_index < Integer.parseInt(modulewizardinfo[reg_ptr + 1]); reg_index++) {
+				m_w.obj_Register = new JSONObject();
+				m_w.obj_Register.put("reg_name", modulewizardinfo[reg_index * 4 + reg_ptr + 2]);
+				m_w.obj_Register.put("data_type", modulewizardinfo[reg_index * 4 + reg_ptr + 3]);
+				m_w.obj_Register.put("value", modulewizardinfo[reg_index * 4 + reg_ptr + 4]);
+				m_w.obj_Register.put("data_size", Integer.parseInt(modulewizardinfo[reg_index * 4 + reg_ptr + 5]));
+
+				m_w.arr_Register_List.add(reg_index, m_w.obj_Register);
+				ptr_index = reg_index * 4 + reg_ptr + 5;
+			}
 		}
 //		reg_index*4+reg_ptr+5 =16
 		int par_ptr=ptr_index;
-		for(int par_index=0; par_index<Integer.parseInt(modulewizardinfo[par_ptr+1]); par_index++){
-			m_w.obj_Parameter = new JSONObject();
-			m_w.obj_Parameter.put("par_name", modulewizardinfo[par_index*4+par_ptr+2]);
-			m_w.obj_Parameter.put("data_type", modulewizardinfo[par_index*4+par_ptr+3]);
-			m_w.obj_Parameter.put("value", modulewizardinfo[par_index*4+par_ptr+4]);
-			m_w.obj_Parameter.put("data_size", Integer.parseInt(modulewizardinfo[par_index*4+par_ptr+5])); // "16"
-			m_w.arr_Parameter_List.add(par_index, m_w.obj_Parameter);
-//			m_w.arr_Parameter_List.add(m_w.obj_Parameter);
-			ptr_index=par_index*4+par_ptr+5;
+		if(modulewizardinfo[par_ptr+1].equals("0"))
+			ptr_index++;
+		else{
+			for(int par_index=0; par_index<Integer.parseInt(modulewizardinfo[par_ptr+1]); par_index++){
+				m_w.obj_Parameter = new JSONObject();
+				m_w.obj_Parameter.put("par_name", modulewizardinfo[par_index*4+par_ptr+2]);
+				m_w.obj_Parameter.put("data_type", modulewizardinfo[par_index*4+par_ptr+3]);
+				m_w.obj_Parameter.put("value", modulewizardinfo[par_index*4+par_ptr+4]);
+				m_w.obj_Parameter.put("data_size", Integer.parseInt(modulewizardinfo[par_index*4+par_ptr+5])); // "16"
+				m_w.arr_Parameter_List.add(par_index, m_w.obj_Parameter);
+//				m_w.arr_Parameter_List.add(m_w.obj_Parameter);
+				ptr_index=par_index*4+par_ptr+5;
+			}
 		}
+		
 //		ptr_index=par_index*4+par_ptr+5= 25
 		m_w.obj_ModuleWizard.put("process_name", modulewizardinfo[ptr_index+1]);
 		m_w.obj_ModuleWizard.put("process_type", modulewizardinfo[ptr_index+2]);

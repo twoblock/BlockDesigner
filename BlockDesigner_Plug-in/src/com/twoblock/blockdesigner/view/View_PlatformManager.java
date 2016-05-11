@@ -13,6 +13,8 @@ import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -112,6 +114,7 @@ public class View_PlatformManager extends ViewPart {
 	private int Selected_Index;
 	private int UsedModuleIndex;
 	private String Instance_Module_Name;
+	protected boolean mouseClickState;
 	public static Display display =null;
 	
 	public void createPartControl(Composite parent) {
@@ -650,8 +653,8 @@ public class View_PlatformManager extends ViewPart {
 												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
 									}
 								}
-								
 							}
+							mouseClickState=false;
 						}
 					}
 				});
@@ -673,7 +676,7 @@ public class View_PlatformManager extends ViewPart {
 
 					}
 				});
-
+				
 				// if you select DestPort, setting to DestModule(DestPort) object.
 				PortDataList.get(port_index).cmb_dPort.addSelectionListener(new SelectionListener() {
 					final int SelectedPort_Index=port_index;
@@ -681,89 +684,92 @@ public class View_PlatformManager extends ViewPart {
 
 					@Override
 					public void widgetSelected(SelectionEvent arg0) {
-						// TODO Auto-generated method stub
-						
-						// SM SETTING
-						if(PortDataList.get(SelectedPort_Index).SM_Index >=0){
-							int ptr=PortDataList.get(SelectedPort_Index).SM_Index;
-							PortDataList.get(SelectedPort_Index+1).cmb_dPort.setEnabled(true);
-							for(int finder=SelectedPort_Index; finder < PortDataList.size(); finder++){
-								if(PortDataList.get(finder).SM_Index == ptr+1){
-									PortDataList.get(finder).cmb_dPort.setEnabled(true);
+						System.err.println("selection="+mouseClickState);
+						if(mouseClickState==true){
+							// TODO Auto-generated method stub
+							// SM SETTING
+							if(PortDataList.get(SelectedPort_Index).SM_Index >=0){
+								int ptr=PortDataList.get(SelectedPort_Index).SM_Index;
+								PortDataList.get(SelectedPort_Index+1).cmb_dPort.setEnabled(true);
+								for(int finder=SelectedPort_Index; finder < PortDataList.size(); finder++){
+									if(PortDataList.get(finder).SM_Index == ptr+1){
+										PortDataList.get(finder).cmb_dPort.setEnabled(true);
+									}
 								}
 							}
-						}
-						// SM SETTING END
-						
-						
-						String Destmodule=cmb_DestModule.getText();
-						String module=null;
-						int finder=0;
-						for (finder = 0; finder < UsedModuleDataList.mList.size(); finder++) {
-							module = UsedModuleDataList.mList.get(finder).module_instance_name;
-							if (Destmodule.equals(module) == true)
-								break;
-						}
-						
-						String dport = UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).cmb_dPort.getText();
-						String [] getport=dport.split(">");
-						
-						int GetDestPortIndex=0;
-						for(GetDestPortIndex=0; GetDestPortIndex<UsedModuleDataList.mList.get(finder).Port_List.size(); GetDestPortIndex++){
-							if((UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).port_name).equals(getport[1]))
-								break;
-						}
-						Port SourcePort 	= PortDataList.get(SelectedPort_Index);
-						Port DestPort		= UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex);
-						
-						if(UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).Dest_Port != null){
-							UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).Dest_Port.cmb_dPort.setText("");
-						}
-						
-						
-						
-						UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).Dest_Port = SourcePort;
-						UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).Dest_Port= DestPort;
-						
-						String DestModuleSet =UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).sc_type+"<"
-												+UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).data_type+">"
-												+UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).port_name;
-						
-						
-						
-						
-						UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
-								.setText(DestModuleSet);
-						// SM SETTING
-						if(UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index >=0){
-							int ptr=UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index;
-							UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex+1).cmb_dPort.setEnabled(true);
-							for(int checker=SelectedPort_Index; checker < UsedModuleDataList.mList.get(finder).Port_List.size(); checker++){
-								if(UsedModuleDataList.mList.get(finder).Port_List.get(checker).SM_Index == ptr+1){
-									UsedModuleDataList.mList.get(finder).Port_List.get(checker).cmb_dPort.setEnabled(true);
+							// SM SETTING END
+							
+							
+							String Destmodule=cmb_DestModule.getText();
+							String module=null;
+							int finder=0;
+							for (finder = 0; finder < UsedModuleDataList.mList.size(); finder++) {
+								module = UsedModuleDataList.mList.get(finder).module_instance_name;
+								if (Destmodule.equals(module) == true)
+									break;
+							}
+							
+							String dport = UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).cmb_dPort.getText();
+							String [] getport=dport.split(">");
+							
+							int GetDestPortIndex=0;
+							for(GetDestPortIndex=0; GetDestPortIndex<UsedModuleDataList.mList.get(finder).Port_List.size(); GetDestPortIndex++){
+								if((UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).port_name).equals(getport[1]))
+									break;
+							}
+							Port SourcePort 	= PortDataList.get(SelectedPort_Index);
+							Port DestPort		= UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex);
+							
+							if(UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).Dest_Port != null){
+								UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).Dest_Port.cmb_dPort.setText("");
+							}
+							
+							
+							
+							UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).Dest_Port = SourcePort;
+							UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).Dest_Port= DestPort;
+							
+							String DestModuleSet =UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).sc_type+"<"
+													+UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).data_type+">"
+													+UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).port_name;
+							
+							
+							
+							
+							UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
+									.setText(DestModuleSet);
+							// SM SETTING
+							if(UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index >=0){
+								int ptr=UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index;
+								UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex+1).cmb_dPort.setEnabled(true);
+								for(int checker=SelectedPort_Index; checker < UsedModuleDataList.mList.get(finder).Port_List.size(); checker++){
+									if(UsedModuleDataList.mList.get(finder).Port_List.get(checker).SM_Index == ptr+1){
+										UsedModuleDataList.mList.get(finder).Port_List.get(checker).cmb_dPort.setEnabled(true);
+									}
 								}
 							}
+							// SM SETTING END
+							
+							Control[] ctr_DestModuleList = UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
+									.getParent().getChildren();
+							CCombo ctr_cmb_DestModule = (CCombo) ctr_DestModuleList[GetDestPortIndex * 3 - 5];
+							
+							ctr_cmb_DestModule.setText(PortDataList.get(SelectedPort_Index).Parent.module_instance_name);
+							
+							try {
+								Control[] ctr_TempModule = PastLinkedModule.getParent().getChildren();
+								CCombo ctr_cmb_TempPort = (CCombo)ctr_TempModule[PastLinkedModuleIndex];
+								if(ctr_cmb_TempPort.getText().equals("") | ctr_cmb_TempPort.getText().equals(null))
+									PastLinkedModule.setText("none");
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+							
+							
+							PastLinkedModule=ctr_cmb_DestModule;
+							PastLinkedModuleIndex=(GetDestPortIndex * 3 - 5);	
 						}
-						// SM SETTING END
-						
-						Control[] ctr_DestModuleList = UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
-								.getParent().getChildren();
-						CCombo ctr_cmb_DestModule = (CCombo) ctr_DestModuleList[GetDestPortIndex * 3 - 5];
-						
-						ctr_cmb_DestModule.setText(PortDataList.get(SelectedPort_Index).Parent.module_instance_name);
-						
-						try {
-							Control[] ctr_TempModule = PastLinkedModule.getParent().getChildren();
-							CCombo ctr_cmb_TempPort = (CCombo)ctr_TempModule[PastLinkedModuleIndex];
-							if(ctr_cmb_TempPort.getText().equals("") | ctr_cmb_TempPort.getText().equals(null))
-								PastLinkedModule.setText("none");
-						} catch (Exception e) {
-							// TODO: handle exception
-						}
-						
-						
-						PastLinkedModule=ctr_cmb_DestModule;
-						PastLinkedModuleIndex=(GetDestPortIndex * 3 - 5);
+						mouseClickState=true;
 					}
 					
 					@Override
