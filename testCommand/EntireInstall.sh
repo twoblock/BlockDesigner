@@ -17,6 +17,11 @@ cd $HOME/workspace/BlockDesigner/TestPlatform/sc_main/
 
 source systemc.csh
 
+cd $HOME/workspace/BlockDesigner/
+
+rm -vrf scv-2.0.0/
+tar xvfz scv-2.0.0.tgz
+
 cd $HOME/workspace/BlockDesigner/testCommand/
 
 source SCVInstall.sh
