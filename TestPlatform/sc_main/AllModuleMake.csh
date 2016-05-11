@@ -32,6 +32,11 @@ make clean
 make
 cd ..
 
+cd BDSTUB
+make clean
+make
+cd ..
+
 cd VCORTEXM0DS 
 make clean
 make

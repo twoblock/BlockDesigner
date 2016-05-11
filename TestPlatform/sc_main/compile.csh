@@ -4,8 +4,8 @@
 
 ./remove.csh
 
-g++ -g -I$SYSTEMC_INCLUDE -L$SYSTEMC_LIBDIR -c -o sc_main.o sc_main.cpp
-g++ -g -I$SYSTEMC_INCLUDE -L$SYSTEMC_LIBDIR sc_main.o -o VCM0DS -lsystemc
+g++ -g -I$SYSTEMC_INCLUDE -L$SYSTEMC_LIBDIR -I$SCV_INCLUDE -L$SCV_LIBDIR -c -o sc_main.o sc_main.cpp
+g++ -g -I$SYSTEMC_INCLUDE -L$SYSTEMC_LIBDIR -I$SCV_INCLUDE -L$SCV_LIBDIR sc_main.o -o VCM0DS -lsystemc -lscv
 
 echo //////////////////////////////////////////////////////////////
 echo // Software profiling test configuration complete.            
