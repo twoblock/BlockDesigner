@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.security.auth.login.AppConfigurationEntry;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -23,6 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
@@ -48,6 +51,7 @@ import com.twoblock.blockdesigner.popup.BDMemoryViewItemArray;
 import com.twoblock.blockdesigner.popup.BDSWCallStackView;
 import com.twoblock.blockdesigner.popup.BDSWProfilingView;
 import com.twoblock.blockdesigner.popup.IBDMemoryViewListener;
+import com.twoblock.blockdesigner.popup.SoftwareLoadingView;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -72,6 +76,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private static BDSWProfilingView swpv;
 	private static BDMemoryView mv;
 	private Image imgStep_n;
+	protected String coreList="";
 	public static String SourceCode;
 	public static String InitMemoryView;
 	public static String MemoryViewSet;
@@ -108,9 +113,9 @@ public class View_SimulationEnvironment extends ViewPart {
 				Hanlder_CallBack.CallBack_Func();
 				Handler_Command.Command_Func(0, 7, System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD", "", "",
 						"", "");
-				Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
-						System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", "", "",
-						"");
+//				Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
+//						System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", "", "",
+//						"");
 				try {
 					Thread.sleep(500);
 				} catch (Exception e) {
@@ -130,6 +135,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		parent.setLayout(new GridLayout(12, false));
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
 		Image imgOpen = idOpen.createImage();
+		ImageDescriptor idOpen_sw = ImageDescriptor.createFromFile(this.getClass(), "/images/open_sw_btn16.png");
+		Image imgOpen_sw = idOpen_sw.createImage();
 		ImageDescriptor idSave = ImageDescriptor.createFromFile(this.getClass(), "/images/save_btn.png");
 		Image imgSave = idSave.createImage();
 		ImageDescriptor idRun = ImageDescriptor.createFromFile(this.getClass(), "/images/run_btn16.png");
@@ -149,6 +156,10 @@ public class View_SimulationEnvironment extends ViewPart {
 		Button btnOpen = new Button(parent, SWT.NONE);
 		btnOpen.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		btnOpen.setImage(imgOpen);
+		
+		Button btnOpen_sw = new Button(parent, SWT.NONE);
+		btnOpen_sw.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
+		btnOpen_sw.setImage(imgOpen_sw);
 
 		Button btnSave = new Button(parent, SWT.NONE);
 		btnSave.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
@@ -187,13 +198,14 @@ public class View_SimulationEnvironment extends ViewPart {
 		lblCycles.setAlignment(SWT.CENTER);
 		lblCycles.setText("cycles");
 
-		Button btnFold = new Button(parent, SWT.NONE);
-		btnFold.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
-		btnFold.setText("All Fold");
 
 		Label lblOpen = new Label(parent, SWT.NONE);
 		lblOpen.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblOpen.setText("Open");
+		
+		Label lblOpen_sw = new Label(parent, SWT.NONE);
+		lblOpen_sw.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
+		lblOpen_sw.setText("S/W");
 
 		Label lblSave = new Label(parent, SWT.NONE);
 		lblSave.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
@@ -215,14 +227,31 @@ public class View_SimulationEnvironment extends ViewPart {
 		lblStep_n.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 2, 1));
 		lblStep_n.setText("n Step");
 
+		Label lblnull = new Label(parent, SWT.NONE);
+		lblnull.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
+		
+		Button btnFold = new Button(parent, SWT.NONE);
+		btnFold.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
+		btnFold.setText("All Fold");
+		
 		/* START--- Button Listener & Action --- */
 		btnOpen.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
+				coreList="";
 				Handler_Command.Command_Func(0, 1, "OPEN", "NULL", "NULL", "NULL", "NULL");
 				Handler_SimulationInitThread.SimInitThread_Func();
 			}
 		});
+		btnOpen_sw.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				SoftwareLoadingView swl = new SoftwareLoadingView(parent.getShell(), coreList);
+				swl.show();
+			}
+		});
+		
 		btnSave.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
@@ -332,20 +361,6 @@ public class View_SimulationEnvironment extends ViewPart {
 	private int par_index;
 	private int ModuleInfoIndex;
 	private int reg_index;
-
-	private JSONObject jsonObject_mv;
-	private JSONObject obj_mv;
-	private JSONArray arr_Memory;
-	private JSONObject obj_select_Memory;
-	private JSONArray arr_mm_binary;
-	private JSONObject obj_binary_value;
-
-	private JSONObject jsonObject_mvs;
-	private JSONObject obj_mvs;
-	private JSONArray arr_Memoryset;
-	private JSONObject obj_select_Memoryset;
-	private JSONArray arr_mm_binaryset;
-	private JSONObject obj_binary_valueset;
 
 	private JSONObject jsonObject_sc;
 	private JSONObject obj_sc;
@@ -679,6 +694,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				ImageDescriptor idItem1 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_core16.png");
 				Image imgItemIcon1 = idItem1.createImage();
 				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon1);
+				coreList=","+InstanceName;
 				break;
 			case "mem":
 				ImageDescriptor idItem2 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_memory16.png");
