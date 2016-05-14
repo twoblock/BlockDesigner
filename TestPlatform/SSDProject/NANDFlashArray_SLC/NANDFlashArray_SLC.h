@@ -72,38 +72,12 @@ SC_MODULE(NANDFlashArray_SLC){
 
 	BDDI *bddi;
 
-	// parameters
-	bool p_enableDbgMsg;
-
-	/////// for test of BDDI ///////
-	UINT8						hw_reg;
-	UINT16					w_reg;
-	UINT32					dw_reg;
-	UINT64					lw_reg;
-	bool						b_reg;
-	UINT32					h_reg;	// hex
-	float						f_reg;
-	double					df_reg;
-	char						a_reg[128];
-
-	char						hw_par;
-	short						w_par;
-	int							dw_par;
-	long long				lw_par;
-	bool						b_par;
-	UINT32					dw_paru;	// hex
-	float						f_par;
-	double					df_par;
-	char						a_par[128];
-
-
-
 	//////////////////// NAND FLASH ////////////////////
 	MemoryArray m_blocks[BLOCKS_PER_CHIP];
 	////////////////////////////////////////////////////
+
 	char temp_buffers[PAGE_SIZE];
 	int m_indexes[BLOCKS_PER_CHIP];
-
 
 	enum StateInfo {
 		IDLE = 0,
@@ -132,7 +106,7 @@ SC_MODULE(NANDFlashArray_SLC){
 	uint32_t p_ALE;
 	uint32_t p_CEn;
 	uint32_t p_CLE;
-	uint16_t p_RBn;
+	uint32_t p_RBn;
 	uint32_t p_REn;
 	uint32_t p_WEn;
 	uint32_t p_WPn;
@@ -160,6 +134,7 @@ SC_MODULE(NANDFlashArray_SLC){
 	//	uint32_t EBusy_DelayCycles;
 	//	uint32_t Copy_R_DelayCycles;
 	//	uint32_t Copy_W_DelayCycles;
+
 	enum BusyMode {
 		NOT_BUSY = 0,
 		BUSY_READ,
@@ -168,6 +143,7 @@ SC_MODULE(NANDFlashArray_SLC){
 		BUSY_CB_READ, //copy-back read
 		BUSY_CB_WRITE
 	};
+
 	uint32_t busy_mode;
 	uint32_t busy_delay;
 
@@ -178,7 +154,6 @@ SC_MODULE(NANDFlashArray_SLC){
 	uint16_t temp_reg;
 	int temp_page_n;
 	int temp_blk_n;
-	uint16_t r_C_AddrReg;
 	uint16_t check_signal;
 
 	bool b_RWaddr_first_state;
@@ -194,6 +169,7 @@ SC_MODULE(NANDFlashArray_SLC){
 	// Declare CADI Interface
 	uint16_t r_DataReg;
 	uint16_t r_CmdReg;
+	uint16_t r_C_AddrReg;
 	uint16_t r_P_AddrReg;
 	uint16_t r_B_AddrReg;
 	uint16_t r_StatusReg;
