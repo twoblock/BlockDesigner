@@ -1,34 +1,37 @@
 #include "NANDFlashArray_SLC_BDDI.h"
 #include "NANDFlashArray_SLC.h"
 
-BDDIRegInfo ast_ConsoleRegInfo[] = 
+BDDIRegInfo ast_NANDFlashArray_SLCRegInfo[] = 
 {
-	{"hw_reg", 8, BDDIRegTypeUINT},
-	{"w_reg", 16, BDDIRegTypeUINT},
-	{"dw_reg", 32, BDDIRegTypeUINT},
-	{"lw_reg", 64, BDDIRegTypeUINT},
-	{"b_reg", 8, BDDIRegTypeBOOL},
-	{"h_reg", 32, BDDIRegTypeHEX},
-	{"f_reg", 32, BDDIRegTypeFLOAT},
-	{"df_reg", 64, BDDIRegTypeFLOAT},
-	{"a_reg", 8, BDDIRegTypeSTRING}
+	{"r_DataReg", 16, BDDIRegTypeUINT},
+	{"r_CmdReg", 16, BDDIRegTypeUINT},
+	{"r_C_AddrReg", 16, BDDIRegTypeUINT},
+	{"r_P_AddrReg", 16, BDDIRegTypeUINT},
+	{"r_B_AddrReg", 16, BDDIRegTypeUINT},
+	{"r_StatusReg", 16, BDDIRegTypeUINT}
 };
 
-BDDIParInfo ast_ConsoleParInfo[] = 
+BDDIParInfo ast_NANDFlashArray_SLCParInfo[] = 
 {
-	{"hw_par", 8, BDDIParTypeINT, ""},
-	{"w_par", 16, BDDIParTypeINT, ""},
-	{"dw_par", 32, BDDIParTypeINT, ""},
-	{"lw_par", 64, BDDIParTypeINT, ""},
-	{"b_par", 8, BDDIParTypeBOOL, ""},
-	{"dw_paru", 32, BDDIParTypeUINT, ""},
-	{"f_par", 32, BDDIParTypeFLOAT, ""},
-	{"df_par", 64, BDDIParTypeFLOAT, ""},
-	{"a_par", 8, BDDIParTypeSTRING, ""}
+	{"p_ALE", 32, BDDIParTypeUINT, ""},
+	{"p_CEn", 32, BDDIParTypeUINT, ""},
+	{"p_CLE", 32, BDDIParTypeUINT, ""},
+	{"p_RBn", 32, BDDIParTypeUINT, ""},
+	{"p_REn", 32, BDDIParTypeUINT, ""},
+	{"p_WEn", 32, BDDIParTypeUINT, ""},
+	{"p_WPn", 32, BDDIParTypeUINT, ""},
+	{"p_tADL", 32, BDDIParTypeUINT, ""},
+	{"p_tBERS", 32, BDDIParTypeUINT, ""},
+	{"p_tPROG", 32, BDDIParTypeUINT, ""},
+	{"p_tR", 32, BDDIParTypeUINT, ""},
+	{"p_tRC", 32, BDDIParTypeUINT, ""},
+	{"p_tRR", 32, BDDIParTypeUINT, ""},
+	{"p_tWB", 32, BDDIParTypeUINT, ""},
+	{"p_tWC", 32, BDDIParTypeUINT, ""}
 };
 
-static const UINT32 dw_RegCnt = sizeof(ast_ConsoleRegInfo) / sizeof(ast_ConsoleRegInfo[0]);
-static const UINT32 dw_ParCnt = sizeof(ast_ConsoleParInfo) / sizeof(ast_ConsoleParInfo[0]);
+static const UINT32 dw_RegCnt = sizeof(ast_NANDFlashArray_SLCRegInfo) / sizeof(ast_NANDFlashArray_SLCRegInfo[0]);
+static const UINT32 dw_ParCnt = sizeof(ast_NANDFlashArray_SLCParInfo) / sizeof(ast_NANDFlashArray_SLCParInfo[0]);
 
 NANDFlashArray_SLC_BDDI::NANDFlashArray_SLC_BDDI(NANDFlashArray_SLC *c) : p_Target(c)
 {
@@ -39,15 +42,15 @@ NANDFlashArray_SLC_BDDI::NANDFlashArray_SLC_BDDI(NANDFlashArray_SLC *c) : p_Targ
 	pst_OutParInfo = new BDDIParInfo[dw_ParCnt];
 
 	for(dw_Index=0; dw_Index<dw_RegCnt; dw_Index++)	{
-		strcpy(pst_OutRegInfo[dw_Index].Name,					ast_ConsoleRegInfo[dw_Index].Name);
-		pst_OutRegInfo[dw_Index].Bitswide						= ast_ConsoleRegInfo[dw_Index].Bitswide;
-		pst_OutRegInfo[dw_Index].Type								= ast_ConsoleRegInfo[dw_Index].Type;
+		strcpy(pst_OutRegInfo[dw_Index].Name,					ast_NANDFlashArray_SLCRegInfo[dw_Index].Name);
+		pst_OutRegInfo[dw_Index].Bitswide						= ast_NANDFlashArray_SLCRegInfo[dw_Index].Bitswide;
+		pst_OutRegInfo[dw_Index].Type								= ast_NANDFlashArray_SLCRegInfo[dw_Index].Type;
 	}
 
 	for(dw_Index=0; dw_Index<dw_ParCnt; dw_Index++)	{
-		strcpy(pst_OutParInfo[dw_Index].Name,					ast_ConsoleParInfo[dw_Index].Name);
-		pst_OutParInfo[dw_Index].Bitswide						= ast_ConsoleParInfo[dw_Index].Bitswide;
-		pst_OutParInfo[dw_Index].Type								= ast_ConsoleParInfo[dw_Index].Type;
+		strcpy(pst_OutParInfo[dw_Index].Name,					ast_NANDFlashArray_SLCParInfo[dw_Index].Name);
+		pst_OutParInfo[dw_Index].Bitswide						= ast_NANDFlashArray_SLCParInfo[dw_Index].Bitswide;
+		pst_OutParInfo[dw_Index].Type								= ast_NANDFlashArray_SLCParInfo[dw_Index].Type;
 
 		BDDIGetParameterValues(dw_Index, a_Temp);
 
@@ -66,77 +69,49 @@ BDDIReturn NANDFlashArray_SLC_BDDI::BDDIGetRegisterValues(unsigned int RegIndex,
 {
 	BDDIRegValue st_Temp;
 
-	UINT8 hw_Temp;
 	UINT16 w_Temp;
-	UINT32 dw_Temp;
-	UINT64 lw_Temp;
-	bool b_Temp;
-	UINT32 h_Temp;
-	float f_Temp;
-	double df_Temp;
-	char a_Temp[128];
 
 	switch(RegIndex)
 	{
 		case 0:
-			hw_Temp = p_Target->hw_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &hw_Temp);
+			w_Temp = p_Target->r_DataReg;
+			BDDIPutInRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], &w_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 1:
-			w_Temp = p_Target->w_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &w_Temp);
+			w_Temp = p_Target->r_CmdReg;
+			BDDIPutInRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], &w_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 2:
-			dw_Temp = p_Target->dw_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &dw_Temp);
+			w_Temp = p_Target->r_C_AddrReg;
+			BDDIPutInRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], &w_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 3:
-			lw_Temp = p_Target->lw_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &lw_Temp);
+			w_Temp = p_Target->r_P_AddrReg;
+			BDDIPutInRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], &w_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 4:
-			b_Temp = p_Target->b_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &b_Temp);
+			w_Temp = p_Target->r_B_AddrReg;
+			BDDIPutInRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], &w_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 5:
-			h_Temp = p_Target->h_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &h_Temp);
+			w_Temp = p_Target->r_StatusReg;
+			BDDIPutInRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], &w_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 6:
-			f_Temp = p_Target->f_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &f_Temp);
-			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 7:
-			df_Temp = p_Target->df_reg;
-			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &df_Temp);
-			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
-
-			break;
-
-		case 8:
-			strcpy(a_Temp, p_Target->a_reg);
-			strcpy(OutValue, a_Temp);
 
 			break;
 
@@ -152,77 +127,49 @@ BDDIReturn NANDFlashArray_SLC_BDDI::BDDISetRegisterValues(unsigned int RegIndex,
 {
 	BDDIRegValue st_Temp;
 
-	UINT8 hw_Temp;
 	UINT16 w_Temp;
-	UINT32 dw_Temp;
-	UINT64 lw_Temp;
-	bool b_Temp;
-	UINT32 h_Temp;
-	float f_Temp;
-	double df_Temp;
-	char a_Temp[128];
 
 	switch(RegIndex)
 	{
 		case 0:
-			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &hw_Temp);
-			p_Target->hw_reg = hw_Temp;
+			BDDIConvertStringToRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], SetValue);
+			BDDIExtractRegisterValue(&st_Temp, &w_Temp);
+			p_Target->r_DataReg = w_Temp;
 
 			break;
 
 		case 1:
-			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
+			BDDIConvertStringToRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], SetValue);
 			BDDIExtractRegisterValue(&st_Temp, &w_Temp);
-			p_Target->w_reg = w_Temp;
+			p_Target->r_CmdReg = w_Temp;
 
 			break;
 
 		case 2:
-			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &dw_Temp);
-			p_Target->dw_reg = dw_Temp;
+			BDDIConvertStringToRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], SetValue);
+			BDDIExtractRegisterValue(&st_Temp, &w_Temp);
+			p_Target->r_C_AddrReg = w_Temp;
 
 			break;
 
 		case 3:
-			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &lw_Temp);
-			p_Target->lw_reg = lw_Temp;
+			BDDIConvertStringToRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], SetValue);
+			BDDIExtractRegisterValue(&st_Temp, &w_Temp);
+			p_Target->r_P_AddrReg = w_Temp;
 
 			break;
 
 		case 4:
-			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &b_Temp);
-			p_Target->b_reg = b_Temp;
+			BDDIConvertStringToRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], SetValue);
+			BDDIExtractRegisterValue(&st_Temp, &w_Temp);
+			p_Target->r_B_AddrReg = w_Temp;
 
 			break;
 
 		case 5:
-			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &h_Temp);
-			p_Target->h_reg = h_Temp;
-
-			break;
-
-		case 6:
-			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &f_Temp);
-			p_Target->f_reg = f_Temp;
-
-			break;
-
-		case 7:
-			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
-			BDDIExtractRegisterValue(&st_Temp, &df_Temp);
-			p_Target->df_reg = df_Temp;
-
-			break;
-
-		case 8:
-			strcpy(a_Temp, SetValue);
-			strcpy(p_Target->a_reg, a_Temp);
+			BDDIConvertStringToRegisterValue(&st_Temp, &ast_NANDFlashArray_SLCRegInfo[RegIndex], SetValue);
+			BDDIExtractRegisterValue(&st_Temp, &w_Temp);
+			p_Target->r_StatusReg = w_Temp;
 
 			break;
 
@@ -238,77 +185,112 @@ BDDIReturn NANDFlashArray_SLC_BDDI::BDDIGetParameterValues(unsigned int ParIndex
 {
 	BDDIParValue st_Temp;
 
-	char hw_Temp;
-	short w_Temp;
-	int dw_Temp;
-	long long lw_Temp;
-	bool b_Temp;
 	UINT32 dw_TempU;
-	float f_Temp;
-	double df_Temp;
-	char a_Temp[128];
 
 	switch(ParIndex)
 	{
 		case 0:
-			hw_Temp = p_Target->hw_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &hw_Temp);
+			dw_TempU = p_Target->p_ALE;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 1:
-			w_Temp = p_Target->w_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &w_Temp);
+			dw_TempU = p_Target->p_CEn;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 2:
-			dw_Temp = p_Target->dw_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &dw_Temp);
+			dw_TempU = p_Target->p_CLE;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 3:
-			lw_Temp = p_Target->lw_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &lw_Temp);
+			dw_TempU = p_Target->p_RBn;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 4:
-			b_Temp = p_Target->b_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &b_Temp);
+			dw_TempU = p_Target->p_REn;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 5:
-			dw_TempU = p_Target->dw_paru;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &dw_TempU);
+			dw_TempU = p_Target->p_WEn;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 6:
-			f_Temp = p_Target->f_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &f_Temp);
+			dw_TempU = p_Target->p_WPn;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 7:
-			df_Temp = p_Target->df_par;
-			BDDIPutInParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], &df_Temp);
+			dw_TempU = p_Target->p_tADL;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
 			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
 		case 8:
-			strcpy(a_Temp, p_Target->a_par);
-			strcpy(OutValue, a_Temp);
+			dw_TempU = p_Target->p_tBERS;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
+			BDDIConvertParameterValueToString(&st_Temp, OutValue);
+
+			break;
+
+		case 9:
+			dw_TempU = p_Target->p_tPROG;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
+			BDDIConvertParameterValueToString(&st_Temp, OutValue);
+
+			break;
+
+		case 10:
+			dw_TempU = p_Target->p_tR;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
+			BDDIConvertParameterValueToString(&st_Temp, OutValue);
+
+			break;
+
+		case 11:
+			dw_TempU = p_Target->p_tRC;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
+			BDDIConvertParameterValueToString(&st_Temp, OutValue);
+
+			break;
+
+		case 12:
+			dw_TempU = p_Target->p_tRR;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
+			BDDIConvertParameterValueToString(&st_Temp, OutValue);
+
+			break;
+
+		case 13:
+			dw_TempU = p_Target->p_tWB;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
+			BDDIConvertParameterValueToString(&st_Temp, OutValue);
+
+			break;
+
+		case 14:
+			dw_TempU = p_Target->p_tWC;
+			BDDIPutInParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], &dw_TempU);
+			BDDIConvertParameterValueToString(&st_Temp, OutValue);
 
 			break;
 
@@ -324,77 +306,112 @@ BDDIReturn NANDFlashArray_SLC_BDDI::BDDISetParameterValues(unsigned int ParIndex
 {
 	BDDIParValue st_Temp;
 
-	UINT8 hw_Temp;
-	UINT16 w_Temp;
-	UINT32 dw_Temp;
-	UINT64 lw_Temp;
-	bool b_Temp;
 	UINT32 dw_TempU;
-	float f_Temp;
-	double df_Temp;
-	char a_Temp[128];
 
 	switch(ParIndex)
 	{
 		case 0:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &hw_Temp);
-			p_Target->hw_par = hw_Temp;
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_ALE = dw_TempU;
 
 			break;
 
 		case 1:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &w_Temp);
-			p_Target->w_par = w_Temp;
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_CEn = dw_TempU;
 
 			break;
 
 		case 2:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &dw_Temp);
-			p_Target->dw_par = dw_Temp;
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_CLE = dw_TempU;
 
 			break;
 
 		case 3:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &lw_Temp);
-			p_Target->lw_par = lw_Temp;
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_RBn = dw_TempU;
 
 			break;
 
 		case 4:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &b_Temp);
-			p_Target->b_par = b_Temp;
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_REn = dw_TempU;
 
 			break;
 
 		case 5:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
 			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
-			p_Target->dw_paru = dw_TempU;
+			p_Target->p_WEn = dw_TempU;
 
 			break;
 
 		case 6:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &f_Temp);
-			p_Target->f_par = f_Temp;
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_WPn = dw_TempU;
 
 			break;
 
 		case 7:
-			BDDIConvertStringToParameterValue(&st_Temp, &ast_ConsoleParInfo[ParIndex], SetValue);
-			BDDIExtractParameterValue(&st_Temp, &df_Temp);
-			p_Target->df_par = df_Temp;
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_tADL = dw_TempU;
 
 			break;
 
 		case 8:
-			strcpy(a_Temp, SetValue);
-			strcpy(p_Target->a_par, a_Temp);
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_tBERS = dw_TempU;
+
+			break;
+
+		case 9:
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_tPROG = dw_TempU;
+
+			break;
+
+		case 10:
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_tR = dw_TempU;
+
+			break;
+
+		case 11:
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_tRC = dw_TempU;
+
+			break;
+
+		case 12:
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_tRR = dw_TempU;
+
+			break;
+
+		case 13:
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_tWB = dw_TempU;
+
+			break;
+
+		case 14:
+			BDDIConvertStringToParameterValue(&st_Temp, &ast_NANDFlashArray_SLCParInfo[ParIndex], SetValue);
+			BDDIExtractParameterValue(&st_Temp, &dw_TempU);
+			p_Target->p_tWC = dw_TempU;
 
 			break;
 

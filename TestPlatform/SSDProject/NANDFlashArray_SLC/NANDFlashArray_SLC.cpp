@@ -300,10 +300,6 @@ void NANDFlashArray_SLC::communicate()
 			if(temp_signal == D_IN)
 			{
 				temp_data = r_DataReg;
-				/*	if(p_enableDbgMsg) {
-						message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Din] Block: %d, Page: %d, Index: %d, Data 0x%x\n", temp_blk_n, temp_page_n, m_indexes[temp_blk_n], temp_data);
-						}
-						*/
 				unsigned char temp_byte = 0;
 				temp_byte = temp_data & 0x00FF;
 				temp_buffers[m_indexes[temp_blk_n]] = temp_byte;
@@ -323,10 +319,6 @@ void NANDFlashArray_SLC::communicate()
 				m_indexes[temp_blk_n]++;
 
 				D_out_SMaster = temp_data;
-				/*		if(p_enableDbgMsg) {
-							message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Dout] Block: %d, Page: %d, Index: %d, Data 0x%x\n", temp_blk_n, temp_page_n, m_indexes[temp_blk_n]-2, temp_data);
-							}
-							*/
 			}
 
 			break;
@@ -392,7 +384,6 @@ void NANDFlashArray_SLC::MyInit()
 	temp_reg = DEBUG_VALUE;
 	temp_page_n = DEBUG_VALUE;
 	temp_blk_n = DEBUG_VALUE;
-	r_C_AddrReg = 0;
 	////////////////////////////////
 }
 
@@ -421,6 +412,7 @@ void NANDFlashArray_SLC::BDInit()
 
 	r_DataReg = 0;
 	r_CmdReg = 0;
+	r_C_AddrReg = 0;
 	r_P_AddrReg = 0;
 	r_B_AddrReg = 0;
 	r_StatusReg = 0;
