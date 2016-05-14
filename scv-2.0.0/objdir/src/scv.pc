@@ -24,9 +24,9 @@
 #
 # -------------------------------------------------------------------------
 #
-prefix=/home/harold/workspace/Install/scv200
+prefix=/home/lucas/workspace/Install/scv200
 exec_prefix=${prefix}
-libdir=/home/harold/workspace/Install/scv200/lib-linux64
+libdir=/home/lucas/workspace/Install/scv200/lib-linux64
 includedir=${prefix}/include
 
 Name: SCV

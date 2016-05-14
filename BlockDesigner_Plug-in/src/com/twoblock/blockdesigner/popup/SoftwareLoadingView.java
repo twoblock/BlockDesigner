@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import com.twoblock.blockdesigner.command.Handler_Command;
+import com.twoblock.blockdesigner.view.View_SimulationEnvironment;
 
 public class SoftwareLoadingView {
 
@@ -70,8 +71,10 @@ public class SoftwareLoadingView {
 				FileDialog file_dlg = new FileDialog(m_shell.getShell() , SWT.OPEN);
 				
 				file_dlg.setText("Software Loading");
-				String[] filterExt={"*.elf"};
+				String[] filterExt={"*.[e|a][l|x]f"};
+				String[] filterName={"*.elf , *.axf "};
 				file_dlg.setFilterExtensions(filterExt);
+				file_dlg.setFilterNames(filterName);
 				file_dlg.setFilterPath(System.getProperty("user.home"));
 				
 				Module_Location = file_dlg.open();
@@ -97,6 +100,7 @@ public class SoftwareLoadingView {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
+				View_SimulationEnvironment.SWLoadCheck=true;
 				Handler_Command.Command_Func(0, 0, Selected_core , Module_Location, "", "","");
 				m_shell.close();
 			}
