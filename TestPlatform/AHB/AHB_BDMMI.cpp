@@ -24,9 +24,15 @@ void AHB_BDMMI::SetMemoryMap()
 	unsigned int Index = 0;
 
 	for(Index = 0; Index < SlaveNumber; Index++){
-		p_Target->U_AHB_Lite->BD_AHBDCD->BASE_ADDR[Index] = BDMMIMemoryMap[Index].StartAddress;
+		if(BDMMIMemoryMap[Index].Size == 0)
+			p_Target->U_AHB_Lite->BD_AHBDCD->BASE_ADDR[Index] = 0xffffffff;
+    else
+			p_Target->U_AHB_Lite->BD_AHBDCD->BASE_ADDR[Index] = BDMMIMemoryMap[Index].StartAddress;
 	}
 	for(Index = 0; Index < SlaveNumber; Index++){
+		if(BDMMIMemoryMap[Index].Size == 0)
+		p_Target->U_AHB_Lite->BD_AHBDCD->END_ADDR[Index] = 0x0; 
+    else
 		p_Target->U_AHB_Lite->BD_AHBDCD->END_ADDR[Index] = BDMMIMemoryMap[Index].StartAddress + BDMMIMemoryMap[Index].Size - 1;
 	}
 }
