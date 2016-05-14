@@ -4,8 +4,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.security.auth.login.AppConfigurationEntry;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -41,7 +39,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.twoblock.blockdesigner.command.Handler_Command;
-import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
 import com.twoblock.blockdesigner.command.Hanlder_CallBack;
 import com.twoblock.blockdesigner.popup.BDDisassembleView;
 import com.twoblock.blockdesigner.popup.BDF;
@@ -77,6 +74,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private static BDMemoryView mv;
 	private Image imgStep_n;
 	protected String coreList="";
+	protected String BDPMD_Location;
 	public static String SourceCode;
 	public static String InitMemoryView;
 	public static String MemoryViewSet;
@@ -84,12 +82,15 @@ public class View_SimulationEnvironment extends ViewPart {
 	public static String PCCode;
 	public static String FunctionFlowGragh;
 	public static String ProfilingTable;
+	private static Button btnOpen_sw;
+	private static Button btnSave;
 	private static Button btnRun;
 	private static Button btnStop;
 	private static Button btnStep;
 	private static Button btnStep_n;
 	private static Label lblCyclesCnt;
 	public static Display display = null;
+	public static boolean SWLoadCheck = false;
 
 	private void setViewState(int state) {
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -111,27 +112,22 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void run() {
 				// TODO Auto-generated method stub
 				Hanlder_CallBack.CallBack_Func();
-				Handler_Command.Command_Func(0, 7, System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD", "", "",
-						"", "");
+				Btn_Control(0);
+				
+//				Handler_Command.Command_Func(0, 7, System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD",
+//						"", "", "", "");
 //				Handler_Command.Command_Func(0, 0, "BD_CORTEXM0DS",
-//						System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", "", "",
-//						"");
+//						System.getProperty("user.home") + "/workspace/BlockDesigner/TestPlatform/sc_main/CM0DS.elf", "",
+//						"", "");
+
 				try {
 					Thread.sleep(500);
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				//				dv = new BDDisassembleView(parent.getShell(), "CORE");
-				//				csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
-				//				swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
-
-				//				AssemblySetter();
-				//				SymbolSetter();
 			}
 		});
 
-		// Handler_Command.Command_Func(0, 2,
-		// "BD_SRAM","par","write","0","0x20000000");
 		parent.setLayout(new GridLayout(12, false));
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
 		Image imgOpen = idOpen.createImage();
@@ -147,21 +143,16 @@ public class View_SimulationEnvironment extends ViewPart {
 		Image imgStep = idStep.createImage();
 		ImageDescriptor idStep_n = ImageDescriptor.createFromFile(this.getClass(), "/images/step_n_btn16.png");
 		imgStep_n = idStep_n.createImage();
-		// Image imgSave = new Image(null, "images/save_btn.png");
-		// Image imgRun = new Image(null, "images/run_btn.png");
-		// Image imgStop = new Image(null, "images/stop_btn.png");
-		// Image imgStep = new Image(null, "images/step_btn.png");
-		// Image imgStep_n = new Image(null, "images/step_n_btn.png");
 
 		Button btnOpen = new Button(parent, SWT.NONE);
 		btnOpen.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		btnOpen.setImage(imgOpen);
 		
-		Button btnOpen_sw = new Button(parent, SWT.NONE);
+		btnOpen_sw = new Button(parent, SWT.NONE);
 		btnOpen_sw.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		btnOpen_sw.setImage(imgOpen_sw);
 
-		Button btnSave = new Button(parent, SWT.NONE);
+		btnSave = new Button(parent, SWT.NONE);
 		btnSave.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		btnSave.setImage(imgSave);
 
@@ -234,13 +225,41 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnFold.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
 		btnFold.setText("All Fold");
 		
+		/* --- Button Listener & Action ---END */
+		Composite composite = new Composite(parent, SWT.BORDER);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 12, 1));
+		composite.setLayout(new FillLayout(SWT.VERTICAL));
+
+		
 		/* START--- Button Listener & Action --- */
 		btnOpen.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				coreList="";
+				
+				btnOpen.addSelectionListener(new SelectionAdapter() {
+					@Override
+					public void widgetSelected(SelectionEvent arg0) {
+						// TODO Auto-generated method stub
+						FileDialog file_dlg = new FileDialog(parent.getShell() , SWT.OPEN);
+						
+						file_dlg.setText("BDPMD Loading");
+						String[] filterExt={"*.BDPMD"};
+						file_dlg.setFilterExtensions(filterExt);
+						file_dlg.setFilterPath(System.getProperty("user.home"));
+						
+						BDPMD_Location = file_dlg.open();
+						
+						if (BDPMD_Location != null) {
+							// File directory = new File(saveTarget);
+							BDPMD_Location = BDPMD_Location.replace("\\", "/");
+							Handler_Command.Command_Func(0, 7, BDPMD_Location, "", "","", "");
+							ChannelInfoSet(composite);
+						}
+					}
+				});
+				
 				Handler_Command.Command_Func(0, 1, "OPEN", "NULL", "NULL", "NULL", "NULL");
-				Handler_SimulationInitThread.SimInitThread_Func();
 			}
 		});
 		btnOpen_sw.addSelectionListener(new SelectionAdapter() {
@@ -249,6 +268,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				// TODO Auto-generated method stub
 				SoftwareLoadingView swl = new SoftwareLoadingView(parent.getShell(), coreList);
 				swl.show();
+				Btn_Control(3);
 			}
 		});
 		
@@ -265,7 +285,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				Tracer();
 
 				Handler_Command.Command_Func(0, 1, "RUN", "NULL", "NULL", "NULL", "NULL");
-				Btn_Control(1);
+				Btn_Control(2);
 				SetTableState(false);
 			}
 		});
@@ -291,7 +311,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				Tracer();
 
 				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
-				Btn_Control(1);
+				Btn_Control(2);
 				SetTableState(false);
 			}
 		});
@@ -304,19 +324,6 @@ public class View_SimulationEnvironment extends ViewPart {
 				}
 			}
 		});
-
-		/* --- Button Listener & Action ---END */
-
-		// Canvas canvas = new Canvas(parent, SWT.NONE);
-		// canvas.setBackground(canvas.getDisplay().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
-		// canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 11,
-		// 1));
-		//
-		Composite composite = new Composite(parent, SWT.BORDER);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 12, 1));
-		composite.setLayout(new FillLayout(SWT.VERTICAL));
-
-		ChannelInfoSet(composite);
 	}
 
 	private Device device = Display.getCurrent();
@@ -386,8 +393,11 @@ public class View_SimulationEnvironment extends ViewPart {
 	private String InstanceName;
 
 	protected void ChannelInfoSet(final Composite composite) {
+		Btn_Control(1);
 		try {
-			obj = parser.parse(new FileReader(System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD"));
+			obj = parser.parse(new FileReader(BDPMD_Location));
+			System.err.println("Call ChannelInfoSet");
+//			obj = parser.parse(new FileReader(System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD"));
 			jsonObject = (JSONObject) obj;
 			obj_BDPMD = (JSONObject) jsonObject.get("BDPMD");
 
@@ -734,6 +744,8 @@ public class View_SimulationEnvironment extends ViewPart {
 				break;
 			}
 		}
+		composite.pack();
+		
 	}
 
 	public static String padRight(String s, int n) {
@@ -773,6 +785,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	protected static Table tb_reg;
 	protected static Control[] Ctrol_reg_arg;
 
+	
 	public void SIM_Result(String sim_result) {
 		display.asyncExec(new Runnable() {
 
@@ -821,6 +834,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		});
 	}
 
+	
+	
 	public void Btn_Control(int state) {
 		/*
 		 * case state 
@@ -835,7 +850,26 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void run() {
 				// TODO Auto-generated method stub
 				switch (state) {
+				case 0: // initial
+					System.err.println("SE Open");
+					btnOpen_sw.setEnabled(false);
+					btnSave.setEnabled(false);
+					btnStop.setEnabled(false);
+					btnStep.setEnabled(false);
+					btnStep_n.setEnabled(false);
+					btnRun.setEnabled(false);
+					break;
 				case 1:
+					System.err.println("BDPMD Open");
+					btnOpen_sw.setEnabled(true);
+					btnSave.setEnabled(false);
+					btnStop.setEnabled(false);
+					btnStep.setEnabled(false);
+					btnStep_n.setEnabled(false);
+					btnRun.setEnabled(false);
+					SetTableState(true);
+					break;
+				case 2: 
 					System.err.println("RUN");
 					btnStop.setEnabled(true);
 					btnStep.setEnabled(false);

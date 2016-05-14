@@ -120,7 +120,7 @@ public class BDDisassembleView {
 		directCol.setWidth(50);
 		TableColumn addrCol = new TableColumn(m_table, SWT.LEFT);
 		addrCol.setText("Address");
-		addrCol.setWidth(100);
+		addrCol.setWidth(120);
 		TableColumn codeCol = new TableColumn(m_table, SWT.LEFT);
 		codeCol.setText("Disassemble");
 		codeCol.setWidth(550);
