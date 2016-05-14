@@ -5,6 +5,12 @@
 #include "LITETOAHB_BDDI.h"
 #include "LITETOAHB_BDMMI.h"
 
+#define IDLE 0
+#define REQ  1
+#define GRANTED 2
+#define LASTADDRESS 3
+#define LASTDATA 4
+
 SC_MODULE(LITETOAHB)	{
 
 	// Global Clock & Resetn
@@ -16,6 +22,11 @@ SC_MODULE(LITETOAHB)	{
 	// AHB Interface
 	BD_AHBPort_MM *AHBMaster_M0;
 
+	sc_signal<unsigned int> state;
+	unsigned int IdleCount;
+	unsigned int ReqCount;
+	bool First;
+
 	BDDI*						bddi;
 	BDMMI*					bdmmi;
 
@@ -26,10 +37,16 @@ SC_MODULE(LITETOAHB)	{
 	void BDInit();
 
 	void do_transfer();
+	void FSM();
 	void assign_signals(BD_AHBPort_MM *Master, BD_AHBLitePort_MS *Slave);
 
 	SC_CTOR(LITETOAHB)	{
 		BDInit();
+
+		state = IDLE;
+		IdleCount = 0;
+		ReqCount = 0;
+		First = false;
 
 		SC_METHOD(do_transfer);
 		 sensitive << AHBLiteMaster_M0->HADDR;
@@ -43,7 +60,11 @@ SC_MODULE(LITETOAHB)	{
 
 		 sensitive << AHBMaster_M0->HREADY;
 		 sensitive << AHBMaster_M0->HRESP;
-		 sensitive << AHBMaster_M0->HRDATA;
+		 sensitive << AHBMaster_M0->HRDATA; 
+		 sensitive << state; 
+
+		SC_METHOD(FSM);
+		 sensitive << HCLK.pos();
 	}
 };
 
