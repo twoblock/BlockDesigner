@@ -35,47 +35,26 @@ SC_MODULE(BDSTUB)	{
 	scv_smart_ptr<unsigned int> data_t;
 
 	bool data_phase;
-
-	/////// for test of BDDI ///////
-	UINT8						hw_reg;
-	UINT16					w_reg;
-	UINT32					dw_reg;
-	UINT64					lw_reg;
-	bool						b_reg;
-	UINT32					h_reg;	// hex
-	float						f_reg;
-	double					df_reg;
-	char						a_reg[128];
-
-	char						hw_par;
-	short						w_par;
-	int							dw_par;
-	long long				lw_par;
-	bool						b_par;
-	UINT32					dw_paru;	// hex
-	float						f_par;
-	double					df_par;
-	char						a_par[128];
+	unsigned int req_down;
+	unsigned int data_stop;
 
 	BDDI*						bddi;
 
 	BDDI* GetBDDI();
 	char* GetModuleName();
 	void BDInit();
-	////////////////////////////////
 
 	/********** [process function] **********/
 	void do_pos_hclk_neg_hresetn()	{
-		addr_t->keep_only(0x20001000, 0x20004000);
+		addr_t->keep_only(0x20001000, 0x20001300);
 		data_t->keep_only(0x100, 0xfff);
-
-		wait(2000);
 
 		while(1)	{
 			addr_t->next();
 			data_t->next();
-			
-			AHB_MM->HBUSREQ = true;
+
+			if( (req_down--) == 0)
+				AHB_MM->HBUSREQ = true;
 
 			if(AHB_MM->HGRANT)
 			{
@@ -83,6 +62,12 @@ SC_MODULE(BDSTUB)	{
 				if(data_phase)
 				{
 					AHB_MM->setWData(data_t->get_unsigned() , 0);
+
+					if( (data_stop--) == 0)	{
+						AHB_MM->HBUSREQ = false;
+						req_down = 20;
+						data_stop = 10;
+					}
 				}
 				//***** Address phase *****//
 				AHB_MM->setAddr(addr_t->get_unsigned() , AHB2_TRANS_NONSEQ, true, AHB2_SIZE_DATA32, AHB2_BURST_INCR, 0, false);
