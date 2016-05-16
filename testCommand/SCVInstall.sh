@@ -1,9 +1,9 @@
 #!bin/sh
 
-rm -vrf $HOME/workspace/BlockDesigner/scv-2.0.0/objdir
+rm -vrf $HOME/workspace/BlockDesigner/scv200/objdir
 rm -vrf $HOME/workspace/Install/scv200 
 
-cd $HOME/workspace/BlockDesigner/scv-2.0.0
+cd $HOME/workspace/BlockDesigner/scv200
 
 mkdir objdir
 cd objdir

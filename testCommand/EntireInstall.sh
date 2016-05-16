@@ -19,7 +19,7 @@ source systemc.csh
 
 cd $HOME/workspace/BlockDesigner/
 
-rm -vrf scv-2.0.0/
+rm -vrf scv200/
 tar xvfz scv-2.0.0.tgz
 
 cd $HOME/workspace/BlockDesigner/testCommand/
