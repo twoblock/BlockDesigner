@@ -41,41 +41,18 @@ void LITETOAHB::assign_signals(BD_AHBPort_MM *Master, BD_AHBLitePort_MS *Slave)
 
 	switch(state){
 		case IDLE: 
-			First = false;
 			Master->HBUSREQ = false;
-			Slave->HREADY = (Master->HREADY && Master->HGRANT);
+			Slave->HREADY = false;
 			break;
 		case REQ: 
 			Master->HBUSREQ = true;
 			Slave->HREADY = false;
 			break;
 		case GRANTED: 
-			if(Slave->HTRANS == 0x2){
-				Master->HBUSREQ = true;
-			}
-			else{
-				Master->HBUSREQ = false;
-			}
-
-			if(Master->HGRANT == false){
-				if(Slave->HTRANS == 0x0){
-					Slave->HREADY = Master->HREADY;
-				}
-				else if(Slave->HTRANS == 0x2){
-					Slave->HREADY = Master->HREADY;
-				}
-			}
-			else if(First == false){
-				Slave->HREADY = false;
-				First = true;	
-			}
-			else
-				Slave->HREADY = (Master->HREADY && Master->HGRANT);
+			Slave->HREADY = Master->HREADY;
 			break;
 		case LASTDATA: 
 			Slave->HREADY = Master->HREADY;
-			if(Master->HREADY == true)
-				//state = IDLE;
 			break;
 		default: 
 			//state = IDLE;
@@ -92,36 +69,29 @@ void LITETOAHB::FSM()
 	switch(state){
 		case IDLE: 
 			IdleCount++;
-			if(IdleCount == 0x10){
+			if(IdleCount == 0x2){
 				IdleCount = 0;
 				state = REQ;
 			}
 			break;
 		case REQ: 
 			ReqCount++;
-			if(ReqCount == 0x10){
+			if(ReqCount == 0x2){
 				ReqCount = 0;
 				state = IDLE;
 			}
-			if(AHBMaster_M0->HGRANT && AHBMaster_M0->HREADY){
+			if(AHBMaster_M0->HGRANT)
 				state = GRANTED;
-			}			
 			break;
 		case GRANTED: 
-			if(AHBMaster_M0->HGRANT == false){
-				if(AHBLiteMaster_M0->HTRANS == 0x0){
-					if(AHBMaster_M0->HREADY == true)
-						state = IDLE;
-				}
-				else if(AHBLiteMaster_M0->HTRANS == 0x2){
-					if(AHBMaster_M0->HREADY == true)
-						state = LASTDATA;
-				}
-			}
+			if(AHBLiteMaster_M0->HTRANS == 0x0)
+				if(AHBMaster_M0->HREADY == true)
+					state = LASTDATA; 
 			break;
 		case LASTDATA: 
-			if(AHBMaster_M0->HREADY == true)
-				state = IDLE;
+			if(AHBLiteMaster_M0->HTRANS == 0x0)
+				if(AHBMaster_M0->HREADY == true)
+					state = IDLE;
 			break;
 		default: 
 			state = IDLE;
