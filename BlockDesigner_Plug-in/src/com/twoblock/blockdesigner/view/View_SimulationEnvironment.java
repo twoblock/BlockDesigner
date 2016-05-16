@@ -82,6 +82,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	public static String PCCode;
 	public static String FunctionFlowGragh;
 	public static String ProfilingTable;
+	public static String Selected_core_check=null;
 	private static Button btnOpen_sw;
 	private static Button btnSave;
 	private static Button btnRun;
@@ -391,9 +392,9 @@ public class View_SimulationEnvironment extends ViewPart {
 	private String HCLK_channel_name;
 	private String HRESETn_channel_name;
 	private String InstanceName;
+	private boolean isExisted=false;
 
 	protected void ChannelInfoSet(final Composite composite) {
-		Btn_Control(1);
 		try {
 			obj = parser.parse(new FileReader(BDPMD_Location));
 			System.err.println("Call ChannelInfoSet");
@@ -705,6 +706,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				Image imgItemIcon1 = idItem1.createImage();
 				Expanditem.get(ModuleInfoIndex + 1).setImage(imgItemIcon1);
 				coreList=","+InstanceName;
+				isExisted=true;
 				break;
 			case "mem":
 				ImageDescriptor idItem2 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_memory16.png");
@@ -744,8 +746,8 @@ public class View_SimulationEnvironment extends ViewPart {
 				break;
 			}
 		}
+		Btn_Control(1);
 		composite.pack();
-		
 	}
 
 	public static String padRight(String s, int n) {
@@ -861,7 +863,12 @@ public class View_SimulationEnvironment extends ViewPart {
 					break;
 				case 1:
 					System.err.println("BDPMD Open");
-					btnOpen_sw.setEnabled(true);
+					if(isExisted=true)
+						btnOpen_sw.setEnabled(true);
+					else{
+						btnOpen_sw.setEnabled(false);
+						Btn_Control(2);
+					}
 					btnSave.setEnabled(false);
 					btnStop.setEnabled(false);
 					btnStep.setEnabled(false);
@@ -872,6 +879,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				case 2: 
 					System.err.println("RUN");
 					btnStop.setEnabled(true);
+					btnOpen_sw.setEnabled(false);
 					btnStep.setEnabled(false);
 					btnStep_n.setEnabled(false);
 					btnRun.setEnabled(false);
@@ -880,6 +888,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				case 3:
 					System.err.println("STOP");
 					btnStop.setEnabled(false);
+					btnSave.setEnabled(true);
 					btnStep.setEnabled(true);
 					btnStep_n.setEnabled(true);
 					btnRun.setEnabled(true);
@@ -889,28 +898,27 @@ public class View_SimulationEnvironment extends ViewPart {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-
-							/* --- Disassemble View Setter ---START--- */
-							dv = new BDDisassembleView(c_parent.getShell(), "CORE");
-							AssemblySetter();
-							dv.show();
-							dv.select(BDF.StringHexToLongDecimal(PCCode));
-							/* --- Disassemble View Setter ---END--- */
-
-
-							/* --- Call Stack View Setter ---START--- */
-							csvSetter(c_parent);
-							/* --- Call Stack View Setter ---END--- */
+							if(Selected_core_check != null){
+								/* --- Disassemble View Setter ---START--- */
+								dv = new BDDisassembleView(c_parent.getShell(), "CORE");
+								AssemblySetter();
+								dv.show();
+								dv.select(BDF.StringHexToLongDecimal(PCCode));
+								/* --- Disassemble View Setter ---END--- */
 
 
-							/* --- Profiling Table Setter ---START--- */
-							ptSetter(c_parent);
-							/* --- Profiling Table Setter ---END--- */
+								/* --- Call Stack View Setter ---START--- */
+								csvSetter(c_parent);
+								/* --- Call Stack View Setter ---END--- */
+
+
+								/* --- Profiling Table Setter ---START--- */
+								ptSetter(c_parent);
+								/* --- Profiling Table Setter ---END--- */
+							}
 
 						}
-
 					});
-
 					break;
 				}
 			}

@@ -949,7 +949,7 @@ public class View_PlatformManager extends ViewPart {
 						if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).SM_Index>=0){ // SM Port find
 							if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).cmb_dPort.getEnabled()){ // Used SM port
 								if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port != null){
-									String Sname = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.Parent.module_name;
+									String Sname = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.Parent.module_instance_name;
 									String Dport = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.port_name;
 									String addrSize = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).addrSize;
 									String startAddr = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).startAddr;
@@ -961,7 +961,7 @@ public class View_PlatformManager extends ViewPart {
 						if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).data_type.equals("MM")){
 							if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).cmb_dPort.getEnabled()){ // Used SM port
 								if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port != null){
-									String Sname = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.Parent.module_name;
+									String Sname = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.Parent.module_instance_name;
 									String Dport = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.port_name;
 									String addrSize = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).addrSize;
 									String startAddr = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).startAddr;

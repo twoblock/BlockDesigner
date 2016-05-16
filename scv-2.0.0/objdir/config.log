@@ -200,7 +200,7 @@ configure: failed program was:
 configure:5039: result: no
 configure:4937: checking whether pthreads work without any flags
 configure:5030: gcc -o conftest -g -O2    conftest.c   >&5
-/tmp/ccbNqMO1.o: In function `main':
+/tmp/cc5FUfb8.o: In function `main':
 /home/lucas/workspace/BlockDesigner/scv-2.0.0/objdir/conftest.c:18: undefined reference to `pthread_create'
 /home/lucas/workspace/BlockDesigner/scv-2.0.0/objdir/conftest.c:19: undefined reference to `pthread_join'
 /home/lucas/workspace/BlockDesigner/scv-2.0.0/objdir/conftest.c:21: undefined reference to `__pthread_register_cancel'
@@ -710,7 +710,7 @@ configure:16786: g++ -o conftest -O2 -g -pthread -I/home/lucas/workspace/Install
 configure:16786: $? = 0
 configure:16786: ./conftest
 
-        SystemC 2.3.1-Accellera --- May 12 2016 17:56:30
+        SystemC 2.3.1-Accellera --- May 14 2016 15:25:11
         Copyright (c) 1996-2014 by all Contributors,
         ALL RIGHTS RESERVED
 configure:16786: $? = 0

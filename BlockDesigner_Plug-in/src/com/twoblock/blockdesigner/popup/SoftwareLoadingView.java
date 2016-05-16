@@ -40,6 +40,8 @@ public class SoftwareLoadingView {
 		cmp_core.setLayout(new FillLayout(SWT.VERTICAL));
 		Label lbl_core = new Label(cmp_core, SWT.NONE);
 		lbl_core.setText("Please select core");
+		
+		Selected_core=null;
 		cmb_core = new Combo(cmp_core, SWT.NONE);
 		core=core.replaceFirst(",", "");
 		String[] core_list = core.split(",");
@@ -102,6 +104,7 @@ public class SoftwareLoadingView {
 				// TODO Auto-generated method stub
 				View_SimulationEnvironment.SWLoadCheck=true;
 				Handler_Command.Command_Func(0, 0, Selected_core , Module_Location, "", "","");
+				View_SimulationEnvironment.Selected_core_check=Selected_core;
 				m_shell.close();
 			}
 		});
