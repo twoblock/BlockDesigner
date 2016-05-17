@@ -190,6 +190,10 @@ SC_MODULE(NANDFlashArray_SLC){
 	SC_CTOR(NANDFlashArray_SLC)	{
 		BDInit();
 
+		SC_METHOD(communicate);
+		sensitive << HCLK.pos();
+		sensitive << HRESETn.neg();
+
 		SC_METHOD(update);
 		sensitive << HCLK.pos();
 		sensitive << HRESETn.neg();

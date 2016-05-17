@@ -1,6 +1,7 @@
 #include "SATADevice.h"
 
 #include <stdio.h>
+#include <pwd.h>
 
 #include <fstream>
 #include <iostream>
@@ -2135,6 +2136,14 @@ void SATADevice::BDInit()
 	unsigned int S_PhyLTemp = 0;
 	unsigned int S_LinkLTemp = 0;
 	unsigned int S_TransLTemp = 0;
+
+	const char *homedir = getenv("HOME");
+	char SataReadOutput[128] = {0,};
+	char SataWriteOutput[128] = {0,};
+
+	if(homedir == NULL)
+		homedir = getpwuid(getuid())->pw_dir;
+
 	//	SYNC_PRIM[0]=0x7C;
 	//	SYNC_PRIM[1]=0x95;
 	//	SYNC_PRIM[2]=0xB5;
@@ -2144,8 +2153,15 @@ void SATADevice::BDInit()
 	//outFile.open("/media/1TB_HDD/Host_Outfile.txt");
 	//outFile_WriteRQ.open("/media/1TB_HDD/Host_outFile_WriteRQ.txt");
 	//int i1,i2,i3,i4,i5;
-	Sata_RFile.open("/media/1TB_HDD/JY/Project_All/Sata_R_Output.txt",ios::trunc);
-	Sata_WFile.open("/media/1TB_HDD/JY/Project_All/Sata_W_Output.txt",ios::trunc);
+
+	strcpy(SataWriteOutput, homedir);
+	strcpy(SataReadOutput, homedir);
+	strcat(SataWriteOutput, "/Sata_W_Output.txt");
+	strcat(SataReadOutput, "/Sata_R_Output.txt");
+
+	Sata_WFile.open(SataWriteOutput, ios::trunc);
+	Sata_RFile.open(SataReadOutput, ios::trunc);
+
 	//============================================SENDING SYNC
 	//for (i = 0; i < 4; i++) {
 	S_TransLTemp = Send_TransportLayer(SYNC_PRIM[0]);
@@ -2397,6 +2413,8 @@ void SATADevice::BDInit()
 
 	PageDMACount_W=0;
 	PageDMASectCount_W=0;
+
+  p_baseaddr = 0xC0000000;
 }
 
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)

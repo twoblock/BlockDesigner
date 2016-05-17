@@ -196,6 +196,11 @@ SC_MODULE(SATAHOST){
 		SC_METHOD(update);
 		sensitive << HCLK.pos();
 		sensitive << HRESETn.neg();
+		
+		SC_METHOD(communicate);
+		sensitive << HCLK.pos();
+		sensitive << HRESETn.neg();
+
 	}
 };
 

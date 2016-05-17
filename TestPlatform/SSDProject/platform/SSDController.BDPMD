@@ -1,0 +1,3280 @@
+{
+  "BDPMD": {
+    "Module_Data": [
+      {
+        "module_info": {
+          "instance_name": "BD_CORTEXM0DS",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "NMI",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ00",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ01",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ02",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ03",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ04",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ05",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ06",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ07",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ08",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ09",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ10",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ11",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ12",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ13",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ14",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "IRQ15",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "TXEV",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "RXEV",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "LOCKUP",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "SYSRESETREQ",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "SLEEPING",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "EXTRACT_PC",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "EXTRACT_R3",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "EXTRACT_R4",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "EXTRACT_R10",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "AHBLITE",
+              "port": "MM_M0",
+              "data_type": "MM"
+            }
+          ],
+          "parameter": [
+            
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r00",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r01",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r02",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r03",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r04",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r05",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r06",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r07",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r08",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r09",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r10",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r11",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r12",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__cm0_r14",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__vis_msp",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__vis_psp",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "v__DOT__vis_pc",
+              "bits_wide": "32"
+            }
+          ]
+        },
+        "module_type": "cpu",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/VCORTEXM0DS\/libVCORTEXM0DS.so",
+        "module_name": "VCORTEXM0DS"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_LITETOAHB",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MM_M0",
+              "data_type": "MM"
+            },
+            {
+              "sc_type": "AHBLITE",
+              "port": "MS_M0",
+              "data_type": "MS"
+            }
+          ],
+          "parameter": [
+            
+          ],
+          "memory_map": [
+            {
+              "size": "0xFFFFFFFF",
+              "slave_module_port": "MS_M0",
+              "start_address": "0x00000000",
+              "slave_module": "BD_AHB"
+            }
+          ],
+          "register": [
+            
+          ]
+        },
+        "module_type": "bus",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/LiteToAHB\/libLITETOAHB.so",
+        "module_name": "LITETOAHB"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_AHB",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MS_M0",
+              "data_type": "MS"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MS_M1",
+              "data_type": "MS"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MS_M2",
+              "data_type": "MS"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S0",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S1",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S2",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S3",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S4",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S5",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S6",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S7",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S8",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S9",
+              "data_type": "SM"
+            }
+          ],
+          "parameter": [
+            
+          ],
+          "memory_map": [
+            {
+              "size": "0x00100000",
+              "slave_module_port": "SS_S0",
+              "start_address": "0x00000000",
+              "slave_module": "BD_ROM"
+            },
+            {
+              "size": "0x00100000",
+              "slave_module_port": "SS_S0",
+              "start_address": "0x20000000",
+              "slave_module": "BD_SRAM"
+            },
+            {
+              "size": "0x00010000",
+              "slave_module_port": "SS_S0",
+              "start_address": "0xD0000000",
+              "slave_module": "BD_NANDCONTROLLER"
+            },
+            {
+              "size": "0x00010000",
+              "slave_module_port": "SS_S0",
+              "start_address": "0xC0000000",
+              "slave_module": "BD_SATADEVICE"
+            },
+            {
+              "size": "0x00001000",
+              "slave_module_port": "SS_S0",
+              "start_address": "0xC0021000",
+              "slave_module": "BD_MEMUTIL"
+            },
+            {
+              "size": "0x00001000",
+              "slave_module_port": "SS_S0",
+              "start_address": "0xC0020000",
+              "slave_module": "BD_BUFFERMANAGER"
+            },
+            {
+              "size": "0x00010000",
+              "slave_module_port": "SS_S0",
+              "start_address": "0xB0000000",
+              "slave_module": "BD_CONSOLE"
+            }
+          ],
+          "register": [
+            
+          ]
+        },
+        "module_type": "bus",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/AHB\/libAHB.so",
+        "module_name": "AHB"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_ROM",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S0",
+              "data_type": "SS"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "base_addr"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            
+          ]
+        },
+        "module_type": "mem",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/ahbl2mem\/libahbl2mem.so",
+        "module_name": "AHBL2MEM"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_SRAM",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S0",
+              "data_type": "SS"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "0",
+              "default_value": "0x20000000",
+              "bits_wide": "32",
+              "par_name": "base_addr"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            
+          ]
+        },
+        "module_type": "mem",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/ahbl2mem\/libahbl2mem.so",
+        "module_name": "AHBL2MEM"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_CONSOLE",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S0",
+              "data_type": "SS"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "8",
+              "par_name": "hw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "16",
+              "par_name": "w_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "dw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "64",
+              "par_name": "lw_par"
+            },
+            {
+              "data_type": "1",
+              "default_value": "false",
+              "bits_wide": "8",
+              "par_name": "b_par"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "dw_paru"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "32",
+              "par_name": "f_par"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "64",
+              "par_name": "df_par"
+            },
+            {
+              "data_type": "3",
+              "default_value": "",
+              "bits_wide": "8",
+              "par_name": "a_par"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "hw_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "w_reg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "dw_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "lw_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "2",
+              "reg_name": "b_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "h_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "f_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "df_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "4",
+              "reg_name": "a_reg",
+              "bits_wide": "8"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/console\/libconsole.so",
+        "module_name": "CONSOLE"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_TB",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "EXTRACT_PC",
+              "data_type": "unsigned int"
+            }
+          ],
+          "parameter": [
+            
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/tb\/libtb.so",
+        "module_name": "TB"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_SATAHOST",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "Rx_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "Tx_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S0",
+              "data_type": "SS"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "8",
+              "par_name": "hw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "16",
+              "par_name": "w_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "dw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "64",
+              "par_name": "lw_par"
+            },
+            {
+              "data_type": "1",
+              "default_value": "false",
+              "bits_wide": "8",
+              "par_name": "b_par"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "dw_paru"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "32",
+              "par_name": "f_par"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "64",
+              "par_name": "df_par"
+            },
+            {
+              "data_type": "3",
+              "default_value": "",
+              "bits_wide": "8",
+              "par_name": "a_par"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "hw_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "w_reg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "dw_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "lw_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "2",
+              "reg_name": "b_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "h_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "f_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "df_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "4",
+              "reg_name": "a_reg",
+              "bits_wide": "8"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/SATAHOST\/libSATAHOST.so",
+        "module_name": "SATAHOST"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_SATADEVICE",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "BM_read_limit_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "BM_write_limit_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "Rx_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "Tx_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "BM_R_size_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "BM_W_size_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "dout_Switch_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "FIQ_int_SMaster",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MM_M0",
+              "data_type": "MM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S0",
+              "data_type": "SS"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "8",
+              "par_name": "hw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "16",
+              "par_name": "w_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "dw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "64",
+              "par_name": "lw_par"
+            },
+            {
+              "data_type": "1",
+              "default_value": "false",
+              "bits_wide": "8",
+              "par_name": "b_par"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "dw_paru"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "32",
+              "par_name": "f_par"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "64",
+              "par_name": "df_par"
+            },
+            {
+              "data_type": "3",
+              "default_value": "",
+              "bits_wide": "8",
+              "par_name": "a_par"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "hw_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "w_reg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "dw_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "lw_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "2",
+              "reg_name": "b_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "h_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "f_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "df_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "4",
+              "reg_name": "a_reg",
+              "bits_wide": "8"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/SATADevice\/libSATADevice.so",
+        "module_name": "SATADevice"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_NANDCONTROLLER",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "flash_din_SSlave[0]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "flash_din_SSlave[1]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "flash_din_SSlave[2]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "flash_din_SSlave[3]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "flash_RBn_SSlave[0]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "flash_RBn_SSlave[1]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "flash_RBn_SSlave[2]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "flash_RBn_SSlave[3]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "flash_dout_SMaster[0]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "flash_dout_SMaster[1]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "flash_dout_SMaster[2]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "flash_dout_SMaster[3]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "flash_sout_SMaster[0]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "flash_sout_SMaster[1]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "flash_sout_SMaster[2]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "flash_sout_SMaster[3]",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "bm_read_inc_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "bm_write_inc_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MM_M0",
+              "data_type": "MM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MM_M1",
+              "data_type": "MM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S0",
+              "data_type": "SS"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "8",
+              "par_name": "hw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "16",
+              "par_name": "w_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "dw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "64",
+              "par_name": "lw_par"
+            },
+            {
+              "data_type": "1",
+              "default_value": "false",
+              "bits_wide": "8",
+              "par_name": "b_par"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "dw_paru"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "32",
+              "par_name": "f_par"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "64",
+              "par_name": "df_par"
+            },
+            {
+              "data_type": "3",
+              "default_value": "",
+              "bits_wide": "8",
+              "par_name": "a_par"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "hw_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "w_reg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "dw_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "lw_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "2",
+              "reg_name": "b_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "h_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "f_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "df_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "4",
+              "reg_name": "a_reg",
+              "bits_wide": "8"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/NANDController\/libNANDController.so",
+        "module_name": "NANDController"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_NAND1",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "D_in_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "S_in_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "D_out_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "RBn_SMaster",
+              "data_type": "unsigned int"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_ALE"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_CEn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_CLE"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_RBn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_REn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_WEn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_WPn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tADL"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tBERS"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tPROG"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tR"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tRC"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tRR"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tWB"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tWC"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "r_DataReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_CmdReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_C_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_P_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_B_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_StatusReg",
+              "bits_wide": "16"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/NANDFlashArray_SLC\/libNANDFlashArray_SLC.so",
+        "module_name": "NANDFlashArray_SLC"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_NAND2",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "D_in_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "S_in_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "D_out_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "RBn_SMaster",
+              "data_type": "unsigned int"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_ALE"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_CEn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_CLE"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_RBn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_REn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_WEn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_WPn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tADL"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tBERS"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tPROG"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tR"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tRC"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tRR"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tWB"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tWC"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "r_DataReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_CmdReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_C_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_P_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_B_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_StatusReg",
+              "bits_wide": "16"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/NANDFlashArray_SLC\/libNANDFlashArray_SLC.so",
+        "module_name": "NANDFlashArray_SLC"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_NAND3",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "D_in_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "S_in_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "D_out_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "RBn_SMaster",
+              "data_type": "unsigned int"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_ALE"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_CEn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_CLE"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_RBn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_REn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_WEn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_WPn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tADL"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tBERS"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tPROG"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tR"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tRC"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tRR"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tWB"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tWC"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "r_DataReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_CmdReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_C_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_P_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_B_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_StatusReg",
+              "bits_wide": "16"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/NANDFlashArray_SLC\/libNANDFlashArray_SLC.so",
+        "module_name": "NANDFlashArray_SLC"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_NAND4",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "D_in_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "S_in_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "D_out_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "RBn_SMaster",
+              "data_type": "unsigned int"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_ALE"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_CEn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_CLE"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_RBn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_REn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_WEn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_WPn"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tADL"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tBERS"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tPROG"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tR"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tRC"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tRR"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tWB"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "p_tWC"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "r_DataReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_CmdReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_C_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_P_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_B_AddrReg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "r_StatusReg",
+              "bits_wide": "16"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/NANDFlashArray_SLC\/libNANDFlashArray_SLC.so",
+        "module_name": "NANDFlashArray_SLC"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_MEMUTIL",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MM_M0",
+              "data_type": "MM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MM_M1",
+              "data_type": "MM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S0",
+              "data_type": "SS"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "0",
+              "default_value": "0xc0021000",
+              "bits_wide": "32",
+              "par_name": "p_Base_Addr"
+            },
+            {
+              "data_type": "0",
+              "default_value": "0x1000",
+              "bits_wide": "32",
+              "par_name": "p_Addr_Size"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "MU_SRC_ADDR",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "MU_DST_ADDR",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "MU_VALUE",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "MU_SIZE",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "MU_RESULT",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "MU_CMD",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "MU_UNITSTEP",
+              "bits_wide": "32"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/MemoryUtility\/libMemoryUtility.so",
+        "module_name": "MemoryUtility"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_BUFFERMANAGER",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "bm_read_inc_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "bm_write_inc_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "BM_R_size_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "BM_W_size_SSlave",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "BM_read_limit_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "sc_out",
+              "port": "BM_write_limit_SMaster",
+              "data_type": "unsigned int"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S0",
+              "data_type": "SS"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "8",
+              "par_name": "hw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "16",
+              "par_name": "w_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "0",
+              "bits_wide": "32",
+              "par_name": "dw_par"
+            },
+            {
+              "data_type": "4",
+              "default_value": "139849235718608",
+              "bits_wide": "64",
+              "par_name": "lw_par"
+            },
+            {
+              "data_type": "1",
+              "default_value": "true",
+              "bits_wide": "8",
+              "par_name": "b_par"
+            },
+            {
+              "data_type": "0",
+              "default_value": "32561",
+              "bits_wide": "32",
+              "par_name": "dw_paru"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "32",
+              "par_name": "f_par"
+            },
+            {
+              "data_type": "2",
+              "default_value": "0.000000",
+              "bits_wide": "64",
+              "par_name": "df_par"
+            },
+            {
+              "data_type": "3",
+              "default_value": "",
+              "bits_wide": "8",
+              "par_name": "a_par"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            {
+              "data_type": "1",
+              "reg_name": "hw_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "w_reg",
+              "bits_wide": "16"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "dw_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "1",
+              "reg_name": "lw_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "2",
+              "reg_name": "b_reg",
+              "bits_wide": "8"
+            },
+            {
+              "data_type": "0",
+              "reg_name": "h_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "f_reg",
+              "bits_wide": "32"
+            },
+            {
+              "data_type": "3",
+              "reg_name": "df_reg",
+              "bits_wide": "64"
+            },
+            {
+              "data_type": "4",
+              "reg_name": "a_reg",
+              "bits_wide": "8"
+            }
+          ]
+        },
+        "module_type": "other",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/BufferManager\/libBufferManager.so",
+        "module_name": "BufferManager"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_DRAMAHB",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MS_M0",
+              "data_type": "MS"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MS_M1",
+              "data_type": "MS"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "MS_M2",
+              "data_type": "MS"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S0",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S1",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S2",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S3",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S4",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S5",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S6",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S7",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S8",
+              "data_type": "SM"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SM_S9",
+              "data_type": "SM"
+            }
+          ],
+          "parameter": [
+            
+          ],
+          "memory_map": [
+            {
+              "size": "0x00100000",
+              "slave_module_port": "SS_S0",
+              "start_address": "0x60000000",
+              "slave_module": "BD_DRAM"
+            }
+          ],
+          "register": [
+            
+          ]
+        },
+        "module_type": "bus",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/AHB\/libAHB.so",
+        "module_name": "AHB"
+      },
+      {
+        "module_info": {
+          "instance_name": "BD_DRAM",
+          "port": [
+            {
+              "sc_type": "sc_in",
+              "port": "HCLK",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "sc_in",
+              "port": "HRESETn",
+              "data_type": "bool"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S0",
+              "data_type": "SS"
+            }
+          ],
+          "parameter": [
+            {
+              "data_type": "0",
+              "default_value": "0x60000000",
+              "bits_wide": "32",
+              "par_name": "base_addr"
+            }
+          ],
+          "memory_map": [
+            
+          ],
+          "register": [
+            
+          ]
+        },
+        "module_type": "mem",
+        "module_location": "\/home\/bryan\/workspace\/BlockDesigner\/TestPlatform\/ahbl2mem\/libahbl2mem.so",
+        "module_name": "AHBL2MEM"
+      }
+    ],
+    "Channel_Info": [
+      {
+        "connection_info": [
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_LITETOAHB"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_AHB"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_ROM"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_SRAM"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_CONSOLE"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_TB"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_SATAHOST"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_SATADEVICE"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_NANDCONTROLLER"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_NAND1"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_NAND2"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_NAND3"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_NAND4"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_MEMUTIL"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_BUFFERMANAGER"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_DRAMAHB"
+          },
+          {
+            "port_name": "HCLK",
+            "module_name": "BD_DRAM"
+          }
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$HCLK",
+        "channel_type": "sc_clock",
+        "connection_num": "17"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_LITETOAHB"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_AHB"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_ROM"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_SRAM"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_CONSOLE"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_TB"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_SATAHOST"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_SATADEVICE"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_NANDCONTROLLER"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_NAND1"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_NAND2"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_NAND3"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_NAND4"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_MEMUTIL"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_BUFFERMANAGER"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_DRAMAHB"
+          },
+          {
+            "port_name": "HRESETn",
+            "module_name": "BD_DRAM"
+          }
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$HRESETn",
+        "channel_type": "sc_signal",
+        "connection_num": "17"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$NMI",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "FIQ_int_SMaster",
+            "module_name": "BD_SATADEVICE"
+          }
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ00",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ01",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ02",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ03",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ04",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ05",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ06",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ07",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ08",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ09",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ10",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ11",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ12",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ13",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ14",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$IRQ15",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$TXEV",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$RXEV",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$LOCKUP",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$SYSRESETREQ",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "bool",
+        "name": "BD_CORTEXM0DS$SLEEPING",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "UINT32",
+        "name": "BD_CORTEXM0DS$EXTRACT_PC",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "UINT32",
+        "name": "BD_CORTEXM0DS$EXTRACT_R3",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "UINT32",
+        "name": "BD_CORTEXM0DS$EXTRACT_R4",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "UINT32",
+        "name": "BD_CORTEXM0DS$EXTRACT_R10",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "MS_M0",
+            "module_name": "BD_LITETOAHB"
+          }
+        ],
+        "data_type": "Master",
+        "name": "BD_CORTEXM0DS$MM_M0",
+        "channel_type": "AHBLITE",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "MS_M0",
+            "module_name": "BD_AHB"
+          }
+        ],
+        "data_type": "Master",
+        "name": "BD_LITETOAHB$MM_M0",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "MM_M0",
+            "module_name": "BD_MEMUTIL"
+          }
+        ],
+        "data_type": "Master",
+        "name": "BD_AHB$MS_M1",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Master",
+        "name": "BD_AHB$MS_M2",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "SS_S0",
+            "module_name": "BD_ROM"
+          }
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S0",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "SS_S0",
+            "module_name": "BD_SRAM"
+          }
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S1",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "SS_S0",
+            "module_name": "BD_NANDCONTROLLER"
+          }
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S2",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "SS_S0",
+            "module_name": "BD_SATADEVICE"
+          }
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S3",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "SS_S0",
+            "module_name": "BD_MEMUTIL"
+          }
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S4",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "SS_S0",
+            "module_name": "BD_BUFFERMANAGER"
+          }
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S5",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "SS_S0",
+            "module_name": "BD_CONSOLE"
+          }
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S6",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S7",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S8",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_AHB$SM_S9",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "UINT32",
+        "name": "BD_TB$EXTRACT_PC",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "Tx_SMaster",
+            "module_name": "BD_SATADEVICE"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_SATAHOST$Rx_SSlave",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "Rx_SSlave",
+            "module_name": "BD_SATADEVICE"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_SATAHOST$Tx_SMaster",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_SATAHOST$SS_S0",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "BM_read_limit_SMaster",
+            "module_name": "BD_BUFFERMANAGER"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_SATADEVICE$BM_read_limit_SSlave",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "BM_write_limit_SMaster",
+            "module_name": "BD_BUFFERMANAGER"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_SATADEVICE$BM_write_limit_SSlave",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "BM_R_size_SSlave",
+            "module_name": "BD_BUFFERMANAGER"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_SATADEVICE$BM_R_size_SMaster",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "BM_W_size_SSlave",
+            "module_name": "BD_BUFFERMANAGER"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_SATADEVICE$BM_W_size_SMaster",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "UINT32",
+        "name": "BD_SATADEVICE$dout_Switch_SMaster",
+        "channel_type": "sc_signal",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "MS_M0",
+            "module_name": "BD_DRAMAHB"
+          }
+        ],
+        "data_type": "Master",
+        "name": "BD_SATADEVICE$MM_M0",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "D_out_SMaster",
+            "module_name": "BD_NAND1"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_din_SSlave[0]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "D_out_SMaster",
+            "module_name": "BD_NAND2"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_din_SSlave[1]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "D_out_SMaster",
+            "module_name": "BD_NAND3"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_din_SSlave[2]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "D_out_SMaster",
+            "module_name": "BD_NAND4"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_din_SSlave[3]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "RBn_SMaster",
+            "module_name": "BD_NAND1"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave[0]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "RBn_SMaster",
+            "module_name": "BD_NAND2"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave[1]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "RBn_SMaster",
+            "module_name": "BD_NAND3"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave[2]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "RBn_SMaster",
+            "module_name": "BD_NAND4"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave[3]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "D_in_SSlave",
+            "module_name": "BD_NAND1"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_dout_SMaster[0]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "D_in_SSlave",
+            "module_name": "BD_NAND2"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_dout_SMaster[1]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "D_in_SSlave",
+            "module_name": "BD_NAND3"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_dout_SMaster[2]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "D_in_SSlave",
+            "module_name": "BD_NAND4"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_dout_SMaster[3]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "S_in_SSlave",
+            "module_name": "BD_NAND1"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_sout_SMaster[0]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "S_in_SSlave",
+            "module_name": "BD_NAND2"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_sout_SMaster[1]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "S_in_SSlave",
+            "module_name": "BD_NAND3"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_sout_SMaster[2]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "S_in_SSlave",
+            "module_name": "BD_NAND4"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$flash_sout_SMaster[3]",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "bm_read_inc_SSlave",
+            "module_name": "BD_BUFFERMANAGER"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$bm_read_inc_SMaster",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "bm_write_inc_SSlave",
+            "module_name": "BD_BUFFERMANAGER"
+          }
+        ],
+        "data_type": "UINT32",
+        "name": "BD_NANDCONTROLLER$bm_write_inc_SMaster",
+        "channel_type": "sc_signal",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "MS_M1",
+            "module_name": "BD_DRAMAHB"
+          }
+        ],
+        "data_type": "Master",
+        "name": "BD_NANDCONTROLLER$MM_M0",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Master",
+        "name": "BD_NANDCONTROLLER$MM_M1",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "MS_M2",
+            "module_name": "BD_DRAMAHB"
+          }
+        ],
+        "data_type": "Master",
+        "name": "BD_MEMUTIL$MM_M1",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          {
+            "port_name": "SS_S0",
+            "module_name": "BD_DRAM"
+          }
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S0",
+        "channel_type": "AHB",
+        "connection_num": "1"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S1",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S2",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S3",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S4",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S5",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S6",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S7",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S8",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      },
+      {
+        "connection_info": [
+          
+        ],
+        "data_type": "Slave",
+        "name": "BD_DRAMAHB$SM_S9",
+        "channel_type": "AHB",
+        "connection_num": "0"
+      }
+    ]
+  }
+}

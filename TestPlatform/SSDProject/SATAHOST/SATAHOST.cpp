@@ -1,5 +1,6 @@
 #include "SATAHOST.h"
 #include <stdio.h>
+#include <pwd.h>
 
 #define timeunit 10;
 uint32_t Temp[2][5];
@@ -855,6 +856,12 @@ Equal_flag = 0;
 unsigned int S_PhyLTemp = 0;
 unsigned int S_LinkLTemp = 0;
 unsigned int S_TransLTemp = 0;
+
+const char *homedir = getenv("HOME");
+char TracePath[128] = {0,};
+
+if(homedir == NULL)
+homedir = getpwuid(getuid())->pw_dir;
 //
 //	SYNC_PRIM[0] = 0x7C;
 //	SYNC_PRIM[1] = 0x95;
@@ -862,9 +869,11 @@ unsigned int S_TransLTemp = 0;
 //	SYNC_PRIM[3] = 0xB5;
 SYNC_PRIM[0] = 0xB5B5957C;
 
-
+strcpy(TracePath, homedir);
+strcat(TracePath, "/Financial.trace");
 //sinFile.open("D:\SSD\Financial1.trace");
-	inFile.open("/media/1TB_HDD/All_SSD_Project/Trace/Financial.trace");
+inFile.open(TracePath);
+//inFile.open("/home/bryan/Financial.trace");
 
 //outFile.open("D:\SSD\SATAHOST_Readfile.txt");
 //outFile_WriteRQ.open("D:\SSD\SATAHOST_Writefile.txt");
@@ -883,7 +892,6 @@ for (i = 1; i < 5; i++)								//is changed by TB
 	Temp[0][i] = atoi(ptr);						//is changed by TB
 	//inFile >> Temp[0][i];
 }
-
 
 //message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "READ %d %d %d %d %d\n",
 		//Temp[0][0], Temp[0][1], Temp[0][2], Temp[0][3], Temp[0][4]);	//TB

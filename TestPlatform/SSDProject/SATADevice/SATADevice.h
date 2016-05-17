@@ -206,7 +206,7 @@ SC_MODULE(SATADevice){
 	sc_out<unsigned int> BM_R_size_SMaster;
 	sc_out<unsigned int> BM_W_size_SMaster;
 	sc_out<unsigned int> dout_Switch_SMaster;
-	sc_out<unsigned int> FIQ_int_SMaster;
+	sc_out<bool> FIQ_int_SMaster;
 
 	/////// for test of BDDI ///////
 	UINT8						hw_reg;
@@ -561,6 +561,10 @@ SC_MODULE(SATADevice){
 
 	SC_CTOR(SATADevice)	{
 		BDInit();
+
+		SC_METHOD(communicate);
+		sensitive << HCLK.pos();
+		sensitive << HRESETn.neg();
 
 		SC_METHOD(update);
 		sensitive << HCLK.pos();

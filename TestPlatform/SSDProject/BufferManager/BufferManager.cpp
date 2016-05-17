@@ -267,6 +267,8 @@ void BufferManager::BDInit()
 	r_BM_STACK_RESET_temp = 0 ; 
 	r_BM_STACK_WRSET_temp = 0 ;
 	r_BM_STACK_RDSET_temp = 0 ;
+
+  p_BM_Base_addr = 0xc0020000;
 }
 
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
