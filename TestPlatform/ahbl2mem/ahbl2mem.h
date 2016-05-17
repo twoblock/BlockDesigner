@@ -13,7 +13,8 @@
 #ifndef __AHBL2MEM_H__
 #define __AHBL2MEM_H__
 
-#define MEM_ADDR_1MB_WIDTH	262144	// 1MB = 262144 words
+#define MEM_ADDR_1MB_WIDTH		262144	// 1MB = 262144 words
+#define MEM_ADDR_100MB_WIDTH	26214400	// 100MB = 26214400 words
 
 #define MEM_1MB_NSEQ_RD_DELAY	0
 #define MEM_1MB_SEQ_RD_DELAY	0
@@ -77,7 +78,8 @@ SC_MODULE(AHBL2MEM)	{
 	FILE			*fLog;
 
 	// Memory Array
-	UINT32			memory[MEM_ADDR_1MB_WIDTH];
+	//UINT32			memory[MEM_ADDR_1MB_WIDTH];
+	unsigned int *memory;
 
 	// Address Parameter
 	UINT32					base_addr;
@@ -88,6 +90,8 @@ SC_MODULE(AHBL2MEM)	{
 	BDDI* GetBDDI();
 	char* GetModuleName();
 	void BDInit();
+
+	virtual ~AHBL2MEM();
 
 	/********** [member function] **********/
 	UINT32 ByteEnable(UINT32 addr, UINT32 size)	{

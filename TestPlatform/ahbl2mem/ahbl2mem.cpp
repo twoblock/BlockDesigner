@@ -20,9 +20,15 @@ void AHBL2MEM::BDInit()
 	base_addr = 0;
 	addr_size = 0x100000;
 
+	memory = (unsigned int*)malloc(sizeof(unsigned int)*MEM_ADDR_100MB_WIDTH);
 	memset(memory, 0, sizeof(memory));
 
 	bddi = new AHBL2MEM_BDDI(this);
+}
+
+AHBL2MEM::~AHBL2MEM()
+{
+	free(memory);
 }
 
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
