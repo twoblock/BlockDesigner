@@ -1,0 +1,42 @@
+;#!armcc -e
+; preprocess this scatter file using armcc's preprocessor and #define's from stack.h
+;#include "stack.h"
+
+load_region 0x00000000 0x00100000
+{
+
+  ; maximum of 48 exceptions (48*4 bytes == 0xc0)
+  vectors 0x0 0xc4
+  {
+    ; exception table provided by the user in exceptions.c
+    exceptions.o (exception_area, +first)
+  }
+
+  ; code is placed immediately (+0) after the previous root region
+  ; (so code region will also be a root region)
+  code +0
+  {    
+    * (+ro)
+  }
+  
+  data 0x20000000 0x2007ffff ; 512kb
+  {                     
+    * (+rw, +zi)
+  }
+
+  ; heap starts at 0x20080000 and grows upwards
+  arm_lib_heap 0x20080000 empty 20000 ; 128kb
+  {
+  } 
+
+  ; stack starts at 0x20600000
+  ; and grows downwards for 128kb
+  arm_lib_stack 0x200c0000 empty -20000 ; 128kb
+  {
+  }
+  
+  process_stack +0 empty 0x20000 ; maximum 128kb 
+  {
+  }  
+}
+
