@@ -1284,6 +1284,8 @@ void NANDController::initMyVariables()
 	_isWrite = false;
 	_currentReadWait = READ_WAIT_CYCLE;
 	_addr = 0;
+
+  p_addr_base = 0xD0000000;
 }
 
 
@@ -1513,7 +1515,7 @@ void NANDController::BDInit()
 	bm_write_inc_SMaster.set_port_name("bm_write_inc_SMaster");
 
 	ahb_m0_mpms = new BD_AHBPort_MM((char*)"MM_M0");
-	ahb_m1_mpms = new BD_AHBPort_MM((char*)"MM_M0");
+	ahb_m1_mpms = new BD_AHBPort_MM((char*)"MM_M1");
 	ahb_s0_spss = new BD_AHBPort_SS((char*)"SS_S0");
 
 	// for BDDI

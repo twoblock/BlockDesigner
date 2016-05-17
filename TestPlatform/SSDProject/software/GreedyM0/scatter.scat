@@ -1,0 +1,83 @@
+;#!armcc -E
+; Preprocess this scatter file using armcc's preprocessor and #define's from stack.h
+;#include "stack.h"
+
+LOAD_REGION 0x00000000 0x00100000
+{
+
+  ; Maximum of 48 exceptions (48*4 bytes == 0xC0)
+  VECTORS 0x0 0xC4
+  {
+    ; Exception table provided by the user in exceptions.c
+    exceptions.o (exception_area, +FIRST)
+  }
+
+  ; Code is placed immediately (+0) after the previous root region
+  ; (so code region will also be a root region)
+  CODE +0
+  {    
+    * (+RO)
+  }
+  
+  DATA 0x20000000 0x2007FFFF ; 512KB
+  {                     
+    * (+RW, +ZI)
+  }
+
+  ; Heap starts at 0x20080000 and grows upwards
+  ARM_LIB_HEAP 0x20080000 EMPTY 20000 ; 128KB
+  {
+  } 
+
+  ; Stack starts at 0x20600000
+  ; And grows downwards for 128KB
+  ARM_LIB_STACK 0x200C0000 EMPTY -20000 ; 128KB
+  {
+  }
+  
+  PROCESS_STACK +0 EMPTY 0x20000 ; Maximum 128KB 
+  {
+  }  
+}
+
+
+;LOAD_REGION 0x00000000 0x00100000
+;{
+;
+;  ; Maximum of 48 exceptions (48*4 bytes == 0xC0)
+;  VECTORS 0x0 0xC4
+;  {
+;    ; Exception table provided by the user in exceptions.c
+;    exceptions.o (exception_area, +FIRST)
+;  }
+;
+; ; Code is placed immediately (+0) after the previous root region
+; ; (so code region will also be a root region)
+; CODE +0
+; {    
+;   * (+RO)
+; }
+; 
+; DATA 0x20000000 0x201FFFFF ;2MB
+; {                     
+;   * (+RW, +ZI)
+; }
+;
+; ; Heap starts at 0x20200000 and grows upwards
+; ARM_LIB_HEAP 0x20200000 EMPTY 0x00200000 ;2MB
+; {
+; } 
+;
+; ; Stack starts at 0x20600000
+; ; And grows downwards for 2MB
+; ARM_LIB_STACK 0x20600000 EMPTY -0x00200000 ;2MB
+; {
+; }
+; 
+; PROCESS_STACK +0 EMPTY 0x4000 ;Maximum 2MB
+; {
+; }  
+;}
+
+
+

@@ -520,6 +520,10 @@ SC_MODULE(NANDController){
 	SC_CTOR(NANDController)	{
 		BDInit();
 
+		SC_METHOD(communicate);
+		sensitive << HCLK.pos();
+		sensitive << HRESETn.neg();
+
 		SC_METHOD(update);
 		sensitive << HCLK.pos();
 		sensitive << HRESETn.neg();

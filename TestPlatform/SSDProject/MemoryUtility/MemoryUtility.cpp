@@ -20,6 +20,8 @@ void MemoryUtility::update()
 	switch(c_STATE)
 	{
 		case S_ILDE:
+			SRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
+			DRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 	/*		if( Debug_Flag_Read == true )
 			{
 				Debug_Flag_Read = false;
@@ -150,7 +152,7 @@ bool MemoryUtility::S_Memset_OneBurst()
 			return true;
 		}
 		//***** Address phase *****//
-		if( c_Index == 0)
+		if( c_Index == 0 && HReady)
 		{
 			SRAM_M_AHBv2_mpms->setAddr( r_MU_DST_ADDR + c_Index , AHB2_TRANS_NONSEQ, c_SRAM_write , AHB2_SIZE_DATA32 , AHB2_BURST_INCR, 0, false);
 			c_SRAM_DataPhase = true; 
@@ -231,7 +233,7 @@ bool MemoryUtility::D_Memset_OneBurst()
 			return true;
 		}
 		//***** Address phase *****//
-		if( c_Index == 0)
+		if( c_Index == 0 && HReady)
 		{
 			DRAM_M_AHBv2_mpms->setAddr( r_MU_DST_ADDR + c_Index , AHB2_TRANS_NONSEQ, c_DRAM_write , AHB2_SIZE_DATA32 , AHB2_BURST_INCR, 0, false);
 			c_DRAM_DataPhase = true; 
@@ -343,7 +345,7 @@ bool MemoryUtility::SRAM_Memcopy( uint32_t Addr)
 				return true; 
 		}
 		//***** Address phase *****//
-		if( c_Index == 0)
+		if( c_Index == 0 && HReady)
 		{
 			SRAM_M_AHBv2_mpms->setAddr( Addr + c_Index , AHB2_TRANS_NONSEQ, c_SRAM_write , AHB2_SIZE_DATA32 , AHB2_BURST_INCR, 0, false);
 			c_SRAM_DataPhase = true; 
@@ -477,7 +479,7 @@ bool MemoryUtility::DRAM_Memcopy( uint32_t Addr  )
 				return true; 
 		}
 		//***** Address phase *****//
-		if( c_Index == 0)
+		if( c_Index == 0 && HReady)
 		{
 			DRAM_M_AHBv2_mpms->setAddr( Addr + c_Index , AHB2_TRANS_NONSEQ, c_DRAM_write , AHB2_SIZE_DATA32 , AHB2_BURST_INCR, 0, false);
 			c_DRAM_DataPhase = true; 
@@ -602,7 +604,7 @@ bool MemoryUtility::SRAM_MemSearch(uint32_t Min_Max_Equal)
 			SRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 		}
 		//***** Address phase *****//
-		if( c_Index == 0)
+		if( c_Index == 0 && HReady)
 		{
 			SRAM_M_AHBv2_mpms->setAddr( r_MU_SRC_ADDR + c_Index , AHB2_TRANS_NONSEQ, Read , AHB2_SIZE_DATA32 , AHB2_BURST_INCR, 0, false);
 			c_SRAM_DataPhase = true; 
@@ -725,7 +727,7 @@ bool MemoryUtility::DRAM_MemSearch(uint32_t Min_Max_Equal)
 			DRAM_M_AHBv2_mpms->setSig(BD_HBUSREQ, false);
 		}
 		//***** Address phase *****//
-		if( c_Index == 0)
+		if( c_Index == 0 && HReady)
 		{
 			DRAM_M_AHBv2_mpms->setAddr( r_MU_SRC_ADDR + c_Index , AHB2_TRANS_NONSEQ, Read , AHB2_SIZE_DATA32 , AHB2_BURST_INCR, 0, false);
 			c_DRAM_DataPhase = true; 

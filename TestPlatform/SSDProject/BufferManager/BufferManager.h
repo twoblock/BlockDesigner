@@ -98,6 +98,10 @@ SC_MODULE(BufferManager){
 	SC_CTOR(BufferManager)	{
 		BDInit();
 
+		SC_METHOD(communicate);
+		sensitive << HCLK.pos();
+		sensitive << HRESETn.neg();
+
 		SC_METHOD(update);
 		sensitive << HCLK.pos();
 		sensitive << HRESETn.neg();
