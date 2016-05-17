@@ -77,8 +77,8 @@ SC_MODULE(AHB_ARBITER_M3)	{
 						hgrant = 0x2;
 					else if((hbusreq & 0x1) && hgrant == 0x1)
 						hgrant = 0x1;
-					//else if(hbusreq == 0x0)
-						//hgrant = 0x0;
+					else if(hbusreq == 0x0)
+						hgrant = 0x0;
 					else if((hbusreq & 0x2) && hgrant == 0x4)
 						hgrant = 0x2;
 					else if((hbusreq == 0x1) && hgrant == 0x4)
@@ -91,8 +91,8 @@ SC_MODULE(AHB_ARBITER_M3)	{
 						hgrant = 0x4;
 					else if((hbusreq ==  0x2) && hgrant == 0x1)
 						hgrant = 0x2;
-					//else
-						//hgrant = 0x0;
+					else
+						hgrant = 0x0;
 				}	// if(HREADY) end.
 			}	// else.
 

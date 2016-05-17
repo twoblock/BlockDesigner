@@ -8,3 +8,6 @@ TestPlatform/sc_main/wave.vcd
 TestPlatform/sc_main/VCM0DS
 TestPlatform/sc_main/mem_log.txt
 scv200/
+TestPlatform/SSDProject/software/GreedyM0/*.txt
+TestPlatform/SSDProject/software/GreedyM0/*.bin
+TestPlatform/SSDProject/software/GreedyM0/*.axf
