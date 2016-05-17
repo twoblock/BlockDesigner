@@ -50,7 +50,13 @@ SC_MODULE(BDSTUB)	{
 		data_t->keep_only(0x100, 0xfff);
 
 		while(1)	{
-			addr_t->next();
+			while(1)	{
+				addr_t->next();
+
+				if( (addr_t->get_unsigned()%4) == 0)
+					break;
+			}
+
 			data_t->next();
 
 			if( (req_down--) == 0)
@@ -61,7 +67,8 @@ SC_MODULE(BDSTUB)	{
 				//***** Data phase *****//
 				if(data_phase)
 				{
-					AHB_MM->setWData(data_t->get_unsigned() , 0);
+					//AHB_MM->setWData(data_t->get_unsigned() , 0);
+					AHB_MM->setWData(0xffff, 0);
 
 					if( (data_stop--) == 0)	{
 						AHB_MM->HBUSREQ = false;
