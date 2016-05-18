@@ -7,7 +7,7 @@ BDDI* AHBL2MEM::GetBDDI()
 
 char* AHBL2MEM::GetModuleName()
 {
-	return (char*)"AHBL2MEM";
+	return (char*)"AHBL2MEM_DUAL_PORT";
 }
 
 void AHBL2MEM::BDInit()
@@ -15,7 +15,8 @@ void AHBL2MEM::BDInit()
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");
 
-	AHB_SS = new BD_AHBPort_SS((char*)"SS_S0");
+	AHB_S0 = new BD_AHBPort_SS((char*)"SS_S0");
+	AHB_S1 = new BD_AHBPort_SS((char*)"SS_S1");
 
 	base_addr = 0;
 	addr_size = 0x10000000;

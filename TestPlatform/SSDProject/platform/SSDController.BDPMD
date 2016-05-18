@@ -378,13 +378,13 @@
           ],
           "memory_map": [
             {
-              "size": "0x00100000",
+              "size": "0x10000000",
               "slave_module_port": "SS_S0",
               "start_address": "0x00000000",
               "slave_module": "BD_ROM"
             },
             {
-              "size": "0x00100000",
+              "size": "0x10000000",
               "slave_module_port": "SS_S0",
               "start_address": "0x20000000",
               "slave_module": "BD_SRAM"
@@ -418,6 +418,12 @@
               "slave_module_port": "SS_S0",
               "start_address": "0xB0000000",
               "slave_module": "BD_CONSOLE"
+            },
+            {
+              "size": "0x10000000",
+              "slave_module_port": "SS_S1",
+              "start_address": "0x60000000",
+              "slave_module": "BD_DRAM_DUALPORT"
             }
           ],
           "register": [
@@ -1115,13 +1121,13 @@
               "bits_wide": "32",
               "par_name": "p_addr_base"
             },
-						{
+            {
               "data_type": "0",
               "default_value": "0x10000000",
               "bits_wide": "32",
               "par_name": "p_addr_size"
             },
-						{
+            {
               "data_type": "4",
               "default_value": "0",
               "bits_wide": "32",
@@ -1132,6 +1138,7 @@
             
           ],
           "register": [
+            
           ]
         },
         "module_type": "other",
@@ -1218,49 +1225,49 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "5",
               "bits_wide": "32",
               "par_name": "p_tADL"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "6400",
               "bits_wide": "32",
               "par_name": "p_tBERS"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "360",
               "bits_wide": "32",
               "par_name": "p_tPROG"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "2",
               "bits_wide": "32",
               "par_name": "p_tR"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tRC"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tRR"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "5",
               "bits_wide": "32",
               "par_name": "p_tWB"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tWC"
             }
@@ -1385,49 +1392,49 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "5",
               "bits_wide": "32",
               "par_name": "p_tADL"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "6400",
               "bits_wide": "32",
               "par_name": "p_tBERS"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "360",
               "bits_wide": "32",
               "par_name": "p_tPROG"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "2",
               "bits_wide": "32",
               "par_name": "p_tR"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tRC"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tRR"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "5",
               "bits_wide": "32",
               "par_name": "p_tWB"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tWC"
             }
@@ -1552,49 +1559,49 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "5",
               "bits_wide": "32",
               "par_name": "p_tADL"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "6400",
               "bits_wide": "32",
               "par_name": "p_tBERS"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "360",
               "bits_wide": "32",
               "par_name": "p_tPROG"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "2",
               "bits_wide": "32",
               "par_name": "p_tR"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tRC"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tRR"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "5",
               "bits_wide": "32",
               "par_name": "p_tWB"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tWC"
             }
@@ -1719,49 +1726,49 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "5",
               "bits_wide": "32",
               "par_name": "p_tADL"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "6400",
               "bits_wide": "32",
               "par_name": "p_tBERS"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "360",
               "bits_wide": "32",
               "par_name": "p_tPROG"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "2",
               "bits_wide": "32",
               "par_name": "p_tR"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tRC"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tRR"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "5",
               "bits_wide": "32",
               "par_name": "p_tWB"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_tWC"
             }
@@ -2141,10 +2148,10 @@
           ],
           "memory_map": [
             {
-              "size": "0x00100000",
+              "size": "0x10000000",
               "slave_module_port": "SS_S0",
               "start_address": "0x60000000",
-              "slave_module": "BD_DRAM"
+              "slave_module": "BD_DRAM_DUALPORT"
             }
           ],
           "register": [
@@ -2157,7 +2164,7 @@
       },
       {
         "module_info": {
-          "instance_name": "BD_DRAM",
+          "instance_name": "BD_DRAM_DUALPORT",
           "port": [
             {
               "sc_type": "sc_in",
@@ -2172,6 +2179,11 @@
             {
               "sc_type": "AHB",
               "port": "SS_S0",
+              "data_type": "SS"
+            },
+            {
+              "sc_type": "AHB",
+              "port": "SS_S1",
               "data_type": "SS"
             }
           ],
@@ -2191,8 +2203,8 @@
           ]
         },
         "module_type": "mem",
-        "module_location": "\/home\/harold\/workspace\/BlockDesigner\/TestPlatform\/ahbl2mem\/libahbl2mem.so",
-        "module_name": "AHBL2MEM"
+        "module_location": "\/home\/harold\/workspace\/BlockDesigner\/TestPlatform\/ahbl2mem_DualPort\/libahbl2mem.so",
+        "module_name": "AHBL2MEM_DUAL_PORT"
       }
     ],
     "Channel_Info": [
@@ -2264,7 +2276,7 @@
           },
           {
             "port_name": "HCLK",
-            "module_name": "BD_DRAM"
+            "module_name": "BD_DRAM_DUALPORT"
           }
         ],
         "data_type": "bool",
@@ -2340,7 +2352,7 @@
           },
           {
             "port_name": "HRESETn",
-            "module_name": "BD_DRAM"
+            "module_name": "BD_DRAM_DUALPORT"
           }
         ],
         "data_type": "bool",
@@ -2716,7 +2728,10 @@
       },
       {
         "connection_info": [
-          
+          {
+            "port_name": "SS_S1",
+            "module_name": "BD_DRAM_DUALPORT"
+          }
         ],
         "data_type": "Slave",
         "name": "BD_AHB$SM_S7",
@@ -3105,7 +3120,7 @@
         "connection_info": [
           {
             "port_name": "SS_S0",
-            "module_name": "BD_DRAM"
+            "module_name": "BD_DRAM_DUALPORT"
           }
         ],
         "data_type": "Slave",

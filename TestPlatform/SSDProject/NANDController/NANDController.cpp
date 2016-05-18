@@ -1,4 +1,5 @@
 #include "NANDController.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -32,10 +33,10 @@ void NANDController::communicate()
 	 **************************************************************************************/
 	if(getRegister(FCP_ISSUE) == ISSUE_ENABLE)
 	{
-		//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "Command ISSUED\n");
+		printf( "Command ISSUED\n");
 
 		if(getRegister(WR_STAT) == WR_STAT_BUSY) {
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "Waiting Room is Busy, ignore this command\n");
+			printf( "Waiting Room is Busy, ignore this command\n");
 		}
 		else
 		{
@@ -45,7 +46,7 @@ void NANDController::communicate()
 			//The Banks FSM is already running.
 			if(getRegister(BSP_FSM(curFCPCommand.bank)) != BS_IDLE)
 			{
-				//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "%d Bank is busy, put this command into WR\n", curFCPCommand.bank);
+				printf( "%d Bank is busy, put this command into WR\n", curFCPCommand.bank);
 
 				//Active Wating Room.
 				setRegister(WR_BANK, curFCPCommand.bank);
@@ -74,7 +75,7 @@ void NANDController::communicate()
 	if(		getRegister(WR_STAT) == WR_STAT_BUSY		&&
 			NextStateOfBanks[wrBank] == BS_IDLE)
 	{
-		//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "%d Bank become IDLE, issue CMD to %d Bank from WR\n", wrBank, wrBank);
+		printf( "%d Bank become IDLE, issue CMD to %d Bank from WR\n", wrBank, wrBank);
 
 		issueCommandToBank(wrBank);
 		bIssued[wrBank] = true;
@@ -219,6 +220,8 @@ void NANDController::update()
 	 * Send Drive
 	 **************************************************************************************/
 	for(int i=0; i<NUM_BANKS; i++) {
+		if(tmp_flash_dout[i] != 0x0)
+			printf("Dout %x \n", tmp_flash_dout[i]);
 		flash_dout_SMaster[i] = tmp_flash_dout[i];
 		flash_sout_SMaster[i] = tmp_flash_sout[i];
 	}
@@ -248,7 +251,7 @@ void NANDController::getCommandInfo()
 	curFCPCommand.row[curFCPCommand.bank][0] = getRegister(FCP_ROW_L(curFCPCommand.bank));
 	curFCPCommand.row[curFCPCommand.bank][1] = getRegister(FCP_ROW_H(curFCPCommand.bank));
 	if(curFCPCommand.row[curFCPCommand.bank][0] != curFCPCommand.row[curFCPCommand.bank][1]) {
-		//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "Different row, ROW_L:%d, ROW_H:%d", curFCPCommand.row[curFCPCommand.bank][0], curFCPCommand.row[curFCPCommand.bank][1]);
+		printf( "Different row, ROW_L:%d, ROW_H:%d", curFCPCommand.row[curFCPCommand.bank][0], curFCPCommand.row[curFCPCommand.bank][1]);
 	}
 
 	curFCPCommand.dst_col		= getRegister(FCP_DST_COL);
@@ -263,21 +266,21 @@ void NANDController::getCommandInfo()
 	////////////////////////////////////////////////////////////////////
 	// Print log
 	////////////////////////////////////////////////////////////////////
-	/*message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, ">> FCP Command Receive------------------\n");
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "cmd:\t0x%x\n", curFCPCommand.cmd);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "bank:\t0x%x\n", curFCPCommand.bank);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "option:\t0x%x\n", curFCPCommand.option);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "dma_addr:\t0x%x\n", curFCPCommand.dma_addr);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "dma_cnt:\t0x%x\n", curFCPCommand.dma_cnt);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "col:\t0x%x\n", curFCPCommand.col);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "row_l:\t0x%x\n", curFCPCommand.row[curFCPCommand.bank][0]);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "row_h:\t0x%x\n", curFCPCommand.row[curFCPCommand.bank][1]);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "dst_col:\t0x%x\n", curFCPCommand.dst_col);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "dst_row_l:\t0x%x\n", curFCPCommand.dst_row[0]);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "dst_row_h:\t0x%x\n", curFCPCommand.dst_row[1]);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "cmd_id:\t0x%x\n", curFCPCommand.cmd_id);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "issue:\t0x%x\n", curFCPCommand.issue);
-		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "---------------------------------------\n"); */
+	printf( ">> FCP Command Receive------------------\n");
+	printf( "cmd:\t0x%x\n", curFCPCommand.cmd);
+	printf( "bank:\t0x%x\n", curFCPCommand.bank);
+	printf( "option:\t0x%x\n", curFCPCommand.option);
+	printf( "dma_addr:\t0x%x\n", curFCPCommand.dma_addr);
+	printf( "dma_cnt:\t0x%x\n", curFCPCommand.dma_cnt);
+	printf( "col:\t0x%x\n", curFCPCommand.col);
+	printf( "row_l:\t0x%x\n", curFCPCommand.row[curFCPCommand.bank][0]);
+	printf( "row_h:\t0x%x\n", curFCPCommand.row[curFCPCommand.bank][1]);
+	printf( "dst_col:\t0x%x\n", curFCPCommand.dst_col);
+	printf( "dst_row_l:\t0x%x\n", curFCPCommand.dst_row[0]);
+	printf( "dst_row_h:\t0x%x\n", curFCPCommand.dst_row[1]);
+	printf( "cmd_id:\t0x%x\n", curFCPCommand.cmd_id);
+	printf( "issue:\t0x%x\n", curFCPCommand.issue);
+	printf( "---------------------------------------\n");
 }
 
 
@@ -352,12 +355,12 @@ void NANDController::runCommand(int bank)
 		case FC_GENERIC:		//generic command (FCP_COL = command code)
 		case FC_GENERIC_ADDR:	//generic address (FCP_ROW_L and FCP_ROW_H = address, FCP_DMA_CNT = cycle count)
 		case FC_READ_ID:		//read_ID command - [flash -> SRAM] (FCP_OPTION = 0, FCP_DMA_ADDR = SRAM address, FCP_DMA_CNT = 16, FCP_COL = 0)
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "Unused Command 0x%X\n", curFCPCommand.cmd);
+			printf( "Unused Command 0x%X\n", curFCPCommand.cmd);
 			break;
 
 
 		default:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "Invalid Command 0x%X\n", curFCPCommand.cmd);
+			printf( "Invalid Command 0x%X\n", curFCPCommand.cmd);
 			break;
 	}
 }
@@ -394,67 +397,70 @@ void NANDController::combinationalLogicBankFSM(int bank)
 
 			//////////////////////////////Read Status//////////////////////////////
 		case BS_RS_CMD:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_RS_CMD\n", bank);
+			printf( "[Bank#%d] State: BS_RS_CMD\n", bank);
 			*nextState = (uint8_t)BS_RS_DATA;
 			break;
 
 		case BS_RS_DATA:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_RS_DATA\n", bank);
+			printf( "[Bank#%d] State: BS_RS_DATA\n", bank);
 			*nextState = (uint8_t)BS_IDLE; //finish
 			break;
 
 
 			//////////////////////////////Read//////////////////////////////
 		case BS_READ_CMD_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_READ_CMD_1\n", bank);
+			printf( "[Bank#%d] State: BS_READ_CMD_1\n", bank);
 			*nextState = (uint8_t)BS_READ_COL_1;
 			break;
 
 		case BS_READ_COL_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_READ_COL_1\n", bank);
+			printf( "[Bank#%d] State: BS_READ_COL_1\n", bank);
 			*nextState = (uint8_t)BS_READ_COL_2;
 			break;
 
 		case BS_READ_COL_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_READ_COL_2\n", bank);
+			printf( "[Bank#%d] State: BS_READ_COL_2\n", bank);
 			*nextState = (uint8_t)BS_READ_ROW_1;
 			break;
 
 		case BS_READ_ROW_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_READ_ROW_1\n", bank);
+			printf( "[Bank#%d] State: BS_READ_ROW_1\n", bank);
 			*nextState = (uint8_t)BS_READ_ROW_2;
 			break;
 
 		case BS_READ_ROW_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_READ_ROW_2\n", bank);
+			printf( "[Bank#%d] State: BS_READ_ROW_2\n", bank);
 			*nextState = (uint8_t)BS_READ_CMD_2;
 			break;
 
 		case BS_READ_CMD_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_READ_CMD_2\n", bank);
+			printf( "[Bank#%d] State: BS_READ_CMD_2\n", bank);
 			*nextState = (uint8_t)BS_READ_WAIT;
 			flash_inputSignal_active[bank] = false;
 
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Move to BS_READ_WAIT\n", bank);
+			printf( "[Bank#%d] Move to BS_READ_WAIT\n", bank);
 			break;
 
 		case BS_READ_WAIT:
 			if(flash_inputSignal_active[bank])
 			{
+				//printf( "[Bank#%d] BS_READ_WAIT Active \n", bank);
 				if(RBn[bank] == READY) {
+					printf( "[Bank#%d] READY! BS_READ_WAIT \n", bank);
 					*nextState = *pStateFSMBanks = (uint8_t)BS_READ_DATA;
 					*index = 0;
 					flash_inputSignal_active[bank] = false;
 				}
 			}
 			else {
+				//printf( "[Bank#%d] BS_READ_WAIT No Active \n", bank);
 				flash_inputSignal_active[bank] = true;
 			}
 			break;
 
 		case BS_READ_DATA: //1024 iteration: using curReadIdx
 			if(*index == 0) {
-				//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_READ_DATA\n", bank);
+				printf( "[Bank#%d] State: BS_READ_DATA\n", bank);
 			}
 
 
@@ -476,7 +482,7 @@ void NANDController::combinationalLogicBankFSM(int bank)
 
 				if(getRegister(BSP_OPTION(bank)) & FO_B_SATA_R)
 				{
-					//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Move to BS_READ_INC_BM\n", bank);
+					printf( "[Bank#%d] Move to BS_READ_INC_BM\n", bank);
 					*pStateFSMBanks = (uint8_t)BS_READ_INC_BM;
 					*nextState = (uint8_t)BS_IDLE; //Move to state for BufferManasger
 				}
@@ -497,41 +503,41 @@ void NANDController::combinationalLogicBankFSM(int bank)
 			if(dma_done[bank]) { //Read data that will be wrote into nand flash from external memory.
 				dma_running_bank = DMA_IDLE;
 
-				//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Move to BS_WRITE_CMD_1\n", bank);
+				printf( "[Bank#%d] Move to BS_WRITE_CMD_1\n", bank);
 				*pStateFSMBanks = (uint8_t)BS_WRITE_CMD_1;
 				*nextState = (uint8_t)BS_WRITE_COL_1;
 			}
 			break;
 
 		case BS_WRITE_CMD_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_WRITE_CMD_1\n", bank);
+			printf( "[Bank#%d] State: BS_WRITE_CMD_1\n", bank);
 			*nextState = (uint8_t)BS_WRITE_COL_1;
 			break;
 
 		case BS_WRITE_COL_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_WRITE_COL_1\n", bank);
+			printf( "[Bank#%d] State: BS_WRITE_COL_1\n", bank);
 			*nextState = (uint8_t)BS_WRITE_COL_2;
 			break;
 
 		case BS_WRITE_COL_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_WRITE_COL_2\n", bank);
+			printf( "[Bank#%d] State: BS_WRITE_COL_2\n", bank);
 			*nextState = (uint8_t)BS_WRITE_ROW_1;
 			break;
 
 		case BS_WRITE_ROW_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_WRITE_ROW_1\n", bank);
+			printf( "[Bank#%d] State: BS_WRITE_ROW_1\n", bank);
 			*nextState = (uint8_t)BS_WRITE_ROW_2;
 			break;
 
 		case BS_WRITE_ROW_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_WRITE_ROW_2\n", bank);
+			printf( "[Bank#%d] State: BS_WRITE_ROW_2\n", bank);
 			*nextState = (uint8_t)BS_WRITE_DATA;
 			*index = 0;
 			break;
 
 		case BS_WRITE_DATA: //1024 iteration: using curWriteIdx
 			if(*index == 0) {
-				//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_WRITE_DATA, writeIdx: %d\n", bank, *index);
+				printf( "[Bank#%d] State: BS_WRITE_DATA, writeIdx: %d\n", bank, *index);
 			}
 
 			if(*index >= BYTE_PER_PAGE-2) {
@@ -540,11 +546,11 @@ void NANDController::combinationalLogicBankFSM(int bank)
 			break;
 
 		case BS_WRITE_CMD_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_WRITE_CMD_2\n", bank);
+			printf( "[Bank#%d] State: BS_WRITE_CMD_2\n", bank);
 			*nextState = (uint8_t)BS_WRITE_WAIT;
 			flash_inputSignal_active[bank] = false;
 
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Move to BS_WRITE_WAIT\n", bank);
+			printf( "[Bank#%d] Move to BS_WRITE_WAIT\n", bank);
 			break;
 
 		case BS_WRITE_WAIT:
@@ -553,7 +559,7 @@ void NANDController::combinationalLogicBankFSM(int bank)
 				if(RBn[bank] == READY)
 				{
 					if(getRegister(BSP_OPTION(bank)) & FO_B_SATA_W) {
-						//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Move to BS_WRITE_INC_BM\n", bank);
+						printf( "[Bank#%d] Move to BS_WRITE_INC_BM\n", bank);
 						*pStateFSMBanks = (uint8_t)BS_WRITE_INC_BM; //Move to the state for Buffer manager
 						*nextState = (uint8_t)BS_RS_CMD;
 					}
@@ -578,36 +584,36 @@ void NANDController::combinationalLogicBankFSM(int bank)
 
 			//////////////////////////////Copy-Back//////////////////////////////
 		case BS_CB_CMD_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_CMD_1\n", bank);
+			printf( "[Bank#%d] State: BS_CB_CMD_1\n", bank);
 			*nextState = (uint8_t)BS_CB_COL_1;
 			break;
 
 		case BS_CB_COL_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_COL_1\n", bank);
+			printf( "[Bank#%d] State: BS_CB_COL_1\n", bank);
 			*nextState = (uint8_t)BS_CB_COL_2;
 			break;
 
 		case BS_CB_COL_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_COL_2\n", bank);
+			printf( "[Bank#%d] State: BS_CB_COL_2\n", bank);
 			*nextState = (uint8_t)BS_CB_ROW_1;
 			break;
 
 		case BS_CB_ROW_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_ROW_1\n", bank);
+			printf( "[Bank#%d] State: BS_CB_ROW_1\n", bank);
 			*nextState = (uint8_t)BS_CB_ROW_2;
 			break;
 
 		case BS_CB_ROW_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_ROW_2\n", bank);
+			printf( "[Bank#%d] State: BS_CB_ROW_2\n", bank);
 			*nextState = (uint8_t)BS_CB_CMD_2;
 			break;
 
 		case BS_CB_CMD_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_CMD_2\n", bank);
+			printf( "[Bank#%d] State: BS_CB_CMD_2\n", bank);
 			*nextState = (uint8_t)BS_CB_WAIT_1;
 			flash_inputSignal_active[bank] = false;
 
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Move to BS_CB_WAIT_1\n", bank);
+			printf( "[Bank#%d] Move to BS_CB_WAIT_1\n", bank);
 			break;
 
 		case BS_CB_WAIT_1:
@@ -627,36 +633,36 @@ void NANDController::combinationalLogicBankFSM(int bank)
 			break;
 
 		case BS_CB_CMD_3:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_CMD_3\n", bank);
+			printf( "[Bank#%d] State: BS_CB_CMD_3\n", bank);
 			*nextState = (uint8_t)BS_CB_COL_3;
 			break;
 
 		case BS_CB_COL_3:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_COL_3\n", bank);
+			printf( "[Bank#%d] State: BS_CB_COL_3\n", bank);
 			*nextState = (uint8_t)BS_CB_COL_4;
 			break;
 
 		case BS_CB_COL_4:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_COL_4\n", bank);
+			printf( "[Bank#%d] State: BS_CB_COL_4\n", bank);
 			*nextState = (uint8_t)BS_CB_ROW_3;
 			break;
 
 		case BS_CB_ROW_3:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_ROW_3\n", bank);
+			printf( "[Bank#%d] State: BS_CB_ROW_3\n", bank);
 			*nextState = (uint8_t)BS_CB_ROW_4;
 			break;
 
 		case BS_CB_ROW_4:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_ROW_4\n", bank);
+			printf( "[Bank#%d] State: BS_CB_ROW_4\n", bank);
 			*nextState = (uint8_t)BS_CB_CMD_4;
 			break;
 
 		case BS_CB_CMD_4:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_CB_CMD_4\n", bank);
+			printf( "[Bank#%d] State: BS_CB_CMD_4\n", bank);
 			*nextState = (uint8_t)BS_CB_WAIT_2;
 			flash_inputSignal_active[bank] = false;
 
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Move to BS_CB_WAIT_2\n", bank);
+			printf( "[Bank#%d] Move to BS_CB_WAIT_2\n", bank);
 			break;
 
 		case BS_CB_WAIT_2:
@@ -679,26 +685,26 @@ void NANDController::combinationalLogicBankFSM(int bank)
 
 			//////////////////////////////Erase//////////////////////////////
 		case BS_ERASE_CMD_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_ERASE_CMD_1\n", bank);
+			printf( "[Bank#%d] State: BS_ERASE_CMD_1\n", bank);
 			*nextState = (uint8_t)BS_ERASE_ROW_1;
 			break;
 
 		case BS_ERASE_ROW_1:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_ERASE_ROW_1\n", bank);
+			printf( "[Bank#%d] State: BS_ERASE_ROW_1\n", bank);
 			*nextState = (uint8_t)BS_ERASE_ROW_2;
 			break;
 
 		case BS_ERASE_ROW_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_ERASE_ROW_2\n", bank);
+			printf( "[Bank#%d] State: BS_ERASE_ROW_2\n", bank);
 			*nextState = (uint8_t)BS_ERASE_CMD_2;
 			break;
 
 		case BS_ERASE_CMD_2:
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] State: BS_ERASE_CMD_2\n", bank);
+			printf( "[Bank#%d] State: BS_ERASE_CMD_2\n", bank);
 			*nextState = (uint8_t)BS_ERASE_WAIT;
 			flash_inputSignal_active[bank] = false;
 
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Move to BS_ERASE_WAIT\n", bank);
+			printf( "[Bank#%d] Move to BS_ERASE_WAIT\n", bank);
 			break;
 
 		case BS_ERASE_WAIT:
@@ -762,7 +768,7 @@ void NANDController::outputLogicBankFSM(int bank)
 
 		case BS_RS_DATA:
 			r_data = flash_din_SSlave[bank];
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "Read data: 0x%x\n", r_data);
+			printf( "Read data: 0x%x\n", r_data);
 			break;
 
 
@@ -854,7 +860,7 @@ void NANDController::outputLogicBankFSM(int bank)
 				buffers[bank][(*index)+1] = (uint8_t)((r_data & 0xFF00) >> 8);
 
 				//if(p_enableDbgMsg)
-				//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Read data: 0x%X, index: %d\n", bank, r_data, *index);
+				printf( "[Bank#%d] Read data: 0x%X, index: %d\n", bank, r_data, *index);
 
 				(*index) += 2;
 			}
@@ -863,7 +869,7 @@ void NANDController::outputLogicBankFSM(int bank)
 			}
 
 			tmp_flash_sout[bank] = encodingSignals(signals);
-			//;//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Drive to bank#%d] sout(%d)", bank, encoded_signal);
+			//printf( "[Drive to bank#%d] sout(%d)", bank, encoded_signal);
 			break;
 
 		case BS_READ_DMA:
@@ -945,7 +951,7 @@ void NANDController::outputLogicBankFSM(int bank)
 			w_data_h = (buffers[bank][(*index)+1]);
 
 			//if(p_enableDbgMsg)
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] Write data: 0x%X, index: %d\n", bank, ((w_data_h << 8)|w_data_l), *index);
+			printf( "[Bank#%d] Write data: 0x%X, index: %d\n", bank, ((w_data_h << 8)|w_data_l), *index);
 
 			(*index)+=2;
 			tmp_flash_sout[bank] = encodingSignals(signals);
@@ -1198,7 +1204,7 @@ void NANDController::outputLogicBankFSM(int bank)
 
 void NANDController::printRegisters() {
 	//for(int i=0; i<NUM_REGISTER; i++) {
-	//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW,"offset: %d, \tvalue: %d\n", i, m_regs[i]);
+	//printf("offset: %d, \tvalue: %d\n", i, m_regs[i]);
 	//}
 }
 
@@ -1208,7 +1214,7 @@ void NANDController::log(const char *format, ...) {
 		va_list args;
 		va_start(args, format);
 
-		//;//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, format, args);
+		;//printf( format, args);
 
 		va_end(args);
 	}
@@ -1239,7 +1245,7 @@ void NANDController::decodingSignals(int value, signal_t *signals) {
 
 void NANDController::initMyVariables()
 {
-	//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[initMyVariables]\n");
+	printf( "[initMyVariables]\n");
 
 
 	//init all registers
@@ -1296,7 +1302,7 @@ void NANDController::setRegister(uint32_t offset, uint32_t val)
 {
 	//invalid offset
 	if(offset > ((NUM_REGISTER-1)*sizeof(uint32_t))) {
-		//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "Invalid Register offset 0x%X\n", offset);
+		printf( "Invalid Register offset 0x%X\n", offset);
 		return;
 	}
 
@@ -1371,7 +1377,7 @@ bool NANDController::runDMA(int bank, int bWrite)
 		dma_write = bWrite;
 
 
-		//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] [Start DMA] addr: 0x%X, cnt: %d, offset: %d, write: %d, \n", bank, dma_addr, dma_cnt, dma_offset, dma_write);
+		printf( "[Bank#%d] [Start DMA] addr: 0x%X, cnt: %d, offset: %d, write: %d, \n", bank, dma_addr, dma_cnt, dma_offset, dma_write);
 	}
 
 
@@ -1402,8 +1408,8 @@ bool NANDController::runDMA(int bank, int bWrite)
 				uint32_t tmp = *((uint32_t*)&buffers[bank][curIdx[bank]+dma_offset]);
 				ahb_m1_mpms->setWData(tmp, 0);
 				//if(p_enableDbgMsg) {
-				//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] [DMA] write data: 0x%08X, index: %d, buffer[index]: 0x%X%X%X%X\n",
-				//bank, tmp, curIdx[bank]+dma_offset, buffers[bank][curIdx[bank]+dma_offset], buffers[bank][curIdx[bank]+dma_offset+1], buffers[bank][curIdx[bank]+dma_offset+2], buffers[bank][curIdx[bank]+dma_offset+3]);
+				printf( "[Bank#%d] [DMA] write data: 0x%08X, index: %d, buffer[index]: 0x%X%X%X%X\n",
+				bank, tmp, curIdx[bank]+dma_offset, buffers[bank][curIdx[bank]+dma_offset], buffers[bank][curIdx[bank]+dma_offset+1], buffers[bank][curIdx[bank]+dma_offset+2], buffers[bank][curIdx[bank]+dma_offset+3]);
 				//}
 
 
@@ -1425,14 +1431,13 @@ bool NANDController::runDMA(int bank, int bWrite)
 					{
 						uint32_t r_data = ahb_m1_mpms->getRData(0);
 						//if(p_enableDbgMsg) {
-						//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] [DMA] read data: 0x%08X, index: %d",
-						//bank, r_data, curIdx[bank]+dma_offset);
+						printf( "[Bank#%d] [DMA] read data: 0x%08X, index: %d", bank, r_data, curIdx[bank]+dma_offset);
 						//}
 
 						*((uint32_t*)&buffers[bank][curIdx[bank]+dma_offset]) = r_data;
 
 						//if(p_enableDbgMsg) {
-						//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, ", buffer[index]: 0x%X%X%X%X\n", buffers[bank][curIdx[bank]+dma_offset], buffers[bank][curIdx[bank]+dma_offset+1], buffers[bank][curIdx[bank]+dma_offset+2], buffers[bank][curIdx[bank]+dma_offset+3]);
+						printf( ", buffer[index]: 0x%X%X%X%X\n", buffers[bank][curIdx[bank]+dma_offset], buffers[bank][curIdx[bank]+dma_offset+1], buffers[bank][curIdx[bank]+dma_offset+2], buffers[bank][curIdx[bank]+dma_offset+3]);
 						//}
 
 						curIdx[bank] += 4;
@@ -1455,7 +1460,7 @@ bool NANDController::runDMA(int bank, int bWrite)
 
 		//////////////////////finish//////////////////////
 		if(curIdx[bank] >= dma_cnt) {
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Bank#%d] [End DMA] addr: 0x%X, cnt: %d, write: %d\n", bank, dma_addr, dma_cnt, dma_write);
+			printf( "[Bank#%d] [End DMA] addr: 0x%X, cnt: %d, write: %d\n", bank, dma_addr, dma_cnt, dma_write);
 			ahb_m1_mpms->setSig(BD_HBUSREQ, false);
 
 			return true;
