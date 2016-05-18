@@ -495,7 +495,7 @@ namespace BDapi
 			Sum_Of_self_duration_Per += self_duration_Per;
 
 			FunctionPT.clear();
-			if(m_Symbol_Table[i].Is_Profilied == true){
+			//if(m_Symbol_Table[i].Is_Profilied == true){
 				sprintf(a_Buffer, "%d", i+1);
 				FunctionPT["function_index"] = a_Buffer;
 				memset(a_Buffer, 0, sizeof(a_Buffer));
@@ -518,9 +518,9 @@ namespace BDapi
 
 				ProfilingTable.append(FunctionPT);
 
-				if(m_Symbol_Table[i].Is_it_Called_Now == false)
-					m_Symbol_Table[i].Is_Profilied = false;
-			}
+				//if(m_Symbol_Table[i].Is_it_Called_Now == false)
+					//m_Symbol_Table[i].Is_Profilied = false;
+			//}
 		}
 
 		FunctionPT["function_index"] = "0";
