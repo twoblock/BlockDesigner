@@ -18,7 +18,7 @@ void AHBL2MEM::BDInit()
 	AHB_SS = new BD_AHBPort_SS((char*)"SS_S0");
 
 	base_addr = 0;
-	addr_size = 0x100000;
+	addr_size = 0x10000000;
 
 	memory = (unsigned int*)malloc(sizeof(unsigned int)*MEM_ADDR_100MB_WIDTH);
 	memset(memory, 0, sizeof(memory));

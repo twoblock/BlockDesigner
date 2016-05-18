@@ -91,7 +91,7 @@ void NANDFlashArray_SLC::excuteCommand()
 
 		default:
 			break;
-			//message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] Command is illegal(temp_reg: %d)\n", temp_signal);
+			//printf( "[Error] Command is illegal(temp_reg: %d)\n", temp_signal);
 	}
 }
 
@@ -105,28 +105,28 @@ void NANDFlashArray_SLC::communicate()
 			switch(busy_mode)
 			{
 				case BUSY_CB_READ:
-					//	message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "(Copy-back)\n");
+						printf( "(Copy-back)\n");
 				case BUSY_READ:
 					state = COMMAND;
-					//	message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Busy state] Read end. page:%d, blk:%d\n", temp_page_n, temp_blk_n);
+						printf( "[Busy state] Read end. page:%d, blk:%d\n", temp_page_n, temp_blk_n);
 					break;
 
 				case BUSY_CB_WRITE:
-					//	message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "(Copy-back)\n");
+						printf( "(Copy-back)\n");
 				case BUSY_WRITE:
 					state = COMMAND;
 					m_blocks[temp_blk_n].write(temp_page_n, temp_buffers, PAGE_SIZE);
-					//		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Busy state] Write end. page:%d, blk:%d\n", temp_page_n, temp_blk_n);
+							printf( "[Busy state] Write end. page:%d, blk:%d\n", temp_page_n, temp_blk_n);
 					break;
 
 				case BUSY_ERASE:
 					state = COMMAND;
-					//		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Busy state] Erase end.\n");
+							printf( "[Busy state] Erase end.\n");
 					break;
 
 				default:
 					break;
-					//		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] Busy mode is illegal. (busy_mode=%d)\n", busy_mode);
+							//printf( "[Error] Busy mode is illegal. (busy_mode=%d)\n", busy_mode);
 			}
 
 			busy_mode = NOT_BUSY;
@@ -165,7 +165,7 @@ void NANDFlashArray_SLC::communicate()
 					{
 						temp_reg = r_P_AddrReg;
 						if(temp_reg >= PAGES_PER_BLOCK) {
-							//			message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] input page addr is too large(0x$x)\n", temp_reg);
+										printf( "[Error] input page addr is too large(0x$x)\n", temp_reg);
 							return;
 						}
 						temp_page_n = temp_reg;
@@ -177,7 +177,7 @@ void NANDFlashArray_SLC::communicate()
 					{
 						temp_reg = r_B_AddrReg;
 						if(temp_reg >= BLOCKS_PER_CHIP) {
-							//			message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] input block addr is too large(0x$x)\n", temp_reg);
+										printf( "[Error] input block addr is too large(0x$x)\n", temp_reg);
 							return;
 						}
 						temp_blk_n = temp_reg;
@@ -194,7 +194,7 @@ void NANDFlashArray_SLC::communicate()
 					{
 						temp_reg = r_B_AddrReg;
 						if(temp_reg >= BLOCKS_PER_CHIP) {
-							//			message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] input block addr is too large(0x$x)\n", temp_reg);
+										//printf( "[Error] input block addr is too large(0x$x)\n", temp_reg);
 							return;
 						}
 
@@ -218,7 +218,7 @@ void NANDFlashArray_SLC::communicate()
 		case IDLE :
 			RBn_SMaster = p_RBn;
 			if(p_RBn != HIGH) {
-				//	message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] RBn is low\n");
+					//printf( "[Error] RBn is low\n");
 				return;
 			}
 			break;
@@ -226,7 +226,7 @@ void NANDFlashArray_SLC::communicate()
 		case ADDRESS :
 			RBn_SMaster = p_RBn;
 			if(p_RBn != HIGH) {
-				//	message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] RBn is low\n");
+					//printf( "[Error] RBn is low\n");
 				return;
 			}
 
@@ -246,7 +246,7 @@ void NANDFlashArray_SLC::communicate()
 		case COMMAND :
 			RBn_SMaster = p_RBn;
 			if(p_RBn != HIGH) {
-				//		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] RBn is low\n");
+						//printf( "[Error] RBn is low\n");
 				return;
 			}
 			break;
@@ -254,7 +254,7 @@ void NANDFlashArray_SLC::communicate()
 		case BUSY :
 			RBn_SMaster = p_RBn;
 			if(p_RBn != LOW) {
-				//		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] RBn is high\n");
+						//printf( "[Error] RBn is high\n");
 				return;
 			}
 
@@ -264,18 +264,18 @@ void NANDFlashArray_SLC::communicate()
 				switch(busy_mode)
 				{
 					case BUSY_CB_READ:
-						//			message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "(Copy-back)\n");
+									printf( "(Copy-back)\n");
 					case BUSY_READ:
 						busy_delay = p_tR + p_tRR;
 						m_blocks[temp_blk_n].read(temp_page_n, temp_buffers, PAGE_SIZE);
-						//			message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Busy state] Read start. it takes %d cycles. page:%d, blk:%d\n", busy_delay, temp_page_n,temp_blk_n);
+									printf( "[Busy state] Read start. it takes %d cycles. page:%d, blk:%d\n", busy_delay, temp_page_n,temp_blk_n);
 						break;
 
 					case BUSY_CB_WRITE:
-						//			message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "(Copy-back)\n");
+									printf( "(Copy-back)\n");
 					case BUSY_WRITE:
 						busy_delay = p_tWB + p_tPROG;
-						//			message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Busy state] Write start. it takes %d cycles. page:%d, blk:%d\n", busy_delay, temp_page_n, temp_blk_n);
+									printf( "[Busy state] Write start. it takes %d cycles. page:%d, blk:%d\n", busy_delay, temp_page_n, temp_blk_n);
 						break;
 
 					case BUSY_ERASE:
@@ -283,7 +283,7 @@ void NANDFlashArray_SLC::communicate()
 						for(erase_page=0; erase_page<PAGES_PER_BLOCK; erase_page++)
 							m_blocks[temp_blk_n].erase(temp_page_n);
 
-						//			message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Busy state] Erase start. it takes %d cycles. blk:%d\n", busy_delay, temp_blk_n);
+									printf( "[Busy state] Erase start. it takes %d cycles. blk:%d\n", busy_delay, temp_blk_n);
 						break;
 				}
 			}
@@ -292,7 +292,7 @@ void NANDFlashArray_SLC::communicate()
 		case DATA :
 			RBn_SMaster = p_RBn;
 			if(p_RBn != HIGH) {
-				//		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] RBn is low\n");
+						//printf( "[Error] RBn is low\n");
 				return;
 			}
 
@@ -326,7 +326,7 @@ void NANDFlashArray_SLC::communicate()
 		case STATUS :
 			RBn_SMaster = p_RBn;
 			if(p_RBn != HIGH) {
-				//		message(eslapi::CASI_MSG_FPUTS_CONSOLE_WINDOW, "[Error] RBn is low\n");
+						//printf( "[Error] RBn is low\n");
 				return;
 			}
 
@@ -342,6 +342,7 @@ void NANDFlashArray_SLC::update()
 
 void NANDFlashArray_SLC::driveSignal()
 {
+	printf("D_in_Slave: 0x%x\n",(unsigned int) D_in_SSlave);
 	r_CmdReg = D_in_SSlave;
 	r_P_AddrReg = D_in_SSlave; 
 	r_B_AddrReg = D_in_SSlave; 

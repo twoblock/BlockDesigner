@@ -185,7 +185,7 @@ SC_MODULE(SATAHOST){
 	unsigned int Send_PhyLayer(unsigned int input);
 	unsigned int Send_LinkLayer(unsigned int input);
 	unsigned int Send_TransportLayer(unsigned int input);
-	
+
 	BDDI* GetBDDI();
 	char* GetModuleName();
 	void BDInit();
@@ -193,14 +193,13 @@ SC_MODULE(SATAHOST){
 	SC_CTOR(SATAHOST)	{
 		BDInit();
 
-		SC_METHOD(update);
-		sensitive << HCLK.pos();
-		sensitive << HRESETn.neg();
-		
 		SC_METHOD(communicate);
 		sensitive << HCLK.pos();
 		sensitive << HRESETn.neg();
 
+		SC_METHOD(update);
+		sensitive << HCLK.pos();
+		sensitive << HRESETn.neg();
 	}
 };
 

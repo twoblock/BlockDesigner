@@ -419,6 +419,13 @@ static void write_page(UINT32 const lpn, UINT32 const sect_offset, UINT32 const 
     new_vpn  = assign_new_write_vpn(bank);
     old_vpn  = get_vpn(lpn);
 
+    printf("OLD VPN %x \n", old_vpn);
+    printf("OLD VPN %x \n", old_vpn);
+    printf("OLD VPN %x \n", old_vpn);
+    printf("OLD VPN %x \n", old_vpn);
+    printf("OLD VPN %x \n", old_vpn);
+    printf("OLD VPN %x \n", old_vpn);
+
     CHECK_VPAGE (old_vpn);
     CHECK_VPAGE (new_vpn);
     ASSERT(old_vpn != new_vpn);
@@ -444,6 +451,8 @@ static void write_page(UINT32 const lpn, UINT32 const sect_offset, UINT32 const 
             // Thus, in this case, we need just one full page read + one or two mem_copy
             if ((num_sectors <= 8) && (page_offset != 0))
             {
+
+							printf("NAND page Read!!\n");
                 // one page async read
                 nand_page_read(bank,
                                vblock,
@@ -520,6 +529,8 @@ static void write_page(UINT32 const lpn, UINT32 const sect_offset, UINT32 const 
 // get vpn from PAGE_MAP
 static UINT32 get_vpn(UINT32 const lpn)
 {
+   printf("GetVPN Addr %x \n", PAGE_MAP_ADDR + lpn * sizeof(UINT32));
+
     CHECK_LPAGE(lpn);
     return read_dram_32(PAGE_MAP_ADDR + lpn * sizeof(UINT32));
 }

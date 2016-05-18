@@ -21,7 +21,7 @@
 
 void init_jasmine(void)
 {
-	//flash_reset();							
+	flash_reset();							
 	sata_reset();
-    //ftl_open();
+  ftl_open();
 }
