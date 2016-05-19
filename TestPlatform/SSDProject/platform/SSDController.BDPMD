@@ -1010,82 +1010,82 @@
             },
             {
               "sc_type": "sc_in",
-              "port": "flash_din_SSlave[0]",
+              "port": "flash_din_SSlave_0",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_in",
-              "port": "flash_din_SSlave[1]",
+              "port": "flash_din_SSlave_1",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_in",
-              "port": "flash_din_SSlave[2]",
+              "port": "flash_din_SSlave_2",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_in",
-              "port": "flash_din_SSlave[3]",
+              "port": "flash_din_SSlave_3",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_in",
-              "port": "flash_RBn_SSlave[0]",
+              "port": "flash_RBn_SSlave_0",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_in",
-              "port": "flash_RBn_SSlave[1]",
+              "port": "flash_RBn_SSlave_1",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_in",
-              "port": "flash_RBn_SSlave[2]",
+              "port": "flash_RBn_SSlave_2",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_in",
-              "port": "flash_RBn_SSlave[3]",
+              "port": "flash_RBn_SSlave_3",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_out",
-              "port": "flash_dout_SMaster[0]",
+              "port": "flash_dout_SMaster_0",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_out",
-              "port": "flash_dout_SMaster[1]",
+              "port": "flash_dout_SMaster_1",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_out",
-              "port": "flash_dout_SMaster[2]",
+              "port": "flash_dout_SMaster_2",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_out",
-              "port": "flash_dout_SMaster[3]",
+              "port": "flash_dout_SMaster_3",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_out",
-              "port": "flash_sout_SMaster[0]",
+              "port": "flash_sout_SMaster_0",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_out",
-              "port": "flash_sout_SMaster[1]",
+              "port": "flash_sout_SMaster_1",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_out",
-              "port": "flash_sout_SMaster[2]",
+              "port": "flash_sout_SMaster_2",
               "data_type": "unsigned int"
             },
             {
               "sc_type": "sc_out",
-              "port": "flash_sout_SMaster[3]",
+              "port": "flash_sout_SMaster_3",
               "data_type": "unsigned int"
             },
             {
@@ -1138,7 +1138,11 @@
             
           ],
           "register": [
-            
+						{
+            	"data_type": "1",
+              "reg_name": "r_MON_CHABANKIDLE",
+              "bits_wide": "32"
+						}
           ]
         },
         "module_type": "other",
@@ -1189,7 +1193,7 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_CEn"
             },
@@ -1201,25 +1205,25 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_RBn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_REn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_WEn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_WPn"
             },
@@ -1356,7 +1360,7 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_CEn"
             },
@@ -1368,25 +1372,25 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_RBn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_REn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_WEn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_WPn"
             },
@@ -1523,7 +1527,7 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_CEn"
             },
@@ -1535,25 +1539,25 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_RBn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_REn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_WEn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_WPn"
             },
@@ -1690,7 +1694,7 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_CEn"
             },
@@ -1702,25 +1706,25 @@
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_RBn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_REn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_WEn"
             },
             {
               "data_type": "0",
-              "default_value": "0",
+              "default_value": "1",
               "bits_wide": "32",
               "par_name": "p_WPn"
             },
@@ -2875,7 +2879,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_din_SSlave[0]",
+        "name": "BD_NANDCONTROLLER$flash_din_SSlave_0",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2887,7 +2891,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_din_SSlave[1]",
+        "name": "BD_NANDCONTROLLER$flash_din_SSlave_1",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2899,7 +2903,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_din_SSlave[2]",
+        "name": "BD_NANDCONTROLLER$flash_din_SSlave_2",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2911,7 +2915,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_din_SSlave[3]",
+        "name": "BD_NANDCONTROLLER$flash_din_SSlave_3",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2923,7 +2927,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave[0]",
+        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave_0",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2935,7 +2939,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave[1]",
+        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave_1",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2947,7 +2951,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave[2]",
+        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave_2",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2959,7 +2963,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave[3]",
+        "name": "BD_NANDCONTROLLER$flash_RBn_SSlave_3",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2971,7 +2975,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_dout_SMaster[0]",
+        "name": "BD_NANDCONTROLLER$flash_dout_SMaster_0",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2983,7 +2987,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_dout_SMaster[1]",
+        "name": "BD_NANDCONTROLLER$flash_dout_SMaster_1",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -2995,7 +2999,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_dout_SMaster[2]",
+        "name": "BD_NANDCONTROLLER$flash_dout_SMaster_2",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -3007,7 +3011,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_dout_SMaster[3]",
+        "name": "BD_NANDCONTROLLER$flash_dout_SMaster_3",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -3019,7 +3023,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_sout_SMaster[0]",
+        "name": "BD_NANDCONTROLLER$flash_sout_SMaster_0",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -3031,7 +3035,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_sout_SMaster[1]",
+        "name": "BD_NANDCONTROLLER$flash_sout_SMaster_1",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -3043,7 +3047,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_sout_SMaster[2]",
+        "name": "BD_NANDCONTROLLER$flash_sout_SMaster_2",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -3055,7 +3059,7 @@
           }
         ],
         "data_type": "UINT32",
-        "name": "BD_NANDCONTROLLER$flash_sout_SMaster[3]",
+        "name": "BD_NANDCONTROLLER$flash_sout_SMaster_3",
         "channel_type": "sc_signal",
         "connection_num": "1"
       },
@@ -3091,7 +3095,7 @@
           }
         ],
         "data_type": "Master",
-        "name": "BD_NANDCONTROLLER$MM_M0",
+        "name": "BD_NANDCONTROLLER$MM_M1",
         "channel_type": "AHB",
         "connection_num": "1"
       },
@@ -3100,7 +3104,7 @@
           
         ],
         "data_type": "Master",
-        "name": "BD_NANDCONTROLLER$MM_M1",
+        "name": "BD_NANDCONTROLLER$MM_M0",
         "channel_type": "AHB",
         "connection_num": "0"
       },
