@@ -17,7 +17,7 @@
 #define PAGE_SIZE							2048
 #define DATA_IN_OUT_DELAY_CYCLES			1024
 #define SECTORS_PER_PAGE					4
-#define PAGES_PER_BLOCK					    32	
+#define PAGES_PER_BLOCK					   	16 
 #define BLOCKS_PER_CHIP					    512	
 ////////////////////////////////////////////////////////
 
@@ -195,7 +195,7 @@ SC_MODULE(NANDFlashArray_SLC){
 		sensitive << HRESETn.neg();
 
 		SC_METHOD(update);
-		sensitive << HCLK.pos();
+		sensitive << HCLK.neg();
 		sensitive << HRESETn.neg();
 
 		SC_METHOD(driveSignal);

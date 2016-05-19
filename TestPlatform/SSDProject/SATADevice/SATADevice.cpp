@@ -28,8 +28,8 @@ int DMA_RW_CHECK;
 //FILE *INPUTFILE = fopen("Financial1.trace","r");
 ofstream outFile_WriteRQ;
 //uint32_t j=0;
-ofstream Sata_RFile;
-ofstream Sata_WFile;
+//ofstream Sata_RFile;
+//ofstream Sata_WFile;
 
 int yy_sect_offset;
 int yy_remain_sects;
@@ -2137,12 +2137,12 @@ void SATADevice::BDInit()
 	unsigned int S_LinkLTemp = 0;
 	unsigned int S_TransLTemp = 0;
 
-	const char *homedir = getenv("HOME");
-	char SataReadOutput[128] = {0,};
-	char SataWriteOutput[128] = {0,};
+	//const char *homedir = getenv("HOME");
+	//char SataReadOutput[128] = {0,};
+	//char SataWriteOutput[128] = {0,};
 
-	if(homedir == NULL)
-		homedir = getpwuid(getuid())->pw_dir;
+	//if(homedir == NULL)
+		//homedir = getpwuid(getuid())->pw_dir;
 
 	//	SYNC_PRIM[0]=0x7C;
 	//	SYNC_PRIM[1]=0x95;
@@ -2154,13 +2154,13 @@ void SATADevice::BDInit()
 	//outFile_WriteRQ.open("/media/1TB_HDD/Host_outFile_WriteRQ.txt");
 	//int i1,i2,i3,i4,i5;
 
-	strcpy(SataWriteOutput, homedir);
-	strcpy(SataReadOutput, homedir);
-	strcat(SataWriteOutput, "/Sata_W_Output.txt");
-	strcat(SataReadOutput, "/Sata_R_Output.txt");
+	//strcpy(SataWriteOutput, homedir);
+	//strcpy(SataReadOutput, homedir);
+	//strcat(SataWriteOutput, "/Sata_W_Output.txt");
+	//strcat(SataReadOutput, "/Sata_R_Output.txt");
 
-	Sata_WFile.open(SataWriteOutput, ios::trunc);
-	Sata_RFile.open(SataReadOutput, ios::trunc);
+	//Sata_WFile.open(SataWriteOutput, ios::trunc);
+	//Sata_RFile.open(SataReadOutput, ios::trunc);
 
 	//============================================SENDING SYNC
 	//for (i = 0; i < 4; i++) {

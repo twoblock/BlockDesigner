@@ -3,6 +3,7 @@
 
 BDDIRegInfo ast_ConsoleRegInfo[] = 
 {
+	{"r_MON_CHABANKIDLE", 32, BDDIRegTypeUINT}
 };
 
 BDDIParInfo ast_ConsoleParInfo[] = 
@@ -51,6 +52,20 @@ BDDIReturn NANDController_BDDI::BDDIGetRegisterValues(unsigned int RegIndex, cha
 {
 	BDDIRegValue st_Temp;
 
+	UINT32 dw_Temp;
+
+	switch(RegIndex)
+	{
+		case 0:
+			dw_Temp = p_Target->m_regs[0x7A4/4];
+			BDDIPutInRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], &dw_Temp);
+			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
+
+			break;
+
+		default:	return BDDIStatusError;	
+
+	}
 	return BDDIStatusOK;
 }
 
@@ -59,6 +74,20 @@ BDDIReturn NANDController_BDDI::BDDISetRegisterValues(unsigned int RegIndex, con
 {
 	BDDIRegValue st_Temp;
 
+	UINT32 dw_Temp;
+
+	switch(RegIndex)
+	{
+		case 0:
+			BDDIConvertStringToRegisterValue(&st_Temp, &ast_ConsoleRegInfo[RegIndex], SetValue);
+			BDDIExtractRegisterValue(&st_Temp, &dw_Temp);
+			p_Target->m_regs[0x7A4/4] = dw_Temp;
+
+			break;
+
+		default:	return BDDIStatusError;	
+
+	}
 	return BDDIStatusOK;
 }
 
