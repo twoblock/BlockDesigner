@@ -30,18 +30,25 @@ import org.eclipse.swt.widgets.Text;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import com.twoblock.blockdesigner.command.Handler_ModuleWizard;
 
 /**
  * This class displays a ComponentWizard using a wizard
  */
-public class CW_Wizard extends Handler_ModuleWizard {
+public class CW_Wizard{
 	
 	static {
-		try{
-			System.load("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_core.so");
-		}catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load(MD_Wizard)");
+//		try{
+//			System.load("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_core.so");
+//			System.out.println("ld = loaded libBD_core.so");
+//		}catch (UnsatisfiedLinkError e) {
+//			System.err.println("Native code library failed to load(ld=MD_Wizard)");
+//		}
+		
+		try {
+			System.loadLibrary("libBD_core");
+			System.out.println("pl = loaded libBD_core.so");
+		} catch (UnsatisfiedLinkError e) {
+			System.err.println("Native code library failed to load(pl=MD_Wizard)");
 		}
 	}
 	public native String ComponentCreate(String msg);
@@ -139,6 +146,7 @@ class Step1_name extends WizardPage {
 	private String saveTarget;
 	private Text name_text;
 	private CW_Wizard m_w;
+	private Combo cmb_ModuleType;
 
 	/**
 	 * General constructor
@@ -219,7 +227,7 @@ class Step1_name extends WizardPage {
 		label = new Label(composite, SWT.LEFT);
 		label.setText("Select Module Type?");
 		
-		Combo cmb_ModuleType = new Combo(composite, SWT.READ_ONLY);
+		cmb_ModuleType = new Combo(composite, SWT.READ_ONLY);
 		cmb_ModuleType.setLayoutData(gridData2);
 		cmb_ModuleType.setItems(new String[] {"CPU","BUS","MEM","OTHERS"});
 		cmb_ModuleType.select(0);
@@ -271,8 +279,8 @@ class Step2_port extends WizardPage {
 	/**
 	 * Creates the controls for this page
 	 */
-	public void createControl(Composite parent) {
-
+	public void createControl(Composite ori_parent) {
+		final Composite parent = ori_parent;
 		GridData gd_table = new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1);
 		Button AddPort_btn;
 		Button EditPort_btn;
@@ -384,7 +392,8 @@ class Step3_register extends WizardPage {
 	/**
 	 * Creates the controls for this page
 	 */
-	public void createControl(Composite parent) {
+	public void createControl(Composite ori_parent) {
+		final Composite parent = ori_parent;
 		GridData gd_table = new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1);
 		Button AddRegister_btn;
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -458,7 +467,8 @@ class Step4_parameter extends WizardPage {
 	/**
 	 * Creates the controls for this page
 	 */
-	public void createControl(Composite parent) {
+	public void createControl(Composite ori_parent) {
+		final Composite parent = ori_parent;
 		GridData gd_table = new GridData(SWT.FILL, SWT.TOP, true, false, 2, 1);
 		Button AddParameter_btn;
 		Composite composite = new Composite(parent, SWT.NONE);
