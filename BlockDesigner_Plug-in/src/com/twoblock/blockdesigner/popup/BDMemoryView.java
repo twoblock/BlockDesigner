@@ -65,7 +65,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class BDMemoryView {
 
-	private final int DATA_LOAD_AMOUNT = 256;
+	private final int DATA_LOAD_AMOUNT = 64;
 	private final int ADDR_AMOUNT = 16;
 
 	private BDMemoryView m_instance = this;
