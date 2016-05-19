@@ -23,6 +23,7 @@ public class SoftwareLoadingView {
 	protected String Module_Location;
 	protected String Selected_core;
 	private Combo cmb_core;
+	private Button btn_sw;
 
 	public void show() {
 		m_shell.open();
@@ -62,7 +63,7 @@ public class SoftwareLoadingView {
 		cmp_sw.setLayout(new FillLayout(SWT.VERTICAL));
 		Label lbl_sw = new Label(cmp_sw, SWT.NONE);
 		lbl_sw.setText("software load");
-		Button btn_sw = new Button(cmp_sw, SWT.NONE);
+		btn_sw = new Button(cmp_sw, SWT.NONE);
 		btn_sw.setText("Load");
 		
 		

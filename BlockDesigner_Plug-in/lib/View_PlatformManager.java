@@ -418,15 +418,14 @@ public class View_PlatformManager extends ViewPart {
 		});
 		
 		expandBar.setSpacing(10);
-		expandBar.getVerticalBar().addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event arg0) {
-				// TODO Auto-generated method stub
+//		expandBar.getVerticalBar().addListener(SWT.Selection, new Listener() {
+//			@Override
+//			public void handleEvent(Event arg0) {
+//				// TODO Auto-generated method stub
 //				for (int i = 0; i < expandBar.getItemCount(); i++) {
-//					Expanditem.get(i).setControl(composite_ExpandItem.get(i));
 //				}
-			}
-		});
+//			}
+//		});
 	}
 	
 	protected void AddModuleSelected(final String Module_Name) {
@@ -445,11 +444,12 @@ public class View_PlatformManager extends ViewPart {
 
 		//composite_PlatformViewer
 		// make composite, divide (port&par) grid
-		composite_ExpandItem.add(new Composite(expandBar,  SWT.VIRTUAL));
+		composite_ExpandItem.add(new Composite(expandBar,  SWT.NO_SCROLL));
 		composite_ExpandItem.get(UsedModuleIndex).setBackground(color_gray);
 		composite_ExpandItem.get(UsedModuleIndex).setLayout(new GridLayout(2, false));
 		composite_ExpandItem.get(UsedModuleIndex).setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
 		
+
 		Expanditem.get(UsedModuleIndex).setHeight(composite_ExpandItem.get(UsedModuleIndex).computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		Expanditem.get(UsedModuleIndex).setControl(composite_ExpandItem.get(UsedModuleIndex));
 		

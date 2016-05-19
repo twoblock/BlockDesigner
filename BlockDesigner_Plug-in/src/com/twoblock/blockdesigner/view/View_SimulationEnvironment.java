@@ -89,6 +89,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private static Button btnStop;
 	private static Button btnStep;
 	private static Button btnStep_n;
+	private Button btnOpen;
 	private static Label lblCyclesCnt;
 	public static Display display = null;
 	public static boolean SWLoadCheck = false;
@@ -102,7 +103,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		}
 	}
 
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite ori_parent) {
+		final Composite parent = ori_parent;
 		display = Display.getDefault();
 
 		c_parent=parent;
@@ -145,7 +147,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		ImageDescriptor idStep_n = ImageDescriptor.createFromFile(this.getClass(), "/images/step_n_btn16.png");
 		imgStep_n = idStep_n.createImage();
 
-		Button btnOpen = new Button(parent, SWT.NONE);
+		btnOpen = new Button(parent, SWT.NONE);
 		btnOpen.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		btnOpen.setImage(imgOpen);
 		
@@ -227,7 +229,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnFold.setText("All Fold");
 		
 		/* --- Button Listener & Action ---END */
-		Composite composite = new Composite(parent, SWT.BORDER);
+		final Composite composite = new Composite(parent, SWT.BORDER);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 12, 1));
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
 
@@ -393,6 +395,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private String HRESETn_channel_name;
 	private String InstanceName;
 	private boolean isExisted=false;
+	private BDMemoryViewItemArray tmp_data;
 
 	protected void ChannelInfoSet(final Composite composite) {
 		try {
@@ -424,13 +427,13 @@ public class View_SimulationEnvironment extends ViewPart {
 
 		table_channel = new Table(composite_ExpandItem.get(0), SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		gd_table.heightHint = 140;
+		gd_table.heightHint = 250;
 		table_channel.setLayoutData(gd_table);
 		table_channel.setHeaderVisible(true);
 		table_channel.setLinesVisible(true);
 
 		TableColumn tb_clmn_ChannelName = new TableColumn(table_channel, SWT.CENTER);
-		tb_clmn_ChannelName.setWidth(600);
+		tb_clmn_ChannelName.setWidth(800);
 		tb_clmn_ChannelName.setText("Channel Name");
 
 		TableColumn tb_clmn_Tracing = new TableColumn(table_channel, SWT.CENTER);
@@ -509,7 +512,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		}
 
 		table_channel.pack();
-		Expanditem.get(0).setHeight(150);
+		Expanditem.get(0).setHeight(250);
 
 		ModuleInfoIndex = 0;
 		for (ModuleInfoIndex = 0; ModuleInfoIndex < arr_ModuleData.size(); ModuleInfoIndex++) {
@@ -788,7 +791,8 @@ public class View_SimulationEnvironment extends ViewPart {
 	protected static Control[] Ctrol_reg_arg;
 
 	
-	public void SIM_Result(String sim_result) {
+	public void SIM_Result(String ori_sim_result) {
+		final String sim_result=ori_sim_result;
 		display.asyncExec(new Runnable() {
 
 			@Override
@@ -838,7 +842,8 @@ public class View_SimulationEnvironment extends ViewPart {
 
 	
 	
-	public void Btn_Control(int state) {
+	public void Btn_Control(int ori_state) {
+		final int state = ori_state;
 		/*
 		 * case state 
 		 * state 0 : nothing 
@@ -863,7 +868,7 @@ public class View_SimulationEnvironment extends ViewPart {
 					break;
 				case 1:
 					System.err.println("BDPMD Open");
-					if(isExisted=true)
+					if(isExisted==true)
 						btnOpen_sw.setEnabled(true);
 					else{
 						btnOpen_sw.setEnabled(false);
@@ -925,7 +930,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		});
 	}
 
-	public void Cycle_Setter(long cycles){
+	public void Cycle_Setter(long ori_cycles){
+		final long cycles = ori_cycles;
 		display.asyncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -993,8 +999,9 @@ public class View_SimulationEnvironment extends ViewPart {
 
 	}
 
-	public void MemoryViewOpen(Composite parent, String memory_name){
-		BDMemoryViewItemArray tmp_data = new BDMemoryViewItemArray();
+	public void MemoryViewOpen(Composite parent, String ori_memory_name){
+		final String memory_name = ori_memory_name;
+		tmp_data = new BDMemoryViewItemArray();
 
 		mv = new BDMemoryView(parent.getShell(), memory_name, new IBDMemoryViewListener() {
 			@Override
