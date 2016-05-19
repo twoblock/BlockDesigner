@@ -182,7 +182,7 @@ BDDIReturn VCORTEXM0DS_BDDI::BDDIGetRegisterValues(unsigned int RegIndex, char *
 			break;
 
 		case 16:
-			h_Temp = p_Target->v__DOT__vis_pc;
+			h_Temp = (p_Target->v__DOT__vis_pc << 1);
 			BDDIPutInRegisterValue(&st_Temp, &ast_VCORTEXM0DSRegInfo[RegIndex], &h_Temp);
 			BDDIConvertRegisterValueToString(&st_Temp, OutValue);
 
