@@ -454,7 +454,7 @@ public class View_PlatformManager extends ViewPart {
 		Expanditem.get(UsedModuleIndex).setControl(composite_ExpandItem.get(UsedModuleIndex));
 		
 		{/* --- port table --- */
-			table_port = new Table(composite_ExpandItem.get(UsedModuleIndex), SWT.BORDER | SWT.FULL_SELECTION|SWT.NO_SCROLL);
+			table_port = new Table(composite_ExpandItem.get(UsedModuleIndex), SWT.BORDER | SWT.FULL_SELECTION|SWT.V_SCROLL);
 			GridData gd_table_port = new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1);
 			gd_table_port.heightHint = 150;
 			table_port.setLayoutData(gd_table_port);
@@ -790,7 +790,7 @@ public class View_PlatformManager extends ViewPart {
 
 		
 		{/* --- para table --- */
-			table_par = new Table(composite_ExpandItem.get(UsedModuleIndex), SWT.BORDER | SWT.FULL_SELECTION|SWT.NO_SCROLL);
+			table_par = new Table(composite_ExpandItem.get(UsedModuleIndex), SWT.BORDER | SWT.FULL_SELECTION|SWT.V_SCROLL);
 			GridData gd_table_par = new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1);
 			gd_table_par.heightHint = 150;
 			table_par.setLayoutData(gd_table_par);
