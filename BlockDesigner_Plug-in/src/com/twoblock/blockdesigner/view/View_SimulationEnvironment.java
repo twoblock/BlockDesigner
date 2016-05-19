@@ -308,14 +308,30 @@ public class View_SimulationEnvironment extends ViewPart {
 				Handler_Command.Command_Func(0, 1, "STEP", "1", "NULL", "NULL", "NULL");
 			}
 		});
+		
+		txtStep.addListener(SWT.Verify, new Listener() {
+            public void handleEvent(Event e) {
+                String string = e.text;
+                char[] chars = new char[string.length()];
+                string.getChars(0, chars.length, chars, 0);
+                for (int i = 0; i < chars.length; i++) {
+                    if (!('0' <= chars[i] && chars[i] <= '9')) {
+                        e.doit = false;
+                        return;
+                    }
+                }
+            }
+        });
+		
 		btnStep_n.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				Tracer();
-
-				Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
-				Btn_Control(2);
-				SetTableState(false);
+				if (!(txtStep.getText().equals("") || txtStep.getText().equals(null))) {
+					Tracer();
+					Handler_Command.Command_Func(0, 1, "STEP", txtStep.getText(), "NULL", "NULL", "NULL");
+					Btn_Control(2);
+					SetTableState(false);
+				}
 			}
 		});
 		btnFold.addSelectionListener(new SelectionAdapter() {
@@ -1017,7 +1033,13 @@ public class View_SimulationEnvironment extends ViewPart {
 
 				MemoryViewSet=null;
 				Handler_Command.Command_Func(1, 1,memory_name ,"mem", "read", BDF.LongDecimalToStringHex(startAddr, 8),"NULL");
-
+				
+				try {
+					Thread.sleep(500);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
 				MemoryViewSetter(BDF.LongDecimalToStringHex(startAddr, 8), tmp_data);
 				view.setData(tmp_data);
 				view.show();
