@@ -31,6 +31,7 @@ public class SoftwareLoadingView {
 
 
 
+	@SuppressWarnings("unused")
 	public SoftwareLoadingView(Shell shell,String core) {
 		m_shell = new Shell(shell.getDisplay(), SWT.CLOSE);
 		m_shell.setSize(400, 100);
@@ -106,6 +107,10 @@ public class SoftwareLoadingView {
 				View_SimulationEnvironment.SWLoadCheck=true;
 				Handler_Command.Command_Func(0, 0, Selected_core , Module_Location, "", "","");
 				View_SimulationEnvironment.Selected_core_check=Selected_core;
+				
+				View_SimulationEnvironment vse = new View_SimulationEnvironment();
+				vse.SWLoadCheckFun();
+				
 				m_shell.close();
 			}
 		});

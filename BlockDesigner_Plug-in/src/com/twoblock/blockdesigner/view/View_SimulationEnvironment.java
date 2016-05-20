@@ -89,7 +89,10 @@ public class View_SimulationEnvironment extends ViewPart {
 	private static Button btnStop;
 	private static Button btnStep;
 	private static Button btnStep_n;
-	private Button btnOpen;
+	private static Button btnOpen;
+	private static Button chkASV;
+	private static Button chkCSV;
+	private static Button chkSPV;
 	private static Label lblCyclesCnt;
 	public static Display display = null;
 	public static boolean SWLoadCheck = false;
@@ -131,7 +134,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		});
 
-		parent.setLayout(new GridLayout(12, false));
+		parent.setLayout(new GridLayout(15, false));
 		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
 		Image imgOpen = idOpen.createImage();
 		ImageDescriptor idOpen_sw = ImageDescriptor.createFromFile(this.getClass(), "/images/open_sw_btn16.png");
@@ -189,8 +192,9 @@ public class View_SimulationEnvironment extends ViewPart {
 		lblCyclesCnt.setText("0");
 
 		Label lblCycles = new Label(parent, SWT.NONE);
-		lblCycles.setAlignment(SWT.CENTER);
+		lblCycles.setAlignment(SWT.LEFT);
 		lblCycles.setText("cycles");
+		lblCycles.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 4, 1));
 
 
 		Label lblOpen = new Label(parent, SWT.NONE);
@@ -224,13 +228,25 @@ public class View_SimulationEnvironment extends ViewPart {
 		Label lblnull = new Label(parent, SWT.NONE);
 		lblnull.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		
+		chkASV = new Button(parent, SWT.CHECK);
+		chkASV.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
+		chkASV.setText("Show Disassembly View");
+		
+		chkCSV = new Button(parent, SWT.CHECK);
+		chkCSV.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
+		chkCSV.setText("Show CallStack View");
+		
+		chkSPV = new Button(parent, SWT.CHECK);
+		chkSPV.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
+		chkSPV.setText("Show S/W Profiling View");
+		
 		Button btnFold = new Button(parent, SWT.NONE);
 		btnFold.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
 		btnFold.setText("All Fold");
 		
 		/* --- Button Listener & Action ---END */
 		final Composite composite = new Composite(parent, SWT.BORDER);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 12, 1));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		/* START--- Button Listener & Action --- */
@@ -267,9 +283,9 @@ public class View_SimulationEnvironment extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
+				
 				SoftwareLoadingView swl = new SoftwareLoadingView(parent.getShell(), coreList);
 				swl.show();
-				Btn_Control(3);
 			}
 		});
 		
@@ -918,22 +934,25 @@ public class View_SimulationEnvironment extends ViewPart {
 						public void run() {
 							// TODO Auto-generated method stub
 							if(Selected_core_check != null){
-								/* --- Disassemble View Setter ---START--- */
-								dv = new BDDisassembleView(c_parent.getShell(), "CORE");
-								AssemblySetter();
-								dv.show();
-								dv.select(BDF.StringHexToLongDecimal(PCCode));
-								/* --- Disassemble View Setter ---END--- */
-
-
-								/* --- Call Stack View Setter ---START--- */
-								csvSetter(c_parent);
-								/* --- Call Stack View Setter ---END--- */
-
-
-								/* --- Profiling Table Setter ---START--- */
-								ptSetter(c_parent);
-								/* --- Profiling Table Setter ---END--- */
+								
+								if(chkASV.getSelection() == true){
+									/* --- Disassemble View Setter ---START--- */
+									dv = new BDDisassembleView(c_parent.getShell(), "CORE");
+									AssemblySetter();
+									dv.show();
+									dv.select(BDF.StringHexToLongDecimal(PCCode));
+									/* --- Disassemble View Setter ---END--- */
+								}
+								if(chkCSV.getSelection() == true){
+									/* --- Call Stack View Setter ---START--- */
+									csvSetter(c_parent);
+									/* --- Call Stack View Setter ---END--- */
+								}
+								if(chkSPV.getSelection() == true){
+									/* --- Profiling Table Setter ---START--- */
+									ptSetter(c_parent);
+									/* --- Profiling Table Setter ---END--- */
+								}
 							}
 
 						}
@@ -1192,5 +1211,17 @@ public class View_SimulationEnvironment extends ViewPart {
 			TraceChecking=false;
 		}
 		/* --- Tracing Process ---END--- */
+	}
+
+	public void SWLoadCheckFun(){
+		if(SWLoadCheck==true){
+			btnOpen_sw.setEnabled(false);
+			btnStop.setEnabled(false);
+			btnSave.setEnabled(true);
+			btnStep.setEnabled(true);
+			btnStep_n.setEnabled(true);
+			btnRun.setEnabled(true);
+			SetTableState(true);
+		}
 	}
 }

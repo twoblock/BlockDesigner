@@ -254,7 +254,6 @@ class Step1_name extends WizardPage {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	public IWizardPage getNextPage() {
 		m_w.component_name = name_text.getText();
 		return super.getNextPage();
@@ -310,7 +309,6 @@ class Step2_port extends WizardPage {
 		AddPort_btn.setText("   Add   ");
 		AddPort_btn.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		AddPort_btn.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
 			public void widgetSelected(SelectionEvent e) {
 				String str = Dialog_PortInput.main(null,parent);
 				String[] port_info = str.split(",");

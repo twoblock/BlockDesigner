@@ -1,6 +1,7 @@
 package com.twoblock.blockdesigner.popup;
 
 import java.util.ArrayList;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -20,7 +21,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -38,7 +38,6 @@ public class BDMemoryMapEditor {
 	final long MAX_ADDR_SIZE = 4294967295L;
 	
 	private Shell m_shell;
-	private Display m_display;
 	private IBDMemoryMapEditorListener m_listener;
 	private TableViewer m_tableViewer;
 	private Table m_table;
@@ -58,7 +57,6 @@ public class BDMemoryMapEditor {
 	public BDMemoryMapEditor(Shell shell, String compName, com.twoblock.blockdesigner.popup.IBDMemoryMapEditorListener ibdMemoryMapEditorListener)
 	{
 		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-		m_display = m_shell.getDisplay();
 		m_listener = ibdMemoryMapEditorListener;
 
 		m_shell.setText("Memory Map Editor - "+compName);

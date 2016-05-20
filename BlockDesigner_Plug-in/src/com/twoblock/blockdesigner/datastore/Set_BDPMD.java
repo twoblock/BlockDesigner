@@ -33,7 +33,7 @@ public class Set_BDPMD {
 	JSONArray arr_MemoryMap;
 	JSONObject obj_MemoryMap;
 
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings("unchecked")
 	public Set_BDPMD(ModuleInfo usedModuleDataList) {
 		// TODO Auto-generated constructor stub
 		obj_root = new JSONObject();
