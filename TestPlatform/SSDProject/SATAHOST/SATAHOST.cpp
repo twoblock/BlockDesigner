@@ -870,7 +870,7 @@ homedir = getpwuid(getuid())->pw_dir;
 SYNC_PRIM[0] = 0xB5B5957C;
 
 strcpy(TracePath, homedir);
-strcat(TracePath, "/Financial.trace");
+strcat(TracePath, "/workspace/BlockDesigner/TestPlatform/SSDProject/trace/Financial.trace");
 //sinFile.open("D:\SSD\Financial1.trace");
 inFile.open(TracePath);
 //inFile.open("/home/bryan/Financial.trace");
