@@ -1533,6 +1533,14 @@ void NANDController::BDInit()
 
 }
 
+NANDController::~NANDController()
+{
+ delete ahb_m0_mpms;
+ delete ahb_m1_mpms;
+ delete ahb_s0_spss;
+ delete bddi;
+}
+
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
 {
 	return new NANDController(ModuleInstanceName);

@@ -1992,6 +1992,13 @@ void MemoryUtility::BDInit()
 	}
 }
 
+MemoryUtility::~MemoryUtility()
+{
+	delete SRAM_M_AHBv2_mpms;
+	delete DRAM_M_AHBv2_mpms;
+	delete S_AHBv2_spss;
+	delete bddi;
+}
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
 {
 	return new MemoryUtility(ModuleInstanceName);

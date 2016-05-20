@@ -517,6 +517,8 @@ SC_MODULE(NANDController){
 	char* GetModuleName();
 	void BDInit();
 
+	~NANDController();
+
 	SC_CTOR(NANDController)	{
 		BDInit();
 

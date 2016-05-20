@@ -50,12 +50,43 @@ namespace BDapi
 	 */
 	void PMMLGenerationManager::AddModuleToPMML(const char *SoFilePath, const char *ModuleName)
 	{
-		sc_module *p_SCmodule = p_ModuleLoader->GetSCmodule(SoFilePath, ModuleName);
+		int PathIndex = 0;
+		int ModuleNameIndex = 0;
+		char PathNameWithoutSlash[256];
 
-		// to add module location(so file path) to PMML 
-		PMMLGenerationManager *p_PMMLGenerationManager = NULL;
-		p_PMMLGenerationManager = PMMLGenerationManager::GetInstance();
-		p_PMMLGenerationManager->AddModuleLocation(p_SCmodule, SoFilePath); 
+		bool ModuleCheckPass = true;
+		unsigned int dw_ModuleNum = 0;
+		unsigned int dw_ModuleIndex = 0;
+		dw_ModuleNum = PMModuleList.size();
+
+		// check if module exist already 
+		for(dw_ModuleIndex = 0; dw_ModuleIndex < dw_ModuleNum; dw_ModuleIndex++)	{
+			if(strcmp(PMModuleList[dw_ModuleIndex]["module_location"].asCString(), SoFilePath) == 0){
+				ModuleCheckPass = false;
+			}
+		}
+
+		// if module of this so file path don't exist
+		if(ModuleCheckPass == true){
+
+			memset(PathNameWithoutSlash, 0, sizeof(PathNameWithoutSlash));
+			strcpy(PathNameWithoutSlash, SoFilePath);
+
+			for(PathIndex = 0; PathNameWithoutSlash[PathIndex] != 0; PathIndex++){
+				if(PathNameWithoutSlash[PathIndex] != '/'){
+					PathNameWithoutSlash[ModuleNameIndex] = PathNameWithoutSlash[PathIndex];
+					ModuleNameIndex++;
+				}
+			}
+			for(ModuleNameIndex = 0; PathNameWithoutSlash[ModuleNameIndex] != '.'; ModuleNameIndex++);
+
+			PathNameWithoutSlash[ModuleNameIndex] = 0;
+
+			sc_module *p_SCmodule = p_ModuleLoader->GetSCmodule(SoFilePath, PathNameWithoutSlash);
+			// to add module location(so file path) to PMML 
+			AddModuleLocation(p_SCmodule, SoFilePath); 
+			delete p_SCmodule;	
+		}
 	}
 
 	/*
@@ -79,7 +110,7 @@ namespace BDapi
 
 		Json::StyledWriter writer;
 		JsonFileOfPMModuleList = writer.write(Root);
-		cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
+		//cout<< endl << "JSON WriteTest" << endl << JsonFileOfPMModuleList << endl; 
 
 		CallBackReturn Return;
 		CallBackManager *p_CallBackManager = NULL;
@@ -124,7 +155,7 @@ namespace BDapi
 		char *p_SCmoduleName = NULL;
 		p_SCmoduleName = p_SCmodule->GetModuleName();
 
-	  // check duplication
+		// check duplication
 		ModulePathMapFinder = ModulePathMap.find(p_SCmoduleName);
 		if(ModulePathMapFinder != ModulePathMap.end())
 			return; // exist
@@ -148,8 +179,6 @@ namespace BDapi
 		std::vector<sc_port_base*>::iterator FirstPort = p_PortList->begin(); 
 		std::vector<sc_port_base*>::iterator LastPort = p_PortList->end();
 		std::vector<sc_port_base*>::iterator IndexOfPort = FirstPort;  
-
-
 
 		/********************************************
 		 * Iterate ports in sc_module
@@ -204,7 +233,7 @@ namespace BDapi
 							p_PortName[3] == 'D' &&
 							p_PortName[4] == 'D' &&
 							p_PortName[5] == 'R' 
-						){
+							){
 						// parse port information
 						strcpy(a_PortTypeInfo, (*IndexOfPort)->get_port_name());
 						strtok(a_PortTypeInfo, "_");
@@ -247,67 +276,67 @@ namespace BDapi
 				}
 			}
 		}
-			/********************************************
-			 * Iterate parameter in sc_module
-			 ********************************************/
-			dw_ParNum = p_SCmodule->GetBDDI()->BDDIGetModuleTotalParNum();		
+		/********************************************
+		 * Iterate parameter in sc_module
+		 ********************************************/
+		dw_ParNum = p_SCmodule->GetBDDI()->BDDIGetModuleTotalParNum();		
 
-			for(dw_Index = 0; dw_Index < dw_ParNum; dw_Index++){
+		for(dw_Index = 0; dw_Index < dw_ParNum; dw_Index++){
 
-				BDDIParInfo *pst_ParInfo = p_SCmodule->GetBDDI()->BDDIGetModuleParInfo(); 
-				Parameter["parameter_name"] = pst_ParInfo[dw_Index].Name;	
-				sprintf(a_Temp, "%u", pst_ParInfo[dw_Index].Bitswide);
-				Parameter["bits_wide"] = a_Temp;
-				sprintf(a_Temp, "%d", (int)pst_ParInfo[dw_Index].Type);	
-				Parameter["type"] = a_Temp;
-				Parameter["value"] = pst_ParInfo[dw_Index].Value;
-				ParameterList[dw_Index] = Parameter;
-			}
+			BDDIParInfo *pst_ParInfo = p_SCmodule->GetBDDI()->BDDIGetModuleParInfo(); 
+			Parameter["parameter_name"] = pst_ParInfo[dw_Index].Name;	
+			sprintf(a_Temp, "%u", pst_ParInfo[dw_Index].Bitswide);
+			Parameter["bits_wide"] = a_Temp;
+			sprintf(a_Temp, "%d", (int)pst_ParInfo[dw_Index].Type);	
+			Parameter["type"] = a_Temp;
+			Parameter["value"] = pst_ParInfo[dw_Index].Value;
+			ParameterList[dw_Index] = Parameter;
+		}
 
-			/********************************************
-			 * Iterate register in sc_module
-			 ********************************************/
-			dw_RegNum = p_SCmodule->GetBDDI()->BDDIGetModuleTotalRegNum();		
+		/********************************************
+		 * Iterate register in sc_module
+		 ********************************************/
+		dw_RegNum = p_SCmodule->GetBDDI()->BDDIGetModuleTotalRegNum();		
 
-			for(dw_Index = 0; dw_Index < dw_RegNum; dw_Index++){
+		for(dw_Index = 0; dw_Index < dw_RegNum; dw_Index++){
 
-				BDDIRegInfo *pst_RegInfo = p_SCmodule->GetBDDI()->BDDIGetModuleRegInfo(); 
-				Register["register_name"] = pst_RegInfo[dw_Index].Name;	
-				sprintf(a_Temp, "%u", pst_RegInfo[dw_Index].Bitswide);
-				Register["bits_wide"] = a_Temp;
-				sprintf(a_Temp, "%d", (int)pst_RegInfo[dw_Index].Type);	
-				Register["type"] = a_Temp;
-				RegisterList[dw_Index] = Register;
+			BDDIRegInfo *pst_RegInfo = p_SCmodule->GetBDDI()->BDDIGetModuleRegInfo(); 
+			Register["register_name"] = pst_RegInfo[dw_Index].Name;	
+			sprintf(a_Temp, "%u", pst_RegInfo[dw_Index].Bitswide);
+			Register["bits_wide"] = a_Temp;
+			sprintf(a_Temp, "%d", (int)pst_RegInfo[dw_Index].Type);	
+			Register["type"] = a_Temp;
+			RegisterList[dw_Index] = Register;
+		}	
+
+		/********************************************
+		 * memory map in sc_module ( only Bus type )
+		 ********************************************/
+		p_ModuleType = NULL;
+		p_ModuleType = p_SCmodule->GetBDDI()->BDDIGetModuleType();
+
+		if(strcmp(p_ModuleType, "bus") == 0)
+		{
+			dw_MemoryMapNum = p_SCmodule->GetBDMMI()->GetSlaveNumber();	
+
+			for(dw_Index = 0; dw_Index < dw_MemoryMapNum; dw_Index++){
+
+				sprintf(a_Temp, "SM_S%d", dw_Index);	
+				MemoryMap["port_name"] = a_Temp;	
+				MemoryMapList[dw_Index] = MemoryMap;
 			}	
 
-			/********************************************
-			 * memory map in sc_module ( only Bus type )
-			 ********************************************/
-			p_ModuleType = NULL;
-			p_ModuleType = p_SCmodule->GetBDDI()->BDDIGetModuleType();
+			Module["memory_map"] = MemoryMapList;
+		}
 
-			if(strcmp(p_ModuleType, "bus") == 0)
-			{
-				dw_MemoryMapNum = p_SCmodule->GetBDMMI()->GetSlaveNumber();	
-
-				for(dw_Index = 0; dw_Index < dw_MemoryMapNum; dw_Index++){
-
-					sprintf(a_Temp, "SM_S%d", dw_Index);	
-					MemoryMap["port_name"] = a_Temp;	
-					MemoryMapList[dw_Index] = MemoryMap;
-				}	
-
-				Module["memory_map"] = MemoryMapList;
-			}
-
-			// add Module to PMModuleList in json format
-			Module["module_name"] = p_SCmodule->GetModuleName();
-			Module["module_type"] = p_SCmodule->GetBDDI()->BDDIGetModuleType();
-			Module["module_location"] = SoFilePath;
-			Module["port"] = PortList;
-			Module["parameter"] = ParameterList;
-			Module["register"] = RegisterList;
-			PMModuleList.append(Module);
+		// add Module to PMModuleList in json format
+		Module["module_name"] = p_SCmodule->GetModuleName();
+		Module["module_type"] = p_SCmodule->GetBDDI()->BDDIGetModuleType();
+		Module["module_location"] = SoFilePath;
+		Module["port"] = PortList;
+		Module["parameter"] = ParameterList;
+		Module["register"] = RegisterList;
+		PMModuleList.append(Module);
 	}
 
 	/*

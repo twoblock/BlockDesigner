@@ -226,6 +226,7 @@ char* BufferManager::GetModuleName()
 
 void BufferManager::BDInit()
 {
+
 	HCLK.set_port_name("HCLK");
 	HRESETn.set_port_name("HRESETn");
 
@@ -268,7 +269,12 @@ void BufferManager::BDInit()
 	r_BM_STACK_WRSET_temp = 0 ;
 	r_BM_STACK_RDSET_temp = 0 ;
 
-  p_BM_Base_addr = 0xc0020000;
+  p_BM_Base_addr = 0xc0020000; 
+}
+
+BufferManager::~BufferManager()
+{
+	delete AHBv2_spss;
 }
 
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)

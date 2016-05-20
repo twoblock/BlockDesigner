@@ -95,6 +95,8 @@ SC_MODULE(BufferManager){
 	char* GetModuleName();
 	void BDInit();
 
+	~BufferManager();
+
 	SC_CTOR(BufferManager)	{
 		BDInit();
 

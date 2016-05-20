@@ -187,6 +187,8 @@ SC_MODULE(NANDFlashArray_SLC){
 	char* GetModuleName();
 	void BDInit();
 
+	~NANDFlashArray_SLC();
+
 	SC_CTOR(NANDFlashArray_SLC)	{
 		BDInit();
 

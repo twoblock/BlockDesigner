@@ -980,7 +980,12 @@ DATATransferCheck = 0;
 CHECK_START = 0;
 Last_flag=0;
 
+}
 
+SATAHOST::~SATAHOST()
+{
+	delete AHBv2_Process_S_spss;
+	delete bddi;
 }
 
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)

@@ -422,6 +422,11 @@ void NANDFlashArray_SLC::BDInit()
 	MyInit();
 }
 
+NANDFlashArray_SLC::~NANDFlashArray_SLC()
+{
+	delete bddi;
+}
+
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
 {
 	return new NANDFlashArray_SLC(ModuleInstanceName);

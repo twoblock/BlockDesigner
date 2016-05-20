@@ -708,111 +708,12 @@
             }
           ],
           "parameter": [
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "8",
-              "par_name": "hw_par"
-            },
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "16",
-              "par_name": "w_par"
-            },
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "32",
-              "par_name": "dw_par"
-            },
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "64",
-              "par_name": "lw_par"
-            },
-            {
-              "data_type": "1",
-              "default_value": "false",
-              "bits_wide": "8",
-              "par_name": "b_par"
-            },
-            {
-              "data_type": "0",
-              "default_value": "0",
-              "bits_wide": "32",
-              "par_name": "dw_paru"
-            },
-            {
-              "data_type": "2",
-              "default_value": "0.000000",
-              "bits_wide": "32",
-              "par_name": "f_par"
-            },
-            {
-              "data_type": "2",
-              "default_value": "0.000000",
-              "bits_wide": "64",
-              "par_name": "df_par"
-            },
-            {
-              "data_type": "3",
-              "default_value": "",
-              "bits_wide": "8",
-              "par_name": "a_par"
-            }
-          ],
+                      ],
           "memory_map": [
             
           ],
           "register": [
-            {
-              "data_type": "1",
-              "reg_name": "hw_reg",
-              "bits_wide": "8"
-            },
-            {
-              "data_type": "1",
-              "reg_name": "w_reg",
-              "bits_wide": "16"
-            },
-            {
-              "data_type": "1",
-              "reg_name": "dw_reg",
-              "bits_wide": "32"
-            },
-            {
-              "data_type": "1",
-              "reg_name": "lw_reg",
-              "bits_wide": "64"
-            },
-            {
-              "data_type": "2",
-              "reg_name": "b_reg",
-              "bits_wide": "8"
-            },
-            {
-              "data_type": "0",
-              "reg_name": "h_reg",
-              "bits_wide": "32"
-            },
-            {
-              "data_type": "3",
-              "reg_name": "f_reg",
-              "bits_wide": "32"
-            },
-            {
-              "data_type": "3",
-              "reg_name": "df_reg",
-              "bits_wide": "64"
-            },
-            {
-              "data_type": "4",
-              "reg_name": "a_reg",
-              "bits_wide": "8"
-            }
-          ]
+                      ]
         },
         "module_type": "other",
         "module_location": "\/home\/harold\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/SATAHOST\/libSATAHOST.so",
@@ -884,111 +785,13 @@
             }
           ],
           "parameter": [
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "8",
-              "par_name": "hw_par"
-            },
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "16",
-              "par_name": "w_par"
-            },
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "32",
-              "par_name": "dw_par"
-            },
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "64",
-              "par_name": "lw_par"
-            },
-            {
-              "data_type": "1",
-              "default_value": "false",
-              "bits_wide": "8",
-              "par_name": "b_par"
-            },
-            {
-              "data_type": "0",
-              "default_value": "0",
-              "bits_wide": "32",
-              "par_name": "dw_paru"
-            },
-            {
-              "data_type": "2",
-              "default_value": "0.000000",
-              "bits_wide": "32",
-              "par_name": "f_par"
-            },
-            {
-              "data_type": "2",
-              "default_value": "0.000000",
-              "bits_wide": "64",
-              "par_name": "df_par"
-            },
-            {
-              "data_type": "3",
-              "default_value": "",
-              "bits_wide": "8",
-              "par_name": "a_par"
-            }
+           
           ],
           "memory_map": [
             
           ],
           "register": [
-            {
-              "data_type": "1",
-              "reg_name": "hw_reg",
-              "bits_wide": "8"
-            },
-            {
-              "data_type": "1",
-              "reg_name": "w_reg",
-              "bits_wide": "16"
-            },
-            {
-              "data_type": "1",
-              "reg_name": "dw_reg",
-              "bits_wide": "32"
-            },
-            {
-              "data_type": "1",
-              "reg_name": "lw_reg",
-              "bits_wide": "64"
-            },
-            {
-              "data_type": "2",
-              "reg_name": "b_reg",
-              "bits_wide": "8"
-            },
-            {
-              "data_type": "0",
-              "reg_name": "h_reg",
-              "bits_wide": "32"
-            },
-            {
-              "data_type": "3",
-              "reg_name": "f_reg",
-              "bits_wide": "32"
-            },
-            {
-              "data_type": "3",
-              "reg_name": "df_reg",
-              "bits_wide": "64"
-            },
-            {
-              "data_type": "4",
-              "reg_name": "a_reg",
-              "bits_wide": "8"
-            }
-          ]
+                    ]
         },
         "module_type": "other",
         "module_location": "\/home\/harold\/workspace\/BlockDesigner\/TestPlatform\/SSDProject\/SATADevice\/libSATADevice.so",
@@ -1957,109 +1760,15 @@
             }
           ],
           "parameter": [
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "8",
-              "par_name": "hw_par"
-            },
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "16",
-              "par_name": "w_par"
-            },
-            {
-              "data_type": "4",
-              "default_value": "0",
-              "bits_wide": "32",
-              "par_name": "dw_par"
-            },
-            {
-              "data_type": "4",
-              "default_value": "139849235718608",
-              "bits_wide": "64",
-              "par_name": "lw_par"
-            },
-            {
-              "data_type": "1",
-              "default_value": "true",
-              "bits_wide": "8",
-              "par_name": "b_par"
-            },
-            {
-              "data_type": "0",
-              "default_value": "32561",
-              "bits_wide": "32",
-              "par_name": "dw_paru"
-            },
-            {
-              "data_type": "2",
-              "default_value": "0.000000",
-              "bits_wide": "32",
-              "par_name": "f_par"
-            },
-            {
-              "data_type": "2",
-              "default_value": "0.000000",
-              "bits_wide": "64",
-              "par_name": "df_par"
-            },
-            {
-              "data_type": "3",
-              "default_value": "",
-              "bits_wide": "8",
-              "par_name": "a_par"
-            }
-          ],
+                     ],
           "memory_map": [
             
           ],
           "register": [
-            {
+					{
               "data_type": "1",
-              "reg_name": "hw_reg",
-              "bits_wide": "8"
-            },
-            {
-              "data_type": "1",
-              "reg_name": "w_reg",
-              "bits_wide": "16"
-            },
-            {
-              "data_type": "1",
-              "reg_name": "dw_reg",
+              "reg_name": "r_BM_WRITE_LIMIT",
               "bits_wide": "32"
-            },
-            {
-              "data_type": "1",
-              "reg_name": "lw_reg",
-              "bits_wide": "64"
-            },
-            {
-              "data_type": "2",
-              "reg_name": "b_reg",
-              "bits_wide": "8"
-            },
-            {
-              "data_type": "0",
-              "reg_name": "h_reg",
-              "bits_wide": "32"
-            },
-            {
-              "data_type": "3",
-              "reg_name": "f_reg",
-              "bits_wide": "32"
-            },
-            {
-              "data_type": "3",
-              "reg_name": "df_reg",
-              "bits_wide": "64"
-            },
-            {
-              "data_type": "4",
-              "reg_name": "a_reg",
-              "bits_wide": "8"
             }
           ]
         },
