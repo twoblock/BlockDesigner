@@ -106,7 +106,9 @@ namespace BDapi
 			Json::Value ProfilingTable;
 			Json::Value FunctionPT;
 
+
 			Json::Value Root_FunctionFlowGragh;
+			Json::Value LimitedFunctionFlowGragh;
 			Json::Value FunctionFlowGragh;
 			Json::Value FunctionFG;
 	};
