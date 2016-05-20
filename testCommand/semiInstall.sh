@@ -10,6 +10,7 @@ make install
 cd $HOME/workspace/BlockDesigner/TestPlatform/sc_main/
 
 source systemc.csh
+source scv.csh
 source $HOME/workspace/BlockDesigner/TestPlatform/sc_main/AllModuleMake.csh
 source $HOME/workspace/BlockDesigner/TestPlatform/sc_main/compile.csh
 source $HOME/workspace/BlockDesigner/TestPlatform/sc_main/make_shared_object.csh
