@@ -232,7 +232,6 @@ public class View_SimulationEnvironment extends ViewPart {
 		final Composite composite = new Composite(parent, SWT.BORDER);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 12, 1));
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
-
 		
 		/* START--- Button Listener & Action --- */
 		btnOpen.addSelectionListener(new SelectionAdapter() {
@@ -261,7 +260,6 @@ public class View_SimulationEnvironment extends ViewPart {
 						}
 					}
 				});
-				
 				Handler_Command.Command_Func(0, 1, "OPEN", "NULL", "NULL", "NULL", "NULL");
 			}
 		});
@@ -766,7 +764,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		}
 		Btn_Control(1);
-		composite.pack();
+		composite.setSize(composite.getParent().getSize().x-10, composite.getParent().getSize().y-80);
 	}
 
 	public static String padRight(String s, int n) {
