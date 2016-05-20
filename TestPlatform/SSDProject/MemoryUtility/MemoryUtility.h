@@ -224,6 +224,8 @@ SC_MODULE(MemoryUtility){
 	char* GetModuleName();
 	void BDInit();
 
+	~MemoryUtility();
+
 	SC_CTOR(MemoryUtility)	{
 		BDInit();
 

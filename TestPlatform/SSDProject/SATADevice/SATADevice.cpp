@@ -2417,6 +2417,13 @@ void SATADevice::BDInit()
   p_baseaddr = 0xC0000000;
 }
 
+SATADevice::~SATADevice()
+{
+	delete AHBv2_Dram_M_mpms;
+	delete AHBv2_Process_S_spss;
+	delete bddi;
+}
+
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
 {
 	return new SATADevice(ModuleInstanceName);

@@ -190,6 +190,8 @@ SC_MODULE(SATAHOST){
 	char* GetModuleName();
 	void BDInit();
 
+	~SATAHOST();
+
 	SC_CTOR(SATAHOST)	{
 		BDInit();
 

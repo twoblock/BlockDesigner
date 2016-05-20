@@ -559,6 +559,8 @@ SC_MODULE(SATADevice){
 	char* GetModuleName();
 	void BDInit();
 
+	~SATADevice();
+
 	SC_CTOR(SATADevice)	{
 		BDInit();
 
