@@ -525,7 +525,7 @@ SC_MODULE(NANDController){
 		sensitive << HRESETn.neg();
 
 		SC_METHOD(update);
-		sensitive << HCLK.neg();
+		sensitive << HCLK.pos();
 		sensitive << HRESETn.neg();
 	}
 };
