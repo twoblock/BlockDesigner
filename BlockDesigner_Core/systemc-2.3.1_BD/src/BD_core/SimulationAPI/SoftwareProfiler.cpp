@@ -13,6 +13,8 @@
 
 #include "SoftwareProfiler.h" 
 
+#define CallStack_DisplayNum 20
+
 namespace BDapi
 {
 
@@ -442,27 +444,61 @@ namespace BDapi
 		// to profile function flow gragh
 		PushOneFunctionFlow();
 
-		int Gragh[Table_element_num];	
-		int i = 0;
-		int size = 0;
-		size = FunctionFlowGragh.size();
+		//int Gragh[Table_element_num];	
+		int IndexOfFG = 0;
+		int NeedCount = 0;
+		int CurSize = 0;
+		int PreSize = 0;
+    int Dupulicated = 0;
+    unsigned long DupulicatedCycle = 0;
+		char a_Buffer[128];
 
-		for( i = 0; i < Table_element_num + 1 ; i++ ){
+		memset(a_Buffer, 0, sizeof(a_Buffer));
 
-			Gragh[i] = 0;
+		CurSize = FunctionFlowGragh.size();
+		PreSize = LimitedFunctionFlowGragh.size();
 
-			for(int IndexOfFG = 0; IndexOfFG < size; IndexOfFG++){
-				if(atoi(FunctionFlowGragh[IndexOfFG]["function_index"].asCString()) == i){
-					Gragh[i] += atoi(FunctionFlowGragh[IndexOfFG]["function_cycle"].asCString());
+		if(CurSize >= CallStack_DisplayNum){
+			for(IndexOfFG = (CurSize - CallStack_DisplayNum); IndexOfFG < CurSize; IndexOfFG++){
+				LimitedFunctionFlowGragh[IndexOfFG - CurSize + CallStack_DisplayNum] = FunctionFlowGragh[IndexOfFG]; 
+			}
+		}
+		else{
+			if(PreSize > 0){
+				if(strcmp(LimitedFunctionFlowGragh[PreSize-1]["function_index"].asCString(), FunctionFlowGragh[0]["function_index"].asCString()) == 0)
+				{
+					Dupulicated = 1;
+					DupulicatedCycle = 	atoi(LimitedFunctionFlowGragh[PreSize-1]["function_cycle"].asCString()) + atoi(FunctionFlowGragh[0]["function_cycle"].asCString());
+					sprintf(a_Buffer, "%lu", DupulicatedCycle);
+					FunctionFlowGragh[0]["function_cycle"] = a_Buffer;
+				}
+			}
+
+			if((PreSize + CurSize) > CallStack_DisplayNum){
+
+				NeedCount = CallStack_DisplayNum - CurSize;
+
+				for(IndexOfFG = 0; IndexOfFG < NeedCount; IndexOfFG++){
+					LimitedFunctionFlowGragh[IndexOfFG] = LimitedFunctionFlowGragh[PreSize - NeedCount + IndexOfFG - Dupulicated]; 
+				}
+				for(; IndexOfFG < CallStack_DisplayNum; IndexOfFG++){
+					LimitedFunctionFlowGragh[IndexOfFG] = FunctionFlowGragh[IndexOfFG - NeedCount]; 
+				}	
+			}
+			else{
+				for(IndexOfFG = PreSize; IndexOfFG < (PreSize + CurSize); IndexOfFG++){
+					LimitedFunctionFlowGragh[IndexOfFG - Dupulicated] = FunctionFlowGragh[IndexOfFG - PreSize]; 
 				}
 			}
 		}
-		Root_FunctionFlowGragh["FunctionFlowGragh"] = FunctionFlowGragh;
+
+		Root_FunctionFlowGragh["FunctionFlowGragh"] = LimitedFunctionFlowGragh;
 
 		Json::StyledWriter GraghWriter;
 		string StringFunctionFlowGragh = GraghWriter.write(Root_FunctionFlowGragh);
 		//printf("%s \n", StringFunctionFlowGragh.c_str()); 
 
+		//LimitedFunctionFlowGragh.clear();
 		FunctionFlowGragh.clear();
 
 		return StringFunctionFlowGragh; 
