@@ -75,6 +75,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private Image imgStep_n;
 	protected String coreList="";
 	protected String BDPMD_Location;
+	private static boolean Btn_ControlChecker;
 	public static String SourceCode;
 	public static String InitMemoryView;
 	public static String MemoryViewSet;
@@ -310,6 +311,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Handler_Command.Command_Func(0, 1, "STOP", "NULL", "NULL", "NULL", "NULL");
+				Btn_ControlChecker=true;
 				Btn_Control(3);
 				SetTableState(true);
 			}
@@ -882,7 +884,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		 * state 3 : stop
 		 */
 		display.asyncExec(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -933,8 +935,8 @@ public class View_SimulationEnvironment extends ViewPart {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
-							if(Selected_core_check != null){
-								
+							if((Selected_core_check != null) && (Btn_ControlChecker)){
+								Btn_ControlChecker=false;
 								if(chkASV.getSelection() == true){
 									/* --- Disassemble View Setter ---START--- */
 									dv = new BDDisassembleView(c_parent.getShell(), "CORE");
