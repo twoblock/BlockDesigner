@@ -195,7 +195,7 @@ SC_MODULE(NANDFlashArray_SLC){
 		sensitive << HRESETn.neg();
 
 		SC_METHOD(update);
-		sensitive << HCLK.neg();
+		sensitive << HCLK.pos();
 		sensitive << HRESETn.neg();
 
 		SC_METHOD(driveSignal);
