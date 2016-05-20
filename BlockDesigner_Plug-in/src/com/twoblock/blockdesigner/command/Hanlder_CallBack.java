@@ -63,36 +63,36 @@ public class Hanlder_CallBack {
 	
 	//InitialMemory 
 	private void InitialMemoryViewCallBack(String init_memoryjson){
-		VSE.InitMemoryView = init_memoryjson;
+		View_SimulationEnvironment.InitMemoryView = init_memoryjson;
 	}
 
 	//Memory View
 	private void MemoryViewCallBack(String memoryjson){
-		VSE.MemoryViewSet = memoryjson;
+		View_SimulationEnvironment.MemoryViewSet = memoryjson;
 	}
 	
 	//assembly view
 	private void SourceCodeCallBack(String jcode){ 
 //		System.err.println(jcode);
-		VSE.SourceCode=jcode;
+		View_SimulationEnvironment.SourceCode=jcode;
 	}
 	private void PCCallBack(String pc){
-		VSE.PCCode=pc;
+		View_SimulationEnvironment.PCCode=pc;
 	}
 	
 	// function call & profiling table init 
 	private void SymbolTableCallBack(String symboltable){
 //		System.err.println(symboltable);
-		VSE.SymbolTable=symboltable;
+		View_SimulationEnvironment.SymbolTable=symboltable;
 	}
 	//get
 	private void ProfilingTableCallBack(String pftable){
 //		System.err.println(pftable);
-		VSE.ProfilingTable=pftable;
+		View_SimulationEnvironment.ProfilingTable=pftable;
 	}
 	private void FunctionFlowCallBack(String functionflow){
 //		System.err.println(functionflow);
-		VSE.FunctionFlowGragh=functionflow;
+		View_SimulationEnvironment.FunctionFlowGragh=functionflow;
 	}
 	
 	private void ModuleInfoCallBack(String pmml) {

@@ -18,7 +18,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -62,7 +61,6 @@ import org.eclipse.swt.widgets.Text;
 		mv.show();
  */
 
-
 public class BDMemoryView {
 
 	private final int DATA_LOAD_AMOUNT = 64;
@@ -70,7 +68,6 @@ public class BDMemoryView {
 
 	private BDMemoryView m_instance = this;
 	private Shell m_shell;
-	private Display m_display;
 	private TableViewer m_tableViewer;
 	private Table m_table;
 
@@ -87,7 +84,6 @@ public class BDMemoryView {
 	public BDMemoryView(Shell shell, String compName, IBDMemoryViewListener l)
 	{
 		m_shell = new Shell(shell.getDisplay(), SWT.CLOSE);
-		m_display = m_shell.getDisplay();
 		m_listener = l;
 
 		m_shell.setText("Memory View - "+compName);
