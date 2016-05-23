@@ -1,7 +1,6 @@
 package com.twoblock.blockdesigner.view;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -125,34 +124,37 @@ public class View_PlatformManager extends ViewPart {
 		Composite composite_Toolbar = new Composite(shell, SWT.NONE);
 		composite_Toolbar.setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		ImageDescriptor idNew = ImageDescriptor.createFromFile(this.getClass(), "/images/new_btn.png");
-		Image imgNew = idNew.createImage();
-		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
-		Image imgOpen = idOpen.createImage();
+//		ImageDescriptor idNew = ImageDescriptor.createFromFile(this.getClass(), "/images/new_btn.png");
+//		Image imgNew = idNew.createImage();
+//		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
+//		Image imgOpen = idOpen.createImage();
 		ImageDescriptor idSave = ImageDescriptor.createFromFile(this.getClass(), "/images/save_btn.png");
 		Image imgSave = idSave.createImage();
 		
-		Button btn_new = new Button(composite_Toolbar, SWT.NONE);
-		btn_new.setImage(imgNew);
-		Button btn_open = new Button(composite_Toolbar, SWT.NONE);
-		btn_open.setImage(imgOpen);
+//		Button btn_new = new Button(composite_Toolbar, SWT.NONE);
+//		btn_new.setImage(imgNew);
+//		Button btn_open = new Button(composite_Toolbar, SWT.NONE);
+//		btn_open.setImage(imgOpen);
+		
 		Button btn_save = new Button(composite_Toolbar, SWT.NONE);
 		btn_save.setImage(imgSave);
 		btn_save.addSelectionListener(new SelectionListener() {
 			BufferedWriter out;
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				File file = new File(System.getProperty("user.home")+"/BlockDesigner");
-				file.mkdir();
+				
+				FileDialog fdlg = new FileDialog(parent.getShell(), SWT.SAVE);
+				fdlg.setFilterNames(new String[] {"BDPMD","ALL Files(*.*)"});
+				fdlg.setFilterExtensions(new String[] {"*.BDPMD"});
+				fdlg.setFilterPath(System.getProperty("user.home"));
+				fdlg.setText("Save BDPMD");
+				String saveDir = fdlg.open();
 				try {
 					Set_BDPMD setBD=new Set_BDPMD(UsedModuleDataList);
 					String str = setBD.Get_BDPMD();
-					
-					out = new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/BlockDesigner/testmodule.BDPMD"));
-//					String Script = jsonObject.toJSONString();
+					out = new BufferedWriter(new FileWriter(saveDir));
 					out.write(str);
 					out.close();
-					
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -1144,25 +1146,40 @@ public class View_PlatformManager extends ViewPart {
 					String Module_name=null;
 					if (list_All.getSelectionIndex() != -1) {
 						Module_name = list_All.getItem(list_All.getSelectionIndex());
-						AddModuleSelected(Module_name);
+						InstanceNameCheck(Module_name);
 					} else if (list_cpu.getSelectionIndex() != -1) {
 						Module_name = list_cpu.getItem(list_cpu.getSelectionIndex());
-						AddModuleSelected(Module_name);
+						InstanceNameCheck(Module_name);
 					} else if (list_bus.getSelectionIndex() != -1) {
 						Module_name = list_bus.getItem(list_bus.getSelectionIndex());
-						AddModuleSelected(Module_name);
+						InstanceNameCheck(Module_name);
 					} else if (list_mem.getSelectionIndex() != -1) {
 						Module_name = list_mem.getItem(list_mem.getSelectionIndex());
-						AddModuleSelected(Module_name);
+						InstanceNameCheck(Module_name);
 					} else if (list_other.getSelectionIndex() != -1) {
 						Module_name = list_other.getItem(list_other.getSelectionIndex());
-						AddModuleSelected(Module_name);
+						InstanceNameCheck(Module_name);
 					}
 					dialog.close();
 				}
 					
 			}
 			
+			private void InstanceNameCheck(String module_name) {
+				// TODO Auto-generated method stub
+				if(Instance_Module_Name.length() >= 1){
+					boolean isExist=false;
+					for(int index=0; index<UsedModuleList.size();index++){
+						if(Instance_Module_Name.equals(UsedModuleList.get(index))){
+							isExist=true;
+						}
+					}
+					if(!isExist)
+						AddModuleSelected(module_name);
+				}
+				
+			}
+
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
