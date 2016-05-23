@@ -75,7 +75,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private Image imgStep_n;
 	protected String coreList="";
 	protected String BDPMD_Location;
-	private static boolean Btn_ControlChecker;
+	public static boolean Btn_ControlChecker;
 	public static String SourceCode;
 	public static String InitMemoryView;
 	public static String MemoryViewSet;
@@ -85,7 +85,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	public static String ProfilingTable;
 	public static String Selected_core_check=null;
 	private static Button btnOpen_sw;
-	private static Button btnSave;
+	private static Button btnClose;
 	private static Button btnRun;
 	private static Button btnStop;
 	private static Button btnStep;
@@ -140,8 +140,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		Image imgOpen = idOpen.createImage();
 		ImageDescriptor idOpen_sw = ImageDescriptor.createFromFile(this.getClass(), "/images/open_sw_btn16.png");
 		Image imgOpen_sw = idOpen_sw.createImage();
-		ImageDescriptor idSave = ImageDescriptor.createFromFile(this.getClass(), "/images/save_btn.png");
-		Image imgSave = idSave.createImage();
+		ImageDescriptor idClose = ImageDescriptor.createFromFile(this.getClass(), "/images/close_btn_16.png");
+		Image imgClose = idClose.createImage();
 		ImageDescriptor idRun = ImageDescriptor.createFromFile(this.getClass(), "/images/run_btn16.png");
 		Image imgRun = idRun.createImage();
 		ImageDescriptor idStop = ImageDescriptor.createFromFile(this.getClass(), "/images/stop_btn16.png");
@@ -152,16 +152,16 @@ public class View_SimulationEnvironment extends ViewPart {
 		imgStep_n = idStep_n.createImage();
 
 		btnOpen = new Button(parent, SWT.NONE);
-		btnOpen.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
+		btnOpen.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 1));
 		btnOpen.setImage(imgOpen);
 		
 		btnOpen_sw = new Button(parent, SWT.NONE);
-		btnOpen_sw.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
+		btnOpen_sw.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 1));
 		btnOpen_sw.setImage(imgOpen_sw);
 
-		btnSave = new Button(parent, SWT.NONE);
-		btnSave.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
-		btnSave.setImage(imgSave);
+		btnClose = new Button(parent, SWT.NONE);
+		btnClose.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 1));
+		btnClose.setImage(imgClose);
 
 		Label sepBar1 = new Label(parent, SWT.SEPARATOR | SWT.CENTER);
 		sepBar1.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, false, 1, 2));
@@ -206,9 +206,9 @@ public class View_SimulationEnvironment extends ViewPart {
 		lblOpen_sw.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
 		lblOpen_sw.setText("S/W");
 
-		Label lblSave = new Label(parent, SWT.NONE);
-		lblSave.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
-		lblSave.setText("Save");
+		Label lblClose = new Label(parent, SWT.NONE);
+		lblClose.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
+		lblClose.setText("Close");
 
 		Label lblRun = new Label(parent, SWT.NONE);
 		lblRun.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1));
@@ -293,7 +293,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		});
 		
-		btnSave.addSelectionListener(new SelectionAdapter() {
+		btnClose.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
 				Handler_Command.Command_Func(0, 1, "SAVE", "NULL", "NULL", "NULL", "NULL");
@@ -896,7 +896,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				case 0: // initial
 					System.err.println("SE Open");
 					btnOpen_sw.setEnabled(false);
-					btnSave.setEnabled(false);
+					btnClose.setEnabled(false);
 					btnStop.setEnabled(false);
 					btnStep.setEnabled(false);
 					btnStep_n.setEnabled(false);
@@ -916,8 +916,10 @@ public class View_SimulationEnvironment extends ViewPart {
 						chkASV.setEnabled(false);
 						chkCSV.setEnabled(false);
 						Btn_Control(3);
+						Btn_ControlChecker=false;
+						break;
 					}
-					btnSave.setEnabled(false);
+					btnClose.setEnabled(true);
 					btnStop.setEnabled(false);
 					btnStep.setEnabled(false);
 					btnStep_n.setEnabled(false);
@@ -926,6 +928,8 @@ public class View_SimulationEnvironment extends ViewPart {
 					break;
 				case 2: 
 					System.err.println("RUN");
+					btnOpen.setEnabled(false);
+					btnClose.setEnabled(false);
 					btnStop.setEnabled(true);
 					btnOpen_sw.setEnabled(false);
 					btnStep.setEnabled(false);
@@ -936,7 +940,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				case 3:
 					System.err.println("STOP");
 					btnStop.setEnabled(false);
-					btnSave.setEnabled(true);
+					btnClose.setEnabled(true);
 					btnStep.setEnabled(true);
 					btnStep_n.setEnabled(true);
 					btnRun.setEnabled(true);
@@ -1230,7 +1234,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		if(SWLoadCheck==true){
 			btnOpen_sw.setEnabled(false);
 			btnStop.setEnabled(false);
-			btnSave.setEnabled(true);
+			btnClose.setEnabled(true);
 			btnStep.setEnabled(true);
 			btnStep_n.setEnabled(true);
 			btnRun.setEnabled(true);
