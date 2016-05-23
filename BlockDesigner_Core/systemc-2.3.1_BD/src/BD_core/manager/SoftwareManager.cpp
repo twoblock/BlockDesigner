@@ -33,29 +33,32 @@ namespace BDapi
    *                1. load software
    *                2. profile software flow data
    *                3. display assembly code 
-   * 
+	 * 
 	 * param	      : Command.Argu1 - CPU name
 	 *              : Command.Argu1 - Software path 
 	 */
 	void SoftwareManager::PutOperationControl(GUI_COMMAND Command)
 	{
+		int CPUIndex = 0;
 		CallBackManager *p_CallBackManager = NULL;
 		p_CallBackManager = CallBackManager::GetInstance();
+	
+		// check existence of cpu
+		if(ExistenceOfCPU){
+			// cpu name check
+			CPUIndex = FindCPU(Command.Argu1);	
 
-		int CPUIndex = 0;
-		CPUIndex = FindCPU(Command.Argu1);	
+			if(CPUIndex != -1){
+				LoadSoftware(CPUIndex, Command.Argu2);
+				// assembly code displayer
+				SetSoftwareDisplayer(CPUIndex, Command.Argu2);
+				SetSoftwareProfiler(CPUIndex, Command.Argu2);
 
-		if(CPUIndex != -1){
-		
-			LoadSoftware(CPUIndex, Command.Argu2);
-			// assembly code displayer
-			SetSoftwareDisplayer(CPUIndex, Command.Argu2);
-			SetSoftwareProfiler(CPUIndex, Command.Argu2);
-
-			p_CallBackManager->SendBackAllWhenStart();
-		}
-		else{
-			printf("can not find %s cpu \n", Command.Argu1);
+				p_CallBackManager->SendBackAllWhenStart();
+			}
+			else{
+				printf("can not find %s cpu \n", Command.Argu1);
+			}
 		}
 	}
 
@@ -141,26 +144,29 @@ namespace BDapi
 	void SoftwareManager::PCAnalyzer()
 	{
 		unsigned int dw_PC;
+		ModuleListManager *p_ModuleListManager = NULL;
 
-    ModuleListManager *p_ModuleListManager = NULL;
-		p_ModuleListManager = ModuleListManager::GetInstance();
-		dw_PC = p_ModuleListManager->FindModule(CPUs[0]->CPUName.c_str())->GetBDDI()->BDDIGetPCValue();
-		CPUs[0]->p_SoftwareProfiler->PC_Analyzer(dw_PC);
+		if(ExistenceOfCPU){
+			p_ModuleListManager = ModuleListManager::GetInstance();
+			dw_PC = p_ModuleListManager->FindModule(CPUs[0]->CPUName.c_str())->GetBDDI()->BDDIGetPCValue();
+			CPUs[0]->p_SoftwareProfiler->PC_Analyzer(dw_PC);
+		}
 	}
 
 	string SoftwareManager::GetPC()
 	{
-		string PC;
-		unsigned int dw_PC;
+		string PC = NULL;
+		unsigned int dw_PC = 0;
 		char a_PC[128] = {0,};
+		ModuleListManager *p_ModuleListManager = NULL;
 
-    ModuleListManager *p_ModuleListManager = NULL;
-		p_ModuleListManager = ModuleListManager::GetInstance();
-		dw_PC = p_ModuleListManager->FindModule(CPUs[0]->CPUName.c_str())->GetBDDI()->BDDIGetPCValue();
-		
-	  sprintf(a_PC, "%x", dw_PC); 	
-		PC = a_PC;
+		if(ExistenceOfCPU){
+			p_ModuleListManager = ModuleListManager::GetInstance();
+			dw_PC = p_ModuleListManager->FindModule(CPUs[0]->CPUName.c_str())->GetBDDI()->BDDIGetPCValue();
 
+			sprintf(a_PC, "%x", dw_PC); 	
+			PC = a_PC;
+		}
 		return PC;
 	}
 
@@ -257,6 +263,16 @@ namespace BDapi
 		return &CPUs;
 	}
 
+	void SoftwareManager::SetExistenceOfCPU(bool IsThereCPU)
+	{
+		ExistenceOfCPU = IsThereCPU;
+	}
+
+	bool SoftwareManager::GetExistenceOfCPU()
+	{
+		return ExistenceOfCPU;
+	}
+
 	/*
 	 * function 	: GetInstance
 	 * design	    : singleton design
@@ -291,6 +307,7 @@ namespace BDapi
 	 */
 	SoftwareManager::SoftwareManager()
 	{
+		ExistenceOfCPU = false;
 	}
 
 	/*

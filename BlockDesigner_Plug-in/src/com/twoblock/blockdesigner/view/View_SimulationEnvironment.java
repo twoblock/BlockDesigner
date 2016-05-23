@@ -232,14 +232,17 @@ public class View_SimulationEnvironment extends ViewPart {
 		chkASV = new Button(parent, SWT.CHECK);
 		chkASV.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		chkASV.setText("Show Disassembly View");
+		chkASV.setEnabled(false);
 		
 		chkCSV = new Button(parent, SWT.CHECK);
 		chkCSV.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		chkCSV.setText("Show CallStack View");
+		chkCSV.setEnabled(false);
 		
 		chkSPV = new Button(parent, SWT.CHECK);
 		chkSPV.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
 		chkSPV.setText("Show S/W Profiling View");
+		chkSPV.setEnabled(false);
 		
 		Button btnFold = new Button(parent, SWT.NONE);
 		btnFold.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false, 1, 1));
@@ -824,6 +827,7 @@ public class View_SimulationEnvironment extends ViewPart {
 
 	
 	public void SIM_Result(String ori_sim_result) {
+		System.err.println("ori_sim_result="+ori_sim_result);
 		final String sim_result=ori_sim_result;
 		display.asyncExec(new Runnable() {
 
@@ -833,36 +837,36 @@ public class View_SimulationEnvironment extends ViewPart {
 				try {
 					obj = (JSONObject) parser.parse(sim_result);
 					jsonObject = (JSONObject) obj;
-					arr_Result_ModuleList = (JSONArray) jsonObject.get("SIM_Result");
+					arr_Result_ModuleList = (JSONArray) jsonObject.get("SIM_Result"); 
 					String InstanceName = null;
 					String value = null;
+					if(arr_Result_ModuleList != null){
+						for (int refesh_index = 0; refesh_index < arr_Result_ModuleList.size(); refesh_index++) {
+							obj_Result_Module = (JSONObject) arr_Result_ModuleList.get(refesh_index);
+							arr_reg_value = (JSONArray) obj_Result_Module.get("register_value");
+							InstanceName = (String) obj_Result_Module.get("instance_name");
 
-					for (int refesh_index = 0; refesh_index < arr_Result_ModuleList.size(); refesh_index++) {
-						obj_Result_Module = (JSONObject) arr_Result_ModuleList.get(refesh_index);
-						arr_reg_value = (JSONArray) obj_Result_Module.get("register_value");
-						InstanceName = (String) obj_Result_Module.get("instance_name");
+							for (int expandItem_index = 1; expandItem_index < Expanditem.size(); expandItem_index++) {
 
-						for (int expandItem_index = 1; expandItem_index < Expanditem.size(); expandItem_index++) {
+								if (InstanceName.equals(Expanditem.get(expandItem_index).getText())) {
+									ctrol_tables = composite_ExpandItem.get(expandItem_index).getChildren();
+									tb_reg = (Table) ctrol_tables[2]; // get reg
+									// table
+									Ctrol_reg_arg = tb_reg.getChildren();
+									for (int reg_index = 0; reg_index < arr_reg_value.size(); reg_index++) {
 
-							if (InstanceName.equals(Expanditem.get(expandItem_index).getText())) {
-								ctrol_tables = composite_ExpandItem.get(expandItem_index).getChildren();
-								tb_reg = (Table) ctrol_tables[2]; // get reg
-								// table
-								Ctrol_reg_arg = tb_reg.getChildren();
-								for (int reg_index = 0; reg_index < arr_reg_value.size(); reg_index++) {
+										obj_reg_value = (JSONObject) arr_reg_value.get(reg_index);
+										value = (String) obj_reg_value.get("value");
 
-									obj_reg_value = (JSONObject) arr_reg_value.get(reg_index);
-									value = (String) obj_reg_value.get("value");
-
-									if (value != null) {
-										Text text_reg = (Text) Ctrol_reg_arg[reg_index * 2 + 1];
-										text_reg.setText(value);
+										if (value != null) {
+											Text text_reg = (Text) Ctrol_reg_arg[reg_index * 2 + 1];
+											text_reg.setText(value);
+										}
 									}
 								}
 							}
 						}
 					}
-
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -900,11 +904,18 @@ public class View_SimulationEnvironment extends ViewPart {
 					break;
 				case 1:
 					System.err.println("BDPMD Open");
-					if(isExisted==true)
+					if(isExisted==true){
 						btnOpen_sw.setEnabled(true);
+						chkSPV.setEnabled(true);
+						chkASV.setEnabled(true);
+						chkCSV.setEnabled(true);
+					}
 					else{
 						btnOpen_sw.setEnabled(false);
-						Btn_Control(2);
+						chkSPV.setEnabled(false);
+						chkASV.setEnabled(false);
+						chkCSV.setEnabled(false);
+						Btn_Control(3);
 					}
 					btnSave.setEnabled(false);
 					btnStop.setEnabled(false);
