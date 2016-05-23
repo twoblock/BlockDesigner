@@ -34,13 +34,16 @@ namespace BDapi
 	void BDPMDInitManager::PutOperationControl(GUI_COMMAND Command)
 	{
 		ParsingPlatformManagerInformation(Command.Argu1);
-
+		
 		LoadModules();
 		ConnectModules();
 		SetDefaultParValue();
 		SetMemoryMap();
+	  
+		CheckExistenceOfCPU();	
 		//set cpu connection informations to load software
-		SetCPUInfo();
+		if(IsThereCPU == true)
+			SetCPUInfo();
 	}
 
 	/*
@@ -280,24 +283,24 @@ namespace BDapi
 					 ********************************************/
 					for(SlaveIndex = 0; SlaveIndex < SlaveNum; SlaveIndex++){	
 
-							strcpy(st_SlaveMemoryMap.SlaveModule, InfoMemoryMap[SlaveIndex]["slave_module"].asCString());
-							strcpy(st_SlaveMemoryMap.SlavePort, InfoMemoryMap[SlaveIndex]["slave_module_port"].asCString());
-							strcpy(a_StartAddress, InfoMemoryMap[SlaveIndex]["start_address"].asCString());
-							strcpy(a_Size, InfoMemoryMap[SlaveIndex]["size"].asCString());
+						strcpy(st_SlaveMemoryMap.SlaveModule, InfoMemoryMap[SlaveIndex]["slave_module"].asCString());
+						strcpy(st_SlaveMemoryMap.SlavePort, InfoMemoryMap[SlaveIndex]["slave_module_port"].asCString());
+						strcpy(a_StartAddress, InfoMemoryMap[SlaveIndex]["start_address"].asCString());
+						strcpy(a_Size, InfoMemoryMap[SlaveIndex]["size"].asCString());
 
-							// exception handling for string to hex conversion( distingush 0xfff and fff )
-							if(a_StartAddress[0] == '0' && (a_StartAddress[1] == 'x' || a_StartAddress[1] == 'X'))	
-								st_SlaveMemoryMap.StartAddress = strtol(a_StartAddress, NULL, 0);
-							else
-								st_SlaveMemoryMap.StartAddress = strtol(a_StartAddress, NULL, 16);
+						// exception handling for string to hex conversion( distingush 0xfff and fff )
+						if(a_StartAddress[0] == '0' && (a_StartAddress[1] == 'x' || a_StartAddress[1] == 'X'))	
+							st_SlaveMemoryMap.StartAddress = strtol(a_StartAddress, NULL, 0);
+						else
+							st_SlaveMemoryMap.StartAddress = strtol(a_StartAddress, NULL, 16);
 
-							if(a_Size[0] == '0' && (a_Size[1] == 'x' || a_Size[1] == 'X'))	
-								st_SlaveMemoryMap.Size = strtol(a_Size, NULL, 0);
-							else
-								st_SlaveMemoryMap.Size = strtol(a_Size, NULL, 16);
+						if(a_Size[0] == '0' && (a_Size[1] == 'x' || a_Size[1] == 'X'))	
+							st_SlaveMemoryMap.Size = strtol(a_Size, NULL, 0);
+						else
+							st_SlaveMemoryMap.Size = strtol(a_Size, NULL, 16);
 
-							// modify memory map in BDMMI
-							p_BDMMI->ModifyMemoryMap(SlaveIndex, st_SlaveMemoryMap);
+						// modify memory map in BDMMI
+						p_BDMMI->ModifyMemoryMap(SlaveIndex, st_SlaveMemoryMap);
 					}
 
 					// set memory map in bus decoder
@@ -334,7 +337,7 @@ namespace BDapi
 		//char *p_SecondModuleName = NULL;
 
 		string CPUName;
-    string ConnectedModuleName;
+		string ConnectedModuleName;
 
 		ChannelNum = InfoChannel.size();
 
@@ -380,7 +383,37 @@ namespace BDapi
 		}
 	}
 
-/*
+	/*
+	 * function 	: CheckCPU 
+	 * design	    : check if there is cpu 
+	 */
+	void BDPMDInitManager::CheckExistenceOfCPU()
+	{
+		SoftwareManager *p_SoftwareManager = NULL;
+
+		unsigned int ModuleNum = 0;
+		unsigned int ModuleIndex = 0;
+		char a_ModuleType[256] = {0,};
+	
+		ModuleNum = InfoModule.size();
+
+		/********************************************
+		 * Iterate sc_modules in sc_module list
+		 ********************************************/
+		for(ModuleIndex = 0; ModuleIndex < ModuleNum; ModuleIndex++){
+		
+			memset(a_ModuleType, 0, sizeof(a_ModuleType));
+			strcpy(a_ModuleType, InfoModule[ModuleIndex]["module_type"].asCString());
+			if(strcmp(a_ModuleType, "cpu") == 0){
+				IsThereCPU = true;
+			}
+		}
+
+		p_SoftwareManager = SoftwareManager::GetInstance();	
+		p_SoftwareManager->SetExistenceOfCPU(IsThereCPU);
+	}
+
+	/*
 	 * function 	: GetInstance
 	 * design	    : singleton design
 	 */
@@ -414,6 +447,7 @@ namespace BDapi
 	 */
 	BDPMDInitManager::BDPMDInitManager()
 	{
+		IsThereCPU = false;
 		p_ChannelMap = ChannelMap::GetInstance();
 		p_ModuleConnector = ModuleConnector::GetInstance();
 		p_ModuleListManager = ModuleListManager::GetInstance();

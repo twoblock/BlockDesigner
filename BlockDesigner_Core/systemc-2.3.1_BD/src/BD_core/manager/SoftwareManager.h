@@ -68,6 +68,9 @@ namespace BDapi
 			void AddConnectionInfo(string CPUName, string ConnectedModuleName);
 			int FindCPU(string CPUName);
 			vector<CPUInfo*>* GetCPUInfo();
+
+			void SetExistenceOfCPU(bool IsThereCPU);
+			bool GetExistenceOfCPU();
 			
 			static SoftwareManager* GetInstance();
 			static void DeleteInstance();
@@ -77,6 +80,7 @@ namespace BDapi
 		  virtual ~SoftwareManager();
 
 		private:
+			bool ExistenceOfCPU;
 			vector<CPUInfo*> CPUs;
 
 			SoftwareLoader *p_SoftwareLoader;

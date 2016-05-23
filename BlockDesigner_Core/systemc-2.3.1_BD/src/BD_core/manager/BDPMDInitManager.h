@@ -66,6 +66,7 @@ namespace BDapi
 			void SetDefaultParValue();
 			void SetMemoryMap();
 			void SetCPUInfo();
+			void CheckExistenceOfCPU();
 
 			static BDPMDInitManager* GetInstance();
 			static void DeleteInstance();
@@ -90,6 +91,8 @@ namespace BDapi
 			Json::Value InfoSlave;
 
 			char a_TokBuf[BUFFUR_SIZE];
+
+			bool IsThereCPU; 
 
 			// mutex for singleton pattern 
 			static pthread_mutex_t BDPMDInitManagerInstanceMutex;   

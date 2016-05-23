@@ -36,31 +36,31 @@ namespace BDapi
 	CallBackReturn CallBackManager::SendBackAllWhenStart()
 	{
 		SoftwareProfiler *p_SoftwareProfiler = NULL;
-		p_SoftwareProfiler = p_SoftwareManager->GetSoftwareProfiler();
-		SendBackJson(p_SoftwareProfiler->GetJsonOfSymbolTable(), "SymbolTableCallBack");
-
 		SoftwareDisplayer *p_SoftwareDisplayer = NULL;
-		p_SoftwareDisplayer = p_SoftwareManager->GetSoftwareDisplayer();
-		SendBackJson(p_SoftwareDisplayer->GetJsonOfSourceCode(), "SourceCodeCallBack");
 
-		//SendBackJson(p_SoftwareManager->GetInitialMemoryView(), "InitialMemoryViewCallBack");
+		if(p_SoftwareManager->GetExistenceOfCPU() == true){
+			p_SoftwareProfiler = p_SoftwareManager->GetSoftwareProfiler();
+			SendBackJson(p_SoftwareProfiler->GetJsonOfSymbolTable(), "SymbolTableCallBack");
 
+			p_SoftwareDisplayer = p_SoftwareManager->GetSoftwareDisplayer();
+			SendBackJson(p_SoftwareDisplayer->GetJsonOfSourceCode(), "SourceCodeCallBack");
+			//SendBackJson(p_SoftwareManager->GetInitialMemoryView(), "InitialMemoryViewCallBack");
+		}
 		return CallBackOK;
 	}
 
 	CallBackReturn CallBackManager::SendBackAllWhenStop()
 	{
 		SoftwareProfiler *p_SoftwareProfiler = NULL;
-		p_SoftwareProfiler = p_SoftwareManager->GetSoftwareProfiler();
-		SendBackJson(p_SoftwareProfiler->GetJsonOfProfilingTable(), "ProfilingTableCallBack");
-		SendBackJson(p_SoftwareProfiler->GetJsonOfFunctionFlowGragh(), "FunctionFlowCallBack");
 
-		SendBackJson(p_SoftwareManager->GetPC(), "PCCallBack");
-
+		if(p_SoftwareManager->GetExistenceOfCPU() == true){
+			p_SoftwareProfiler = p_SoftwareManager->GetSoftwareProfiler();
+			SendBackJson(p_SoftwareProfiler->GetJsonOfProfilingTable(), "ProfilingTableCallBack");
+			SendBackJson(p_SoftwareProfiler->GetJsonOfFunctionFlowGragh(), "FunctionFlowCallBack");
+			SendBackJson(p_SoftwareManager->GetPC(), "PCCallBack");
+			//SendBackJson(p_BDDIJsonManager->GenerateMemoryViewJsonFile(), "MemoryViewCallBack");
+		}	
 		SendBackJson(p_BDDIJsonManager->GenerateBDDIJsonFile(), "ResultCallBack");
-		//SendBackJson(p_BDDIJsonManager->GenerateMemoryViewJsonFile(), "MemoryViewCallBack");
-
-		
 		SendBackInt(STOP, "StatusCallBack");
 		return CallBackOK;
 	}
