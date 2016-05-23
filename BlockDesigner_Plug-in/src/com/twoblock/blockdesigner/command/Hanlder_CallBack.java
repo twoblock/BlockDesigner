@@ -50,7 +50,9 @@ public class Hanlder_CallBack {
 		VSE.Cycle_Setter(cycle);
 	}
 	private void StatusCallBack(int state) {
-//		System.out.println("STATE = "+state);
+		if(state==3){
+			View_SimulationEnvironment.Btn_ControlChecker=true;
+		}
 		VSE.Btn_Control(state);
 	}
 	private void OutputCallBack() {
