@@ -35,12 +35,12 @@ namespace BDapi
 	{
 		ParsingPlatformManagerInformation(Command.Argu1);
 		
+		CheckExistenceOfCPU();	
 		LoadModules();
 		ConnectModules();
 		SetDefaultParValue();
 		SetMemoryMap();
 	  
-		CheckExistenceOfCPU();	
 		//set cpu connection informations to load software
 		if(IsThereCPU == true)
 			SetCPUInfo();

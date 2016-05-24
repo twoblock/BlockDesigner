@@ -155,7 +155,7 @@ namespace BDapi
 
 	string SoftwareManager::GetPC()
 	{
-		string PC = NULL;
+		string PC = "";
 		unsigned int dw_PC = 0;
 		char a_PC[128] = {0,};
 		ModuleListManager *p_ModuleListManager = NULL;
