@@ -83,9 +83,12 @@ namespace BDapi
 			PathNameWithoutSlash[ModuleNameIndex] = 0;
 
 			sc_module *p_SCmodule = p_ModuleLoader->GetSCmodule(SoFilePath, PathNameWithoutSlash);
+
 			// to add module location(so file path) to PMML 
-			AddModuleLocation(p_SCmodule, SoFilePath); 
-			delete p_SCmodule;	
+			if(p_SCmodule){
+				AddModuleLocation(p_SCmodule, SoFilePath); 
+				delete p_SCmodule;	
+			}
 		}
 	}
 
@@ -385,6 +388,7 @@ namespace BDapi
 		Register.clear();
 		MemoryMapList.clear();
 		MemoryMap.clear();
+		Root["PMML"] = PMModuleList;
 	}
 
 	/*
