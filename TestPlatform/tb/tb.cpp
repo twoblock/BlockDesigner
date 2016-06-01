@@ -19,6 +19,10 @@ void TB::BDInit()
 	bddi = new TB_BDDI(this);
 }
 
+TB::~TB()
+{
+	delete bddi;
+}
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
 {
 	return new TB(ModuleInstanceName);

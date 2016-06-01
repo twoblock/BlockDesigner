@@ -52,6 +52,7 @@ namespace BDapi
 	CallBackReturn CallBackManager::SendBackAllWhenStop()
 	{
 		SoftwareProfiler *p_SoftwareProfiler = NULL;
+		p_SoftwareManager = SoftwareManager::GetInstance();
 
 		if(p_SoftwareManager->GetExistenceOfCPU() == true){
 			p_SoftwareProfiler = p_SoftwareManager->GetSoftwareProfiler();
@@ -103,6 +104,12 @@ namespace BDapi
 		}
 		m_Env->CallVoidMethod(m_Jobject, m_MethodID, Integer);
 		return CallBackOK;
+	}
+
+	void CallBackManager::GetManagers()
+	{
+		p_SoftwareManager = SoftwareManager::GetInstance();
+		p_BDDIJsonManager = BDDIJsonManager::GetInstance();
 	}
 
 	void CallBackManager::SetEnv()

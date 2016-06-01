@@ -69,7 +69,7 @@ namespace BDapi
 		 * Iterate sc_modules in sc_module list
 		 ********************************************/
 		for(IndexOfModule = FirstModule; IndexOfModule != LastModule; ++IndexOfModule){  		
-			// compare name 
+
 			if(strcmp((*IndexOfModule)->name(), ModuleName) == 0){
 				p_SCmodule = (*IndexOfModule);
 				return p_SCmodule;
@@ -131,6 +131,21 @@ namespace BDapi
 	 */
 	ModuleListManager::~ModuleListManager()
 	{
+		sc_module *p_SCmodule;
+
+		list<sc_module*>::iterator FirstModule = ModuleList.begin();
+		list<sc_module*>::iterator LastModule = ModuleList.end();
+		list<sc_module*>::iterator IndexOfModule = FirstModule;
+		/********************************************
+		 * Iterate sc_modules in sc_module list
+		 ********************************************/
+		for(IndexOfModule = FirstModule; IndexOfModule != LastModule; ++IndexOfModule){  		
+			// compare name 
+			p_SCmodule = (*IndexOfModule);
+			if(p_SCmodule)
+				delete p_SCmodule;
+		}
+		
 		delete p_ModuleLoader;
 		p_ModuleLoader = NULL;
 	}

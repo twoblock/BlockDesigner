@@ -75,6 +75,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private Image imgStep_n;
 	protected String coreList="";
 	protected String BDPMD_Location;
+	private static Composite composite;
 	public static boolean Btn_ControlChecker;
 	public static String SourceCode;
 	public static String InitMemoryView;
@@ -249,9 +250,9 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnFold.setText("All Fold");
 		
 		/* --- Button Listener & Action ---END */
-		final Composite composite = new Composite(parent, SWT.BORDER);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
-		composite.setLayout(new FillLayout(SWT.VERTICAL));
+		Composite_make(parent);
+		
+		
 		
 		/* START--- Button Listener & Action --- */
 		btnOpen.addSelectionListener(new SelectionAdapter() {
@@ -296,7 +297,11 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnClose.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				Handler_Command.Command_Func(0, 1, "SAVE", "NULL", "NULL", "NULL", "NULL");
+				Handler_Command.Command_Func(0, 1, "CLOSE", "NULL", "NULL", "NULL", "NULL");
+				composite.dispose();
+				
+				Composite_make(parent);
+				Btn_Control(0);
 				Hanlder_CallBack.CallBack_Func();
 			}
 		});
@@ -364,6 +369,24 @@ public class View_SimulationEnvironment extends ViewPart {
 		});
 	}
 
+	private void Composite_make(Composite parent) {
+		// TODO Auto-generated method stub
+		
+		display.asyncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				composite = new Composite(parent,SWT.BORDER);
+				Expanditem = new ArrayList<ExpandItem>();
+				composite_ExpandItem = new ArrayList<Composite>();
+				
+				composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
+				composite.setLayout(new FillLayout(SWT.VERTICAL));
+			}
+		});
+	}
+
 	private Device device = Display.getCurrent();
 	private Color color_gray = new Color(device, 150, 150, 150);
 	// private Color color_skyblue = new Color(device, 204, 204, 255);
@@ -375,8 +398,8 @@ public class View_SimulationEnvironment extends ViewPart {
 	private JSONArray arr_ChannelInfo;
 
 	private static ExpandBar expandBar;
-	private static ArrayList<ExpandItem> Expanditem = new ArrayList<ExpandItem>();
-	private static ArrayList<Composite> composite_ExpandItem = new ArrayList<Composite>();
+	private static ArrayList<ExpandItem> Expanditem;
+	private static ArrayList<Composite> composite_ExpandItem;
 	private JSONObject obj_module;
 
 	private JSONArray jrr_Connection;
@@ -386,7 +409,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	// private JSONArray jrr_HCLK_connection;
 	// private JSONObject obj_HCLK;
 	// private JSONObject obj_HCLK_info;
-	//
+	
 	// private JSONArray jrr_HRESETn_connection;
 	// private JSONObject obj_HRESETn;
 	// private JSONObject obj_HRESETn_info;
@@ -450,7 +473,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		Expanditem.add(0, new ExpandItem(expandBar, SWT.NONE));
 		Expanditem.get(0).setExpanded(true);
 		Expanditem.get(0).setText("Channel Info");
-		composite_ExpandItem.add(new Composite(expandBar, SWT.NONE));
+		composite_ExpandItem.add(0,new Composite(expandBar, SWT.NONE));
 		composite_ExpandItem.get(0).setBackground(color_gray);
 		composite_ExpandItem.get(0).setLayout(new GridLayout(2, false));
 		Expanditem.get(0).setControl(composite_ExpandItem.get(0));
@@ -895,6 +918,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				switch (state) {
 				case 0: // initial
 					System.err.println("SE Open");
+					btnOpen.setEnabled(true);
 					btnOpen_sw.setEnabled(false);
 					btnClose.setEnabled(false);
 					btnStop.setEnabled(false);

@@ -37,19 +37,19 @@ import org.json.simple.JSONObject;
 public class CW_Wizard{
 	
 	static {
-//		try{
-//			System.load("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_core.so");
-//			System.out.println("ld = loaded libBD_core.so");
-//		}catch (UnsatisfiedLinkError e) {
-//			System.err.println("Native code library failed to load(ld=MD_Wizard)");
-//		}
-		
-		try {
-			System.loadLibrary("libBD_core");
-			System.out.println("pl = loaded libBD_core.so");
-		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load(pl=MD_Wizard)");
+		try{
+			System.load("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_core.so");
+			System.out.println("ld = loaded libBD_core.so");
+		}catch (UnsatisfiedLinkError e) {
+			System.err.println("Native code library failed to load(ld=MD_Wizard)");
 		}
+		
+//		try {
+//			System.loadLibrary("libBD_core");
+//			System.out.println("pl = loaded libBD_core.so");
+//		} catch (UnsatisfiedLinkError e) {
+//			System.err.println("Native code library failed to load(pl=MD_Wizard)");
+//		}
 	}
 	public native String ComponentCreate(String msg);
 	public String component_name;

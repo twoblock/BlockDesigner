@@ -29,6 +29,8 @@ void AHBL2MEM::BDInit()
 AHBL2MEM::~AHBL2MEM()
 {
 	free(memory);
+	//delete AHB_SS;
+	delete bddi;
 }
 
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)

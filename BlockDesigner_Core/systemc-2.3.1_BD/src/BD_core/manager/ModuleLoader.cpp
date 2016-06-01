@@ -44,6 +44,8 @@ namespace BDapi
 			else
 				p_SCmodule =	p_CreateInstance(ModuleName);
 		}
+		
+		//dlclose(p_Handle);
 
 		return p_SCmodule;
 	}

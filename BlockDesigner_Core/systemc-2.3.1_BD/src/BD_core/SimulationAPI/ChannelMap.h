@@ -59,6 +59,7 @@ namespace BDapi
 
 		protected:
 			ChannelMap();
+			~ChannelMap();
 
 		private:
 			void AddSCsignal(const char *ChannelName, const char *DataType);

@@ -25,6 +25,12 @@ void BDSTUB::BDInit()
 	bddi = new BDSTUB_BDDI(this);
 }
 
+BDSTUB::~BDSTUB()
+{
+	delete AHB_MM;
+	delete bddi;
+}
+
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
 {
 	return new BDSTUB(ModuleInstanceName);

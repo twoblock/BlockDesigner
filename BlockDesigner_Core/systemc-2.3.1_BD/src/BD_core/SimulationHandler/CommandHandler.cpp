@@ -90,7 +90,6 @@ namespace BDapi
 		else if(st_GUICommand.Command == BDPMDInit)	{
 			SetManagerForPutOperation(CmdBDPMDInitManager);
 		} 
-
 		return 0;
 	}
 

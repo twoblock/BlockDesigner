@@ -44,6 +44,8 @@ SC_MODULE(BDSTUB)	{
 	char* GetModuleName();
 	void BDInit();
 
+	virtual ~BDSTUB();
+
 	/********** [process function] **********/
 	void do_pos_hclk_neg_hresetn()	{
 		addr_t->keep_only(0x20001000, 0x20001300);

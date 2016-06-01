@@ -58,6 +58,7 @@ namespace BDapi
 			CallBackReturn SendBackJson(string Json, const char *MethodName);
 			CallBackReturn SendBackLongLong(long long LongLong, const char *MethodName);
 			CallBackReturn SendBackInt(int Integer, const char *MethodName);
+			void GetManagers();
 
 			void SetEnv();
 			void SetObject(jobject Jobject);
