@@ -841,10 +841,8 @@ void SATAHOST::BDInit()
 	Tx_SMaster.set_port_name("Tx_SMaster");
 
 	AHBv2_Process_S_spss = new BD_AHBPort_SS((char*)"SS_S0");
-
 	// for BDDI
 	bddi = new SATAHOST_BDDI(this);
-
 
 int i,j;
 
@@ -872,6 +870,10 @@ SYNC_PRIM[0] = 0xB5B5957C;
 strcpy(TracePath, homedir);
 strcat(TracePath, "/workspace/BlockDesigner/TestPlatform/SSDProject/trace/Financial.trace");
 //sinFile.open("D:\SSD\Financial1.trace");
+
+if(inFile != NULL)
+	inFile.close();
+
 inFile.open(TracePath);
 //inFile.open("/home/bryan/Financial.trace");
 
@@ -881,7 +883,6 @@ inFile.open(TracePath);
 
 //fgets( inputString, sizeof(inputString),  input_file); 
 inFile.getline(inputString, 100);			//is changed by TB
-
 ptr = strtok(inputString, " ");					//is changed by TB
 Temp[0][0] = atoi(ptr);							//is changed by TB
 
@@ -984,6 +985,7 @@ Last_flag=0;
 
 SATAHOST::~SATAHOST()
 {
+	inFile.close();
 	delete AHBv2_Process_S_spss;
 	delete bddi;
 }

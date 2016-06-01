@@ -37,6 +37,7 @@ namespace BDapi
 	void Run();
 	void Step();
 	void Stop();
+	void Close();
 
 	void StartCallBack();
 	void StopCallBack();

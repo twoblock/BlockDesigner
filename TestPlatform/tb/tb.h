@@ -28,6 +28,8 @@ SC_MODULE(TB)	{
 	char* GetModuleName();
 	void BDInit();
 
+	virtual ~TB();
+
 	void do_test() {
 		HRESETn.write(0);
 		wait(10);

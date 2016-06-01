@@ -46,20 +46,15 @@ namespace BDapi
 
 		while(1){
 			if(p_CommandQueue->IsEmpty() == false){
+
 				st_Command = p_CommandQueue->PopCommand();
 				p_CommandHandler->SetCommand(st_Command);
 				p_CommandHandler->Execute();
+
+				if(strcmp(st_Command.Argu1, "CLOSE") == 0)
+					break;
 			}
-			/*
-				 if( ResponseQueue->IsEmpty() )
-				 Response = ResponseQueue->GetResponse(); 
-				 ResponseHandler->Excute( Response );
-
-				 ================== cycle variable ================
-				 ================== set, get function =============
-
-				 CycleListener->CallBackHandler( Cycle->GetCycle() );
-				 */
 		}
+	delete p_CommandHandler;
 	}
 }

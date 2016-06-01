@@ -42,6 +42,9 @@ namespace BDapi
 		else if(strcmp(Command.Argu1,"STOP") == 0 ){
 			SetExecutionFlag(STOP);	
 		}	
+		else if(strcmp(Command.Argu1,"CLOSE") == 0 ){
+			SetExecutionFlag(CLOSE);	
+		}	
 		else;// Exeception	
 	}
 

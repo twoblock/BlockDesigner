@@ -12,8 +12,7 @@
 // ----------------------------------------------------------------------------
 
 #include "BDSim.h"
-#include "../manager/CallBackManager.h"
-#include "../manager/SoftwareManager.h"
+#include "../manager/AllManager.h"
 
 #define	 SECOND_UNIT(X)		((X)*1000000)
 #define	 CYCLE_DISPLAY_UNIT 1371
@@ -75,6 +74,9 @@ namespace BDapi
 				case    RUN  : Run();	  break;	
 				case    STEP : Step();  break;
 				case    STOP : Stop();  break;
+				case    CLOSE: Close();
+											 return -1; 
+											 break;
 											 //case    EXIT : Close(); break;
 				default			 :          break;
 			}
@@ -138,6 +140,18 @@ namespace BDapi
 		StopCallBack();
 		CycleCallBack(STOP);
 		ExecutionManager::SetExecutionFlag(NOTHING);
+	}
+
+	/*
+	 * function    	: Close
+	 * design	      : stop and close simulation 
+	 * caller		    : Simulate 
+	 */
+	void Close()
+	{
+		ExecutionManager::SetExecutionFlag(NOTHING);
+		glw_Cycle = 0;
+		CycleCallBack(STOP);
 	}
 
 	void StopCallBack()

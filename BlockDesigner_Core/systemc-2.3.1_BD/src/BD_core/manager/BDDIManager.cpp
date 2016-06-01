@@ -165,7 +165,6 @@ namespace BDapi
 	BDDIManager::BDDIManager()
 	{
 		p_CallBackManager = CallBackManager::GetInstance();
-
 		MemoryViewValue = "";
 	}
 

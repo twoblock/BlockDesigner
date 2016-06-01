@@ -18,6 +18,7 @@
 #define RUN   	1
 #define STEP  	2
 #define STOP  	3
+#define CLOSE   4
 
 #include "TopManagerBase.h"
 #include <pthread.h>

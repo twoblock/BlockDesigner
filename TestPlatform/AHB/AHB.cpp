@@ -41,6 +41,26 @@ void AHB::BDInit()
 	bdmmi = new AHB_BDMMI(this);
 }
 
+AHB::~AHB()
+{
+	delete AHBMaster_M0;
+	delete AHBMaster_M1;
+	delete AHBMaster_M2;
+	delete AHBSlave_S0;
+	delete AHBSlave_S1;
+	delete AHBSlave_S2;
+	delete AHBSlave_S3;
+	delete AHBSlave_S4;
+	delete AHBSlave_S5;
+	delete AHBSlave_S6;
+	delete AHBSlave_S7;
+	delete AHBSlave_S8;
+	delete AHBSlave_S9;
+
+	delete bddi;            
+	delete bdmmi;
+}
+
 extern "C" sc_module* CreateInstance(const char *ModuleInstanceName)
 {
 	return new AHB(ModuleInstanceName);

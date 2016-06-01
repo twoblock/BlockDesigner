@@ -61,6 +61,8 @@ SC_MODULE(AHB)	{
 	char* GetModuleName();
 	void BDInit();
 
+	virtual ~AHB();
+
 	void do_tranfer_receive()
 	{
 		AHBMaster_M0->HRDATA = M_HRDATA;
