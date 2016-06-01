@@ -76,6 +76,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private Image imgStep_n;
 	protected String coreList="";
 	protected String BDPMD_Location;
+	private static ScrolledComposite composite;
 	public static boolean Btn_ControlChecker;
 	public static String SourceCode;
 	public static String InitMemoryView;
@@ -232,7 +233,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		
 		chkASV = new Button(parent, SWT.CHECK);
 		chkASV.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
-		chkASV.setText("Show Assembly View");
+		chkASV.setText("Show Disassembly View");
 		chkASV.setEnabled(false);
 		
 		chkCSV = new Button(parent, SWT.CHECK);
@@ -250,14 +251,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnFold.setText("All Fold");
 		
 		/* --- Button Listener & Action ---END */
-		final ScrolledComposite sc_composite = new ScrolledComposite(parent, SWT.V_SCROLL);
-		sc_composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
-		sc_composite.setLayout(new FillLayout(SWT.VERTICAL));
-		
-		
-//		final Composite composite = new Composite(parent, SWT.BORDER);
-//		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
-//		composite.setLayout(new FillLayout(SWT.VERTICAL));
+		Composite_make(parent);
 		
 		
 		
@@ -284,7 +278,7 @@ public class View_SimulationEnvironment extends ViewPart {
 							// File directory = new File(saveTarget);
 							BDPMD_Location = BDPMD_Location.replace("\\", "/");
 							Handler_Command.Command_Func(0, 7, BDPMD_Location, "", "","", "");
-							ChannelInfoSet(sc_composite);
+							ChannelInfoSet(composite);
 						}
 					}
 				});
@@ -304,7 +298,11 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnClose.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				Handler_Command.Command_Func(0, 1, "SAVE", "NULL", "NULL", "NULL", "NULL");
+				Handler_Command.Command_Func(0, 1, "CLOSE", "NULL", "NULL", "NULL", "NULL");
+				composite.dispose();
+				
+				Composite_make(parent);
+				Btn_Control(0);
 				Hanlder_CallBack.CallBack_Func();
 			}
 		});
@@ -372,6 +370,24 @@ public class View_SimulationEnvironment extends ViewPart {
 		});
 	}
 
+	private void Composite_make(Composite parent) {
+		// TODO Auto-generated method stub
+		
+		display.asyncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				composite = new ScrolledComposite(parent,SWT.V_SCROLL);
+				Expanditem = new ArrayList<ExpandItem>();
+				composite_ExpandItem = new ArrayList<Composite>();
+				
+				composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
+				composite.setLayout(new FillLayout(SWT.VERTICAL));
+			}
+		});
+	}
+
 	private Device device = Display.getCurrent();
 	private Color color_gray = new Color(device, 150, 150, 150);
 	// private Color color_skyblue = new Color(device, 204, 204, 255);
@@ -383,8 +399,8 @@ public class View_SimulationEnvironment extends ViewPart {
 	private JSONArray arr_ChannelInfo;
 
 	private static ExpandBar expandBar;
-	private static ArrayList<ExpandItem> Expanditem = new ArrayList<ExpandItem>();
-	private static ArrayList<Composite> composite_ExpandItem = new ArrayList<Composite>();
+	private static ArrayList<ExpandItem> Expanditem;
+	private static ArrayList<Composite> composite_ExpandItem;
 	private JSONObject obj_module;
 
 	private JSONArray jrr_Connection;
@@ -394,7 +410,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	// private JSONArray jrr_HCLK_connection;
 	// private JSONObject obj_HCLK;
 	// private JSONObject obj_HCLK_info;
-	//
+	
 	// private JSONArray jrr_HRESETn_connection;
 	// private JSONObject obj_HRESETn;
 	// private JSONObject obj_HRESETn_info;
@@ -454,15 +470,13 @@ public class View_SimulationEnvironment extends ViewPart {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		expandBar = new ExpandBar(composite, SWT.NONE);
-		composite_ExpandItem.add(new Composite(expandBar, SWT.NONE));
-		composite_ExpandItem.get(0).setBackground(color_gray);
-		composite_ExpandItem.get(0).setLayout(new GridLayout(2, false));
-		
 		Expanditem.add(0, new ExpandItem(expandBar, SWT.NONE));
 		Expanditem.get(0).setExpanded(true);
 		Expanditem.get(0).setText("Channel Info");
+		composite_ExpandItem.add(0,new Composite(expandBar, SWT.NONE));
+		composite_ExpandItem.get(0).setBackground(color_gray);
+		composite_ExpandItem.get(0).setLayout(new GridLayout(2, false));
 		Expanditem.get(0).setControl(composite_ExpandItem.get(0));
 		Expanditem.get(0).setHeight(Expanditem.get(0).getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 
@@ -795,8 +809,8 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		}
 		Btn_Control(1);
-		expandBar.setSpacing(5);
 		
+		expandBar.setSpacing(5);
 		Listener updateScrolledSize = new Listener() {
 			@Override
 			public void handleEvent(Event arg0) {
@@ -927,6 +941,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				switch (state) {
 				case 0: // initial
 					System.err.println("SE Open");
+					btnOpen.setEnabled(true);
 					btnOpen_sw.setEnabled(false);
 					btnClose.setEnabled(false);
 					btnStop.setEnabled(false);
@@ -986,7 +1001,7 @@ public class View_SimulationEnvironment extends ViewPart {
 								Btn_ControlChecker=false;
 								if(chkASV.getSelection() == true){
 									/* --- Disassemble View Setter ---START--- */
-									dv = new BDDisassembleView(c_parent.getShell(), Selected_core_check);
+									dv = new BDDisassembleView(c_parent.getShell(), "CORE");
 									AssemblySetter();
 									dv.show();
 									dv.select(BDF.StringHexToLongDecimal(PCCode));
@@ -1177,7 +1192,7 @@ public class View_SimulationEnvironment extends ViewPart {
 
 
 	private void ptSetter(Composite parent){
-		swpv = new BDSWProfilingView(parent.getShell(), Selected_core_check);
+		swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
 		SymbolSetter_swpv();
 		swpv.show();
 		try {
@@ -1210,7 +1225,7 @@ public class View_SimulationEnvironment extends ViewPart {
 
 	private void csvSetter(Composite parent) {
 		// TODO Auto-generated method stub
-		csv = new BDSWCallStackView(parent.getShell(), Selected_core_check , null);
+		csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
 		SymbolSetter_csv();
 
 		csv.show();
