@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -249,9 +250,14 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnFold.setText("All Fold");
 		
 		/* --- Button Listener & Action ---END */
-		final Composite composite = new Composite(parent, SWT.BORDER);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
-		composite.setLayout(new FillLayout(SWT.VERTICAL));
+		final ScrolledComposite sc_composite = new ScrolledComposite(parent, SWT.V_SCROLL);
+		sc_composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
+		sc_composite.setLayout(new FillLayout(SWT.VERTICAL));
+		
+		
+//		final Composite composite = new Composite(parent, SWT.BORDER);
+//		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
+//		composite.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		
 		
@@ -278,7 +284,7 @@ public class View_SimulationEnvironment extends ViewPart {
 							// File directory = new File(saveTarget);
 							BDPMD_Location = BDPMD_Location.replace("\\", "/");
 							Handler_Command.Command_Func(0, 7, BDPMD_Location, "", "","", "");
-							ChannelInfoSet(composite);
+							ChannelInfoSet(sc_composite);
 						}
 					}
 				});
@@ -434,7 +440,7 @@ public class View_SimulationEnvironment extends ViewPart {
 	private boolean isExisted=false;
 	private BDMemoryViewItemArray tmp_data;
 
-	protected void ChannelInfoSet(final Composite composite) {
+	protected void ChannelInfoSet(final ScrolledComposite composite) {
 		try {
 			obj = parser.parse(new FileReader(BDPMD_Location));
 			System.err.println("Call ChannelInfoSet");
@@ -449,13 +455,14 @@ public class View_SimulationEnvironment extends ViewPart {
 			e.printStackTrace();
 		}
 		
-		expandBar = new ExpandBar(composite, SWT.V_SCROLL);
-		Expanditem.add(0, new ExpandItem(expandBar, SWT.NONE));
-		Expanditem.get(0).setExpanded(true);
-		Expanditem.get(0).setText("Channel Info");
+		expandBar = new ExpandBar(composite, SWT.NONE);
 		composite_ExpandItem.add(new Composite(expandBar, SWT.NONE));
 		composite_ExpandItem.get(0).setBackground(color_gray);
 		composite_ExpandItem.get(0).setLayout(new GridLayout(2, false));
+		
+		Expanditem.add(0, new ExpandItem(expandBar, SWT.NONE));
+		Expanditem.get(0).setExpanded(true);
+		Expanditem.get(0).setText("Channel Info");
 		Expanditem.get(0).setControl(composite_ExpandItem.get(0));
 		Expanditem.get(0).setHeight(Expanditem.get(0).getControl().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 
@@ -788,6 +795,28 @@ public class View_SimulationEnvironment extends ViewPart {
 			}
 		}
 		Btn_Control(1);
+		expandBar.setSpacing(5);
+		
+		Listener updateScrolledSize = new Listener() {
+			@Override
+			public void handleEvent(Event arg0) {
+				// TODO Auto-generated method stub
+				display.asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						composite.setMinSize(expandBar.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+					}
+				});
+			}
+		};
+		expandBar.addListener(SWT.Expand, updateScrolledSize);
+		expandBar.addListener(SWT.Collapse, updateScrolledSize);
+		composite.setContent(expandBar);
+		composite.setExpandHorizontal(true);
+		composite.setExpandVertical(true);
+		composite.setMinSize(expandBar.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
 		composite.setSize(composite.getParent().getSize().x-10, composite.getParent().getSize().y-80);
 	}
 

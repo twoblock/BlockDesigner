@@ -9,6 +9,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -111,7 +112,7 @@ public class View_PlatformManager extends ViewPart {
 	private int UsedModuleIndex;
 	private String Instance_Module_Name;
 	protected boolean mouseClickState;
-	private Composite composite_PlatformViewer;
+	private ScrolledComposite composite_PlatformViewer;
 	public static Display display =null;
 	
 	public void createPartControl(Composite parent) {
@@ -177,11 +178,11 @@ public class View_PlatformManager extends ViewPart {
 		Label label = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
 
-		composite_PlatformViewer = new Composite(shell, SWT.BORDER);
+		composite_PlatformViewer = new ScrolledComposite(shell, SWT.V_SCROLL);
 		composite_PlatformViewer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		composite_PlatformViewer.setLayout(new FillLayout(SWT.VERTICAL));
 
-		expandBar = new ExpandBar(composite_PlatformViewer, SWT.V_SCROLL);
+		expandBar = new ExpandBar(composite_PlatformViewer, SWT.NONE);
 
 		{
 			Composite composite_ModuleSetter = new Composite(shell, SWT.NONE);
@@ -416,16 +417,7 @@ public class View_PlatformManager extends ViewPart {
 			}
 		});
 		
-		expandBar.setSpacing(10);
-		expandBar.getVerticalBar().addListener(SWT.Selection, new Listener() {
-			@Override
-			public void handleEvent(Event arg0) {
-				// TODO Auto-generated method stub
-//				for (int i = 0; i < expandBar.getItemCount(); i++) {
-//					Expanditem.get(i).setControl(composite_ExpandItem.get(i));
-//				}
-			}
-		});
+		expandBar.setSpacing(5);
 	}
 	
 	protected void AddModuleSelected(final String Module_Name) {
@@ -1039,7 +1031,28 @@ public class View_PlatformManager extends ViewPart {
 			.setHeight(200 + padding);
 		}
 		
-
+		expandBar.setSpacing(5);
+		
+		Listener updateScrolledSize = new Listener() {
+			@Override
+			public void handleEvent(Event arg0) {
+				// TODO Auto-generated method stub
+				display.asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						composite_PlatformViewer.setMinSize(expandBar.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+					}
+				});
+			}
+		};
+		expandBar.addListener(SWT.Expand, updateScrolledSize);
+		expandBar.addListener(SWT.Collapse, updateScrolledSize);
+		composite_PlatformViewer.setContent(expandBar);
+		composite_PlatformViewer.setExpandHorizontal(true);
+		composite_PlatformViewer.setExpandVertical(true);
+		composite_PlatformViewer.setMinSize(expandBar.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
 	}
 	
 	 public void viewsetting(String ori_pmml) {
