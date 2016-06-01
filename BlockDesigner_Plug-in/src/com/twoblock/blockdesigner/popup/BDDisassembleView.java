@@ -37,7 +37,7 @@ public class BDDisassembleView {
 //		m_shell = new Shell(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		Shell[] shell_list = shell.getDisplay().getShells();
 		for(int i =0; i<shell_list.length; i++){
-			if(shell_list[i].getText().contains("Disassemble View")){
+			if(shell_list[i].getText().contains("assemble View")){
 				shell_list[i].dispose();
 				break;
 			}
@@ -48,7 +48,7 @@ public class BDDisassembleView {
 		Image imgOpen = idOpen.createImage();
 		m_shell.setImage(imgOpen);
 		
-		m_shell.setText("Disassemble View - "+compName);
+		m_shell.setText("assemble View - "+compName);
 		m_shell.setSize(750, 700);
 		
 		GridLayout gridLayout = new GridLayout();
@@ -122,7 +122,7 @@ public class BDDisassembleView {
 		addrCol.setText("Address");
 		addrCol.setWidth(120);
 		TableColumn codeCol = new TableColumn(m_table, SWT.LEFT);
-		codeCol.setText("Disassemble");
+		codeCol.setText("assemble");
 		codeCol.setWidth(550);
 		
 		m_table.pack();

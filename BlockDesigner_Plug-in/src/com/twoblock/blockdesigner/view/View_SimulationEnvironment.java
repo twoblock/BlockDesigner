@@ -231,7 +231,7 @@ public class View_SimulationEnvironment extends ViewPart {
 		
 		chkASV = new Button(parent, SWT.CHECK);
 		chkASV.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, false, 1, 1));
-		chkASV.setText("Show Disassembly View");
+		chkASV.setText("Show Assembly View");
 		chkASV.setEnabled(false);
 		
 		chkCSV = new Button(parent, SWT.CHECK);
@@ -252,6 +252,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		final Composite composite = new Composite(parent, SWT.BORDER);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 15, 1));
 		composite.setLayout(new FillLayout(SWT.VERTICAL));
+		
+		
 		
 		/* START--- Button Listener & Action --- */
 		btnOpen.addSelectionListener(new SelectionAdapter() {
@@ -446,6 +448,7 @@ public class View_SimulationEnvironment extends ViewPart {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		expandBar = new ExpandBar(composite, SWT.V_SCROLL);
 		Expanditem.add(0, new ExpandItem(expandBar, SWT.NONE));
 		Expanditem.get(0).setExpanded(true);
@@ -954,7 +957,7 @@ public class View_SimulationEnvironment extends ViewPart {
 								Btn_ControlChecker=false;
 								if(chkASV.getSelection() == true){
 									/* --- Disassemble View Setter ---START--- */
-									dv = new BDDisassembleView(c_parent.getShell(), "CORE");
+									dv = new BDDisassembleView(c_parent.getShell(), Selected_core_check);
 									AssemblySetter();
 									dv.show();
 									dv.select(BDF.StringHexToLongDecimal(PCCode));
@@ -1145,7 +1148,7 @@ public class View_SimulationEnvironment extends ViewPart {
 
 
 	private void ptSetter(Composite parent){
-		swpv = new BDSWProfilingView(parent.getShell(), "CM0(big)");
+		swpv = new BDSWProfilingView(parent.getShell(), Selected_core_check);
 		SymbolSetter_swpv();
 		swpv.show();
 		try {
@@ -1178,7 +1181,7 @@ public class View_SimulationEnvironment extends ViewPart {
 
 	private void csvSetter(Composite parent) {
 		// TODO Auto-generated method stub
-		csv = new BDSWCallStackView(parent.getShell(), "CM0(big)", null);
+		csv = new BDSWCallStackView(parent.getShell(), Selected_core_check , null);
 		SymbolSetter_csv();
 
 		csv.show();

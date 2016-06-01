@@ -10,7 +10,7 @@
       <view
             category="com.twoblock.blockdesigner.perspective"
             class="com.twoblock.blockdesigner.view.View_PlatformManager"
-            icon="images/sample.gif"
+            icon="images/twoblocklogo16.png"
             id="com.twoblock.blockdesigner.view.View_PlatformManager"
             name="Platform Manager">
       </view>
@@ -30,8 +30,8 @@
             name="Exit">
       </command>
       <command
-            defaultHandler="com.twoblock.blockdesigner.command.Handler_ModuleWizard"
-            id="com.twoblock.blockdesigner.command.OpneModuleWizard"
+            defaultHandler="com.twoblock.blockdesigner.modulewizard.Handler_ModuleWizard"
+            id="com.twoblock.blockdesigner.modulewizard.OpneModuleWizard"
             name="OpneModuleWizard">
       </command>
       <command
@@ -56,7 +56,7 @@
          <menu
                label="Block Designer">
             <command
-                  commandId="com.twoblock.blockdesigner.command.OpneModuleWizard"
+                  commandId="com.twoblock.blockdesigner.modulewizard.OpneModuleWizard"
                   label="Module Wizard"
                   style="push"
                   tooltip="Opne Module Wizard">
@@ -66,13 +66,13 @@
                   visible="true">
             </separator>
             <command
-                  commandId="com.twoblock.blockdesigner.command.OpneModuleWizard"
+                  commandId="com.twoblock.blockdesigner.modulewizard.OpneModuleWizard"
                   label="Open Platform manager"
                   style="push"
                   tooltip="Open Platform manager">
             </command>
             <command
-                  commandId="com.twoblock.blockdesigner.command.OpneModuleWizard"
+                  commandId="com.twoblock.blockdesigner.modulewizard.OpneModuleWizard"
                   label="Open Simulation env."
                   style="push"
                   tooltip="Open Simulation env.">
@@ -101,7 +101,7 @@
          <toolbar
                id="com.twoblock.e4.platform.manager.ui.toolbar1">
             <command
-                  commandId="com.twoblock.blockdesigner.command.OpneModuleWizard"
+                  commandId="com.twoblock.blockdesigner.modulewizard.OpneModuleWizard"
                   icon="images/Component Wizard_resize.png"
                   style="push">
             </command>
@@ -115,7 +115,7 @@
       <perspective
             class="com.twoblock.blockdesigner.perspective.Perspective_BlockDesigner"
             fixed="true"
-            icon="images/icon.png"
+            icon="images/twoblocklogo16.png"
             id="com.twoblock.blockdesigner.perspective.Perspective_BlockDesigner"
             name="Block Designer">
       </perspective>
