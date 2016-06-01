@@ -143,7 +143,7 @@ public class View_PlatformManager extends ViewPart {
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
 				
-				FileDialog fdlg = new FileDialog(parent.getShell(), SWT.SAVE);
+				FileDialog fdlg = new FileDialog(shell.getShell(), SWT.SAVE);
 				fdlg.setFilterNames(new String[] {"BDPMD","ALL Files(*.*)"});
 				fdlg.setFilterExtensions(new String[] {"*.BDPMD"});
 				fdlg.setFilterPath(System.getProperty("user.home"));

@@ -33,12 +33,12 @@ public class Handler_Command {
 		} catch (UnsatisfiedLinkError e) {
 			System.err.println("Native code library failed to load(ld=callback)");
 		}
-		try {
-			System.loadLibrary("libBD_sim.so");
-			System.out.println("pl = loaded libBD_sim.so");
-		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load(pl=callback)");
-		}
+//		try {
+//			System.loadLibrary("libBD_sim.so");
+//			System.out.println("pl = loaded libBD_sim.so");
+//		} catch (UnsatisfiedLinkError e) {
+//			System.err.println("Native code library failed to load(pl=callback)");
+//		}
 	}
 
 	public native void PushCommand();
