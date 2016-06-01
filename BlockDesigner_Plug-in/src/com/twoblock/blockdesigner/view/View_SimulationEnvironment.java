@@ -14,6 +14,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -254,34 +255,25 @@ public class View_SimulationEnvironment extends ViewPart {
 		Composite_make(parent);
 		
 		
-		
 		/* START--- Button Listener & Action --- */
 		btnOpen.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
-				coreList="";
-				
-				btnOpen.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent arg0) {
-						// TODO Auto-generated method stub
-						FileDialog file_dlg = new FileDialog(parent.getShell() , SWT.OPEN);
-						
-						file_dlg.setText("BDPMD Loading");
-						String[] filterExt={"*.BDPMD"};
-						file_dlg.setFilterExtensions(filterExt);
-						file_dlg.setFilterPath(System.getProperty("user.home"));
-						
-						BDPMD_Location = file_dlg.open();
-						
-						if (BDPMD_Location != null) {
-							// File directory = new File(saveTarget);
-							BDPMD_Location = BDPMD_Location.replace("\\", "/");
-							Handler_Command.Command_Func(0, 7, BDPMD_Location, "", "","", "");
-							ChannelInfoSet(composite);
-						}
-					}
-				});
+				coreList = "";
+				FileDialog file_dlg = new FileDialog(parent.getShell(), SWT.OPEN);
+				file_dlg.setText("BDPMD Loading");
+				String[] filterExt = { "*.BDPMD" };
+				file_dlg.setFilterExtensions(filterExt);
+				file_dlg.setFilterPath(System.getProperty("user.home"));
+
+				BDPMD_Location = file_dlg.open();
+
+				if (BDPMD_Location != null) {
+					// File directory = new File(saveTarget);
+					BDPMD_Location = BDPMD_Location.replace("\\", "/");
+					Handler_Command.Command_Func(0, 7, BDPMD_Location, "", "", "", "");
+					ChannelInfoSet(composite);
+				}
 				Handler_Command.Command_Func(0, 1, "OPEN", "NULL", "NULL", "NULL", "NULL");
 			}
 		});
@@ -455,6 +447,8 @@ public class View_SimulationEnvironment extends ViewPart {
 	private String InstanceName;
 	private boolean isExisted=false;
 	private BDMemoryViewItemArray tmp_data;
+	private boolean isFirst=true;
+	private Point init_Position_Point;
 
 	protected void ChannelInfoSet(final ScrolledComposite composite) {
 		try {
@@ -831,7 +825,14 @@ public class View_SimulationEnvironment extends ViewPart {
 		composite.setExpandVertical(true);
 		composite.setMinSize(expandBar.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		
+		System.err.println("set Size composite");
 		composite.setSize(composite.getParent().getSize().x-10, composite.getParent().getSize().y-80);
+		if(isFirst){
+			isFirst=false;
+			init_Position_Point = composite.getLocation();
+		}else{
+			composite.setLocation(init_Position_Point);
+		}
 	}
 
 	public static String padRight(String s, int n) {
@@ -941,6 +942,14 @@ public class View_SimulationEnvironment extends ViewPart {
 				switch (state) {
 				case 0: // initial
 					System.err.println("SE Open");
+					TraceChecking=true;
+					isExisted=false;
+					chkASV.setEnabled(false);
+					chkCSV.setEnabled(false);
+					chkSPV.setEnabled(false);
+					chkASV.setSelection(false);
+					chkCSV.setSelection(false);
+					chkSPV.setSelection(false);
 					btnOpen.setEnabled(true);
 					btnOpen_sw.setEnabled(false);
 					btnClose.setEnabled(false);

@@ -79,6 +79,7 @@ public class Hanlder_CallBack {
 		View_SimulationEnvironment.SourceCode=jcode;
 	}
 	private void PCCallBack(String pc){
+		System.err.println("get PC"+pc);
 		View_SimulationEnvironment.PCCode=pc;
 	}
 	
