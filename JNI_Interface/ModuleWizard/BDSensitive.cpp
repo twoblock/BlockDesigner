@@ -11,7 +11,7 @@ BDSensitive::BDSensitive() {
 	initMembers();
 }
 
-BDSensitive::BDSensitive(const char *portName, enum SENSE_TYPE edgeType) {
+BDSensitive::BDSensitive(const char *portName, const char* edgeType) {
 	initMembers();
 
 	setPortName(portName);
@@ -36,8 +36,15 @@ enum SENSE_TYPE BDSensitive::getSenseType() {
 	return m_senseType;
 }
 
-void BDSensitive::setSenseType(enum SENSE_TYPE senseType) {
-	m_senseType = senseType;
+void BDSensitive::setSenseType(const char* strSenseType) {
+	if(strcmp(strSenseType, "Positive Edge")==0)
+		m_senseType = POS;
+
+	if(strcmp(strSenseType, "Negative Edge")==0)
+			m_senseType = NEG;
+
+	if(strcmp(strSenseType, "Evaluation")==0)
+			m_senseType = EVAL;
 }
 
 char* BDSensitive::getPortName() const {

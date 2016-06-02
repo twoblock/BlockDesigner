@@ -11,8 +11,7 @@
 
 
 #include "BlockDesigner.h"
-
-#define INPUT_STR_TOKEN ","
+#include "json.h"
 
 
 class BDWriter
@@ -20,7 +19,6 @@ class BDWriter
 
 public:
 	BDWriter();
-	BDWriter(BDModule* module, const char* dirPath);
 	virtual ~BDWriter();
 private:
 	void initMembers();
@@ -32,26 +30,18 @@ public:
 
 
 private:
-	int createSystemCHeader();
-	int createSystemCSource();
+	int createModuleHeader();
+	int createModuleSource();
+	int createBDDIHeader();
+	int createBDDISource();
+	int createBDMMIHeader();
+	int createBDMMISource();
+	int createMakeFile();
 
 	void setModule(BDModule* module);
 	void setDirPath(const char* dirPath);
 	BDModule*& getModule();
 	char* getDirPath();
-
-
-	int header_annotation(ofstream& fout);
-	int header_includePart(ofstream& fout);
-	int header_elementPart(ofstream& fout);
-	int header_constructor(ofstream& fout);
-	int header_registerProcess(ofstream& fout);
-
-	int source_annotation(ofstream& fout);
-	int source_includePart(ofstream& fout);
-	int source_processBody(ofstream& fout);
-	int source_initFunction(ofstream& fout);
-
 
 	char* format(char* fmt, ...);
 	char* toLower(char* pstr);

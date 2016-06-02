@@ -11,11 +11,12 @@ BDParameter::BDParameter() {
 	initMembers();
 }
 
-BDParameter::BDParameter(const char* name, const char* type, const char* defVal) {
+BDParameter::BDParameter(const char* name, const char* type, int dataSize, const char* defVal) {
 	initMembers();
 
 	setName(name);
 	setType(type);
+	setDataSize(dataSize);
 	setDefaultValue(defVal);
 }
 
@@ -53,8 +54,42 @@ void BDParameter::setName(const char* name) {
 	strcat(pm_name, name);
 }
 
-char* BDParameter::getType() const {
-	return pm_type;
+char* BDParameter::getDataType() const {
+
+	if(strcmp(pm_type, "UINT")==0 && pm_dataSize==8)
+		return "unsigned char";
+
+	if(strcmp(pm_type, "UINT")==0 && pm_dataSize==16)
+		return "unsigned short";
+
+	if(strcmp(pm_type, "UINT")==0 && pm_dataSize==32)
+		return "unsigned int";
+
+	if(strcmp(pm_type, "UINT")==0 && pm_dataSize==64)
+		return "unsigned long long";
+
+	if(strcmp(pm_type, "BOOL")==0)
+		return "bool";
+
+	if(strcmp(pm_type, "FLOAT")==0 && pm_dataSize==32)
+		return "float";
+
+	if(strcmp(pm_type, "FLOAT")==0 && pm_dataSize==64)
+		return "double";
+
+	if(strcmp(pm_type, "INT")==0 && pm_dataSize==8)
+		return "char";
+
+	if(strcmp(pm_type, "INT")==0 && pm_dataSize==16)
+		return "short";
+
+	if(strcmp(pm_type, "INT")==0 && pm_dataSize==32)
+		return "int";
+
+	if(strcmp(pm_type, "INT")==0 && pm_dataSize==64)
+		return "long long";
+
+	return "unknown";
 }
 
 void BDParameter::setType(const char* type) {
@@ -67,6 +102,18 @@ void BDParameter::setDefaultValue(const char* defVal) {
 	strcpy(pm_defaultValue, defVal);
 }
 
+char* BDParameter::getType() const {
+	return pm_type;
+}
+
 char* BDParameter::getDefaultValue() const {
 	return pm_defaultValue;
+}
+
+int BDParameter::getDataSize() const {
+	return pm_dataSize;
+}
+
+void BDParameter::setDataSize(int dataSize) {
+	pm_dataSize = dataSize;
 }

@@ -19,7 +19,7 @@ BDPort::BDPort() {
  * 	pass the bit range of the reserved port to dataType as a string.
  * 	ex) BDPort("portName", SC_IN_RV, "16");
  */
-BDPort::BDPort(const char* name, enum PORT_TYPE type, const char* dataType) {
+BDPort::BDPort(const char* name, const char* type, const char* dataType) {
 	initMembers();
 
 	setName(name);
@@ -65,8 +65,49 @@ enum PORT_TYPE BDPort::getType() {
 	return m_type;
 }
 
-void BDPort::setType(enum PORT_TYPE type) {
-	m_type = type;
+void BDPort::setType(const char* strType)
+{
+	if(strcmp(strType, STR_SC_IN) == 0)
+		m_type = SC_IN;
+
+	if(strcmp(strType, STR_SC_OUT) == 0)
+		m_type = SC_OUT;
+
+	if(strcmp(strType, STR_SC_INOUT) == 0)
+		m_type = SC_INOUT;
+
+	if(strcmp(strType, STR_SC_IN_RV) == 0)
+		m_type = SC_IN_RV;
+
+	if(strcmp(strType, STR_SC_OUT_RV) == 0)
+		m_type = SC_OUT_RV;
+
+	if(strcmp(strType, STR_SC_INOUT_RV) == 0)
+		m_type = SC_INOUT_RV;
+
+	if(strcmp(strType, STR_AHB_MM) == 0)
+		m_type = AHB_MM;
+
+	if(strcmp(strType, STR_AHB_MS) == 0)
+		m_type = AHB_MS;
+
+	if(strcmp(strType, STR_AHB_SM) == 0)
+		m_type = AHB_SM;
+
+	if(strcmp(strType, STR_AHB_SS) == 0)
+		m_type = AHB_SS;
+
+	if(strcmp(strType, STR_AHB_LITE_MM) == 0)
+		m_type = AHB_LITE_MM;
+
+	if(strcmp(strType, STR_AHB_LITE_MS) == 0)
+		m_type = AHB_LITE_MS;
+
+	if(strcmp(strType, STR_AHB_LITE_SM) == 0)
+		m_type = AHB_LITE_SM;
+
+	if(strcmp(strType, STR_AHB_LITE_SS) == 0)
+		m_type = AHB_LITE_SS;
 }
 
 char* BDPort::getName() {
@@ -84,27 +125,59 @@ char* BDPort::getTypeText(char* buffer)
 	{
 		switch( m_type ) {
 		case SC_IN:
-			strcpy(buffer, "sc_in");
+			strcpy(buffer, STR_SC_IN);
 			break;
 
 		case SC_OUT:
-			strcpy(buffer, "sc_out");
+			strcpy(buffer, STR_SC_OUT);
 			break;
 
 		case SC_INOUT:
-			strcpy(buffer, "sc_inout");
+			strcpy(buffer, STR_SC_INOUT);
 			break;
 
 		case SC_IN_RV:
-			strcpy(buffer, "sc_in_rv");
+			strcpy(buffer, STR_SC_IN_RV);
 			break;
 
 		case SC_OUT_RV:
-			strcpy(buffer, "sc_out_rv");
+			strcpy(buffer, STR_SC_OUT_RV);
 			break;
 
 		case SC_INOUT_RV:
-			strcpy(buffer, "sc_inout_rv");
+			strcpy(buffer, STR_SC_INOUT_RV);
+			break;
+
+		case AHB_MM:
+			strcpy(buffer, STR_AHB_MM);
+			break;
+
+		case AHB_MS:
+			strcpy(buffer, STR_AHB_MS);
+			break;
+
+		case AHB_SM:
+			strcpy(buffer, STR_AHB_SM);
+			break;
+
+		case AHB_SS:
+			strcpy(buffer, STR_AHB_SS);
+			break;
+
+		case AHB_LITE_MM:
+			strcpy(buffer, STR_AHB_LITE_MM);
+			break;
+
+		case AHB_LITE_MS:
+			strcpy(buffer, STR_AHB_LITE_MS);
+			break;
+
+		case AHB_LITE_SM:
+			strcpy(buffer, STR_AHB_LITE_SM);
+			break;
+
+		case AHB_LITE_SS:
+			strcpy(buffer, STR_AHB_LITE_SS);
 			break;
 		}
 	}
