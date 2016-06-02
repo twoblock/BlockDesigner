@@ -26,7 +26,7 @@ class BDProcess
 {
 public:
 	BDProcess();
-	BDProcess(const char* name, enum PROC_TYPE type);
+	BDProcess(const char* name, const char* strType);
 	virtual ~BDProcess();
 
 private:
@@ -35,7 +35,7 @@ private:
 
 public:
 	void setName(const char* name);
-	void setType(enum PROC_TYPE type);
+	void setType(const char* strType);
 	char* getName();
 	enum PROC_TYPE getType();
 

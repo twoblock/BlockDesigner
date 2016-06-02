@@ -54,7 +54,7 @@ void BDPortGroup::setName(const char* name) {
  * 	pass the bit range of the reserved port to dataType as a string.
  * 	ex) addPort("portName", SC_IN_RV, "16");
  */
-int BDPortGroup::addPort(const char* portName, enum PORT_TYPE portType, const char* dataType)
+int BDPortGroup::addPort(const char* portName, const char* portType, const char* dataType)
 {
 	BDPort *port = new BDPort(portName, portType, dataType);
 	push_back(port);
