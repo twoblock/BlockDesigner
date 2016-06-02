@@ -117,7 +117,6 @@ public class View_PlatformManager extends ViewPart {
 	
 	public void createPartControl(Composite parent) {
 		display = Display.getDefault();
-		Handler_SimulationInitThread.SimInitThread_Func();
 		Hanlder_CallBack.CallBack_Func();
 		shell = parent;
 		shell.setLayout(new GridLayout(3, false));
@@ -178,6 +177,7 @@ public class View_PlatformManager extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
+				Handler_SimulationInitThread.SetInitCheck(false);
 				Handler_Command.Command_Func(0, 1, "CLOSE", "NULL", "NULL", "NULL", "NULL");
 			}
 			
@@ -399,6 +399,14 @@ public class View_PlatformManager extends ViewPart {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
+				boolean initcheck = Handler_SimulationInitThread.GetInitCheck();
+				if(!initcheck){
+					initcheck=true;
+					Handler_SimulationInitThread.SimInitThread_Func();
+					Handler_SimulationInitThread.SetInitCheck(initcheck);
+				}
+						
+				
 				FileDialog file_dlg = new FileDialog(shell.getShell() , SWT.OPEN);
 				
 				file_dlg.setText("Load Block Designer Module.");
@@ -434,7 +442,6 @@ public class View_PlatformManager extends ViewPart {
 				// TODO Auto-generated method stub
 			}
 		});
-		
 		expandBar.setSpacing(5);
 	}
 	

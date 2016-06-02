@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -41,6 +42,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import com.twoblock.blockdesigner.command.Handler_Command;
+import com.twoblock.blockdesigner.command.Handler_SimulationInitThread;
 import com.twoblock.blockdesigner.command.Hanlder_CallBack;
 import com.twoblock.blockdesigner.popup.BDDisassembleView;
 import com.twoblock.blockdesigner.popup.BDF;
@@ -274,6 +276,12 @@ public class View_SimulationEnvironment extends ViewPart {
 					Handler_Command.Command_Func(0, 7, BDPMD_Location, "", "", "", "");
 					ChannelInfoSet(composite);
 				}
+				boolean initcheck = Handler_SimulationInitThread.GetInitCheck();
+				if(!initcheck){
+					initcheck=true;
+					Handler_SimulationInitThread.SimInitThread_Func();
+					Handler_SimulationInitThread.SetInitCheck(initcheck);
+				}
 				Handler_Command.Command_Func(0, 1, "OPEN", "NULL", "NULL", "NULL", "NULL");
 			}
 		});
@@ -290,12 +298,20 @@ public class View_SimulationEnvironment extends ViewPart {
 		btnClose.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// TODO Auto-generated method stub
+				Handler_SimulationInitThread.SetInitCheck(false);
 				Handler_Command.Command_Func(0, 1, "CLOSE", "NULL", "NULL", "NULL", "NULL");
-				composite.dispose();
 				
+				Shell[] shell_list = parent.getDisplay().getShells();
+				for(int i =0; i<shell_list.length; i++){
+					if(shell_list[i].getText().contains("Software CallStack View") 
+							|| shell_list[i].getText().contains("assemble View")
+							|| shell_list[i].getText().contains("Software Profiling View")){
+						shell_list[i].dispose();
+					} 
+				}
+				composite.dispose();
 				Composite_make(parent);
 				Btn_Control(0);
-				Hanlder_CallBack.CallBack_Func();
 			}
 		});
 		btnRun.addSelectionListener(new SelectionAdapter() {
@@ -362,7 +378,8 @@ public class View_SimulationEnvironment extends ViewPart {
 		});
 	}
 
-	private void Composite_make(Composite parent) {
+	private void Composite_make(Composite ori_parent) {
+		final Composite parent = ori_parent;
 		// TODO Auto-generated method stub
 		
 		display.asyncExec(new Runnable() {
