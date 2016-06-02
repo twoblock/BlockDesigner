@@ -48,7 +48,7 @@ public class CW_Wizard{
 	public native String ComponentCreate(String msg);
 	public String component_name;
 	public String component_location;
-	public String Module_Type="CPU";
+	public String Module_Type="cpu";
 	public int port_count;
 	public int reg_count;
 	public int para_count;
