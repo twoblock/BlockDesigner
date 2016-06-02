@@ -13,6 +13,9 @@
 
 #include "BDSim.h"
 #include "../manager/AllManager.h"
+#include "../manager/ModuleConnector.h"
+#include "../SimulationAPI/ChannelMap.h"
+
 
 #define	 SECOND_UNIT(X)		((X)*1000000)
 #define	 CYCLE_DISPLAY_UNIT 1371
@@ -56,6 +59,40 @@ namespace BDapi
 
 			if(dw_SimState == -1) break; // Simulation End 
 		}
+
+		sc_stop();
+
+		while(sc_is_running() != false);
+		ModuleListManager::GetInstance()->DeleteInstance();
+		ChannelMap::GetInstance()->DeleteInstance();
+		SignalTraceManager::GetInstance()->DeleteInstance();
+
+		fp = popen("rm -rf wave.vcd", "r");
+
+		if(sc_curr_simcontext != NULL){
+			delete sc_default_global_context;
+			sc_curr_simcontext = NULL;
+		}
+
+		BDDIJsonManager::GetInstance()->DeleteInstance();
+		BDDIManager::GetInstance()->DeleteInstance();
+		BDPMDInitManager::GetInstance()->DeleteInstance();
+		PMMLGenerationManager::GetInstance()->DeleteInstance();
+		SoftwareManager::GetInstance()->DeleteInstance();
+		ModuleConnector::GetInstance()->DeleteInstance();
+		//CallBackManager::GetInstance()->DeleteInstance();
+		//ExecutionManager::GetInstance()->DeleteInstance();
+
+		ModuleListManager::GetInstance();
+		BDDIJsonManager::GetInstance();
+		BDDIManager::GetInstance();
+		BDPMDInitManager::GetInstance();
+		PMMLGenerationManager::GetInstance();
+		SignalTraceManager::GetInstance();
+		SoftwareManager::GetInstance();
+		ModuleConnector::GetInstance();
+		CallBackManager::GetInstance()->GetManagers();
+		//ExecutionManager::GetInstance();
 	}
 
 	/*
