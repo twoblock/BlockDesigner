@@ -30,7 +30,7 @@
             name="Exit">
       </command>
       <command
-            defaultHandler="com.twoblock.blockdesigner.modulewizard.Handler_ModuleWizard"
+            defaultHandler="com.twoblock.blockdesigner.modulewizard.h_mw"
             id="com.twoblock.blockdesigner.modulewizard.OpneModuleWizard"
             name="OpneModuleWizard">
       </command>
