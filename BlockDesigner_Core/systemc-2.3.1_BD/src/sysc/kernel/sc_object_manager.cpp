@@ -388,9 +388,9 @@ sc_object_manager::top_of_module_name_stack()
 void
 sc_object_manager::remove_event(const std::string& name)
 {
-    instance_table_t::iterator it;     // instance table iterator.
-    it = m_instance_table.find(name);
-    if ( it != m_instance_table.end() ) it->second.m_event_p = NULL;
+    //instance_table_t::iterator it;     // instance table iterator.
+    //it = m_instance_table.find(name);
+    //if ( it != m_instance_table.end() ) it->second.m_event_p = NULL;
 }
 
 // +----------------------------------------------------------------------------
@@ -406,9 +406,9 @@ sc_object_manager::remove_event(const std::string& name)
 void
 sc_object_manager::remove_object(const std::string& name)
 {
-    instance_table_t::iterator it;     // instance table iterator.
-    it = m_instance_table.find(name);
-    if ( it != m_instance_table.end() ) it->second.m_object_p = NULL;
+    //instance_table_t::iterator it;     // instance table iterator.
+    //it = m_instance_table.find(name);
+    //if ( it != m_instance_table.end() ) it->second.m_object_p = NULL;
 }
 
 } // namespace sc_core
