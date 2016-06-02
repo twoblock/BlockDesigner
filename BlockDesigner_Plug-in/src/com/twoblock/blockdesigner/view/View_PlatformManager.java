@@ -131,6 +131,8 @@ public class View_PlatformManager extends ViewPart {
 //		Image imgOpen = idOpen.createImage();
 		ImageDescriptor idSave = ImageDescriptor.createFromFile(this.getClass(), "/images/save_btn.png");
 		Image imgSave = idSave.createImage();
+		ImageDescriptor idClose = ImageDescriptor.createFromFile(this.getClass(), "/images/close_btn_16.png");
+		Image imgClose = idClose.createImage();
 		
 //		Button btn_new = new Button(composite_Toolbar, SWT.NONE);
 //		btn_new.setImage(imgNew);
@@ -169,6 +171,22 @@ public class View_PlatformManager extends ViewPart {
 			}
 		});
 		
+		Button btn_close = new Button(composite_Toolbar, SWT.NONE);
+		btn_close.setImage(imgClose);
+		btn_close.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				Handler_Command.Command_Func(0, 1, "CLOSE", "NULL", "NULL", "NULL", "NULL");
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		PastLinkedModule=new CCombo(composite_Toolbar, SWT.NONE);
 		PastLinkedModule.setVisible(false);
