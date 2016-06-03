@@ -650,10 +650,15 @@ class Step6_sensitivity extends WizardPage {
 							col_1 = m_w.port_item[i].getText(2);
 							m_w.sen_item[index].setText(new String[] { col_1 });
 							m_w.combo[index] = new CCombo(sen_table, SWT.BORDER | SWT.READ_ONLY);
-							m_w.combo[index].add("None");
-							m_w.combo[index].add("Negative Edge");
-							m_w.combo[index].add("Positive Edge");
-							m_w.combo[index].add("Evaluation");
+							if(m_w.port_item[i].getText(1).contains("bool")){
+								m_w.combo[index].add("None");
+								m_w.combo[index].add("Negative Edge");
+								m_w.combo[index].add("Positive Edge");
+								m_w.combo[index].add("Evaluation");
+							}else{
+								m_w.combo[index].add("None");
+								m_w.combo[index].add("Evaluation");
+							}
 							m_w.combo[index].select(0);
 							m_w.combo[index].pack();
 							m_w.combo[index].setBackground(white);

@@ -115,6 +115,7 @@ public class View_PlatformManager extends ViewPart {
 	private String Instance_Module_Name;
 	protected boolean mouseClickState;
 	private ScrolledComposite composite_PlatformViewer;
+	private ArrayList<Port> PortDataList;
 	public static Display display = null;
 
 	public void createPartControl(Composite parent) {
@@ -202,6 +203,13 @@ public class View_PlatformManager extends ViewPart {
 				list_mem.removeAll();
 				list_other.removeAll();
 				UsedModuleList.clear();
+				UsedModuleDataList = new ModuleInfo();
+				for(int removeIndex=0; removeIndex <ModuleInfoData.mList.size() ;removeIndex++){
+					ModuleInfoData.mList.get(removeIndex).Port_List.clear();
+				}
+				
+				ModuleInfoData.mList.clear();
+				
 				for(int removeIndex=0; removeIndex <Expanditem.size() ;removeIndex++){
 					Expanditem.get(removeIndex).dispose();
 				}
@@ -531,7 +539,7 @@ public class View_PlatformManager extends ViewPart {
 			UsedModuleDataList.mList.add(NewModule);
 			UsedModuleDataList.mList.get(UsedModuleIndex).module_instance_name = Instance_Module_Name;
 
-			final ArrayList<Port> PortDataList = UsedModuleDataList.mList.get(UsedModuleIndex).Port_List;
+			PortDataList = UsedModuleDataList.mList.get(UsedModuleIndex).Port_List;
 			port_Cnt = PortDataList.size();
 
 			switch (UsedModuleDataList.mList.get(UsedModuleIndex).module_type) {
@@ -1137,6 +1145,7 @@ public class View_PlatformManager extends ViewPart {
 
 	public void viewsetting(String ori_pmml) {
 		final String pmml = ori_pmml;
+		System.err.println("pmml"+ori_pmml);
 		display.asyncExec(new Runnable() {
 			@Override
 			public void run() {
