@@ -8,6 +8,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -114,6 +116,13 @@ public class View_SimulationEnvironment extends ViewPart {
 
 	public void createPartControl(Composite ori_parent) {
 		final Composite parent = ori_parent;
+		ori_parent.getParent().addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent arg0) {
+				Handler_SimulationInitThread.SetInitCheck(false);
+				Hanlder_CallBack.CallBack_RM();
+			}
+		});
 		display = Display.getDefault();
 
 		c_parent=parent;

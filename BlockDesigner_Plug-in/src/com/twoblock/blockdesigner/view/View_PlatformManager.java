@@ -11,6 +11,8 @@ import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -86,7 +88,7 @@ public class View_PlatformManager extends ViewPart {
 	private ExpandBar expandBar;
 	private int port_index;
 	private int par_index;
-	
+
 	private Table table_port;
 	private Table table_par;
 	private ArrayList<Button> btnCheckButton = new ArrayList<Button>();
@@ -95,7 +97,7 @@ public class View_PlatformManager extends ViewPart {
 	private Color color_gray = new Color(device, 150, 150, 150);
 	private Color color_skyblue = new Color(device, 204, 204, 255);
 	private ArrayList<ExpandItem> Expanditem = new ArrayList<ExpandItem>();
-	
+
 	private JSONParser parser = new JSONParser();
 	private Object obj;
 	private JSONObject jsonObject;
@@ -104,7 +106,7 @@ public class View_PlatformManager extends ViewPart {
 	private static ArrayList<String> UsedModuleList = new ArrayList<String>();
 	private String PastItem;
 	private CCombo PastLinkedModule;
-	private int PastLinkedModuleIndex=0;
+	private int PastLinkedModuleIndex = 0;
 	private static ModuleInfo ModuleInfoData;
 	private static ModuleInfo UsedModuleDataList = new ModuleInfo();
 	private static Module ModuleData;
@@ -113,84 +115,102 @@ public class View_PlatformManager extends ViewPart {
 	private String Instance_Module_Name;
 	protected boolean mouseClickState;
 	private ScrolledComposite composite_PlatformViewer;
-	public static Display display =null;
-	
+	public static Display display = null;
+
 	public void createPartControl(Composite parent) {
+		System.err.println("name" + display.getAppName());
+
+		parent.getParent().addDisposeListener(new DisposeListener() {
+			
+			@Override
+			public void widgetDisposed(DisposeEvent arg0) {
+				// TODO Auto-generated method stub
+				Handler_SimulationInitThread.SetInitCheck(false);
+				Hanlder_CallBack.CallBack_RM();
+			}
+		});
+
 		display = Display.getDefault();
 		Hanlder_CallBack.CallBack_Func();
 		shell = parent;
 		shell.setLayout(new GridLayout(3, false));
-		
+
 		Composite composite_Toolbar = new Composite(shell, SWT.NONE);
 		composite_Toolbar.setLayout(new FillLayout(SWT.HORIZONTAL));
 
-//		ImageDescriptor idNew = ImageDescriptor.createFromFile(this.getClass(), "/images/new_btn.png");
-//		Image imgNew = idNew.createImage();
-//		ImageDescriptor idOpen = ImageDescriptor.createFromFile(this.getClass(), "/images/open_btn.png");
-//		Image imgOpen = idOpen.createImage();
+		// ImageDescriptor idNew =
+		// ImageDescriptor.createFromFile(this.getClass(),
+		// "/images/new_btn.png");
+		// Image imgNew = idNew.createImage();
+		// ImageDescriptor idOpen =
+		// ImageDescriptor.createFromFile(this.getClass(),
+		// "/images/open_btn.png");
+		// Image imgOpen = idOpen.createImage();
 		ImageDescriptor idSave = ImageDescriptor.createFromFile(this.getClass(), "/images/save_btn.png");
 		Image imgSave = idSave.createImage();
 		ImageDescriptor idClose = ImageDescriptor.createFromFile(this.getClass(), "/images/close_btn_16.png");
 		Image imgClose = idClose.createImage();
-		
-//		Button btn_new = new Button(composite_Toolbar, SWT.NONE);
-//		btn_new.setImage(imgNew);
-//		Button btn_open = new Button(composite_Toolbar, SWT.NONE);
-//		btn_open.setImage(imgOpen);
-		
+
+		// Button btn_new = new Button(composite_Toolbar, SWT.NONE);
+		// btn_new.setImage(imgNew);
+		// Button btn_open = new Button(composite_Toolbar, SWT.NONE);
+		// btn_open.setImage(imgOpen);
+
 		Button btn_save = new Button(composite_Toolbar, SWT.NONE);
 		btn_save.setImage(imgSave);
 		btn_save.addSelectionListener(new SelectionListener() {
 			BufferedWriter out;
+
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 				FileDialog fdlg = new FileDialog(shell.getShell(), SWT.SAVE);
-				fdlg.setFilterNames(new String[] {"BDPMD","ALL Files(*.*)"});
-				fdlg.setFilterExtensions(new String[] {"*.BDPMD"});
+				fdlg.setFilterNames(new String[] { "BDPMD", "ALL Files(*.*)" });
+				fdlg.setFilterExtensions(new String[] { "*.BDPMD" });
 				fdlg.setFilterPath(System.getProperty("user.home"));
 				fdlg.setText("Save BDPMD");
 				String saveDir = fdlg.open();
 				try {
-					Set_BDPMD setBD=new Set_BDPMD(UsedModuleDataList);
+					Set_BDPMD setBD = new Set_BDPMD(UsedModuleDataList);
 					String str = setBD.Get_BDPMD();
 					out = new BufferedWriter(new FileWriter(saveDir));
 					out.write(str);
 					out.close();
-					
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		Button btn_close = new Button(composite_Toolbar, SWT.NONE);
 		btn_close.setImage(imgClose);
 		btn_close.addSelectionListener(new SelectionListener() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
 				Handler_SimulationInitThread.SetInitCheck(false);
 				Handler_Command.Command_Func(0, 1, "CLOSE", "NULL", "NULL", "NULL", "NULL");
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
-		PastLinkedModule=new CCombo(composite_Toolbar, SWT.NONE);
+
+		PastLinkedModule = new CCombo(composite_Toolbar, SWT.NONE);
 		PastLinkedModule.setVisible(false);
-		
+
 		new Label(shell, SWT.NONE);
 
 		Label label = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -215,7 +235,7 @@ public class View_PlatformManager extends ViewPart {
 			Button btn_Module_Add = new Button(composite_ModuleSetter, SWT.FLAT | SWT.CENTER);
 			btn_Module_Add.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 			btn_Module_Add.setText("<");
-			
+
 			btn_Module_Add.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent e) {
 					InstanceName_Dialog();
@@ -224,8 +244,7 @@ public class View_PlatformManager extends ViewPart {
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 			});
-			
-			
+
 			new Label(composite_ModuleSetter, SWT.NONE);
 			new Label(composite_ModuleSetter, SWT.NONE);
 
@@ -265,22 +284,21 @@ public class View_PlatformManager extends ViewPart {
 			list_All = new List(tab_ModuleList, SWT.NONE);
 			tb_All.setControl(list_All);
 			list_All.addKeyListener(new KeyListener() {
-				
+
 				@Override
 				public void keyReleased(KeyEvent arg0) {
 					// TODO Auto-generated method stub
 					if ((arg0.keyCode == SWT.ARROW_LEFT) | (arg0.keyCode == SWT.CR))
 						InstanceName_Dialog();
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent arg0) {
 					// TODO Auto-generated method stub
-					
+
 				}
 			});
-			
-			
+
 			list_All.addSelectionListener(new SelectionListener() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
@@ -400,43 +418,41 @@ public class View_PlatformManager extends ViewPart {
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
 				boolean initcheck = Handler_SimulationInitThread.GetInitCheck();
-				if(!initcheck){
-					initcheck=true;
+				if (!initcheck) {
+					initcheck = true;
 					Handler_SimulationInitThread.SimInitThread_Func();
 					Handler_SimulationInitThread.SetInitCheck(initcheck);
 				}
-						
-				
-				FileDialog file_dlg = new FileDialog(shell.getShell() , SWT.OPEN);
-				
+
+				FileDialog file_dlg = new FileDialog(shell.getShell(), SWT.OPEN);
+
 				file_dlg.setText("Load Block Designer Module.");
-				String[] filterExt={"*.so"};
+				String[] filterExt = { "*.so" };
 				file_dlg.setFilterExtensions(filterExt);
 				file_dlg.setFilterPath(System.getProperty("user.home"));
-				
-				
-				
+
 				String Module_Location = file_dlg.open();
-				
+
 				if (Module_Location != null) {
 					// File directory = new File(saveTarget);
 					Module_Location = Module_Location.replace("\\", "/");
 					System.err.println(Module_Location);
-					
-//					Handler_Command.Command_Func(Module_Location);
+
+					// Handler_Command.Command_Func(Module_Location);
 					Handler_Command.Command_Func(0, 6, Module_Location, "NULL", "NULL", "NULL", "NULL");
 					Handler_Command.Command_Func(1, 0, "NULL", "NULL", "NULL", "NULL", "NULL");
-					
+
 					try {
 						Thread.sleep(500);
 						System.err.println("sleep on");
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
-					
-//					Hanlder_CallBack.CallBack_Func();
+
+					// Hanlder_CallBack.CallBack_Func();
 				}
 			}
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
@@ -444,14 +460,14 @@ public class View_PlatformManager extends ViewPart {
 		});
 		expandBar.setSpacing(5);
 	}
-	
+
 	protected void AddModuleSelected(final String Module_Name) {
 		// TODO Auto-generated method stub
 		String Module_Title = null;
 		UsedModuleIndex = 0;
 		Module_Title = Instance_Module_Name + " (" + Module_Name + ")";
 
-		// make Drawed module list. 
+		// make Drawed module list.
 		UsedModuleList.add(Instance_Module_Name);
 		UsedModuleIndex = UsedModuleList.size() - 1;
 
@@ -459,18 +475,20 @@ public class View_PlatformManager extends ViewPart {
 		Expanditem.get(UsedModuleIndex).setExpanded(false);
 		Expanditem.get(UsedModuleIndex).setText(Module_Title);
 
-		//composite_PlatformViewer
+		// composite_PlatformViewer
 		// make composite, divide (port&par) grid
-		composite_ExpandItem.add(new Composite(expandBar,  SWT.VIRTUAL));
+		composite_ExpandItem.add(new Composite(expandBar, SWT.VIRTUAL));
 		composite_ExpandItem.get(UsedModuleIndex).setBackground(color_gray);
 		composite_ExpandItem.get(UsedModuleIndex).setLayout(new GridLayout(2, false));
 		composite_ExpandItem.get(UsedModuleIndex).setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
-		
-		Expanditem.get(UsedModuleIndex).setHeight(composite_ExpandItem.get(UsedModuleIndex).computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+
+		Expanditem.get(UsedModuleIndex)
+				.setHeight(composite_ExpandItem.get(UsedModuleIndex).computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		Expanditem.get(UsedModuleIndex).setControl(composite_ExpandItem.get(UsedModuleIndex));
-		
+
 		{/* --- port table --- */
-			table_port = new Table(composite_ExpandItem.get(UsedModuleIndex), SWT.BORDER | SWT.FULL_SELECTION|SWT.V_SCROLL);
+			table_port = new Table(composite_ExpandItem.get(UsedModuleIndex),
+					SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 			GridData gd_table_port = new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1);
 			gd_table_port.heightHint = 150;
 			table_port.setLayoutData(gd_table_port);
@@ -488,21 +506,19 @@ public class View_PlatformManager extends ViewPart {
 			tblclmnNewColumn_4.setWidth(140);
 			tblclmnNewColumn_4.setText("dest Port");
 
-
 			int port_Cnt = 0;
 			String module = null;
-			
-			
+
 			// find selected module(Index) for get info(ModuleInfo.java)
 			for (Selected_Index = 0; Selected_Index < ModuleInfoData.mList.size(); Selected_Index++) {
 				module = ModuleInfoData.mList.get(Selected_Index).module_name;
-//				module = UsedModuleList.get(Selected_Index);
+				// module = UsedModuleList.get(Selected_Index);
 				if (Module_Name.equals(module) == true)
 					break;
 			}
-			
+
 			// Create DrawModule Struct(ArrayList).
-			// get module in port		 
+			// get module in port
 			Module NewModule = new Module(ModuleInfoData.mList.get(Selected_Index));
 			ModuleData = NewModule;
 			UsedModuleDataList.mList.add(NewModule);
@@ -510,8 +526,7 @@ public class View_PlatformManager extends ViewPart {
 
 			final ArrayList<Port> PortDataList = UsedModuleDataList.mList.get(UsedModuleIndex).Port_List;
 			port_Cnt = PortDataList.size();
-			
-			
+
 			switch (UsedModuleDataList.mList.get(UsedModuleIndex).module_type) {
 			case "cpu":
 				ImageDescriptor idItem1 = ImageDescriptor.createFromFile(this.getClass(), "/images/img_core16.png");
@@ -534,34 +549,33 @@ public class View_PlatformManager extends ViewPart {
 				Expanditem.get(UsedModuleIndex).setImage(imgItemIcon4);
 				break;
 			}
-			
-			
-			
-			for (int i = 0; i < port_Cnt-2; i++) {
+
+			for (int i = 0; i < port_Cnt - 2; i++) {
 				new TableItem(table_port, SWT.NONE);
 			}
 
 			TableItem[] items = table_port.getItems();
-			
-			for (port_index = 2; port_index < items.length+2; port_index++) {
-				
+
+			for (port_index = 2; port_index < items.length + 2; port_index++) {
+
 				TableEditor editor = new TableEditor(table_port);
 
 				editor = new TableEditor(table_port);
 				Text text = new Text(table_port, SWT.READ_ONLY);
 				text.setTouchEnabled(true);
-				
-				text.setText((String)PortDataList.get(port_index).sc_type + "<" + PortDataList.get(port_index).data_type + ">"
-								+ PortDataList.get(port_index).port_name);
-				
+
+				text.setText((String) PortDataList.get(port_index).sc_type + "<"
+						+ PortDataList.get(port_index).data_type + ">" + PortDataList.get(port_index).port_name);
+
 				editor.grabHorizontal = true;
-				editor.setEditor(text, items[port_index-2], 0);
+				editor.setEditor(text, items[port_index - 2], 0);
 
 				editor = new TableEditor(table_port);
 				final CCombo cmb_DestModule = new CCombo(table_port, SWT.READ_ONLY);
 				cmb_DestModule.setText("none");
 				cmb_DestModule.addListener(SWT.DROP_DOWN, new Listener() {
-					final String source_module_name=Instance_Module_Name;
+					final String source_module_name = Instance_Module_Name;
+
 					@Override
 					public void handleEvent(Event event) {
 						PastItem = cmb_DestModule.getText();
@@ -578,20 +592,22 @@ public class View_PlatformManager extends ViewPart {
 				});
 
 				editor.grabHorizontal = true;
-				editor.setEditor(cmb_DestModule, items[port_index-2], 1);
+				editor.setEditor(cmb_DestModule, items[port_index - 2], 1);
 
 				editor = new TableEditor(table_port);
-				
-//				final CCombo cmb_DestPort = new CCombo(table_port, SWT.READ_ONLY);
+
+				// final CCombo cmb_DestPort = new CCombo(table_port,
+				// SWT.READ_ONLY);
 				PortDataList.get(port_index).cmb_dPort = new CCombo(table_port, SWT.READ_ONLY);
-				if(PortDataList.get(port_index).SM_Index > 0){
+				if (PortDataList.get(port_index).SM_Index > 0) {
 					PortDataList.get(port_index).cmb_dPort.setEnabled(false);
 				}
 				PortDataList.get(port_index).cmb_dPort.setText("");
-				
+
 				// when you click dropdown, show destmodule in port
 				PortDataList.get(port_index).cmb_dPort.addListener(SWT.DROP_DOWN, new Listener() {
-					final int SelectedPort_Index=port_index;
+					final int SelectedPort_Index = port_index;
+
 					@Override
 					public void handleEvent(Event event) {
 						// TODO Auto-generated method stub
@@ -601,90 +617,100 @@ public class View_PlatformManager extends ViewPart {
 							String module = null;
 							int port_Cnt = 0;
 							int DestModule_Index = 0;
-							for (DestModule_Index = 0; DestModule_Index < UsedModuleDataList.mList.size(); DestModule_Index++) {
- 							module = UsedModuleDataList.mList.get(DestModule_Index).module_instance_name;
+							for (DestModule_Index = 0; DestModule_Index < UsedModuleDataList.mList
+									.size(); DestModule_Index++) {
+								module = UsedModuleDataList.mList.get(DestModule_Index).module_instance_name;
 								if (cmb_DestModule.getText().equals(module) == true)
 									break;
 							}
 							port_Cnt = UsedModuleDataList.mList.get(DestModule_Index).Port_List.size();
-							
+
 							PortDataList.get(SelectedPort_Index).cmb_dPort.removeAll();
-							
-							//draw equal data_type&sc_type
+
+							// draw equal data_type&sc_type
 							for (int destPort = 0; destPort < port_Cnt; destPort++) {
-								
+
 								String source_DataType = PortDataList.get(SelectedPort_Index).data_type;
-								String dest_DataType= UsedModuleDataList.mList.get(DestModule_Index).Port_List
+								String dest_DataType = UsedModuleDataList.mList.get(DestModule_Index).Port_List
 										.get(destPort).data_type;
 								String source_scType = PortDataList.get(SelectedPort_Index).sc_type;
 								String dest_scType = UsedModuleDataList.mList.get(DestModule_Index).Port_List
 										.get(destPort).sc_type;
-								if(source_DataType.equals(dest_DataType)){
-									if( source_scType.equals("sc_inout") && dest_scType.equals("sc_inout") ){
-										PortDataList.get(SelectedPort_Index).cmb_dPort.add(
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).sc_type
-												+ "<" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).data_type
-														+ ">" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
-									}
-									else if(source_scType.equals("sc_in") && dest_scType.equals("sc_out")){
-										PortDataList.get(SelectedPort_Index).cmb_dPort.add(
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).sc_type
-												+ "<" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).data_type
-														+ ">" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
-									}
-									else if(source_scType.equals("sc_out") && dest_scType.equals("sc_in")){
-										PortDataList.get(SelectedPort_Index).cmb_dPort.add(
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).sc_type
-												+ "<" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).data_type
-														+ ">" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
-									}
-								}
-								
-								if( (source_DataType.equals("SM")&&dest_DataType.equals("SS")) 
-										| (source_DataType.equals("SS")&&dest_DataType.equals("SM"))){
-									if(UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort.isEnabled())
-									{
-										PortDataList.get(SelectedPort_Index).cmb_dPort.add(
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).sc_type
-												+ "<" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).data_type
-														+ ">" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
+								if (source_DataType.equals(dest_DataType)) {
+									if (source_scType.equals("sc_inout") && dest_scType.equals("sc_inout")) {
+										PortDataList.get(SelectedPort_Index).cmb_dPort
+												.add(UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).sc_type
+												+ "<"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).data_type + ">"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).port_name);
+									} else if (source_scType.equals("sc_in") && dest_scType.equals("sc_out")) {
+										PortDataList.get(SelectedPort_Index).cmb_dPort
+												.add(UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).sc_type
+												+ "<"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).data_type + ">"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).port_name);
+									} else if (source_scType.equals("sc_out") && dest_scType.equals("sc_in")) {
+										PortDataList.get(SelectedPort_Index).cmb_dPort
+												.add(UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).sc_type
+												+ "<"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).data_type + ">"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).port_name);
 									}
 								}
-								else if( (source_DataType.equals("MM")&&dest_DataType.equals("MS")) 
-										| (source_DataType.equals("MS")&&dest_DataType.equals("MM"))){
-									if(UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort.isEnabled())
-									{
-										PortDataList.get(SelectedPort_Index).cmb_dPort.add(
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).sc_type
-												+ "<" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).data_type
-														+ ">" + 
-												UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).port_name);
+
+								if ((source_DataType.equals("SM") && dest_DataType.equals("SS"))
+										| (source_DataType.equals("SS") && dest_DataType.equals("SM"))) {
+									if (UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort
+											.isEnabled()) {
+										PortDataList.get(SelectedPort_Index).cmb_dPort
+												.add(UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).sc_type
+												+ "<"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).data_type + ">"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).port_name);
+									}
+								} else if ((source_DataType.equals("MM") && dest_DataType.equals("MS"))
+										| (source_DataType.equals("MS") && dest_DataType.equals("MM"))) {
+									if (UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort
+											.isEnabled()) {
+										PortDataList.get(SelectedPort_Index).cmb_dPort
+												.add(UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).sc_type
+												+ "<"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).data_type + ">"
+												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
+														.get(destPort).port_name);
 									}
 								}
 							}
-							mouseClickState=false;
+							mouseClickState = false;
 						}
 					}
 				});
 
-				// if you select DestModule, Compare (past DestModule) to (selection DestModule) 
+				// if you select DestModule, Compare (past DestModule) to
+				// (selection DestModule)
 				cmb_DestModule.addSelectionListener(new SelectionListener() {
-					final int SelectedModule_Index=port_index;
+					final int SelectedModule_Index = port_index;
+
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						// TODO Auto-generated method stub
 						if (PastItem.equals(cmb_DestModule.getItem((cmb_DestModule.getSelectionIndex()))) == false)
 							PortDataList.get(SelectedModule_Index).cmb_dPort.removeAll();
-						
+
 					}
 
 					@Override
@@ -693,120 +719,128 @@ public class View_PlatformManager extends ViewPart {
 
 					}
 				});
-				
-				// if you select DestPort, setting to DestModule(DestPort) object.
+
+				// if you select DestPort, setting to DestModule(DestPort)
+				// object.
 				PortDataList.get(port_index).cmb_dPort.addSelectionListener(new SelectionListener() {
-					final int SelectedPort_Index=port_index;
-					final int sourceModule_Index=UsedModuleIndex;
+					final int SelectedPort_Index = port_index;
+					final int sourceModule_Index = UsedModuleIndex;
 
 					@Override
 					public void widgetSelected(SelectionEvent arg0) {
-						System.err.println("selection="+mouseClickState);
-						if(mouseClickState==true){
+						System.err.println("selection=" + mouseClickState);
+						if (mouseClickState == true) {
 							// TODO Auto-generated method stub
 							// SM SETTING
-							if(PortDataList.get(SelectedPort_Index).SM_Index >=0){
-								int ptr=PortDataList.get(SelectedPort_Index).SM_Index;
-								PortDataList.get(SelectedPort_Index+1).cmb_dPort.setEnabled(true);
-								for(int finder=SelectedPort_Index; finder < PortDataList.size(); finder++){
-									if(PortDataList.get(finder).SM_Index == ptr+1){
+							if (PortDataList.get(SelectedPort_Index).SM_Index >= 0) {
+								int ptr = PortDataList.get(SelectedPort_Index).SM_Index;
+								PortDataList.get(SelectedPort_Index + 1).cmb_dPort.setEnabled(true);
+								for (int finder = SelectedPort_Index; finder < PortDataList.size(); finder++) {
+									if (PortDataList.get(finder).SM_Index == ptr + 1) {
 										PortDataList.get(finder).cmb_dPort.setEnabled(true);
 									}
 								}
 							}
 							// SM SETTING END
-							
-							
-							String Destmodule=cmb_DestModule.getText();
-							String module=null;
-							int finder=0;
+
+							String Destmodule = cmb_DestModule.getText();
+							String module = null;
+							int finder = 0;
 							for (finder = 0; finder < UsedModuleDataList.mList.size(); finder++) {
 								module = UsedModuleDataList.mList.get(finder).module_instance_name;
 								if (Destmodule.equals(module) == true)
 									break;
 							}
-							
-							String dport = UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).cmb_dPort.getText();
-							String [] getport=dport.split(">");
-							
-							int GetDestPortIndex=0;
-							for(GetDestPortIndex=0; GetDestPortIndex<UsedModuleDataList.mList.get(finder).Port_List.size(); GetDestPortIndex++){
-								if((UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).port_name).equals(getport[1]))
+
+							String dport = UsedModuleDataList.mList.get(sourceModule_Index).Port_List
+									.get(SelectedPort_Index).cmb_dPort.getText();
+							String[] getport = dport.split(">");
+
+							int GetDestPortIndex = 0;
+							for (GetDestPortIndex = 0; GetDestPortIndex < UsedModuleDataList.mList.get(finder).Port_List
+									.size(); GetDestPortIndex++) {
+								if ((UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).port_name)
+										.equals(getport[1]))
 									break;
 							}
-							Port SourcePort 	= PortDataList.get(SelectedPort_Index);
-							Port DestPort		= UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex);
-							
-							if(UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).Dest_Port != null){
-								UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).Dest_Port.cmb_dPort.setText("");
+							Port SourcePort = PortDataList.get(SelectedPort_Index);
+							Port DestPort = UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex);
+
+							if (UsedModuleDataList.mList.get(sourceModule_Index).Port_List
+									.get(SelectedPort_Index).Dest_Port != null) {
+								UsedModuleDataList.mList.get(sourceModule_Index).Port_List
+										.get(SelectedPort_Index).Dest_Port.cmb_dPort.setText("");
 							}
-							
-							
-							
+
 							UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).Dest_Port = SourcePort;
-							UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).Dest_Port= DestPort;
-							
-							String DestModuleSet =UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).sc_type+"<"
-													+UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).data_type+">"
-													+UsedModuleDataList.mList.get(sourceModule_Index).Port_List.get(SelectedPort_Index).port_name;
-							
-							
-							
-							
+							UsedModuleDataList.mList.get(sourceModule_Index).Port_List
+									.get(SelectedPort_Index).Dest_Port = DestPort;
+
+							String DestModuleSet = UsedModuleDataList.mList.get(sourceModule_Index).Port_List
+									.get(SelectedPort_Index).sc_type
+									+ "<"
+									+ UsedModuleDataList.mList.get(sourceModule_Index).Port_List
+											.get(SelectedPort_Index).data_type
+									+ ">" + UsedModuleDataList.mList.get(sourceModule_Index).Port_List
+											.get(SelectedPort_Index).port_name;
+
 							UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
 									.setText(DestModuleSet);
 							// SM SETTING
-							if(UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index >=0){
-								int ptr=UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index;
-								UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex+1).cmb_dPort.setEnabled(true);
-								for(int checker=SelectedPort_Index; checker < UsedModuleDataList.mList.get(finder).Port_List.size(); checker++){
-									if(UsedModuleDataList.mList.get(finder).Port_List.get(checker).SM_Index == ptr+1){
-										UsedModuleDataList.mList.get(finder).Port_List.get(checker).cmb_dPort.setEnabled(true);
+							if (UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index >= 0) {
+								int ptr = UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).SM_Index;
+								UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex + 1).cmb_dPort
+										.setEnabled(true);
+								for (int checker = SelectedPort_Index; checker < UsedModuleDataList.mList
+										.get(finder).Port_List.size(); checker++) {
+									if (UsedModuleDataList.mList.get(finder).Port_List.get(checker).SM_Index == ptr
+											+ 1) {
+										UsedModuleDataList.mList.get(finder).Port_List.get(checker).cmb_dPort
+												.setEnabled(true);
 									}
 								}
 							}
 							// SM SETTING END
-							
-							Control[] ctr_DestModuleList = UsedModuleDataList.mList.get(finder).Port_List.get(GetDestPortIndex).cmb_dPort
-									.getParent().getChildren();
+
+							Control[] ctr_DestModuleList = UsedModuleDataList.mList.get(finder).Port_List
+									.get(GetDestPortIndex).cmb_dPort.getParent().getChildren();
 							CCombo ctr_cmb_DestModule = (CCombo) ctr_DestModuleList[GetDestPortIndex * 3 - 5];
-							
-							ctr_cmb_DestModule.setText(PortDataList.get(SelectedPort_Index).Parent.module_instance_name);
-							
+
+							ctr_cmb_DestModule
+									.setText(PortDataList.get(SelectedPort_Index).Parent.module_instance_name);
+
 							try {
 								Control[] ctr_TempModule = PastLinkedModule.getParent().getChildren();
-								CCombo ctr_cmb_TempPort = (CCombo)ctr_TempModule[PastLinkedModuleIndex];
-								if(ctr_cmb_TempPort.getText().equals("") | ctr_cmb_TempPort.getText().equals(null))
+								CCombo ctr_cmb_TempPort = (CCombo) ctr_TempModule[PastLinkedModuleIndex];
+								if (ctr_cmb_TempPort.getText().equals("") | ctr_cmb_TempPort.getText().equals(null))
 									PastLinkedModule.setText("none");
 							} catch (Exception e) {
 								// TODO: handle exception
 							}
-							
-							
-							PastLinkedModule=ctr_cmb_DestModule;
-							PastLinkedModuleIndex=(GetDestPortIndex * 3 - 5);	
+
+							PastLinkedModule = ctr_cmb_DestModule;
+							PastLinkedModuleIndex = (GetDestPortIndex * 3 - 5);
 						}
-						mouseClickState=true;
+						mouseClickState = true;
 					}
-					
+
 					@Override
 					public void widgetDefaultSelected(SelectionEvent arg0) {
 						// TODO Auto-generated method stub
 					}
 				});
-				
-				
+
 				editor.grabHorizontal = true;
-				editor.setEditor(PortDataList.get(port_index).cmb_dPort, items[port_index-2], 2);
-				
+				editor.setEditor(PortDataList.get(port_index).cmb_dPort, items[port_index - 2], 2);
+
 			}
 			port_index = 2;
-			
+
 		}
 
-		
 		{/* --- para table --- */
-			table_par = new Table(composite_ExpandItem.get(UsedModuleIndex), SWT.BORDER | SWT.FULL_SELECTION|SWT.V_SCROLL);
+			table_par = new Table(composite_ExpandItem.get(UsedModuleIndex),
+					SWT.BORDER | SWT.FULL_SELECTION | SWT.V_SCROLL);
 			GridData gd_table_par = new GridData(SWT.CENTER, SWT.TOP, false, false, 1, 1);
 			gd_table_par.heightHint = 150;
 			table_par.setLayoutData(gd_table_par);
@@ -828,12 +862,12 @@ public class View_PlatformManager extends ViewPart {
 			TableColumn tb_clmn_TypeWide = new TableColumn(table_par, SWT.NONE);
 			tb_clmn_TypeWide.setWidth(50);
 			tb_clmn_TypeWide.setText("Wide");
-			
+
 			int par_Cnt = 0;
 			try {
 				ArrayList<Parameter> ParameteData = ModuleInfoData.mList.get(Selected_Index).Parameter_List;
 				par_Cnt = ParameteData.size();
-				
+
 				for (int i = 0; i < par_Cnt; i++) {
 					new TableItem(table_par, SWT.NONE);
 				}
@@ -854,13 +888,14 @@ public class View_PlatformManager extends ViewPart {
 					editor_par_table.grabHorizontal = true;
 					txt_ParameterValue.setText(ParameteData.get(par_index).default_value);
 					txt_ParameterValue.addKeyListener(new KeyListener() {
-						final int FocusedModuleIndex=UsedModuleIndex;
-						final int FocusedModuleIn_ParIndex=par_index;
+						final int FocusedModuleIndex = UsedModuleIndex;
+						final int FocusedModuleIn_ParIndex = par_index;
+
 						@Override
 						public void keyReleased(KeyEvent arg0) {
 							// TODO Auto-generated method stub
 						}
-						
+
 						@Override
 						public void keyPressed(KeyEvent arg0) {
 							// TODO Auto-generated method stub
@@ -890,10 +925,10 @@ public class View_PlatformManager extends ViewPart {
 						txt_ParameterType.setText("INT");
 						break;
 					}
-					
+
 					editor_par_table.grabHorizontal = true;
 					editor_par_table.setEditor(txt_ParameterType, items[par_index], 2);
-					
+
 					editor_par_table = new TableEditor(table_par);
 					Text txt_ParameterWide = new Text(table_par, SWT.READ_ONLY);
 					txt_ParameterWide.setTouchEnabled(true);
@@ -902,7 +937,7 @@ public class View_PlatformManager extends ViewPart {
 					editor_par_table.setEditor(txt_ParameterWide, items[par_index], 3);
 				}
 				par_index = 0;
-				
+
 			} catch (NullPointerException e) {
 				System.err.println(e);
 			}
@@ -919,32 +954,37 @@ public class View_PlatformManager extends ViewPart {
 			btnMemoryMapSetting.setBackground(color_skyblue);
 			btnMemoryMapSetting.setText("Memory Map Setting");
 			padding = 15;
-			
-			
+
 			btnMemoryMapSetting.addSelectionListener(new SelectionListener() {
-				final int MemoryMap_Index=UsedModuleIndex;
+				final int MemoryMap_Index = UsedModuleIndex;
+
 				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					// TODO Auto-generated method stub
-					BDMemoryMapEditor MMEditor = new BDMemoryMapEditor(shell.getShell() , "System BUS(AXI)", new IBDMemoryMapEditorListener() {
-						
+					BDMemoryMapEditor MMEditor = new BDMemoryMapEditor(shell.getShell(), "System BUS(AXI)",
+							new IBDMemoryMapEditorListener() {
+
 						@Override
 						public void onOk(ArrayList<BDMemoryMapItem> items) {
 							// TODO Auto-generated method stub
-							int slave_cnt=UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.size();
-							int setter_index=0;
-							for(BDMemoryMapItem item : items) {
-								System.out.println(String.format("ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s", 
-										item.SlaveName, 
-										item.SlavePort, 
-										BDF.LongDecimalToStringHex(item.StartAddr,8),
-										BDF.LongDecimalToStringHex(item.Size,8),
-										BDF.LongDecimalToStringHex(item.EndAddr,8)));
-								for(; setter_index < slave_cnt; setter_index++){
-									if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).Dest_Port!=null){
-										if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).Dest_Port.port_name.equals(item.SlavePort)){
-											UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).startAddr=BDF.LongDecimalToStringHex(item.StartAddr,8);
-											UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(setter_index).addrSize=BDF.LongDecimalToStringHex(item.Size,8);
+							int slave_cnt = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.size();
+							int setter_index = 0;
+							for (BDMemoryMapItem item : items) {
+								System.out.println(String.format(
+										"ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s",
+										item.SlaveName, item.SlavePort, BDF.LongDecimalToStringHex(item.StartAddr, 8),
+										BDF.LongDecimalToStringHex(item.Size, 8),
+										BDF.LongDecimalToStringHex(item.EndAddr, 8)));
+								for (; setter_index < slave_cnt; setter_index++) {
+									if (UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+											.get(setter_index).Dest_Port != null) {
+										if (UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+												.get(setter_index).Dest_Port.port_name.equals(item.SlavePort)) {
+											UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+													.get(setter_index).startAddr = BDF
+															.LongDecimalToStringHex(item.StartAddr, 8);
+											UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(
+													setter_index).addrSize = BDF.LongDecimalToStringHex(item.Size, 8);
 											setter_index++;
 											break;
 										}
@@ -952,82 +992,92 @@ public class View_PlatformManager extends ViewPart {
 								}
 							}
 						}
-						
+
 						@Override
 						public void onCancel() {
 							// TODO Auto-generated method stub
 							System.out.println("BDMemoryMapEditor has dismissed");
 						}
 					});
-					
-					//Dummy data
+
+					// Dummy data
 					int port_size = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.size();
-					for(int slave_index=0; slave_index< port_size; slave_index++){ // portList for 
-						if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).SM_Index>=0){ // SM Port find
-							if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).cmb_dPort.getEnabled()){ // Used SM port
-								if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port != null){
-									String Sname = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.Parent.module_instance_name;
-									String Dport = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.port_name;
-									String addrSize = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).addrSize;
-									String startAddr = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).startAddr;
-									MMEditor.addSlave(Sname, Dport,startAddr,addrSize);
-									System.err.println("Checker="+Sname+"/"+Dport+"/"+startAddr+"/"+addrSize);
+					for (int slave_index = 0; slave_index < port_size; slave_index++) { // portList
+																						// for
+						if (UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).SM_Index >= 0) { // SM
+																														// Port
+																														// find
+							if (UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).cmb_dPort
+									.getEnabled()) { // Used SM port
+								if (UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+										.get(slave_index).Dest_Port != null) {
+									String Sname = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+											.get(slave_index).Dest_Port.Parent.module_instance_name;
+									String Dport = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+											.get(slave_index).Dest_Port.port_name;
+									String addrSize = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+											.get(slave_index).addrSize;
+									String startAddr = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+											.get(slave_index).startAddr;
+									MMEditor.addSlave(Sname, Dport, startAddr, addrSize);
+									System.err.println(
+											"Checker=" + Sname + "/" + Dport + "/" + startAddr + "/" + addrSize);
 								}
 							}
 						}
-						if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).data_type.equals("MM")){
-							if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).cmb_dPort.getEnabled()){ // Used SM port
-								if(UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port != null){
-									String Sname = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.Parent.module_instance_name;
-									String Dport = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).Dest_Port.port_name;
-									String addrSize = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).addrSize;
-									String startAddr = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).startAddr;
-									MMEditor.addSlave(Sname, Dport,startAddr,addrSize);
+						if (UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).data_type
+								.equals("MM")) {
+							if (UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.get(slave_index).cmb_dPort
+									.getEnabled()) { // Used SM port
+								if (UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+										.get(slave_index).Dest_Port != null) {
+									String Sname = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+											.get(slave_index).Dest_Port.Parent.module_instance_name;
+									String Dport = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+											.get(slave_index).Dest_Port.port_name;
+									String addrSize = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+											.get(slave_index).addrSize;
+									String startAddr = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
+											.get(slave_index).startAddr;
+									MMEditor.addSlave(Sname, Dport, startAddr, addrSize);
 								}
 							}
 						}
 					}
-					
+
 					MMEditor.show();
-					
-					
+
 					/*
-					 * Example code
-					 * Ryan, TwoBlock
+					 * Example code Ryan, TwoBlock
 					 * 
-						BDMemoryMapEditor MMEditor = new BDMemoryMapEditor(shell, "System BUS(AXI)", new IBDMemoryMapEditorListener() {
-								
-								@Override
-								public void onOk(ArrayList<BDMemoryMapItem> items) {
-									// TODO Auto-generated method stub
-									
-									for(BDMemoryMapItem item : items) {
-										System.out.println(String.format("ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s", 
-												item.SlaveName, 
-												item.SlavePort, 
-												BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.StartAddr),
-												BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.Size),
-												BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.EndAddr)));
-									}
-								}
-								
-								@Override
-								public void onCancel() {
-									// TODO Auto-generated method stub
-									System.out.println("BDMemoryMapEditor has dismissed");
-								}
-							});
-							
-							//Dummy data
-							MMEditor.addSlave("Slave1", "port1");
-							MMEditor.addSlave("Slave2", "port2");
-							MMEditor.addSlave("Slave3", "port3");
-							MMEditor.addSlave("Slave4", "port4");
-							MMEditor.addSlave("Slave5", "port5");
-							MMEditor.show();
+					 * BDMemoryMapEditor MMEditor = new BDMemoryMapEditor(shell,
+					 * "System BUS(AXI)", new IBDMemoryMapEditorListener() {
+					 * 
+					 * @Override public void onOk(ArrayList<BDMemoryMapItem>
+					 * items) { // TODO Auto-generated method stub
+					 * 
+					 * for(BDMemoryMapItem item : items) {
+					 * System.out.println(String.format(
+					 * "ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s"
+					 * , item.SlaveName, item.SlavePort,
+					 * BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.
+					 * StartAddr),
+					 * BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.Size),
+					 * BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.EndAddr
+					 * ))); } }
+					 * 
+					 * @Override public void onCancel() { // TODO Auto-generated
+					 * method stub System.out.println(
+					 * "BDMemoryMapEditor has dismissed"); } });
+					 * 
+					 * //Dummy data MMEditor.addSlave("Slave1", "port1");
+					 * MMEditor.addSlave("Slave2", "port2");
+					 * MMEditor.addSlave("Slave3", "port3");
+					 * MMEditor.addSlave("Slave4", "port4");
+					 * MMEditor.addSlave("Slave5", "port5"); MMEditor.show();
 					 */
 				}
-				
+
 				@Override
 				public void widgetDefaultSelected(SelectionEvent arg0) {
 					// TODO Auto-generated method stub
@@ -1048,16 +1098,14 @@ public class View_PlatformManager extends ViewPart {
 		btnCheckButton.get(UsedModuleIndex).pack();
 		table_par.pack();
 		table_port.pack();
-		if(table_par.getSize().y >=table_port.getSize().y){
-			Expanditem.get(UsedModuleIndex)
-			.setHeight(200+ padding);
-		}else{
-			Expanditem.get(UsedModuleIndex)
-			.setHeight(200 + padding);
+		if (table_par.getSize().y >= table_port.getSize().y) {
+			Expanditem.get(UsedModuleIndex).setHeight(200 + padding);
+		} else {
+			Expanditem.get(UsedModuleIndex).setHeight(200 + padding);
 		}
-		
+
 		expandBar.setSpacing(5);
-		
+
 		Listener updateScrolledSize = new Listener() {
 			@Override
 			public void handleEvent(Event arg0) {
@@ -1077,12 +1125,12 @@ public class View_PlatformManager extends ViewPart {
 		composite_PlatformViewer.setExpandHorizontal(true);
 		composite_PlatformViewer.setExpandVertical(true);
 		composite_PlatformViewer.setMinSize(expandBar.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		
+
 	}
-	
-	 public void viewsetting(String ori_pmml) {
-		 final String pmml = ori_pmml;
-		 display.asyncExec(new Runnable() {
+
+	public void viewsetting(String ori_pmml) {
+		final String pmml = ori_pmml;
+		display.asyncExec(new Runnable() {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -1090,28 +1138,26 @@ public class View_PlatformManager extends ViewPart {
 				String module = null;
 				String type = null;
 				try {
-					obj = (JSONObject)parser.parse(pmml);
+					obj = (JSONObject) parser.parse(pmml);
 					jsonObject = (JSONObject) obj;
 					ModuleInfoList = (JSONArray) jsonObject.get("PMML");
 					ModuleInfoData = new ModuleInfo(ModuleInfoList);
-//					UsedModuleDataList = new ModuleInfo();	
-					
+					// UsedModuleDataList = new ModuleInfo();
+
 					list_Cnt = ModuleInfoData.mList.size();
-					
+
 					list_All.removeAll();
 					list_cpu.removeAll();
 					list_bus.removeAll();
 					list_mem.removeAll();
 					list_other.removeAll();
-					
-					
-					
+
 					for (int i = 0; i < list_Cnt; i++) {
-						Module m =ModuleInfoData.mList.get(i);
-						
+						Module m = ModuleInfoData.mList.get(i);
+
 						module = m.module_name;
-						type 	= m.module_type;
-						
+						type = m.module_type;
+
 						list_All.add(module);
 						if (type.equals("cpu") == true)
 							list_cpu.add(module);
@@ -1129,17 +1175,18 @@ public class View_PlatformManager extends ViewPart {
 			}
 		});
 	}
-	
+
 	void ModuleClicked(List SelectedTab) {
 		String SelectedModule = SelectedTab.getItem(SelectedTab.getSelectionIndex());
 		System.out.println("selected: " + SelectedModule);
 	}
 
 	void ModuleDoubleClicked(List SelectedTab) {
-//		String SelectedModule = SelectedTab.getItem(SelectedTab.getSelectionIndex());
-//		AddModuleSelected(SelectedModule);
+		// String SelectedModule =
+		// SelectedTab.getItem(SelectedTab.getSelectionIndex());
+		// AddModuleSelected(SelectedModule);
 	}
-	
+
 	protected void DeleteModuleSelected() {
 		// TODO Auto-generated method stub
 		try {
@@ -1151,10 +1198,10 @@ public class View_PlatformManager extends ViewPart {
 
 					Expanditem.get(delete_index).dispose();
 					Expanditem.remove(delete_index);
-					
+
 					btnCheckButton.get(delete_index).dispose();
 					btnCheckButton.remove(delete_index);
-					
+
 					composite_ExpandItem.get(delete_index).dispose();
 					composite_ExpandItem.remove(delete_index);
 				}
@@ -1164,24 +1211,24 @@ public class View_PlatformManager extends ViewPart {
 			System.err.println(e);
 		}
 	}
-	
+
 	public void setFocus() {
 	}
-	
-	public void InstanceName_Dialog(){
+
+	public void InstanceName_Dialog() {
 		final Shell dialog = new Shell(shell.getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		dialog.setLayout(new FillLayout(SWT.HORIZONTAL));
 		dialog.setText("Please write instance name");
 
 		final Text txt_InstanceName = new Text(dialog, SWT.NONE);
 		txt_InstanceName.addKeyListener(new KeyListener() {
-			
+
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-				if(arg0.keyCode == SWT.CR){
+				if (arg0.keyCode == SWT.CR) {
 					Instance_Module_Name = txt_InstanceName.getText();
-					String Module_name=null;
+					String Module_name = null;
 					if (list_All.getSelectionIndex() != -1) {
 						Module_name = list_All.getItem(list_All.getSelectionIndex());
 						InstanceNameCheck(Module_name);
@@ -1200,28 +1247,28 @@ public class View_PlatformManager extends ViewPart {
 					}
 					dialog.close();
 				}
-					
+
 			}
-			
+
 			private void InstanceNameCheck(String module_name) {
 				// TODO Auto-generated method stub
-				if(Instance_Module_Name.length() >= 1){
-					boolean isExist=false;
-					for(int index=0; index<UsedModuleList.size();index++){
-						if(Instance_Module_Name.equals(UsedModuleList.get(index))){
-							isExist=true;
+				if (Instance_Module_Name.length() >= 1) {
+					boolean isExist = false;
+					for (int index = 0; index < UsedModuleList.size(); index++) {
+						if (Instance_Module_Name.equals(UsedModuleList.get(index))) {
+							isExist = true;
 						}
 					}
-					if(!isExist)
+					if (!isExist)
 						AddModuleSelected(module_name);
 				}
-				
+
 			}
 
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		txt_InstanceName.pack();
@@ -1233,7 +1280,7 @@ public class View_PlatformManager extends ViewPart {
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
 				Instance_Module_Name = txt_InstanceName.getText();
-				String Module_name=null;
+				String Module_name = null;
 				if (list_All.getSelectionIndex() != -1) {
 					Module_name = list_All.getItem(list_All.getSelectionIndex());
 					AddModuleSelected(Module_name);
@@ -1252,14 +1299,14 @@ public class View_PlatformManager extends ViewPart {
 				}
 				dialog.close();
 			}
-			
+
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
 			}
-			
+
 		});
-		
+
 		dialog.pack();
 		dialog.open();
 

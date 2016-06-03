@@ -45,6 +45,11 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Handler_1Command_
 	strcpy( GUI_commnad.Argu4, c_Argu4 );
 	strcpy( GUI_commnad.Argu5, c_Argu5 );
 
+	//if(strcmp(c_Argu1, "CLOSE") == 0)	{
+		//printf("asdfasdfasdfasdfasdfasdfasdfasdfasdfasf\n");
+		//popen("rm -rf wave.vcd", "r");
+	//}
+
 	p_CommandQueue->PushCommand( GUI_commnad );
 	cout<< OperInt <<"/"<< CmdInt <<"/"<< c_Argu1 <<"/"<< c_Argu2 <<"/"<< c_Argu3 <<"/"<< c_Argu4 <<"/"<< c_Argu5 << endl;
 
