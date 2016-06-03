@@ -22,6 +22,11 @@ make clean
 make
 cd ..
 
+cd ahbl2mem_DualPort
+make clean
+make
+cd ..
+
 cd console 
 make clean
 make
