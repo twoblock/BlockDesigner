@@ -201,6 +201,10 @@ public class View_PlatformManager extends ViewPart {
 				list_bus.removeAll();
 				list_mem.removeAll();
 				list_other.removeAll();
+				UsedModuleList.clear();
+				for(int removeIndex=0; removeIndex <Expanditem.size() ;removeIndex++){
+					Expanditem.get(removeIndex).dispose();
+				}
 				Handler_Command.Command_Func(0, 1, "CLOSE", "NULL", "NULL", "NULL", "NULL");
 			}
 
@@ -474,13 +478,13 @@ public class View_PlatformManager extends ViewPart {
 		UsedModuleList.add(Instance_Module_Name);
 		UsedModuleIndex = UsedModuleList.size() - 1;
 
-		Expanditem.add(new ExpandItem(expandBar, SWT.NONE));
+		Expanditem.add(UsedModuleIndex,new ExpandItem(expandBar, SWT.NONE));
 		Expanditem.get(UsedModuleIndex).setExpanded(false);
 		Expanditem.get(UsedModuleIndex).setText(Module_Title);
 
 		// composite_PlatformViewer
 		// make composite, divide (port&par) grid
-		composite_ExpandItem.add(new Composite(expandBar, SWT.VIRTUAL));
+		composite_ExpandItem.add(UsedModuleIndex, new Composite(expandBar, SWT.VIRTUAL));
 		composite_ExpandItem.get(UsedModuleIndex).setBackground(color_gray);
 		composite_ExpandItem.get(UsedModuleIndex).setLayout(new GridLayout(2, false));
 		composite_ExpandItem.get(UsedModuleIndex).setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true, 1, 1));
@@ -1093,7 +1097,7 @@ public class View_PlatformManager extends ViewPart {
 			padding = 10;
 		}
 
-		btnCheckButton.add(new Button(composite_ExpandItem.get(UsedModuleIndex), SWT.CHECK));
+		btnCheckButton.add(UsedModuleIndex,new Button(composite_ExpandItem.get(UsedModuleIndex), SWT.CHECK));
 		btnCheckButton.get(UsedModuleIndex).setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false, 1, 1));
 		btnCheckButton.get(UsedModuleIndex).setText("Delete  ");
 		btnCheckButton.get(UsedModuleIndex).setBackground(color_gray);
