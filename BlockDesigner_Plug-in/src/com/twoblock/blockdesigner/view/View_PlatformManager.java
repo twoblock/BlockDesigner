@@ -118,8 +118,6 @@ public class View_PlatformManager extends ViewPart {
 	public static Display display = null;
 
 	public void createPartControl(Composite parent) {
-		System.err.println("name" + display.getAppName());
-
 		parent.getParent().addDisposeListener(new DisposeListener() {
 			
 			@Override
@@ -198,6 +196,11 @@ public class View_PlatformManager extends ViewPart {
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
 				Handler_SimulationInitThread.SetInitCheck(false);
+				list_All.removeAll();
+				list_cpu.removeAll();
+				list_bus.removeAll();
+				list_mem.removeAll();
+				list_other.removeAll();
 				Handler_Command.Command_Func(0, 1, "CLOSE", "NULL", "NULL", "NULL", "NULL");
 			}
 
