@@ -23,13 +23,16 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_StatusListener(JNIEnv *env, jobject ths)
 {
-	jclass cls = env->GetObjectClass(ths);
-	jmethodID mid = env->GetMethodID(cls, "StatusCallBack", "(I)V");
-	if (mid == NULL) {
-		return; /*method not found*/
-	}
-	pub_int_status = 1;
-	env->CallVoidMethod(ths, mid, pub_int_status);
+	//jclass cls = env->GetObjectClass(ths);
+	//jmethodID mid = env->GetMethodID(cls, "StatusCallBack", "(I)V");
+	//if (mid == NULL) {
+		//return; /*method not found*/
+	//}
+	//pub_int_status = 1;
+	//env->CallVoidMethod(ths, mid, pub_int_status);
+
+		printf("callback rm -rf\n");
+		popen("rm -rf wave.vcd", "r");
 }
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_OutputListener(JNIEnv *env, jobject ths)

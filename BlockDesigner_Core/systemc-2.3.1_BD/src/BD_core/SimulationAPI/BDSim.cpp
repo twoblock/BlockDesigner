@@ -60,6 +60,8 @@ namespace BDapi
 			if(dw_SimState == -1) break; // Simulation End 
 		}
 
+		fp = popen("rm -rf wave.vcd", "r");
+
 		sc_stop();
 
 		while(sc_is_running() != false);
@@ -67,7 +69,6 @@ namespace BDapi
 		ChannelMap::GetInstance()->DeleteInstance();
 		SignalTraceManager::GetInstance()->DeleteInstance();
 
-		fp = popen("rm -rf wave.vcd", "r");
 
 		if(sc_curr_simcontext != NULL){
 			delete sc_default_global_context;

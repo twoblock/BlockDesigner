@@ -158,7 +158,7 @@ public class BDMemoryMapEditor {
 
 				Text newEditor = new Text(m_table, SWT.RIGHT);
 				newEditor.setText(item.getText(col));
-				newEditor.setTextLimit(10);
+				newEditor.setTextLimit(11);
 				newEditor.addListener(SWT.Verify, m_textAllowHexListener);
 				newEditor.addListener(SWT.Modify, new Listener() {
 

@@ -123,4 +123,10 @@ public class Hanlder_CallBack {
 		Hanlder_CallBack callback = new Hanlder_CallBack();
 		callback.OutputListener();
 	}
+	
+	public static void CallBack_RM() {
+		// TODO Auto-generated method stub
+		Hanlder_CallBack callback = new Hanlder_CallBack();
+		callback.StatusListener();
+	}
 }
