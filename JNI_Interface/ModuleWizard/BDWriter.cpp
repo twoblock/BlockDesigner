@@ -156,6 +156,9 @@ int BDWriter::createModuleHeader()
 	if(strcmp(pm_module->getType(), "bus") == 0) {
 		fout << "#include \"" << pm_module->getName() << "_BDMMI.h\"" << endl;
 	}
+	if(strcmp(pm_module->getType(), "scv") == 0) {
+		fout << "#include \"scv.h\"" << endl;
+	}
 
 	fout << endl;
 
@@ -1189,10 +1192,18 @@ int BDWriter::createMakeFile() {
 	fout << "#######################################" << endl;
 	fout << "BUILDFLAGS = -g3 -fPIC  -Wall -W -pedantic -Wno-long-long -Wwrite-strings -Wpointer-arith" << endl;
 	fout << "CXX        = g++" << endl;
-	fout << "CXXFLAGS = -fPIC -I$(SYSTEMC_INCLUDE)" << endl;
-	fout << "LDFLAGS  = -Wl,--export-dynamic" << endl;
-	fout << "COMMON_LIBS = -L$(SYSTEMC_LIBDIR) -lsystemc" << endl;
+	fout << "CXXFLAGS = -fPIC -I$(SYSTEMC_INCLUDE)";
+	if(strcmp(pm_module->getType(), "scv") == 0) {
+		fout << " -I$(SCV_INCLUDE)";
+	}
 	fout << endl;
+
+	fout << "LDFLAGS  = -Wl,--export-dynamic" << endl;
+	fout << "COMMON_LIBS = -L$(SYSTEMC_LIBDIR) -lsystemc";
+	if(strcmp(pm_module->getType(), "scv") == 0) {
+		fout << " -L$(SCV_LIBDIR) -lscv";
+	}
+	fout << endl << endl;
 
 	fout << "PACKAGE_SOURCES =   " << pm_module->getName() << ".cpp " << pm_module->getName() << "_BDDI.cpp";
 	if(strcmp(pm_module->getType(), "bus") == 0) {
