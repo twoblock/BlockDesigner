@@ -23,16 +23,15 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_StatusListener(JNIEnv *env, jobject ths)
 {
-	//jclass cls = env->GetObjectClass(ths);
-	//jmethodID mid = env->GetMethodID(cls, "StatusCallBack", "(I)V");
-	//if (mid == NULL) {
-		//return; /*method not found*/
-	//}
-	//pub_int_status = 1;
-	//env->CallVoidMethod(ths, mid, pub_int_status);
-
-		printf("callback rm -rf\n");
-		popen("rm -rf wave.vcd", "r");
+	// excepting handling
+	// if simulation don't start, nothing was written to named pipe(wave.vcd)
+	// so related processed(gtkwave, shmidcat) can't be removed
+	if(glw_Cycle == 0){
+		// write some value to named pipe(wave.vcd) 
+		// to remove gtkwave, shmidcat processes
+		popen("echo 1 > wave.vcd", "r");
+	}
+	popen("rm -rf wave.vcd", "r");
 }
 
 JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack_OutputListener(JNIEnv *env, jobject ths)
@@ -85,10 +84,10 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Hanlder_1CallBack
 
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
-		CallBackManager *p_CallBackManager = NULL;
-		p_CallBackManager = CallBackManager::GetInstance();	
-		p_CallBackManager->SetJVM(vm);
-		//p_CallBackManager->SetEnv();
- 
-    return JNI_VERSION_1_6;
+	CallBackManager *p_CallBackManager = NULL;
+	p_CallBackManager = CallBackManager::GetInstance();	
+	p_CallBackManager->SetJVM(vm);
+	//p_CallBackManager->SetEnv();
+
+	return JNI_VERSION_1_6;
 }
