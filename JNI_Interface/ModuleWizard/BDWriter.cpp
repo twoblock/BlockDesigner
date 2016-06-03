@@ -1,5 +1,5 @@
 /*
- * BDWriter.cpp
+e * BDWriter.cpp
  *
  *  Created on: 2015. 11. 9.
  *      Author: Sungkyu Hong
@@ -50,33 +50,39 @@ int BDWriter::writeModuleCode(const char* inputStr)
 
 	//module name
 	module.setName(root["module_name"].asString().c_str());
-	cout << module.getName() << endl;
 
 	//module type
 	module.setType(root["module_type"].asString().c_str());
 
 	//target path
-	setDirPath(root["module_location"].asString().c_str());
+	setDirPath(format("%s/%s", root["module_location"].asString().c_str(), module.getName()));
+	system(format("mkdir %s", pm_dirPath));
 
 	//Ports
 	const Json::Value ports = root["port"];
-	for(int i=0; i<ports.size(); i++) {
-		Json::Value item = ports[i];
-		module.addPort(item["port_name"].asString().c_str(), item["sc_type"].asString().c_str(), item["data_type"].asString().c_str());
+	if(!ports.isNull()) {
+		for(int i=0; i<ports.size(); i++) {
+			Json::Value item = ports[i];
+			module.addPort(item["port_name"].asString().c_str(), item["sc_type"].asString().c_str(), item["data_type"].asString().c_str());
+		}
 	}
 
 	//Registers
 	const Json::Value regs = root["register"];
-	for(int i=0; i<regs.size(); i++) {
-		Json::Value item = regs[i];
-		module.addRegister(item["reg_name"].asString().c_str(), item["data_type"].asString().c_str(), item["data_size"].asInt(), item["value"].asString().c_str());
+	if(!regs.isNull()) {
+		for(int i=0; i<regs.size(); i++) {
+			Json::Value item = regs[i];
+			module.addRegister(item["reg_name"].asString().c_str(), item["data_type"].asString().c_str(), item["data_size"].asInt(), item["value"].asString().c_str());
+		}
 	}
 
 	//Parameters
 	const Json::Value params = root["parameter"];
-	for(int i=0; i<params.size(); i++) {
-		Json::Value item = params[i];
-		module.addParameter(item["par_name"].asString().c_str(), item["data_type"].asString().c_str(), item["data_size"].asInt(), item["value"].asString().c_str());
+	if(!params.isNull()) {
+		for(int i=0; i<params.size(); i++) {
+			Json::Value item = params[i];
+			module.addParameter(item["par_name"].asString().c_str(), item["data_type"].asString().c_str(), item["data_size"].asInt(), item["value"].asString().c_str());
+		}
 	}
 
 	//Process
@@ -84,9 +90,11 @@ int BDWriter::writeModuleCode(const char* inputStr)
 
 	//Sensitivities
 	const Json::Value sens = root["sensitivity"];
-	for(int i=0; i<sens.size(); i++) {
-		Json::Value item = sens[i];
-		module.addSensitivity(item["port_name"].asString().c_str(), item["sens_type"].asString().c_str());
+	if(!sens.isNull()) {
+		for(int i=0; i<sens.size(); i++) {
+			Json::Value item = sens[i];
+			module.addSensitivity(item["port_name"].asString().c_str(), item["sens_type"].asString().c_str());
+		}
 	}
 
 
@@ -161,8 +169,13 @@ int BDWriter::createModuleHeader()
 	/*
 	 * Port part
 	 */
-	fout << endl << T1 << "/* Port definition part. */" << endl;
+	fout << endl << T1 << "/* Global Clock & Resetn */" << endl;
+	fout << T1 << "sc_in<bool> HCLK;" << endl;
+	fout << T1 << "sc_in<bool> HRESETn;" << endl;
 
+
+
+	fout << endl << T1 << "/* Port definition part. */" << endl;
 	BDPortGroup *portGrp = pm_module->getPorts();
 	if( portGrp != NULL ) {
 		for(std::list<BDPort*>::iterator it=portGrp->begin(); it != portGrp->end(); ++it)
@@ -412,22 +425,24 @@ int BDWriter::createModuleSource()
 
 	//Desctructor///////////////////////////////////////////////////////////////////////
 	fout << "" << pm_module->getName() << "::~" << pm_module->getName() << "() {" << endl;
-	for(std::list<BDPort*>::iterator it=ports->begin(); it!=ports->end(); ++it)
-	{
-		BDPort *item = (BDPort*)(*it);
-		switch(item->getType()) {
-		case AHB_MM:
-		case AHB_MS:
-		case AHB_SM:
-		case AHB_SS:
-		case AHB_LITE_MM:
-		case AHB_LITE_MS:
-		case AHB_LITE_SM:
-		case AHB_LITE_SS:
-			fout << T1 << format("delete %s;", item->getName()) << endl;
-			break;
-		}
-	} // end of for
+	if(ports != NULL) {
+		for(std::list<BDPort*>::iterator it=ports->begin(); it!=ports->end(); ++it)
+		{
+			BDPort *item = (BDPort*)(*it);
+			switch(item->getType()) {
+			case AHB_MM:
+			case AHB_MS:
+			case AHB_SM:
+			case AHB_SS:
+			case AHB_LITE_MM:
+			case AHB_LITE_MS:
+			case AHB_LITE_SM:
+			case AHB_LITE_SS:
+				fout << T1 << format("delete %s;", item->getName()) << endl;
+				break;
+			}
+		} // end of for
+	}
 	fout << endl;
 
 	fout << T1 << "delete bddi;" << endl;
@@ -501,7 +516,6 @@ int BDWriter::createModuleSource()
 	}
 
 	fout << "}" << endl;
-
 	fout << endl;
 
 
@@ -512,47 +526,55 @@ int BDWriter::createModuleSource()
 	fout << T1 << "//Auto-generated function to initialize member variables." << endl;
 	fout << endl;
 
+	fout << T1 << "HCLK.set_port_name(\"HCLK\");" << endl;
+	fout << T1 << "HRESETn.set_port_name(\"HRESETn\");" << endl;
+	fout << endl;
 
-	for(std::list<BDPort*>::iterator it=ports->begin(); it!=ports->end(); ++it)
-	{
-		BDPort *item = (BDPort*)(*it);
-		switch(item->getType()) {
-		case SC_IN:
-		case SC_OUT:
-		case SC_INOUT:
-		case SC_IN_RV:
-		case SC_OUT_RV:
-		case SC_INOUT_RV:
-			fout << T1 << item->getName() << ".set_port_name(\"" << item->getName() << "\");";
-			break;
+	if(ports != NULL) {
+		for(std::list<BDPort*>::iterator it=ports->begin(); it!=ports->end(); ++it)
+		{
+			BDPort *item = (BDPort*)(*it);
+			switch(item->getType()) {
+			case SC_IN:
+			case SC_OUT:
+			case SC_INOUT:
+			case SC_IN_RV:
+			case SC_OUT_RV:
+			case SC_INOUT_RV:
+				fout << T1 << item->getName() << ".set_port_name(\"" << item->getName() << "\");";
+				break;
 
-		case AHB_MM:			fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_MM, item->getName()); break;
-		case AHB_MS:			fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_MS, item->getName()); break;
-		case AHB_SM:			fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_SM, item->getName()); break;
-		case AHB_SS:			fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_SS, item->getName()); break;
-		case AHB_LITE_MM:	fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_LITE_MM, item->getName()); break;
-		case AHB_LITE_MS:	fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_LITE_MS, item->getName()); break;
-		case AHB_LITE_SM:	fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_LITE_SM, item->getName()); break;
-		case AHB_LITE_SS:	fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_LITE_SS, item->getName()); break;
+			case AHB_MM:			fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_MM, item->getName()); break;
+			case AHB_MS:			fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_MS, item->getName()); break;
+			case AHB_SM:			fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_SM, item->getName()); break;
+			case AHB_SS:			fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_SS, item->getName()); break;
+			case AHB_LITE_MM:	fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_LITE_MM, item->getName()); break;
+			case AHB_LITE_MS:	fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_LITE_MS, item->getName()); break;
+			case AHB_LITE_SM:	fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_LITE_SM, item->getName()); break;
+			case AHB_LITE_SS:	fout << T1 << format("%s = new %s((char*)\"%s\");", item->getName(), STR_AHB_LITE_SS, item->getName()); break;
+			}
+
+			fout << endl;
 		}
-
 		fout << endl;
 	}
-	fout << endl;
 
-
-	for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it) {
-		BDRegister *item = (BDRegister*)(*it);
-		fout << T1 << item->getName() << " = " << item->getDefaultValue() << ";" << endl;
+	if(regs != NULL) {
+		for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it) {
+			BDRegister *item = (BDRegister*)(*it);
+			fout << T1 << item->getName() << " = " << item->getDefaultValue() << ";" << endl;
+		}
+		fout << endl;
 	}
-	fout << endl;
 
 
-	for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it) {
-		BDParameter *item = (BDParameter*)(*it);
-		fout << T1 << item->getName() << " = " << item->getDefaultValue() << ";" << endl;
+	if(params != NULL) {
+		for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it) {
+			BDParameter *item = (BDParameter*)(*it);
+			fout << T1 << item->getName() << " = " << item->getDefaultValue() << ";" << endl;
+		}
+		fout << endl;
 	}
-	fout << endl;
 
 
 	fout << T1 << "bddi = new " << pm_module->getName() << "_BDDI(this);" << endl;
@@ -683,15 +705,17 @@ int BDWriter::createBDDISource() {
 
 	fout << "BDDIRegInfo ast_" << pm_module->getName() << "RegInfo[] =" << endl;
 	fout << "{" << endl;
-	for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end();)
-	{
-		BDRegister *item = (BDRegister*)(*it);
-		fout << T1 << format("{\"%s\", %d, BDDIRegType%s}", item->getName(), item->getDataSize(), item->getType());
+	if(regs != NULL) {
+		for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end();)
+		{
+			BDRegister *item = (BDRegister*)(*it);
+			fout << T1 << format("{\"%s\", %d, BDDIRegType%s}", item->getName(), item->getDataSize(), item->getType());
 
-		if(++it != regs->end())
-			fout << ",";
+			if(++it != regs->end())
+				fout << ",";
 
-		fout << endl;
+			fout << endl;
+		}
 	}
 	fout << "};" << endl;
 	fout << endl;
@@ -699,15 +723,17 @@ int BDWriter::createBDDISource() {
 
 	fout << "BDDIParInfo ast_" << pm_module->getName() << "ParInfo[] =" << endl;
 	fout << "{" << endl;
-	for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end();)
-	{
-		BDParameter *item = (BDParameter*)(*it);
-		fout << T1 << format("{\"%s\", %d, BDDIParType%s, \"\"}", item->getName(), item->getDataSize(), item->getType());
+	if(params != NULL) {
+		for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end();)
+		{
+			BDParameter *item = (BDParameter*)(*it);
+			fout << T1 << format("{\"%s\", %d, BDDIParType%s, \"\"}", item->getName(), item->getDataSize(), item->getType());
 
-		if(++it != params->end())
-			fout << ",";
+			if(++it != params->end())
+				fout << ",";
 
-		fout << endl;
+			fout << endl;
+		}
 	}
 	fout << "};" << endl;
 	fout << endl;
@@ -773,27 +799,31 @@ int BDWriter::createBDDISource() {
 	fout << T1 << "BDDIRegValue st_Temp;" << endl;
 	fout << endl;
 
-	for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it) {
-		BDRegister *item = (BDRegister*)(*it);
-		fout << T1 << format("%s %s_Temp;", item->getDataType(), item->getName()) << endl;
+	if(regs != NULL) {
+		for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it) {
+			BDRegister *item = (BDRegister*)(*it);
+			fout << T1 << format("%s %s_Temp;", item->getDataType(), item->getName()) << endl;
+		}
+		fout << endl;
 	}
-	fout << endl;
 
 
 	fout << T1 << "switch(RegIndex)" << endl;
 	fout << T1 << "{" << endl;
 
-	i = 0;
-	for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it)
-	{
-		BDRegister *item = (BDRegister*)(*it);
-		fout << T1 << T1 << format("case %d:", i++) << endl;
-		fout << T1 << T1 << T1 << format("%s_Temp = p_Target->%s;", item->getName(), item->getName()) << endl;
-		fout << T1 << T1 << T1 << format("BDDIPutInRegisterValue(&st_Temp, &ast_%sRegInfo[RegIndex], &%s_Temp);", pm_module->getName(), item->getName()) << endl;
-		fout << T1 << T1 << T1 << format("BDDIConvertRegisterValueToString(&st_Temp, OutValue);") << endl;
-		fout << T1 << T1 << T1 << "break;" << endl;
+	if(regs != NULL) {
+		i = 0;
+		for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it)
+		{
+			BDRegister *item = (BDRegister*)(*it);
+			fout << T1 << T1 << format("case %d:", i++) << endl;
+			fout << T1 << T1 << T1 << format("%s_Temp = p_Target->%s;", item->getName(), item->getName()) << endl;
+			fout << T1 << T1 << T1 << format("BDDIPutInRegisterValue(&st_Temp, &ast_%sRegInfo[RegIndex], &%s_Temp);", pm_module->getName(), item->getName()) << endl;
+			fout << T1 << T1 << T1 << format("BDDIConvertRegisterValueToString(&st_Temp, OutValue);") << endl;
+			fout << T1 << T1 << T1 << "break;" << endl;
+		}
+		fout << endl;
 	}
-	fout << endl;
 
 	fout << T1 << T1 << "default:	return BDDIStatusError;" << endl;
 	fout << T1 << "}" << endl;
@@ -812,26 +842,30 @@ int BDWriter::createBDDISource() {
 	fout << T1 << "BDDIRegValue st_Temp;" << endl;
 	fout << endl;
 
-	for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it) {
-		BDRegister *item = (BDRegister*)(*it);
-		fout << T1 << format("%s %s_Temp;", item->getDataType(), item->getName()) << endl;
+	if(regs != NULL) {
+		for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it) {
+			BDRegister *item = (BDRegister*)(*it);
+			fout << T1 << format("%s %s_Temp;", item->getDataType(), item->getName()) << endl;
+		}
+		fout << endl;
 	}
-	fout << endl;
 
 
 	fout << T1 << "switch(RegIndex)" << endl;
 	fout << T1 << "{" << endl;
 
-	i = 0;
-	for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it)
-	{
-		BDRegister *item = (BDRegister*)(*it);
-		fout << T1 << T1 << format("case %d:", i++) << endl;
-		fout << T1 << T1 << T1 << format("BDDIConvertStringToRegisterValue(&st_Temp, &ast_%sRegInfo[RegIndex], SetValue);", pm_module->getName()) << endl;
-		fout << T1 << T1 << T1 << format("BDDIExtractRegisterValue(&st_Temp, &%s_Temp);", item->getName()) << endl;
-		fout << T1 << T1 << T1 << format("p_Target->%s = %s_Temp;", item->getName(), item->getName()) << endl;
-		fout << T1 << T1 << T1 << "break;" << endl;
-		fout << endl;
+	if(regs != NULL) {
+		i = 0;
+		for(std::list<BDRegister*>::iterator it=regs->begin(); it != regs->end(); ++it)
+		{
+			BDRegister *item = (BDRegister*)(*it);
+			fout << T1 << T1 << format("case %d:", i++) << endl;
+			fout << T1 << T1 << T1 << format("BDDIConvertStringToRegisterValue(&st_Temp, &ast_%sRegInfo[RegIndex], SetValue);", pm_module->getName()) << endl;
+			fout << T1 << T1 << T1 << format("BDDIExtractRegisterValue(&st_Temp, &%s_Temp);", item->getName()) << endl;
+			fout << T1 << T1 << T1 << format("p_Target->%s = %s_Temp;", item->getName(), item->getName()) << endl;
+			fout << T1 << T1 << T1 << "break;" << endl;
+			fout << endl;
+		}
 	}
 
 	fout << T1 << T1 << "default:	return BDDIStatusError;" << endl;
@@ -851,27 +885,31 @@ int BDWriter::createBDDISource() {
 	fout << T1 << "BDDIParValue st_Temp;" << endl;
 	fout << endl;
 
-	for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it) {
-		BDParameter *item = (BDParameter*)(*it);
-		fout << T1 << format("%s %s_Temp;", item->getDataType(), item->getName()) << endl;
+	if(params != NULL) {
+		for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it) {
+			BDParameter *item = (BDParameter*)(*it);
+			fout << T1 << format("%s %s_Temp;", item->getDataType(), item->getName()) << endl;
+		}
+		fout << endl;
 	}
-	fout << endl;
 
 
 	fout << T1 << "switch(ParIndex)" << endl;
 	fout << T1 << "{" << endl;
 
-	i = 0;
-	for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it)
-	{
-		BDParameter *item = (BDParameter*)(*it);
-		fout << T1 << T1 << format("case %d:", i++) << endl;
-		fout << T1 << T1 << T1 << format("%s_Temp = p_Target->%s;", item->getName(), item->getName()) << endl;
-		fout << T1 << T1 << T1 << format("BDDIPutInParameterValue(&st_Temp, &ast_%sParInfo[ParIndex], &%s_Temp);", pm_module->getName(), item->getName()) << endl;
-		fout << T1 << T1 << T1 << format("BDDIConvertParameterValueToString(&st_Temp, OutValue);") << endl;
-		fout << T1 << T1 << T1 << "break;" << endl;
+	if(params != NULL) {
+		i = 0;
+		for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it)
+		{
+			BDParameter *item = (BDParameter*)(*it);
+			fout << T1 << T1 << format("case %d:", i++) << endl;
+			fout << T1 << T1 << T1 << format("%s_Temp = p_Target->%s;", item->getName(), item->getName()) << endl;
+			fout << T1 << T1 << T1 << format("BDDIPutInParameterValue(&st_Temp, &ast_%sParInfo[ParIndex], &%s_Temp);", pm_module->getName(), item->getName()) << endl;
+			fout << T1 << T1 << T1 << format("BDDIConvertParameterValueToString(&st_Temp, OutValue);") << endl;
+			fout << T1 << T1 << T1 << "break;" << endl;
+		}
+		fout << endl;
 	}
-	fout << endl;
 
 	fout << T1 << T1 << "default:	return BDDIStatusError;" << endl;
 	fout << T1 << "}" << endl;
@@ -891,27 +929,31 @@ int BDWriter::createBDDISource() {
 	fout << T1 << "BDDIParValue st_Temp;" << endl;
 	fout << endl;
 
-	for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it) {
-		BDParameter *item = (BDParameter*)(*it);
-		fout << T1 << format("%s %s_Temp;", item->getDataType(), item->getName()) << endl;
+	if(params != NULL) {
+		for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it) {
+			BDParameter *item = (BDParameter*)(*it);
+			fout << T1 << format("%s %s_Temp;", item->getDataType(), item->getName()) << endl;
+		}
+		fout << endl;
 	}
-	fout << endl;
 
 
 	fout << T1 << "switch(ParIndex)" << endl;
 	fout << T1 << "{" << endl;
 
-	i = 0;
-	for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it)
-	{
-		BDParameter *item = (BDParameter*)(*it);
-		fout << T1 << T1 << format("case %d:", i++) << endl;
-		fout << T1 << T1 << T1 << format("BDDIConvertStringToParameterValue(&st_Temp, &ast_%sParInfo[ParIndex], SetValue);", pm_module->getName()) << endl;
-		fout << T1 << T1 << T1 << format("BDDIExtractParameterValue(&st_Temp, &%s_Temp);", item->getName()) << endl;
-		fout << T1 << T1 << T1 << format("p_Target->%s = %s_Temp;", item->getName(), item->getName()) << endl;
-		fout << T1 << T1 << T1 << "break;" << endl;
+	if(params != NULL) {
+		i = 0;
+		for(std::list<BDParameter*>::iterator it=params->begin(); it != params->end(); ++it)
+		{
+			BDParameter *item = (BDParameter*)(*it);
+			fout << T1 << T1 << format("case %d:", i++) << endl;
+			fout << T1 << T1 << T1 << format("BDDIConvertStringToParameterValue(&st_Temp, &ast_%sParInfo[ParIndex], SetValue);", pm_module->getName()) << endl;
+			fout << T1 << T1 << T1 << format("BDDIExtractParameterValue(&st_Temp, &%s_Temp);", item->getName()) << endl;
+			fout << T1 << T1 << T1 << format("p_Target->%s = %s_Temp;", item->getName(), item->getName()) << endl;
+			fout << T1 << T1 << T1 << "break;" << endl;
+		}
+		fout << endl;
 	}
-	fout << endl;
 
 	fout << T1 << T1 << "default:	return BDDIStatusError;" << endl;
 	fout << T1 << "}" << endl;
