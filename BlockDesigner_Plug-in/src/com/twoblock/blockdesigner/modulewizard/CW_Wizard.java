@@ -223,7 +223,7 @@ class Step1_name extends WizardPage {
 		
 		cmb_ModuleType = new Combo(composite, SWT.READ_ONLY);
 		cmb_ModuleType.setLayoutData(gridData2);
-		cmb_ModuleType.setItems(new String[] {"cpu","bus","mem","other"});
+		cmb_ModuleType.setItems(new String[] {"cpu","bus","mem","scv", "other"});
 		cmb_ModuleType.select(0);
 		cmb_ModuleType.addSelectionListener(new SelectionListener() {
 			
