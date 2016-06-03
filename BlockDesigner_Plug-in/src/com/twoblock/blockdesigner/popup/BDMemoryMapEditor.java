@@ -48,7 +48,7 @@ public class BDMemoryMapEditor {
 
 
 	private String[] columnNames = new String[] {"Module", "Connected Port", "Start Addr", "Size", "End Addr"};
-	private int[] columnWidths = new int[] {150, 150, 100, 100, 100};
+	private int[] columnWidths = new int[] {160, 160, 120, 120, 120};
 	private int[] columnAligns = new int[] {SWT.LEFT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT};
 
 	private ArrayList<BDMemoryMapItem> m_mmItems = new ArrayList<BDMemoryMapItem>();
@@ -60,7 +60,7 @@ public class BDMemoryMapEditor {
 		m_listener = ibdMemoryMapEditorListener;
 
 		m_shell.setText("Memory Map Editor - "+compName);
-		m_shell.setSize(633, 300);
+		m_shell.setSize(713, 300);
 
 
 		GridLayout gridLayout = new GridLayout();
