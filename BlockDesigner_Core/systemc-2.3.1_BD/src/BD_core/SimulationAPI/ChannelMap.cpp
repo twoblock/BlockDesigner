@@ -50,7 +50,7 @@ namespace BDapi
 	void ChannelMap::DeleteChannels()
 	{
 		ChannelObject *p_ChannelObject = NULL;
-		//sc_interface *p_SCinterface = NULL;
+		sc_interface *p_SCinterface = NULL;
 
 		std::map<std::string, ChannelObject*>::iterator FirstChannel = RealChannelMap.begin();
 		std::map<std::string, ChannelObject*>::iterator LastChannel = RealChannelMap.end();
@@ -58,10 +58,10 @@ namespace BDapi
 
 		for(IndexOfChannel = FirstChannel; IndexOfChannel != LastChannel; ++IndexOfChannel){
 			p_ChannelObject	= IndexOfChannel->second;
-			//p_SCinterface = p_ChannelObject->p_SCinterface;
+			p_SCinterface = p_ChannelObject->p_SCinterface;
 
-			//delete p_SCinterface;
-			//p_SCinterface = NULL;
+			delete p_SCinterface;
+			p_SCinterface = NULL;
 
 			delete p_ChannelObject;
 			p_ChannelObject = NULL;
