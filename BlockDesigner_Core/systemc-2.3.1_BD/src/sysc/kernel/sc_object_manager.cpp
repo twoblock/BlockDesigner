@@ -386,7 +386,7 @@ sc_object_manager::top_of_module_name_stack()
 // |     name = name of the event to be removed.
 // +----------------------------------------------------------------------------
 void
-sc_object_manager::remove_event(const std::string& name)
+sc_object_manager::remove_event(const std::string name)
 {
     instance_table_t::iterator it;     // instance table iterator.
     it = m_instance_table.find(name);
@@ -404,7 +404,7 @@ sc_object_manager::remove_event(const std::string& name)
 // |     name = name of the object to be removed.
 // +----------------------------------------------------------------------------
 void
-sc_object_manager::remove_object(const std::string& name)
+sc_object_manager::remove_object(const std::string name)
 {
     instance_table_t::iterator it;     // instance table iterator.
     it = m_instance_table.find(name);

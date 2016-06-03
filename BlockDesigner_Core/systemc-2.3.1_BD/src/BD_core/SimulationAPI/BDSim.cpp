@@ -77,8 +77,6 @@ namespace BDapi
 		ChannelMap::GetInstance()->DeleteInstance();
 		SignalTraceManager::GetInstance()->DeleteInstance();
 
-		sleep(3);
-
 		if(sc_curr_simcontext != NULL){
 			delete sc_default_global_context;
 			sc_curr_simcontext = NULL;
