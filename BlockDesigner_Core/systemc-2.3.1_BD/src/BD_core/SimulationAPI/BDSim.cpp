@@ -60,6 +60,14 @@ namespace BDapi
 			if(dw_SimState == -1) break; // Simulation End 
 		}
 
+    // excepting handling
+		// if simulation don't start, nothing was written to named pipe(wave.vcd)
+    // so related processed(gtkwave, shmidcat) can't be removed
+		if(glw_Cycle == 0){
+			// write some value to named pipe(wave.vcd) 
+			// to remove gtkwave, shmidcat processes
+			popen("echo 1 > wave.vcd", "r");
+		}
 		fp = popen("rm -rf wave.vcd", "r");
 
 		sc_stop();
