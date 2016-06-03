@@ -19,6 +19,10 @@ public class ModuleInfo {
 	public ArrayList<Module> mList;
 
 	public ModuleInfo() {
+		PortObject = new JSONObject();
+		ModuleObject = new JSONObject();
+		ParameterObject = new JSONObject();
+		RegisterObject = new JSONObject();
 		mList = new ArrayList<Module>();
 	}
 

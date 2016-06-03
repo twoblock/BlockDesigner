@@ -24,6 +24,7 @@ public class SoftwareLoadingView {
 	protected String Selected_core;
 	private Combo cmb_core;
 	private Button btn_sw;
+	private Button btn_ok;
 
 	public void show() {
 		m_shell.open();
@@ -54,6 +55,7 @@ public class SoftwareLoadingView {
 			public void widgetSelected(SelectionEvent arg0) {
 				// TODO Auto-generated method stub
 				Selected_core=cmb_core.getText();
+				btn_sw.setEnabled(true);
 			}
 		});
 		
@@ -66,7 +68,7 @@ public class SoftwareLoadingView {
 		lbl_sw.setText("software load");
 		btn_sw = new Button(cmp_sw, SWT.NONE);
 		btn_sw.setText("Load");
-		
+		btn_sw.setEnabled(false);
 		
 		btn_sw.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -87,6 +89,7 @@ public class SoftwareLoadingView {
 					// File directory = new File(saveTarget);
 					Module_Location = Module_Location.replace("\\", "/");
 					btn_sw.setText(Module_Location);
+					btn_ok.setEnabled(true);
 				}
 			}
 		});
@@ -97,8 +100,9 @@ public class SoftwareLoadingView {
 		Composite cmp_ok = new Composite(m_shell, SWT.NONE);
 		cmp_ok.setLayout(new FillLayout(SWT.VERTICAL));
 		
-		Button btn_ok = new Button(cmp_ok, SWT.NONE);
+		btn_ok = new Button(cmp_ok, SWT.NONE);
 		btn_ok.setText("OK");
+		btn_ok.setEnabled(false);
 		
 		btn_ok.addSelectionListener( new SelectionAdapter() {
 			@Override
