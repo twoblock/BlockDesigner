@@ -286,7 +286,7 @@ sc_object_manager::hierarchy_size()
 // |     event_p -> event to be inserted.
 // +----------------------------------------------------------------------------
 void
-sc_object_manager::insert_event(const std::string& name, sc_event* event_p)
+sc_object_manager::insert_event(const std::string name, sc_event* event_p)
 {
     m_instance_table[name].m_event_p = event_p;
 }
@@ -302,7 +302,7 @@ sc_object_manager::insert_event(const std::string& name, sc_event* event_p)
 // |     object_p -> object to be inserted.
 // +----------------------------------------------------------------------------
 void
-sc_object_manager::insert_object(const std::string& name, sc_object* object_p)
+sc_object_manager::insert_object(const std::string name, sc_object* object_p)
 {
     m_instance_table[name].m_object_p = object_p;
 }
@@ -391,18 +391,6 @@ sc_object_manager::remove_event(const std::string name)
     //instance_table_t::iterator it;     // instance table iterator.
     //it = m_instance_table.find(name);
     //if ( it != m_instance_table.end() ) it->second.m_event_p = NULL;
-		const char *remove_name = NULL;
-		remove_name = name.c_str();
-		if(remove_name == NULL)	{
-			printf("remove_name is NULL\n");
-			printf("remove_name is NULL\n");
-			printf("remove_name is NULL\n");
-			printf("remove_name is NULL\n");
-			printf("remove_name is NULL\n");
-		}
-
-		sc_event* remove_event = find_event(remove_name);
-		if(remove_event != NULL)	remove_event = NULL;
 }
 
 // +----------------------------------------------------------------------------
@@ -418,21 +406,9 @@ sc_object_manager::remove_event(const std::string name)
 void
 sc_object_manager::remove_object(const std::string name)
 {
-    //instance_table_t::iterator it;     // instance table iterator.
-    //it = m_instance_table.find(name);
-    //if ( it != m_instance_table.end() ) it->second.m_object_p = NULL;
-		const char *remove_name = NULL;
-		remove_name = name.c_str();
-		if(remove_name == NULL)	{
-			printf("remove_name is NULL\n");
-			printf("remove_name is NULL\n");
-			printf("remove_name is NULL\n");
-			printf("remove_name is NULL\n");
-			printf("remove_name is NULL\n");
-		}
-
-		sc_object* remove_object = find_object(remove_name);
-		if(remove_object != NULL)	remove_object = NULL;
+    instance_table_t::iterator it;     // instance table iterator.
+    it = m_instance_table.find(name);
+    if ( it != m_instance_table.end() ) it->second.m_object_p = NULL;
 }
 
 } // namespace sc_core
