@@ -431,7 +431,7 @@ sc_object_manager::remove_object(const std::string name)
 			printf("remove_name is NULL\n");
 		}
 
-		sc_event* remove_object = find_object(remove_name);
+		sc_object* remove_object = find_object(remove_name);
 		if(remove_object != NULL)	remove_object = NULL;
 }
 
