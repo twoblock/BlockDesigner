@@ -391,7 +391,7 @@ sc_object_manager::remove_event(const std::string name)
     //instance_table_t::iterator it;     // instance table iterator.
     //it = m_instance_table.find(name);
     //if ( it != m_instance_table.end() ) it->second.m_event_p = NULL;
-		char *remove_name = NULL;
+		const char *remove_name = NULL;
 		remove_name = name.c_str();
 		if(remove_name == NULL)	{
 			printf("remove_name is NULL\n");
@@ -421,7 +421,7 @@ sc_object_manager::remove_object(const std::string name)
     //instance_table_t::iterator it;     // instance table iterator.
     //it = m_instance_table.find(name);
     //if ( it != m_instance_table.end() ) it->second.m_object_p = NULL;
-		char *remove_name = NULL;
+		const char *remove_name = NULL;
 		remove_name = name.c_str();
 		if(remove_name == NULL)	{
 			printf("remove_name is NULL\n");
