@@ -239,7 +239,7 @@ public class Dialog_PortInput extends Dialog {
 		String result;
 		Shell shell = parent.getShell();
 		Dialog_PortInput dialog = new Dialog_PortInput(shell);
-		System.out.println("dialog.open()="+dialog.open());
+		dialog.open();
 		result=(port_type+","+port_data_type+","+port_name+","+port_count);
 		return result;
 	}

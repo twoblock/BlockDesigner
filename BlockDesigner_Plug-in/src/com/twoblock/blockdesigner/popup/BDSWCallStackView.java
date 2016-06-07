@@ -15,20 +15,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 
-/*
- * Example code
- * Ryan, TwoBlock
- * 
- 		BDSWCallStackView csv = new BDSWCallStackView(shell, "CM0(big)", null);
-		for(int i=0; i<30; i++) {
-			csv.addFunctionName("func");
-		}
-		csv.show();
-		
-		csv.addCallData(3, 3000);
- */
-
-
 public class BDSWCallStackView {
 
 	private final int MAX_COLUMN_SIZE = 100;
@@ -95,7 +81,6 @@ public class BDSWCallStackView {
 		
 		int colCount = m_dataTable.getColumnCount(); 
 		if(colCount > 1) {
-//			System.out.println("add");
 			TableItem tableItem = m_dataTable.getItem(m_lastFuncIndex);
 			tableItem.setBackground(colCount-1, new Color(m_display, 192, 192, 192));
 		}

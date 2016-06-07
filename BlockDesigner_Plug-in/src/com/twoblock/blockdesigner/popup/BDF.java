@@ -44,6 +44,6 @@ public class BDF {
 		buffer.append(":");
 		buffer.append(stack.getLineNumber());
 
-		System.out.println("["+buffer.toString()+"]"+message);
+//		System.out.println("["+buffer.toString()+"]"+message);
 	}
 }

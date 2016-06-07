@@ -101,6 +101,7 @@ public class Dialog_RegisterInput extends Dialog {
 		final Combo cmb_Bits_wide = new Combo(shell, SWT.SINGLE | SWT.BORDER|SWT.READ_ONLY);
 		cmb_Bits_wide.setLayoutData(gridData);
 		cmb_Bits_wide.setItems(new String[]{"8","16","32","64"});
+		cmb_Bits_wide.select(0);
 		
 		// detect register type.
 		type_cmb.addSelectionListener(new SelectionAdapter() {
@@ -186,7 +187,7 @@ public class Dialog_RegisterInput extends Dialog {
 		String result;
 		Shell shell = parent.getShell();
 		Dialog_RegisterInput dialog = new Dialog_RegisterInput(shell);
-		System.out.println("dialog.open()="+dialog.open());
+		dialog.open();
 		result=(reg_name+","+reg_value+","+reg_type+","+bits_wide);
 		return result;
 		

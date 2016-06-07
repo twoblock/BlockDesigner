@@ -139,7 +139,7 @@ public class BDMemoryMapEditor {
 				final int row = index;
 				final int col = vc.getColumnIndex();
 
-				System.out.println(String.format("row:%d, col:%d, text:%s", row, col, vc.getText()));
+//				System.out.println(String.format("row:%d, col:%d, text:%s", row, col, vc.getText()));
 
 				if(!(col == 2 || col == 3)) {
 					Control oldEditor = editor.getEditor();
