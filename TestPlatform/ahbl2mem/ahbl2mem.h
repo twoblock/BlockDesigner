@@ -149,7 +149,14 @@ SC_MODULE(AHBL2MEM)	{
 
 		dw_Address = (addr >> 2) & 0x3FFFFFFF;
 
-		return memory[dw_Address];
+		if( (dw_Address < MEM_ADDR_100MB_WIDTH) &&
+				(dw_Address >= 0)	)	{
+			return memory[dw_Address];
+		}
+		else	{
+			printf("invalid memory address access!\n");
+			return 0;
+		}
 	}
 
 	/********** [process function] **********/
