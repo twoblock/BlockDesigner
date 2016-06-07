@@ -678,8 +678,6 @@ public class View_PlatformManager extends ViewPart {
 														.get(destPort).port_name);
 									}
 								}
-								System.err.println("source="+source_DataType);
-								System.err.println("dest="+dest_DataType);
 								if ((source_DataType.equals("SM") && dest_DataType.equals("SS"))
 										| (source_DataType.equals("SS") && dest_DataType.equals("SM"))) {
 									if (UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort
