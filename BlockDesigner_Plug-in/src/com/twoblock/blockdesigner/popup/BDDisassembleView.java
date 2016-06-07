@@ -142,7 +142,6 @@ public class BDDisassembleView {
 					if(!(('a' <= chars[i] && chars[i] <= 'f') || chars[i] == 'x')) {
 						if(!('A' <= chars[i] && chars[i] <= 'F')) {
 							e.doit = false;
-							System.out.println("Invalid character input!");
 							return;
 						}
 					}

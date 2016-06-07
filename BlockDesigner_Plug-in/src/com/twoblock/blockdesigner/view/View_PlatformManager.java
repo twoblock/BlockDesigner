@@ -115,7 +115,6 @@ public class View_PlatformManager extends ViewPart {
 	private String Instance_Module_Name;
 	protected boolean mouseClickState;
 	private ScrolledComposite composite_PlatformViewer;
-	private ArrayList<Port> PortDataList;
 	public static Display display = null;
 
 	public void createPartControl(Composite parent) {
@@ -451,7 +450,6 @@ public class View_PlatformManager extends ViewPart {
 				if (Module_Location != null) {
 					// File directory = new File(saveTarget);
 					Module_Location = Module_Location.replace("\\", "/");
-					System.err.println(Module_Location);
 
 					// Handler_Command.Command_Func(Module_Location);
 					Handler_Command.Command_Func(0, 6, Module_Location, "NULL", "NULL", "NULL", "NULL");
@@ -459,7 +457,6 @@ public class View_PlatformManager extends ViewPart {
 
 					try {
 						Thread.sleep(500);
-						System.err.println("sleep on");
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
@@ -539,7 +536,7 @@ public class View_PlatformManager extends ViewPart {
 			UsedModuleDataList.mList.add(NewModule);
 			UsedModuleDataList.mList.get(UsedModuleIndex).module_instance_name = Instance_Module_Name;
 
-			PortDataList = UsedModuleDataList.mList.get(UsedModuleIndex).Port_List;
+			final ArrayList<Port> PortDataList = UsedModuleDataList.mList.get(UsedModuleIndex).Port_List;
 			port_Cnt = PortDataList.size();
 
 			switch (UsedModuleDataList.mList.get(UsedModuleIndex).module_type) {
@@ -681,7 +678,8 @@ public class View_PlatformManager extends ViewPart {
 														.get(destPort).port_name);
 									}
 								}
-
+								System.err.println("source="+source_DataType);
+								System.err.println("dest="+dest_DataType);
 								if ((source_DataType.equals("SM") && dest_DataType.equals("SS"))
 										| (source_DataType.equals("SS") && dest_DataType.equals("SM"))) {
 									if (UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort
@@ -695,7 +693,7 @@ public class View_PlatformManager extends ViewPart {
 												+ UsedModuleDataList.mList.get(DestModule_Index).Port_List
 														.get(destPort).port_name);
 									}
-								} else if ((source_DataType.equals("MM") && dest_DataType.equals("MS"))
+								}else if ((source_DataType.equals("MM") && dest_DataType.equals("MS"))
 										| (source_DataType.equals("MS") && dest_DataType.equals("MM"))) {
 									if (UsedModuleDataList.mList.get(DestModule_Index).Port_List.get(destPort).cmb_dPort
 											.isEnabled()) {
@@ -743,7 +741,6 @@ public class View_PlatformManager extends ViewPart {
 
 					@Override
 					public void widgetSelected(SelectionEvent arg0) {
-						System.err.println("selection=" + mouseClickState);
 						if (mouseClickState == true) {
 							// TODO Auto-generated method stub
 							// SM SETTING
@@ -985,11 +982,11 @@ public class View_PlatformManager extends ViewPart {
 							int slave_cnt = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List.size();
 							int setter_index = 0;
 							for (BDMemoryMapItem item : items) {
-								System.out.println(String.format(
-										"ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s",
-										item.SlaveName, item.SlavePort, BDF.LongDecimalToStringHex(item.StartAddr, 8),
-										BDF.LongDecimalToStringHex(item.Size, 8),
-										BDF.LongDecimalToStringHex(item.EndAddr, 8)));
+//								System.out.println(String.format(
+//										"ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s",
+//										item.SlaveName, item.SlavePort, BDF.LongDecimalToStringHex(item.StartAddr, 8),
+//										BDF.LongDecimalToStringHex(item.Size, 8),
+//										BDF.LongDecimalToStringHex(item.EndAddr, 8)));
 								for (; setter_index < slave_cnt; setter_index++) {
 									if (UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
 											.get(setter_index).Dest_Port != null) {
@@ -1035,8 +1032,8 @@ public class View_PlatformManager extends ViewPart {
 									String startAddr = UsedModuleDataList.mList.get(MemoryMap_Index).Port_List
 											.get(slave_index).startAddr;
 									MMEditor.addSlave(Sname, Dport, startAddr, addrSize);
-									System.err.println(
-											"Checker=" + Sname + "/" + Dport + "/" + startAddr + "/" + addrSize);
+//									System.err.println(
+//											"Checker=" + Sname + "/" + Dport + "/" + startAddr + "/" + addrSize);
 								}
 							}
 						}
@@ -1061,36 +1058,6 @@ public class View_PlatformManager extends ViewPart {
 					}
 
 					MMEditor.show();
-
-					/*
-					 * Example code Ryan, TwoBlock
-					 * 
-					 * BDMemoryMapEditor MMEditor = new BDMemoryMapEditor(shell,
-					 * "System BUS(AXI)", new IBDMemoryMapEditorListener() {
-					 * 
-					 * @Override public void onOk(ArrayList<BDMemoryMapItem>
-					 * items) { // TODO Auto-generated method stub
-					 * 
-					 * for(BDMemoryMapItem item : items) {
-					 * System.out.println(String.format(
-					 * "ModuleName:%s, PortNAme:%s, StartAddr.:%s, AddrSize:%s, EndAddr:%s"
-					 * , item.SlaveName, item.SlavePort,
-					 * BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.
-					 * StartAddr),
-					 * BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.Size),
-					 * BDMemoryMapEditor.BDF.LongDecimalToStringHex(item.EndAddr
-					 * ))); } }
-					 * 
-					 * @Override public void onCancel() { // TODO Auto-generated
-					 * method stub System.out.println(
-					 * "BDMemoryMapEditor has dismissed"); } });
-					 * 
-					 * //Dummy data MMEditor.addSlave("Slave1", "port1");
-					 * MMEditor.addSlave("Slave2", "port2");
-					 * MMEditor.addSlave("Slave3", "port3");
-					 * MMEditor.addSlave("Slave4", "port4");
-					 * MMEditor.addSlave("Slave5", "port5"); MMEditor.show();
-					 */
 				}
 
 				@Override
@@ -1145,7 +1112,6 @@ public class View_PlatformManager extends ViewPart {
 
 	public void viewsetting(String ori_pmml) {
 		final String pmml = ori_pmml;
-		System.err.println("pmml"+ori_pmml);
 		display.asyncExec(new Runnable() {
 			@Override
 			public void run() {
@@ -1193,8 +1159,7 @@ public class View_PlatformManager extends ViewPart {
 	}
 
 	void ModuleClicked(List SelectedTab) {
-		String SelectedModule = SelectedTab.getItem(SelectedTab.getSelectionIndex());
-		System.out.println("selected: " + SelectedModule);
+//		String SelectedModule = SelectedTab.getItem(SelectedTab.getSelectionIndex());
 	}
 
 	void ModuleDoubleClicked(List SelectedTab) {

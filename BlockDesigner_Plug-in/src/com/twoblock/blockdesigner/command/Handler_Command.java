@@ -29,16 +29,9 @@ public class Handler_Command {
 	static {
 		try {
 			System.load(System.getProperty("user.home")+"/workspace/BlockDesigner/TestPlatform/sc_main/libBD_sim.so");
-			System.out.println("ld = loaded libBD_sim.so");
 		} catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load(ld=callback)");
+			System.err.println("Native code library failed to load(Handler_Command)");
 		}
-//		try {
-//			System.loadLibrary("libBD_sim.so");
-//			System.out.println("pl = loaded libBD_sim.so");
-//		} catch (UnsatisfiedLinkError e) {
-//			System.err.println("Native code library failed to load(pl=callback)");
-//		}
 	}
 
 	public native void PushCommand();

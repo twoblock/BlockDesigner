@@ -28,39 +28,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 
-/*
- * Example code
- * Ryan, TwoBlock
- * 
-		BDMemoryView mv = new BDMemoryView(shell, "DRAM(AXI Memory)", new IBDMemoryViewListener() {
-
-			@Override
-			public void onChangeData(long addr, long data) {
-				// TODO Auto-generated method stub
-				System.out.println(String.format("Addr.:%s, Data:%s", 
-						BDF.LongDecimalToStringHex(addr, 8),
-						BDF.LongDecimalToStringHex(data, 8)));
-			}
-
-			@Override
-			public void onDataLoad(BDMemoryView view, long startAddr, long size) {
-				// TODO Auto-generated method stub
-				System.out.println("startAddr.:"+BDF.LongDecimalToStringHex(startAddr, 8)+" size:"+size);
-			}
-		});
-
-		//Dummy data
-		long max = 16;
-		BDMemoryViewItemArray tmp_data = new BDMemoryViewItemArray();
-		tmp_data.baseAddr = 0xFF000000L;
-		for(long i=0; i<=max; i++) {
-			tmp_data.add(new BDMemoryViewItem(i+0, i+1, i+2, i+3));
-			System.out.println("i="+i);
-		}
-		mv.setData(tmp_data);
-		mv.show();
- */
-
 public class BDMemoryView {
 
 	private final int DATA_LOAD_AMOUNT = 64;
@@ -191,11 +158,12 @@ public class BDMemoryView {
 					return;
 				}
 
+				@SuppressWarnings("unused")
 				final int row = m_table.indexOf(item);
 				final int col = vc.getColumnIndex();
 				item.setData(new Integer(col)); //set column index
 
-				System.out.println(String.format("row:%d, col:%d, text:%s", row, col, vc.getText()));
+//				System.out.println(String.format("row:%d, col:%d, text:%s", row, col, vc.getText()));
 
 				if(!(col > 0)) {
 					return;

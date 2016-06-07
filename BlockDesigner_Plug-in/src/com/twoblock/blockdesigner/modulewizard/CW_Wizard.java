@@ -39,9 +39,8 @@ public class CW_Wizard{
 	static {
 		try{
 			System.load("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/libBD_core.so");
-			System.out.println("ld = loaded libBD_core.so");
 		}catch (UnsatisfiedLinkError e) {
-			System.err.println("Native code library failed to load(ld=MD_Wizard)");
+			System.err.println("Native code library failed to load(CW_Wizard)");
 		}
 	}
 
@@ -358,7 +357,6 @@ class Step2_port extends WizardPage {
 	}
 
 	public WizardPage getPage(int pageIndex) {
-		System.out.println("pageIndex=" + pageIndex);
 		if (pageIndex < 5)
 			setPageComplete(false);
 
@@ -646,7 +644,6 @@ class Step6_sensitivity extends WizardPage {
 				Color white = new Color(null, 255, 255, 255);
 				for (int i = 0; i < m_w.port_count; i++) {
 						if(!m_w.port_item[i].getText(0).contains("AHB")){
-							System.err.println(m_w.port_item[i].getText(0)+"/i="+i+"/index="+index);
 							col_1 = m_w.port_item[i].getText(2);
 							m_w.sen_item[index].setText(new String[] { col_1 });
 							m_w.combo[index] = new CCombo(sen_table, SWT.BORDER | SWT.READ_ONLY);
@@ -669,7 +666,6 @@ class Step6_sensitivity extends WizardPage {
 									// TODO Auto-generated method stub
 									String temp = m_w.combo[cmb_index].getText();
 									m_w.combo[cmb_index].setText(temp);
-									System.err.println("m_w.combo["+cmb_index+"]"+" = "+m_w.combo[cmb_index].getText());
 								}
 								
 								@Override
@@ -779,8 +775,6 @@ class Step7_complete extends WizardPage {
 		}
 		component_info_str = str.toString();
 		StringToJSON(component_info_str);
-		System.err.println(m_w.obj_JSON.toJSONString());
-		
 		m_w.ComponentCreate(m_w.obj_JSON.toJSONString());
 		return super.getNextPage();
 	}

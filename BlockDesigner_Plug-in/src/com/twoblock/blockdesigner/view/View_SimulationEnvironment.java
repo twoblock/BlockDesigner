@@ -479,8 +479,6 @@ public class View_SimulationEnvironment extends ViewPart {
 	protected void ChannelInfoSet(final ScrolledComposite composite) {
 		try {
 			obj = parser.parse(new FileReader(BDPMD_Location));
-			System.err.println("Call ChannelInfoSet");
-//			obj = parser.parse(new FileReader(System.getProperty("user.home") + "/BlockDesigner/testmodule.BDPMD"));
 			jsonObject = (JSONObject) obj;
 			obj_BDPMD = (JSONObject) jsonObject.get("BDPMD");
 
@@ -705,8 +703,8 @@ public class View_SimulationEnvironment extends ViewPart {
 						@Override
 						public void handleEvent(Event arg0) {
 							// TODO Auto-generated method stub
-							System.err.println("0/2/" + module_name + "/par/write/" + table_par_index + "/"
-									+ txt_ParValue.getText());
+//							System.err.println("0/2/" + module_name + "/par/write/" + table_par_index + "/"
+//									+ txt_ParValue.getText());
 							Handler_Command.Command_Func(0, 2, module_name, "par", "write", table_par_index + "",
 									txt_ParValue.getText());
 						}
@@ -772,8 +770,8 @@ public class View_SimulationEnvironment extends ViewPart {
 						@Override
 						public void handleEvent(Event arg0) {
 							// TODO Auto-generated method stub
-							System.err.println("0/2/" + module_name + "/reg/write/" + table_reg_index + "/"
-									+ txt_regValue.getText());
+//							System.err.println("0/2/" + module_name + "/reg/write/" + table_reg_index + "/"
+//									+ txt_regValue.getText());
 							Handler_Command.Command_Func(0, 2, module_name, "reg", "write", table_reg_index + "",
 									txt_regValue.getText());
 						}
@@ -851,7 +849,6 @@ public class View_SimulationEnvironment extends ViewPart {
 		composite.setExpandVertical(true);
 		composite.setMinSize(expandBar.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		
-		System.err.println("set Size composite");
 		composite.setSize(composite.getParent().getSize().x-10, composite.getParent().getSize().y-80);
 		if(isFirst){
 			isFirst=false;
@@ -900,7 +897,6 @@ public class View_SimulationEnvironment extends ViewPart {
 
 	
 	public void SIM_Result(String ori_sim_result) {
-		System.err.println("ori_sim_result="+ori_sim_result);
 		final String sim_result=ori_sim_result;
 		display.asyncExec(new Runnable() {
 
@@ -967,7 +963,7 @@ public class View_SimulationEnvironment extends ViewPart {
 				// TODO Auto-generated method stub
 				switch (state) {
 				case 0: // initial
-					System.err.println("SE Open");
+//					System.err.println("SE Open");
 					TraceChecking=true;
 					isExisted=false;
 					chkASV.setEnabled(false);
@@ -985,7 +981,7 @@ public class View_SimulationEnvironment extends ViewPart {
 					btnRun.setEnabled(false);
 					break;
 				case 1:
-					System.err.println("BDPMD Open");
+//					System.err.println("BDPMD Open");
 					if(isExisted==true){
 						btnOpen_sw.setEnabled(true);
 						chkSPV.setEnabled(true);
@@ -1009,7 +1005,7 @@ public class View_SimulationEnvironment extends ViewPart {
 					SetTableState(true);
 					break;
 				case 2: 
-					System.err.println("RUN");
+//					System.err.println("RUN");
 					btnOpen.setEnabled(false);
 					btnClose.setEnabled(false);
 					btnStop.setEnabled(true);
@@ -1020,7 +1016,7 @@ public class View_SimulationEnvironment extends ViewPart {
 					SetTableState(false);
 					break;
 				case 3:
-					System.err.println("STOP");
+//					System.err.println("STOP");
 					btnStop.setEnabled(false);
 					btnClose.setEnabled(true);
 					btnStep.setEnabled(true);

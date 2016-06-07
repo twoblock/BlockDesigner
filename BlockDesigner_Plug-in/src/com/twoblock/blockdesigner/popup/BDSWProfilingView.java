@@ -14,22 +14,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-/*
- * example code
- * 
-		BDSWProfilingView swpv = new BDSWProfilingView(shell, "CM0(big)");
-		
-		swpv.addFunctionName("Summary");
-		swpv.addFunctionName("__main");
-		swpv.addFunctionName("__scatterload_rt2");         
-		swpv.addFunctionName("__scatterload_copy");        
-		swpv.addFunctionName("NMI_Handler");       
-		swpv.addFunctionName("Hardfault_Handler");      
-		swpv.addFunctionName("SVC_Handler");       
-		swpv.show();
-		
-		swpv.updateData(1, 9L, 9999L,  99.10000f,  99L,   99.90000f);
- */
 
 public class BDSWProfilingView {
 
