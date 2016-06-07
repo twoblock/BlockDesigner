@@ -60,9 +60,19 @@ namespace BDapi
 			if(dw_SimState == -1) break; // Simulation End 
 		}
 
-    // excepting handling
+		if(sc_is_running() == false){
+			while(1){
+				dw_SimControl = ExecutionManager::GetExecutionFlag();
+				if(dw_SimControl == CLOSE){
+					Close();
+					break;
+				}
+			}
+		}
+
+		// excepting handling
 		// if simulation don't start, nothing was written to named pipe(wave.vcd)
-    // so related processed(gtkwave, shmidcat) can't be removed
+		// so related processed(gtkwave, shmidcat) can't be removed
 		if(glw_Cycle == 0){
 			// write some value to named pipe(wave.vcd) 
 			// to remove gtkwave, shmidcat processes
@@ -70,7 +80,8 @@ namespace BDapi
 		}
 		fp = popen("rm -rf wave.vcd", "r");
 
-		sc_stop();
+		if(sc_is_running() == true)
+			sc_stop();
 
 		while(sc_is_running() != false);
 		ModuleListManager::GetInstance()->DeleteInstance();
@@ -113,22 +124,17 @@ namespace BDapi
 	int Simulate(unsigned int SimControl)
 	{
 		if(SimControl != NOTHING){
-
 			switch(SimControl)
 			{
 				case    RUN  : Run();	  break;	
 				case    STEP : Step();  break;
 				case    STOP : Stop();  break;
-				case    CLOSE: Close();
-											 return -1; 
-											 break;
-											 //case    EXIT : Close(); break;
+				case    CLOSE: Close(); return -1;  break;
 				default			 :          break;
-			}
-
+			}	
 			if(sc_is_running() == false){
 				Stop();
-				return -1; // Exit
+				return -1;
 			}
 		}
 		return 0; // Running
