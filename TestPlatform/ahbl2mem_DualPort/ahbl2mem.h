@@ -40,7 +40,7 @@ SC_MODULE(AHBL2MEM)	{
 	// Global Signal
 	sc_in<bool>		HCLK;
 	sc_in<bool>		HRESETn;
-	
+
 	//AHB-Lite Slave Interface Signal
 	BD_AHBPort_SS *AHB_S0;
 	BD_AHBPort_SS *AHB_S1;
@@ -162,19 +162,24 @@ SC_MODULE(AHBL2MEM)	{
 		UINT32 dw_C;
 
 		dw_A = (addr >> 2) & 0x3FFFFFFF;
-		dw_D = data;
-		dw_C = memory[dw_A];
-				
-		if((we & 0x1))	dw_C = (dw_C & 0xFFFFFF00) | (dw_D & 0x000000FF);
-		if((we & 0x2))	dw_C = (dw_C & 0xFFFF00FF) | (dw_D & 0x0000FF00);
-		if((we & 0x4))	dw_C = (dw_C & 0xFF00FFFF) | (dw_D & 0x00FF0000);
-		if((we & 0x8))	dw_C = (dw_C & 0x00FFFFFF) | (dw_D & 0xFF000000);
 
-		//this->bddi->BDDIGenerateMemoryViewJsonFile(addr + base_addr, dw_C);
+		if( (dw_A < MEM_ADDR_100MB_WIDTH) &&
+				(dw_A >= 0)	)	{
+			dw_D = data;
+			dw_C = memory[dw_A];
 
-		memory[dw_A] = dw_C;
+			if((we & 0x1))	dw_C = (dw_C & 0xFFFFFF00) | (dw_D & 0x000000FF);
+			if((we & 0x2))	dw_C = (dw_C & 0xFFFF00FF) | (dw_D & 0x0000FF00);
+			if((we & 0x4))	dw_C = (dw_C & 0xFF00FFFF) | (dw_D & 0x00FF0000);
+			if((we & 0x8))	dw_C = (dw_C & 0x00FFFFFF) | (dw_D & 0xFF000000);
+
+			memory[dw_A] = dw_C;
+		}
+		else	{
+			printf("invalid memory address 0x%x write access!\n", addr + base_addr);
+		}
 	}
-	
+
 	UINT32 ReadFromMemory(UINT32 addr)	{
 		UINT32 dw_Address;
 
@@ -185,9 +190,10 @@ SC_MODULE(AHBL2MEM)	{
 			return memory[dw_Address];
 		}
 		else	{
-			printf("invalid memory address access!\n");
+			printf("invalid memory address 0x%x read access!\n", addr + base_addr);
 			return 0;
 		}
+
 	}
 
 	/********** [process function] **********/
@@ -207,7 +213,7 @@ SC_MODULE(AHBL2MEM)	{
 				S0_REG_MEM_NSEQ_RD_CNT = 0;
 				S0_REG_MEM_SEQ_WR_CNT = 0;
 				S0_REG_MEM_SEQ_RD_CNT = 0;
-				
+
 				S0_REG_HREADYOUT = 1;
 				S0_REG_MEM_DELAY = 0x0;
 				S0_CUR_STATE = READY_1MB;
@@ -240,14 +246,14 @@ SC_MODULE(AHBL2MEM)	{
 				if(AHB_S0->HREADY && AHB_S0->HSEL && (AHB_S0->HTRANS == 0x2))		{
 					S0_NEXT_HREADYOUT = 0;
 					S0_NEXT_STATE = NONSEQ_WAIT_1MB;
-						
+
 					if(AHB_S0->HWRITE)	S0_NEXT_MEM_DELAY = MEM_1MB_NSEQ_WR_DELAY;
 					else		S0_NEXT_MEM_DELAY = MEM_1MB_NSEQ_RD_DELAY;
 				}
 				else if(AHB_S0->HREADY && AHB_S0->HSEL && (AHB_S0->HTRANS == 0x3))	{
 					S0_NEXT_HREADYOUT = 0;
 					S0_NEXT_STATE = SEQ_WAIT_1MB;
-					
+
 					if(AHB_S0->HWRITE)	S0_NEXT_MEM_DELAY = MEM_1MB_SEQ_WR_DELAY;
 					else		S0_NEXT_MEM_DELAY = MEM_1MB_SEQ_RD_DELAY;
 				}
@@ -302,7 +308,7 @@ SC_MODULE(AHBL2MEM)	{
 			S0_NEXT_ADDR_PHASE_HADDR = AHB_S0->HADDR - base_addr;
 			S0_NEXT_ADDR_PHASE_HSIZE = AHB_S0->HSIZE;
 #if	DEBUG_MEM
-printf("[addr_phase_receive] haddr : %08x, next addr : %08x, cur addr : %08x\n", (UINT32)AHB_S0->HADDR, (UINT32)S0_NEXT_ADDR_PHASE_HADDR, (UINT32)S0_REG_ADDR_PHASE_HADDR);
+			printf("[addr_phase_receive] haddr : %08x, next addr : %08x, cur addr : %08x\n", (UINT32)AHB_S0->HADDR, (UINT32)S0_NEXT_ADDR_PHASE_HADDR, (UINT32)S0_REG_ADDR_PHASE_HADDR);
 #endif	// DEBUG_MEM
 
 			if(AHB_S0->HWRITE && (AHB_S0->HTRANS == 0x2))	S0_NEXT_MEM_NSEQ_WR_CNT = S0_REG_MEM_NSEQ_WR_CNT + 1;
@@ -321,7 +327,7 @@ printf("[addr_phase_receive] haddr : %08x, next addr : %08x, cur addr : %08x\n",
 			S0_NEXT_ADDR_PHASE_HADDR = S0_REG_ADDR_PHASE_HADDR;
 			S0_NEXT_ADDR_PHASE_HSIZE = S0_REG_ADDR_PHASE_HSIZE;
 #if	DEBUG_MEM
-printf("[addr_phase_keep] next addr : %08x, cur addr : %08x\n", (UINT32)S0_NEXT_ADDR_PHASE_HADDR, (UINT32)S0_REG_ADDR_PHASE_HADDR);
+			printf("[addr_phase_keep] next addr : %08x, cur addr : %08x\n", (UINT32)S0_NEXT_ADDR_PHASE_HADDR, (UINT32)S0_REG_ADDR_PHASE_HADDR);
 #endif	// DEBUG_MEM
 		}
 	}
@@ -329,13 +335,13 @@ printf("[addr_phase_keep] next addr : %08x, cur addr : %08x\n", (UINT32)S0_NEXT_
 	void S0_do_byte_enable()	{
 		S0_dw_WE = ByteEnable((UINT32)S0_REG_ADDR_PHASE_HADDR, (UINT32)S0_REG_ADDR_PHASE_HSIZE);
 	}
-	
+
 	void S0_do_write_to_memory_pos_hclk()	{
 		while(1)	{
 			if(S0_REG_ADDR_PHASE_HSEL && 
-				S0_REG_ADDR_PHASE_HWRITE && 
-				(S0_REG_ADDR_PHASE_HTRANS & 0x2) && 
-				(S0_CUR_STATE == DONE_1MB))	{
+					S0_REG_ADDR_PHASE_HWRITE && 
+					(S0_REG_ADDR_PHASE_HTRANS & 0x2) && 
+					(S0_CUR_STATE == DONE_1MB))	{
 				WriteToMemory((UINT32)S0_REG_ADDR_PHASE_HADDR, (UINT32)AHB_S0->HWDATA, (UINT32)S0_dw_WE);
 			}
 
@@ -346,7 +352,7 @@ printf("[addr_phase_keep] next addr : %08x, cur addr : %08x\n", (UINT32)S0_NEXT_
 	void S0_do_assign_read_data()	{
 		AHB_S0->HRDATA = ReadFromMemory((UINT32)S0_REG_ADDR_PHASE_HADDR);
 #if	DEBUG_MEM
-printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S0_REG_ADDR_PHASE_HADDR, ReadFromMemory((UINT32)S0_REG_ADDR_PHASE_HADDR), (UINT32)AHB_S0->HRDATA);
+		printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S0_REG_ADDR_PHASE_HADDR, ReadFromMemory((UINT32)S0_REG_ADDR_PHASE_HADDR), (UINT32)AHB_S0->HRDATA);
 #endif	// DEBUG_MEM
 	}
 
@@ -368,7 +374,7 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S0_RE
 				S1_REG_MEM_NSEQ_RD_CNT = 0;
 				S1_REG_MEM_SEQ_WR_CNT = 0;
 				S1_REG_MEM_SEQ_RD_CNT = 0;
-				
+
 				S1_REG_HREADYOUT = 1;
 				S1_REG_MEM_DELAY = 0x0;
 				S1_CUR_STATE = READY_1MB;
@@ -401,14 +407,14 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S0_RE
 				if(AHB_S1->HREADY && AHB_S1->HSEL && (AHB_S1->HTRANS == 0x2))		{
 					S1_NEXT_HREADYOUT = 0;
 					S1_NEXT_STATE = NONSEQ_WAIT_1MB;
-						
+
 					if(AHB_S1->HWRITE)	S1_NEXT_MEM_DELAY = MEM_1MB_NSEQ_WR_DELAY;
 					else		S1_NEXT_MEM_DELAY = MEM_1MB_NSEQ_RD_DELAY;
 				}
 				else if(AHB_S1->HREADY && AHB_S1->HSEL && (AHB_S1->HTRANS == 0x3))	{
 					S1_NEXT_HREADYOUT = 0;
 					S1_NEXT_STATE = SEQ_WAIT_1MB;
-					
+
 					if(AHB_S1->HWRITE)	S1_NEXT_MEM_DELAY = MEM_1MB_SEQ_WR_DELAY;
 					else		S1_NEXT_MEM_DELAY = MEM_1MB_SEQ_RD_DELAY;
 				}
@@ -463,7 +469,7 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S0_RE
 			S1_NEXT_ADDR_PHASE_HADDR = AHB_S1->HADDR - base_addr;
 			S1_NEXT_ADDR_PHASE_HSIZE = AHB_S1->HSIZE;
 #if	DEBUG_MEM
-printf("[addr_phase_receive] haddr : %08x, next addr : %08x, cur addr : %08x\n", (UINT32)AHB_S1->HADDR, (UINT32)S1_NEXT_ADDR_PHASE_HADDR, (UINT32)S1_REG_ADDR_PHASE_HADDR);
+			printf("[addr_phase_receive] haddr : %08x, next addr : %08x, cur addr : %08x\n", (UINT32)AHB_S1->HADDR, (UINT32)S1_NEXT_ADDR_PHASE_HADDR, (UINT32)S1_REG_ADDR_PHASE_HADDR);
 #endif	// DEBUG_MEM
 
 			if(AHB_S1->HWRITE && (AHB_S1->HTRANS == 0x2))	S1_NEXT_MEM_NSEQ_WR_CNT = S1_REG_MEM_NSEQ_WR_CNT + 1;
@@ -482,7 +488,7 @@ printf("[addr_phase_receive] haddr : %08x, next addr : %08x, cur addr : %08x\n",
 			S1_NEXT_ADDR_PHASE_HADDR = S1_REG_ADDR_PHASE_HADDR;
 			S1_NEXT_ADDR_PHASE_HSIZE = S1_REG_ADDR_PHASE_HSIZE;
 #if	DEBUG_MEM
-printf("[addr_phase_keep] next addr : %08x, cur addr : %08x\n", (UINT32)S1_NEXT_ADDR_PHASE_HADDR, (UINT32)S1_REG_ADDR_PHASE_HADDR);
+			printf("[addr_phase_keep] next addr : %08x, cur addr : %08x\n", (UINT32)S1_NEXT_ADDR_PHASE_HADDR, (UINT32)S1_REG_ADDR_PHASE_HADDR);
 #endif	// DEBUG_MEM
 		}
 	}
@@ -490,13 +496,13 @@ printf("[addr_phase_keep] next addr : %08x, cur addr : %08x\n", (UINT32)S1_NEXT_
 	void S1_do_byte_enable()	{
 		S1_dw_WE = ByteEnable((UINT32)S1_REG_ADDR_PHASE_HADDR, (UINT32)S1_REG_ADDR_PHASE_HSIZE);
 	}
-	
+
 	void S1_do_write_to_memory_pos_hclk()	{
 		while(1)	{
 			if(S1_REG_ADDR_PHASE_HSEL && 
-				S1_REG_ADDR_PHASE_HWRITE && 
-				(S1_REG_ADDR_PHASE_HTRANS & 0x2) && 
-				(S1_CUR_STATE == DONE_1MB))	{
+					S1_REG_ADDR_PHASE_HWRITE && 
+					(S1_REG_ADDR_PHASE_HTRANS & 0x2) && 
+					(S1_CUR_STATE == DONE_1MB))	{
 				WriteToMemory((UINT32)S1_REG_ADDR_PHASE_HADDR, (UINT32)AHB_S1->HWDATA, (UINT32)S1_dw_WE);
 			}
 
@@ -507,7 +513,7 @@ printf("[addr_phase_keep] next addr : %08x, cur addr : %08x\n", (UINT32)S1_NEXT_
 	void S1_do_assign_read_data()	{
 		AHB_S1->HRDATA = ReadFromMemory((UINT32)S1_REG_ADDR_PHASE_HADDR);
 #if	DEBUG_MEM
-printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S1_REG_ADDR_PHASE_HADDR, ReadFromMemory((UINT32)S1_REG_ADDR_PHASE_HADDR), (UINT32)AHB_S1->HRDATA);
+		printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S1_REG_ADDR_PHASE_HADDR, ReadFromMemory((UINT32)S1_REG_ADDR_PHASE_HADDR), (UINT32)AHB_S1->HRDATA);
 #endif	// DEBUG_MEM
 	}
 
@@ -519,7 +525,7 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S1_RE
 		/***** [initial condition] *****/
 		//BinaryLoadingAndInitialize("CM0DS.txt");
 		//BinaryLoadingAndInitialize("/home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/CM0DS.txt");
-		
+
 		/***** [process enrollment] *****/
 		SC_METHOD(S0_do_assign_hreadyout);
 		sensitive << S0_REG_HREADYOUT;
@@ -527,7 +533,7 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S1_RE
 		SC_THREAD(S0_do_pos_hclk_neg_hresetn);
 		sensitive << HCLK.pos();
 		sensitive << HRESETn.neg();	
-	
+
 		SC_METHOD(S0_do_assign_fsm);
 		sensitive << S0_CUR_STATE;
 		sensitive << AHB_S0->HREADY;
@@ -548,7 +554,7 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S1_RE
 		//sensitive << S0_REG_ADDR_PHASE_HWRITE;
 		//sensitive << S0_REG_ADDR_PHASE_HTRANS;
 		//sensitive << S0_REG_ADDR_PHASE_HADDR;
-	
+
 		SC_METHOD(S0_do_byte_enable);
 		sensitive << S0_REG_ADDR_PHASE_HADDR;
 		sensitive << S0_REG_ADDR_PHASE_HSIZE;
@@ -566,7 +572,7 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S1_RE
 		SC_THREAD(S1_do_pos_hclk_neg_hresetn);
 		sensitive << HCLK.pos();
 		sensitive << HRESETn.neg();	
-	
+
 		SC_METHOD(S1_do_assign_fsm);
 		sensitive << S1_CUR_STATE;
 		sensitive << AHB_S1->HREADY;
@@ -587,7 +593,7 @@ printf("[read_rom] addr : %08x, transfer : %08x, hrdata : %08x\n", (UINT32)S1_RE
 		//sensitive << S1_REG_ADDR_PHASE_HWRITE;
 		//sensitive << S1_REG_ADDR_PHASE_HTRANS;
 		//sensitive << S1_REG_ADDR_PHASE_HADDR;
-	
+
 		SC_METHOD(S1_do_byte_enable);
 		sensitive << S1_REG_ADDR_PHASE_HADDR;
 		sensitive << S1_REG_ADDR_PHASE_HSIZE;
