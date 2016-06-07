@@ -16,16 +16,10 @@
 
 // Simulator header file
 #include"SimulationAPI/BDSim.h"
-#include"manager/AllManager.h"
-#include"SimulationHandler/SimulationHandler.h"
-#include"gui/test.h"
-#include"gui/StartSimulationThreads.h"
 #include"SimulationAPI/BDDI.h"
 #include"SimulationAPI/BDDIBase.h"
 #include"SimulationAPI/BDDITypes.h"
-
-// PlatformManager header file
-#include"manager/PMModuleListManager.h"
+#include"SimulationAPI/BDMMI.h"
 
 #endif 
 

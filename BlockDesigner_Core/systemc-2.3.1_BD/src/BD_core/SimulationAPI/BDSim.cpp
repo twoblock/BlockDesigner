@@ -11,18 +11,21 @@
 // Description	: simulate systemc kernel and conrol it  
 // ----------------------------------------------------------------------------
 
-#include "BDSim.h"	
+#include "BDSim.h"
+#include "../manager/AllManager.h"
+#include "../manager/ModuleConnector.h"
+#include "../SimulationAPI/ChannelMap.h"
+
 
 #define	 SECOND_UNIT(X)		((X)*1000000)
+#define	 CYCLE_DISPLAY_UNIT 1371
 
 namespace BDapi
 {
-
-	unsigned int ExecutionManager::dw_ExecutionControlFlag;
-	unsigned int ExecutionManager::dw_StepValue;
-
+	SoftwareManager *p_SoftwareManager = NULL;
+	CallBackManager *p_CallBackManager = NULL;
+	CallBackReturn Return = CallBackOK;
 	long long glw_Cycle = 0;
-	sc_trace_file *wtf = NULL;
 
 	/*
 	 * function    	: BDStart
@@ -45,7 +48,10 @@ namespace BDapi
 
 		// Activate GTKWAVE Interactive Mode.
 		fp = popen("shmidcat wave.vcd | gtkwave -v -I /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.gtkw", "r");	
-		if(fp == NULL) printf("\n\033[31m Error : Can not open GTKWAVE\033[0m\n");
+		if(fp == NULL) printf("\n Error : Can not open GTKWAVE \n");
+
+		p_SoftwareManager = SoftwareManager::GetInstance();	
+		p_CallBackManager = CallBackManager::GetInstance();
 
 		while(1){
 			dw_SimControl = ExecutionManager::GetExecutionFlag();
@@ -53,6 +59,59 @@ namespace BDapi
 
 			if(dw_SimState == -1) break; // Simulation End 
 		}
+
+		if(sc_is_running() == false){
+			while(1){
+				dw_SimControl = ExecutionManager::GetExecutionFlag();
+				if(dw_SimControl == CLOSE){
+					Close();
+					break;
+				}
+			}
+		}
+
+		// excepting handling
+		// if simulation don't start, nothing was written to named pipe(wave.vcd)
+		// so related processed(gtkwave, shmidcat) can't be removed
+		if(glw_Cycle == 0){
+			// write some value to named pipe(wave.vcd) 
+			// to remove gtkwave, shmidcat processes
+			popen("echo 1 > wave.vcd", "r");
+		}
+		fp = popen("rm -rf wave.vcd", "r");
+
+		if(sc_is_running() == true)
+			sc_stop();
+
+		while(sc_is_running() != false);
+		ModuleListManager::GetInstance()->DeleteInstance();
+		ChannelMap::GetInstance()->DeleteInstance();
+		SignalTraceManager::GetInstance()->DeleteInstance();
+
+		if(sc_curr_simcontext != NULL){
+			delete sc_default_global_context;
+			sc_curr_simcontext = NULL;
+		}
+
+		BDDIJsonManager::GetInstance()->DeleteInstance();
+		BDDIManager::GetInstance()->DeleteInstance();
+		BDPMDInitManager::GetInstance()->DeleteInstance();
+		PMMLGenerationManager::GetInstance()->DeleteInstance();
+		SoftwareManager::GetInstance()->DeleteInstance();
+		ModuleConnector::GetInstance()->DeleteInstance();
+		//CallBackManager::GetInstance()->DeleteInstance();
+		//ExecutionManager::GetInstance()->DeleteInstance();
+
+		ModuleListManager::GetInstance();
+		BDDIJsonManager::GetInstance();
+		BDDIManager::GetInstance();
+		BDPMDInitManager::GetInstance();
+		PMMLGenerationManager::GetInstance();
+		SignalTraceManager::GetInstance();
+		SoftwareManager::GetInstance();
+		ModuleConnector::GetInstance();
+		CallBackManager::GetInstance()->GetManagers();
+		//ExecutionManager::GetInstance();
 	}
 
 	/*
@@ -65,21 +124,17 @@ namespace BDapi
 	int Simulate(unsigned int SimControl)
 	{
 		if(SimControl != NOTHING){
-
 			switch(SimControl)
 			{
 				case    RUN  : Run();	  break;	
 				case    STEP : Step();  break;
 				case    STOP : Stop();  break;
-											 //case    EXIT : Close(); break;
+				case    CLOSE: Close(); return -1;  break;
 				default			 :          break;
-			}
-
+			}	
 			if(sc_is_running() == false){
-				ExecutionManager::SetExecutionFlag(NOTHING);
-				sc_close_vcd_trace_file(wtf);
-
-				return -1; // Exit
+				Stop();
+				return -1;
 			}
 		}
 		return 0; // Running
@@ -93,7 +148,11 @@ namespace BDapi
 	void Run()
 	{
 		sc_start(10, SC_NS);
+		// Get pc value
+		p_SoftwareManager->PCAnalyzer();	
+
 		glw_Cycle++;
+		CycleCallBack(RUN);
 	}
 
 	/*
@@ -108,12 +167,17 @@ namespace BDapi
 
 		if(dw_StepValue != 0){
 			sc_start(10, SC_NS);
+			// Get pc value
+			p_SoftwareManager->PCAnalyzer();	
+
 			glw_Cycle++;
+			CycleCallBack(STEP);
+
 			dw_StepValue -= 10;
 			ExecutionManager::SetStepValue(dw_StepValue);
 		}
 		else{
-			ExecutionManager::SetExecutionFlag(NOTHING);
+			Stop();
 		}
 	}
 
@@ -124,8 +188,46 @@ namespace BDapi
 	 */
 	void Stop()
 	{
+		StopCallBack();
+		CycleCallBack(STOP);
 		ExecutionManager::SetExecutionFlag(NOTHING);
 	}
 
+	/*
+	 * function    	: Close
+	 * design	      : stop and close simulation 
+	 * caller		    : Simulate 
+	 */
+	void Close()
+	{
+		ExecutionManager::SetExecutionFlag(NOTHING);
+		glw_Cycle = 0;
+		CycleCallBack(STOP);
+	}
+
+	void StopCallBack()
+	{
+		Return = p_CallBackManager->SendBackAllWhenStop();
+		if(Return == CallBackError){
+			printf("Stop CallBack error\n");		
+		}
+	}
+
+	void CycleCallBack(int Status)
+	{
+		bool b_Check = false;
+
+		if(Status == STOP)
+			b_Check = true;
+		else
+			b_Check = ((glw_Cycle % CYCLE_DISPLAY_UNIT) == 0);	
+
+		if(b_Check){
+			p_CallBackManager->SendBackLongLong(glw_Cycle, "CycleCallBack");
+			if(Return == CallBackError){
+				printf("Cycle CallBack error\n");		
+			}
+		}
+	}
 }
 

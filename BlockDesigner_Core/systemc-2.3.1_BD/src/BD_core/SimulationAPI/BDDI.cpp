@@ -174,7 +174,7 @@ namespace BDapi
 
 			case BDDISelectRegBIT8:			sprintf(Value, "%u", ReturnValue->hw_Value);		break;
 			case BDDISelectRegBIT16:		sprintf(Value, "%u", ReturnValue->w_Value);			break;
-			case BDDISelectRegBIT32:		sprintf(Value, "%u", ReturnValue->dw_Value);		break;
+			case BDDISelectRegBIT32:		sprintf(Value, "0x%x", ReturnValue->dw_Value);	break;
 			case BDDISelectRegBIT64:		sprintf(Value, "%llu", ReturnValue->lw_Value);	break;
 			case BDDISelectRegHEX:			sprintf(Value, "0x%x", ReturnValue->dw_Value);	break;
 			case BDDISelectRegFLOAT:		sprintf(Value, "%f", ReturnValue->f_Value);			break;
@@ -380,4 +380,35 @@ namespace BDapi
 		return BDDIStatusOK;
 	}
 
+	void BDDI::BDDIGenerateMemoryViewJsonFile(unsigned int Address, unsigned int Value)
+	{
+		memset(a_ChangeAddr, 0, sizeof(a_ChangeAddr));
+		memset(a_ChangeValue, 0, sizeof(a_ChangeValue));
+
+		sprintf(a_ChangeAddr, "0x%08x", Address);
+		sprintf(a_ChangeValue, "0x%08x", Value);
+
+		Change["address"] = a_ChangeAddr;
+		Change["value"] = a_ChangeValue;
+		ChangeList[dw_JsonIndex++] = Change;
+
+		Change.clear();
+	}
+
+	void BDDI::BDDISetModuleInstanceName(const char* Name)
+	{
+		memset(a_InstanceName, 0, sizeof(a_InstanceName));
+		strcpy(a_InstanceName, Name);
+
+		InstanceName["instance_name"] = a_InstanceName;
+	}
+
+	BDDI::BDDI()
+	{
+		InstanceName.clear();
+		Change.clear();
+		ChangeList.clear();
+
+		dw_JsonIndex = 0;
+	}
 }

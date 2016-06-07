@@ -26,11 +26,11 @@
 #define WireTraceControl   4 
 #define RegisterCallBack   5 
 #define LoadModule         6 
+#define BDPMDInit					 7
 
 // Get Command
 #define ModuleInfo         0
 #define GetDebugInterface  1 
-#define GetMemoryMap       2
 
 #define ArgumentSize        128
 

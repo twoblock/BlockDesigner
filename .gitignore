@@ -1,3 +1,13 @@
 BlockDesigner_Core/systemc-2.3.1_BD/objdir/
-BlockDesigner_Core/systemc-2.3.1_BD/autom4te.cache/
+BlockDesigner_Core/systemc-2.3.1_BD/autom4te.cache/*
 BlockDesigner_Core/JNI_Interface/
+*.o
+*.d
+*.so
+TestPlatform/sc_main/wave.vcd
+TestPlatform/sc_main/VCM0DS
+TestPlatform/sc_main/mem_log.txt
+scv200/
+TestPlatform/SSDProject/software/GreedyM0/*.txt
+TestPlatform/SSDProject/software/GreedyM0/*.bin
+TestPlatform/SSDProject/software/GreedyM0/*.axf

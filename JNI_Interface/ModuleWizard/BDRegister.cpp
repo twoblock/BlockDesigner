@@ -12,11 +12,12 @@ BDRegister::BDRegister() {
 	initMembers();
 }
 
-BDRegister::BDRegister(const char* name, const char* type, const char* defVal) {
+BDRegister::BDRegister(const char* name, const char* type, int dataSize, const char* defVal) {
 	initMembers();
 
 	setName(name);
 	setType(type);
+	setDataSize(dataSize);
 	setDefaultValue(defVal);
 }
 
@@ -59,8 +60,33 @@ void BDRegister::setDefaultValue(const char* defVal) {
 	strcpy(pm_defaultValue, defVal);
 }
 
-char* BDRegister::getType() const {
-	return pm_type;
+char* BDRegister::getDataType() const {
+
+	if(strcmp(pm_type, "HEX")==0)
+		return "unsigned int";
+
+	if(strcmp(pm_type, "UINT")==0 && pm_dataSize==8)
+		return "unsigned char";
+
+	if(strcmp(pm_type, "UINT")==0 && pm_dataSize==16)
+		return "unsigned short";
+
+	if(strcmp(pm_type, "UINT")==0 && pm_dataSize==32)
+		return "unsigned int";
+
+	if(strcmp(pm_type, "UINT")==0 && pm_dataSize==64)
+		return "unsigned long long";
+
+	if(strcmp(pm_type, "BOOL")==0)
+		return "bool";
+
+	if(strcmp(pm_type, "FLOAT")==0 && pm_dataSize==32)
+		return "float";
+
+	if(strcmp(pm_type, "FLOAT")==0 && pm_dataSize==64)
+		return "double";
+
+	return "unknown";
 }
 
 void BDRegister::setType(const char* type) {
@@ -68,6 +94,19 @@ void BDRegister::setType(const char* type) {
 	strcpy(pm_type, type);
 }
 
+char* BDRegister::getType() const {
+	return pm_type;
+}
+
 char* BDRegister::getDefaultValue() {
 	return pm_defaultValue;
+}
+
+
+int BDRegister::getDataSize() const {
+	return pm_dataSize;
+}
+
+void BDRegister::setDataSize(int DataSize) {
+	pm_dataSize = DataSize;
 }

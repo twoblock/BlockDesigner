@@ -38,11 +38,21 @@ H_FILES = \
 	BDSim.h	\
 	BDDI.h	\
 	BDDIBase.h	\
-	BDDITypes.h
+	BDDITypes.h \
+	ChannelMap.h \
+	BDMMI.h \
+	SoftwareLoader.h \
+	SoftwareDisplayer.h \
+	SoftwareProfiler.h
  
 CXX_FILES = \
 	BDSim.cpp \
-	BDDI.cpp 
+	BDDI.cpp \
+	ChannelMap.cpp \
+	BDMMI.cpp \
+	SoftwareLoader.cpp \
+	SoftwareDisplayer.cpp \
+	SoftwareProfiler.cpp 
 
 localincludedir = $(includedir)/BD_core/SimulationAPI
 nobase_localinclude_HEADERS = $(H_FILES)

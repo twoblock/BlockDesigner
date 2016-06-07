@@ -15,9 +15,11 @@
 #define __BDDI_MANAGER_H__
 
 #include "TopManagerBase.h"
+#include <pthread.h>
 
 // for Debugging BDDI
 #include <stdio.h>
+#include <string>
 
 /*
  * namespace	: BDapi 
@@ -26,6 +28,7 @@
  */
 namespace BDapi
 {
+	class CallBackManager;
 	/*
 	 * class		    : BDDIManager
 	 * design	      : Control BDDI Function
@@ -37,15 +40,22 @@ namespace BDapi
 		public:
 			void PutOperationControl(GUI_COMMAND Command);
 			void GetOperationControl(GUI_COMMAND Command);
+			
 			static BDDIManager* GetInstance();
-
-			~BDDIManager();
+			static void DeleteInstance();
 
 		protected:
 			BDDIManager();
+			virtual ~BDDIManager();
 
 		private:
-			static BDDIManager *_BDDIManager;
+			string MemoryViewValue;
+
+			CallBackManager *p_CallBackManager;
+
+		 	static BDDIManager *_BDDIManager;
+			// mutex for singleton pattern 
+			static pthread_mutex_t BDDIManagerInstanceMutex;   
 	};
 } // namespace BDapi 
 

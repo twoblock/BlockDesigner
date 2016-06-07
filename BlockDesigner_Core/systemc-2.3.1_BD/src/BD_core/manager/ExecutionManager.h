@@ -18,8 +18,10 @@
 #define RUN   	1
 #define STEP  	2
 #define STOP  	3
+#define CLOSE   4
 
 #include "TopManagerBase.h"
+#include <pthread.h>
 
 /*
  * namespace	: BDapi 
@@ -38,23 +40,27 @@ namespace BDapi
 		public:
 			void PutOperationControl(GUI_COMMAND Command);
 			void GetOperationControl(GUI_COMMAND Command);
+
 			static void SetExecutionFlag(unsigned int Flag);
 			static unsigned int GetExecutionFlag();	
 
 			static void SetStepValue(unsigned int Value);
 			static unsigned int GetStepValue();
-			static ExecutionManager* GetInstance();
 
-			~ExecutionManager();
-		
+			static ExecutionManager* GetInstance();
+			static void DeleteInstance();
+
 		protected:
 			ExecutionManager();
+			virtual ~ExecutionManager();
 
 		private:
 			static unsigned int dw_ExecutionControlFlag;
 			static unsigned int dw_StepValue;
+			
 			static ExecutionManager *_ExecutionManager;
-		
+			// mutex for singleton pattern 
+			static pthread_mutex_t ExecutionManagerInstanceMutex;   
 	};
 } // namespace BDapi 
 

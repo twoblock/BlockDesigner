@@ -1,0 +1,10 @@
+#pragma once
+
+#define HEAP_BASE  0x20200000
+#define STACK_BASE 0x20600000
+
+#define HEAP_SIZE  ((STACK_BASE-HEAP_BASE)/2) // 2MB
+#define STACK_SIZE ((STACK_BASE-HEAP_BASE)/2) // 2MB
+
+#define PROCESS_STACK_SIZE 0x4000 // 16KB
+

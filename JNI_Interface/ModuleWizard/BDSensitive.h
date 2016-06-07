@@ -32,14 +32,14 @@ class BDSensitive
 {
 public:
 	BDSensitive();
-	BDSensitive(const char *portName, enum SENSE_TYPE edgeType);
+	BDSensitive(const char *portName, const char* edgeType);
 	virtual ~BDSensitive();
 
 private:
 	void initMembers();
 
 public:
-	void setSenseType(enum SENSE_TYPE senseType);
+	void setSenseType(const char* strSenseType);
 	void setPortName(const char* portName);
 
 	enum SENSE_TYPE getSenseType();

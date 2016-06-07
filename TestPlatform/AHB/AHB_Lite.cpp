@@ -1,0 +1,116 @@
+//-------------------------------------------------------------
+// Design	: AHB_Lite
+// Author	: Harold Ko
+// Email	: harold.ko@twoblocktech.com
+// File		: AHB_Lite.cpp
+// Date		: 2015. 11. 20
+// Reference	: AHB_Lite.v (by Changwon Choi)
+//------------------------------------------------------------
+// Copyright (C) 2015-2016 TwoBlock Technologies Co.
+//-------------------------------------------------------------
+// Description	: AHB Lite for processor
+//-------------------------------------------------------------
+
+#include "AHB_Lite.h"
+
+void AHB_Lite::do_transfer()	{
+	HADDR_S0 = HADDR_M;
+	HBURST_S0 = HBURST_M;
+	HLOCK_S0 = HLOCK_M;
+	HPROT_S0 = HPROT_M;
+	HSIZE_S0 = HSIZE_M;
+	HTRANS_S0 = HTRANS_M;
+	HWDATA_S0 = HWDATA_M;
+	HWRITE_S0 = HWRITE_M;
+	HREADY_S0 = HREADY_M;
+
+	HADDR_S1 = HADDR_M;
+	HBURST_S1 = HBURST_M;
+	HLOCK_S1 = HLOCK_M;
+	HPROT_S1 = HPROT_M;
+	HSIZE_S1 = HSIZE_M;
+	HTRANS_S1 = HTRANS_M;
+	HWDATA_S1 = HWDATA_M;
+	HWRITE_S1 = HWRITE_M;
+	HREADY_S1 = HREADY_M;
+
+	HADDR_S2 = HADDR_M;
+	HBURST_S2 = HBURST_M;
+	HLOCK_S2 = HLOCK_M;
+	HPROT_S2 = HPROT_M;
+	HSIZE_S2 = HSIZE_M;
+	HTRANS_S2 = HTRANS_M;
+	HWDATA_S2 = HWDATA_M;
+	HWRITE_S2 = HWRITE_M;
+	HREADY_S2 = HREADY_M;
+
+	HADDR_S3 = HADDR_M;
+	HBURST_S3 = HBURST_M;
+	HLOCK_S3 = HLOCK_M;
+	HPROT_S3 = HPROT_M;
+	HSIZE_S3 = HSIZE_M;
+	HTRANS_S3 = HTRANS_M;
+	HWDATA_S3 = HWDATA_M;
+	HWRITE_S3 = HWRITE_M;
+	HREADY_S3 = HREADY_M;
+
+	HADDR_S4 = HADDR_M;
+	HBURST_S4 = HBURST_M;
+	HLOCK_S4 = HLOCK_M;
+	HPROT_S4 = HPROT_M;
+	HSIZE_S4 = HSIZE_M;
+	HTRANS_S4 = HTRANS_M;
+	HWDATA_S4 = HWDATA_M;
+	HWRITE_S4 = HWRITE_M;
+	HREADY_S4 = HREADY_M;
+
+	HADDR_S5 = HADDR_M;
+	HBURST_S5 = HBURST_M;
+	HLOCK_S5 = HLOCK_M;
+	HPROT_S5 = HPROT_M;
+	HSIZE_S5 = HSIZE_M;
+	HTRANS_S5 = HTRANS_M;
+	HWDATA_S5 = HWDATA_M;
+	HWRITE_S5 = HWRITE_M;
+	HREADY_S5 = HREADY_M;
+
+	HADDR_S6 = HADDR_M;
+	HBURST_S6 = HBURST_M;
+	HLOCK_S6 = HLOCK_M;
+	HPROT_S6 = HPROT_M;
+	HSIZE_S6 = HSIZE_M;
+	HTRANS_S6 = HTRANS_M;
+	HWDATA_S6 = HWDATA_M;
+	HWRITE_S6 = HWRITE_M;
+	HREADY_S6 = HREADY_M;
+
+	HADDR_S7 = HADDR_M;
+	HBURST_S7 = HBURST_M;
+	HLOCK_S7 = HLOCK_M;
+	HPROT_S7 = HPROT_M;
+	HSIZE_S7 = HSIZE_M;
+	HTRANS_S7 = HTRANS_M;
+	HWDATA_S7 = HWDATA_M;
+	HWRITE_S7 = HWRITE_M;
+	HREADY_S7 = HREADY_M;
+
+	HADDR_S8 = HADDR_M;
+	HBURST_S8 = HBURST_M;
+	HLOCK_S8 = HLOCK_M;
+	HPROT_S8 = HPROT_M;
+	HSIZE_S8 = HSIZE_M;
+	HTRANS_S8 = HTRANS_M;
+	HWDATA_S8 = HWDATA_M;
+	HWRITE_S8 = HWRITE_M;
+	HREADY_S8 = HREADY_M;
+
+	HADDR_S9 = HADDR_M;
+	HBURST_S9 = HBURST_M;
+	HLOCK_S9 = HLOCK_M;
+	HPROT_S9 = HPROT_M;
+	HSIZE_S9 = HSIZE_M;
+	HTRANS_S9 = HTRANS_M;
+	HWDATA_S9 = HWDATA_M;
+	HWRITE_S9 = HWRITE_M;
+	HREADY_S9 = HREADY_M;
+}

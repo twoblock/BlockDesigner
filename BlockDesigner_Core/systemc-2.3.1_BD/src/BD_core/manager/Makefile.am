@@ -42,14 +42,28 @@ H_FILES = \
 	TopManagerBase.h \
 	AllManager.h \
 	BDDIManager.h \
-	PMModuleListManager.h \
-  ModuleLoader.h
+	ModuleListManager.h \
+  ModuleLoader.h \
+  ModuleConnector.h \
+	BDPMDInitManager.h \
+	PMMLGenerationManager.h \
+	SignalTraceManager.h \
+	SoftwareManager.h \
+	CallBackManager.h \
+	BDDIJsonManager.h
  
 CXX_FILES = \
 	ExecutionManager.cpp \
 	BDDIManager.cpp \
-	PMModuleListManager.cpp \
-	ModuleLoader.cpp
+	ModuleListManager.cpp \
+	ModuleLoader.cpp \
+  ModuleConnector.cpp \
+	BDPMDInitManager.cpp \
+	PMMLGenerationManager.cpp \
+	SignalTraceManager.cpp \
+	SoftwareManager.cpp \
+	CallBackManager.cpp \
+	BDDIJsonManager.cpp
 
 localincludedir = $(includedir)/BD_core/manager
 nobase_localinclude_HEADERS = $(H_FILES)

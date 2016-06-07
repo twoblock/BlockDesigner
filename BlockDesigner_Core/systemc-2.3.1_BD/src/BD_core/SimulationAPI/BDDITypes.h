@@ -13,8 +13,9 @@
 #ifndef __BDDITYPES_H__
 #define __BDDITYPES_H__
 
-#define BDDI_NAME_SIZE			1024
-#define BDDI_STRING_SIZE		1024
+#define BDDI_NAME_SIZE					1024
+#define BDDI_STRING_SIZE				1024
+#define BDDI_MEMORYVIEW_SIZE		256
 
 typedef unsigned char				UINT8;
 typedef unsigned short			UINT16;
@@ -75,6 +76,7 @@ namespace BDapi
 		char Name[BDDI_NAME_SIZE];
 		unsigned int Bitswide;
 		BDDIParType Type;
+		char Value[BDDI_STRING_SIZE];
 	};
 
 	// BDDI To Select Register Value Information

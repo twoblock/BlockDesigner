@@ -20,9 +20,13 @@
 // for converting string to return value
 #include <stdlib.h>
 #include <string.h>
+#include <string>
 
 // for converting return value to string
 #include <stdio.h>
+
+// for callback function
+#include "BD_core/PlatformAPI/json/json.h"
 
 /*
  * namespace	: BDapi 
@@ -47,11 +51,48 @@ namespace BDapi
 			virtual BDDIReturn BDDIGetParameterValues(unsigned int ParIndex, char *OutValue) = 0;
 			virtual BDDIReturn BDDISetParameterValues(unsigned int ParIndex, const char *SetValue) = 0;
 
+			virtual char* BDDIGetModuleType() = 0;
+
+			virtual BDDIRegInfo* BDDIGetModuleRegInfo() = 0;
+			virtual BDDIParInfo* BDDIGetModuleParInfo() = 0;
+
+			virtual unsigned int BDDIGetModuleTotalRegNum() = 0;
+			virtual unsigned int BDDIGetModuleTotalParNum() = 0;
+
+			virtual BDDIReturn BDDIGetMemoryAddressValue(unsigned int Address, unsigned int *Value) = 0;
+			virtual BDDIReturn BDDISetMemoryAddressValue(unsigned int Address, unsigned int Value) = 0;
+
+			virtual BDDIReturn BDDIGetMemoryView(unsigned int Address, std::string &OutValue) = 0;
+
+			virtual unsigned int BDDIGetMemoryBaseAddress() = 0;
+			virtual unsigned int BDDIGetMemoryAddressSize() = 0;
+
+			virtual unsigned int BDDIGetPCValue() = 0;
+
 			BDDIReturn BDDIConvertStringToRegisterValue(BDDIRegValue *ReturnValue, BDDIRegInfo *RegInfo, const char *Value);
 			BDDIReturn BDDIConvertRegisterValueToString(BDDIRegValue *ReturnValue, char *Value);
 
 			BDDIReturn BDDIConvertStringToParameterValue(BDDIParValue *ReturnValue, BDDIParInfo *ParInfo, const char *Value);
 			BDDIReturn BDDIConvertParameterValueToString(BDDIParValue *ReturnValue, char *Value);
+
+			void BDDIGenerateMemoryViewJsonFile(unsigned int Address, unsigned int Value);
+
+			void BDDISetModuleInstanceName(const char* Name);
+
+		protected:
+			
+			BDDI();
+
+		public:
+
+			Json::Value InstanceName;
+			Json::Value Change;
+			Json::Value ChangeList;
+
+			char a_InstanceName[128];
+			char a_ChangeAddr[128];
+			char a_ChangeValue[128];
+			unsigned int dw_JsonIndex;
 
 			/*
 			 * function			: BDDIExtractRegisterValue

@@ -15,11 +15,6 @@
 
 namespace BDapi
 {	
-	// Initialize Manager Instance
-	ExecutionManager* ExecutionManager::_ExecutionManager = NULL;
-	BDDIManager* BDDIManager::_BDDIManager = NULL;
-	PMModuleListManager* PMModuleListManager::_PMModuleListManager= NULL;
-
 	/*
 	 * function    	: Constructor
 	 * design	      : get all mananger instances
@@ -28,7 +23,12 @@ namespace BDapi
 	{
 		CmdExecutionManager = ExecutionManager::GetInstance();
 		CmdBDDIManager = BDDIManager::GetInstance();
-		CmdPMModuleListManager = PMModuleListManager::GetInstance();
+		CmdModuleListManager = ModuleListManager::GetInstance();
+		CmdBDPMDInitManager = BDPMDInitManager::GetInstance();
+		CmdPMMLGenerationManager = PMMLGenerationManager::GetInstance();
+		CmdSignalTraceManager = SignalTraceManager::GetInstance();
+		CmdSoftwareManager = SoftwareManager::GetInstance();
+		CmdCallBackManager = CallBackManager::GetInstance();
 	}
 
 	/*
@@ -69,18 +69,27 @@ namespace BDapi
 	 */
 	int CommandHandler::PutOperation()
 	{
-		if(st_GUICommand.Command == ExecutionControl){
+		if(st_GUICommand.Command == SoftwareLoad){
+			SetManagerForPutOperation(CmdSoftwareManager);
+		}
+		else if(st_GUICommand.Command == ExecutionControl){
 			SetManagerForPutOperation(CmdExecutionManager);
 		}
-		else if(st_GUICommand.Command == PutDebugInterface)	{
+		else if(st_GUICommand.Command == PutDebugInterface){
 			SetManagerForPutOperation(CmdBDDIManager);
-		}		
-		else if(st_GUICommand.Command == LoadModule)	{
-			SetManagerForPutOperation(CmdPMModuleListManager);
+		}
+		else if(st_GUICommand.Command == WireTraceControl)	{
+			SetManagerForPutOperation(CmdSignalTraceManager);
+		}	
+		else if(st_GUICommand.Command == RegisterCallBack)	{
+			SetManagerForPutOperation(CmdCallBackManager);
+		}	
+		else if(st_GUICommand.Command == LoadModule){
+			SetManagerForPutOperation(CmdPMMLGenerationManager);
+		}
+		else if(st_GUICommand.Command == BDPMDInit)	{
+			SetManagerForPutOperation(CmdBDPMDInitManager);
 		} 
-
-
-
 		return 0;
 	}
 
@@ -94,7 +103,7 @@ namespace BDapi
 	int CommandHandler::GetOperation()
 	{
 		if(st_GUICommand.Command == ModuleInfo){
-			SetManagerForGetOperation(CmdPMModuleListManager);
+			SetManagerForGetOperation(CmdPMMLGenerationManager);
 		}
 		else if(st_GUICommand.Command == GetDebugInterface){
 			SetManagerForGetOperation(CmdBDDIManager);

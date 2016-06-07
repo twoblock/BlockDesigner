@@ -7,6 +7,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -19,6 +20,7 @@ public class Dialog_RegisterInput extends Dialog {
 	private static String reg_name;
 	private static String reg_value;
 	private static String reg_type;
+	private static String bits_wide;
 	Double value;
 	/**
 	 * @param parent
@@ -52,7 +54,6 @@ public class Dialog_RegisterInput extends Dialog {
 		GridData gridData;
 		gridData = new GridData();
 		gridData.horizontalSpan = 1;
-		gridData.horizontalAlignment=GridData.BEGINNING;
 		gridData.horizontalAlignment=GridData.FILL;
 		gridData.verticalAlignment=GridData.FILL;
 		gridData.grabExcessHorizontalSpace=true;
@@ -79,8 +80,8 @@ public class Dialog_RegisterInput extends Dialog {
 		label.setText("2. Select the Register Type.        ");
 		type_cmb= new Combo(shell, SWT.DROP_DOWN |SWT.READ_ONLY );
 		type_cmb.setItems(new String[]
-				{"bool","int","char","bit"});
-		type_cmb.setText("bool");
+				{"HEX","UINT","BOOL","FLOAT"});
+		type_cmb.setText("UINT");
 		type_cmb.setLayoutData(gridData);
 		
 		seperator = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);
@@ -89,20 +90,51 @@ public class Dialog_RegisterInput extends Dialog {
 		label = new Label(shell, SWT.LEFT);
 		label.setText("3. Enter the Default Value.        ");
 		value_text= new Text(shell, SWT.SINGLE | SWT.BORDER);
-		value_text.setText("true");
+		value_text.setText("0");
 		value_text.setLayoutData(gridData);
+		
+		seperator = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);
+		seperator.setLayoutData(gridData);
+		
+		label = new Label(shell, SWT.LEFT);
+		label.setText("4. Enter the size of Bits wide.");
+		final Combo cmb_Bits_wide = new Combo(shell, SWT.SINGLE | SWT.BORDER|SWT.READ_ONLY);
+		cmb_Bits_wide.setLayoutData(gridData);
+		cmb_Bits_wide.setItems(new String[]{"8","16","32","64"});
+		cmb_Bits_wide.select(0);
 		
 		// detect register type.
 		type_cmb.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event){
-				if(type_cmb.getSelectionIndex()==0) 		value_text.setText("true");
-				else if(type_cmb.getSelectionIndex()==1) 	value_text.setText("0");
-				else if(type_cmb.getSelectionIndex()==2) 	value_text.setText("0");
-				else if(type_cmb.getSelectionIndex()==3) 	value_text.setText("16");
+			public void widgetSelected(SelectionEvent event) {
+				if (type_cmb.getSelectionIndex() == 0){//HEX
+					value_text.setText("0");
+					cmb_Bits_wide.removeAll();
+					cmb_Bits_wide.setItems(new String[]{"32"});
+					cmb_Bits_wide.select(0);
+				}
+				else if (type_cmb.getSelectionIndex() == 1){//UINT
+					value_text.setText("0");
+					cmb_Bits_wide.removeAll();
+					cmb_Bits_wide.setItems(new String[]{"8","16","32","64"});
+					cmb_Bits_wide.select(0);
+				}
+				else if (type_cmb.getSelectionIndex() == 2){//BOOL
+				 	value_text.setText("true");
+					cmb_Bits_wide.removeAll();
+					cmb_Bits_wide.setItems(new String[]{"8"});
+					cmb_Bits_wide.select(0);
+				}
+				else if (type_cmb.getSelectionIndex() == 3){//FLOAT
+					value_text.setText("0");
+					cmb_Bits_wide.removeAll();
+					cmb_Bits_wide.setItems(new String[]{"32","64"});
+					cmb_Bits_wide.select(0);
+				}
 			}
 		});
 		
-		
+		seperator = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);
+		seperator.setLayoutData(gridData);
 		
 		create_btn = new Button(shell, SWT.PUSH);
 		create_btn.setText("Ok");
@@ -117,6 +149,7 @@ public class Dialog_RegisterInput extends Dialog {
 				reg_name=name_text.getText();
 				reg_value=value_text.getText();
 				reg_type=type_cmb.getText();
+				bits_wide=cmb_Bits_wide.getText();
 				shell.dispose();
 			}
 		});
@@ -149,13 +182,13 @@ public class Dialog_RegisterInput extends Dialog {
 		return value;
 	}
 
-	public static String main(String[] args) {
+	public static String main(String[] args, Composite parent) {
 		
 		String result;
-		Shell shell = new Shell();
+		Shell shell = parent.getShell();
 		Dialog_RegisterInput dialog = new Dialog_RegisterInput(shell);
-		System.out.println("dialog.open()="+dialog.open());
-		result=(reg_name+","+reg_value+","+reg_type);
+		dialog.open();
+		result=(reg_name+","+reg_value+","+reg_type+","+bits_wide);
 		return result;
 		
 	}

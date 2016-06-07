@@ -11,11 +11,11 @@ BDProcess::BDProcess() {
 	initMembers();
 }
 
-BDProcess::BDProcess(const char* name, enum PROC_TYPE type) {
+BDProcess::BDProcess(const char* name, const char* strType) {
 	initMembers();
 
 	setName(name);
-	setType(type);
+	setType(strType);
 }
 
 BDProcess::~BDProcess() {
@@ -38,8 +38,15 @@ enum PROC_TYPE BDProcess::getType() {
 	return m_type;
 }
 
-void BDProcess::setType(enum PROC_TYPE type) {
-	m_type = type;
+void BDProcess::setType(const char* strType) {
+	if(strcmp(strType, "SC_METHOD") == 0)
+		m_type = METHOD;
+
+	if(strcmp(strType, "SC_THREAD") == 0)
+			m_type = THREAD;
+
+	if(strcmp(strType, "SC_CTHREAD") == 0)
+			m_type = CTHREAD;
 }
 
 char* BDProcess::getName() {

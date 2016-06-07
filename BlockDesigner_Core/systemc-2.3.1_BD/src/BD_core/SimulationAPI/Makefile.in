@@ -72,7 +72,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libBDSim_la_LIBADD =
-am__objects_1 = BDSim.lo BDDI.lo
+am__objects_1 = BDSim.lo BDDI.lo ChannelMap.lo BDMMI.lo \
+	SoftwareLoader.lo SoftwareDisplayer.lo SoftwareProfiler.lo
 am_libBDSim_la_OBJECTS = $(am__objects_1)
 libBDSim_la_OBJECTS = $(am_libBDSim_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -306,11 +307,21 @@ H_FILES = \
 	BDSim.h	\
 	BDDI.h	\
 	BDDIBase.h	\
-	BDDITypes.h
+	BDDITypes.h \
+	ChannelMap.h \
+	BDMMI.h \
+	SoftwareLoader.h \
+	SoftwareDisplayer.h \
+	SoftwareProfiler.h
 
 CXX_FILES = \
 	BDSim.cpp \
-	BDDI.cpp 
+	BDDI.cpp \
+	ChannelMap.cpp \
+	BDMMI.cpp \
+	SoftwareLoader.cpp \
+	SoftwareDisplayer.cpp \
+	SoftwareProfiler.cpp 
 
 localincludedir = $(includedir)/BD_core/SimulationAPI
 nobase_localinclude_HEADERS = $(H_FILES)
@@ -369,7 +380,12 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDDI.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDMMI.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/BDSim.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ChannelMap.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoftwareDisplayer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoftwareLoader.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SoftwareProfiler.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

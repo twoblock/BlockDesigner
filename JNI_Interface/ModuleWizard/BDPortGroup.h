@@ -30,7 +30,7 @@ private:
 public:
 	char* getName();
 	void setName(const char* name);
-	int addPort(const char* portName, enum PORT_TYPE portType, const char* dataType);
+	int addPort(const char* portName, const char* portType, const char* dataType);
 
 
 private:

@@ -57,6 +57,7 @@ protected:
 
 	sc_event*  m_event_p;   // if non-null this is an sc_event.
         sc_object* m_object_p;  // if non-null this is an sc_object.
+
     };
 
 public:
@@ -84,10 +85,10 @@ public:
 
 private:
     std::string create_name( const char* leaf_name );
-    void insert_event(const std::string& name, sc_event* obj);
-    void insert_object(const std::string& name, sc_object* obj);
-    void remove_event(const std::string& name);
-    void remove_object(const std::string& name);
+    void insert_event(const std::string name, sc_event* obj);
+    void insert_object(const std::string name, sc_object* obj);
+    void remove_event(const std::string name);
+    void remove_object(const std::string name);
 
 private:
 

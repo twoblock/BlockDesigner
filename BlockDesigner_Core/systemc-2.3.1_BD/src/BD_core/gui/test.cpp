@@ -17,9 +17,6 @@ using namespace std;
 
 namespace BDapi{
 
-	// declare static variable
-	std::queue<GUI_COMMAND> CommandQueue::_CommandQueue;
-
 	/*
 	 * function   	: GUIThread 
 	 * design     	: DIY for test command
@@ -28,7 +25,7 @@ namespace BDapi{
 	void GUIThread()
 	{
 		ifstream CommandFile;
-		CommandFile.open("../bd_command_script.sh");
+		CommandFile.open("bd_command_script.sh");
 
 		char UserCommand[SIZE] = {0,};
 		ScriptReturn ScriptLine;	
@@ -43,6 +40,7 @@ namespace BDapi{
 			else
 				PushCommand(UserCommand);	
 		}
+
 		while(1);
 	}
 
@@ -56,6 +54,9 @@ namespace BDapi{
 	{	
 		char UserCommand[SIZE] = {0,}; 
 		char *p_CommnadToken = NULL; 
+
+		CommandQueue *p_CommandQueue = NULL;
+		p_CommandQueue = CommandQueue::GetInstance();
 
 		strcpy(UserCommand,p_UserCommand);
 
@@ -89,6 +90,8 @@ namespace BDapi{
 						st_Command.Command = RegisterCallBack; 
 					else if(strcmp(p_CommnadToken,"LoadModule") == 0 || p_CommnadToken[0] == '6')
 						st_Command.Command = LoadModule; 
+					else if(strcmp(p_CommnadToken,"ModuleConnection") == 0 || p_CommnadToken[0] == '7')
+						st_Command.Command = BDPMDInit; 
 					else 
 						return;
 				}
@@ -105,8 +108,6 @@ namespace BDapi{
 						st_Command.Command = ModuleInfo; 
 					else if(strcmp(p_CommnadToken,"GetDebugInterface") == 0 || p_CommnadToken[0] == '1')
 						st_Command.Command = GetDebugInterface; 
-					else if(strcmp(p_CommnadToken,"GetMemoryMap") == 0 || p_CommnadToken[0] == '2')
-						st_Command.Command = GetMemoryMap; 
 					else 
 						return;
 				}
@@ -117,7 +118,7 @@ namespace BDapi{
 			// Argument 1 
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
@@ -126,7 +127,7 @@ namespace BDapi{
 			// Argument 2
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
@@ -135,7 +136,7 @@ namespace BDapi{
 			// Argument 3
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
@@ -144,7 +145,7 @@ namespace BDapi{
 			// Argument 4
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
@@ -153,13 +154,13 @@ namespace BDapi{
 			// Argument 5
 			p_CommnadToken = strtok(NULL, " ");
 			if(p_CommnadToken == NULL){ 
-				CommandQueue::PushCommand( st_Command );
+				p_CommandQueue->PushCommand( st_Command );
 				return;	
 			}
 			else
 				strcpy(st_Command.Argu5, p_CommnadToken);
 
-			CommandQueue::PushCommand( st_Command );
+			p_CommandQueue->PushCommand( st_Command );
 		}
 	}
 

@@ -12,8 +12,7 @@ JNIEXPORT jstring JNICALL Java_com_twoblock_blockdesigner_modulewizard_CW_1Wizar
 
 	BDWriter writer;
 	writer.writeModuleCode(inCStr);
-	printf("ononononon");
-
+	printf("successfully make");
 	env->ReleaseStringUTFChars(inJNIStr, inCStr);
 	return 0;
 }

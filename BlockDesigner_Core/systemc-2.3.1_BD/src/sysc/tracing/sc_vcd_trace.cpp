@@ -2037,6 +2037,8 @@ vcd_trace_file::cycle(bool this_is_a_delta_cycle)
         previous_time_units_high = this_time_units_high;
         previous_time_units_low = this_time_units_low;
     }
+		// to show signals cycle by cycle in GTKwave 
+		std::fflush(fp);
 }
 
 #if 0

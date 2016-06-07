@@ -90,8 +90,87 @@ namespace BDapi
 			{
 				return BDDIStatusCmdNotSupported;
 			}
-	};
 
+			/*
+			 * function			: BDDIGetModuleType
+			 * design				: Get Module Type 
+			 * caller				: 
+			 */
+			virtual char* BDDIGetModuleType()
+			{
+				return NULL;
+			}
+
+			/*
+			 * function			: BDDIGetModuleRegInfo
+			 * design				: Get All Parameter Informations in Each Module 
+			 * caller				: 
+			 */
+			virtual BDDIRegInfo* BDDIGetModuleRegInfo()
+			{
+				return NULL;
+			}
+
+			/*
+			 * function			: BDDIGetModuleParInfo
+			 * design				: Get All Parameter Informations in Each Module 
+			 * caller				: 
+			 */
+			virtual BDDIParInfo* BDDIGetModuleParInfo()
+			{
+				return NULL;
+			}
+
+			/*
+			 * function			: BDDIGetModuleTotalRegNum
+			 * design				: Get the Number of Register in Each Module 
+			 * caller				: 
+			 */
+			virtual unsigned int BDDIGetModuleTotalRegNum()
+			{
+				return 0;
+			}
+
+			/*
+			 * function			: BDDIGetModuleTotalParNum
+			 * design				: Get the Number of Parameter in Each Module 
+			 * caller				: 
+			 */
+			virtual unsigned int BDDIGetModuleTotalParNum()
+			{
+				return 0;
+			}
+
+			virtual BDDIReturn BDDIGetMemoryAddressValue(unsigned int Address, unsigned int *Value)
+			{
+				return BDDIStatusCmdNotSupported;
+			}
+
+			virtual BDDIReturn BDDISetMemoryAddressValue(unsigned int Address, unsigned int Value)
+			{
+				return BDDIStatusCmdNotSupported;
+			}
+
+			virtual BDDIReturn BDDIGetMemoryView(unsigned int Address, std::string &OutValue)
+			{
+				return BDDIStatusCmdNotSupported;
+			}
+
+			virtual unsigned int BDDIGetMemoryBaseAddress()
+			{
+				return 0;
+			}
+
+			virtual unsigned int BDDIGetMemoryAddressSize()
+			{
+				return 0;
+			}
+
+			virtual unsigned int BDDIGetPCValue()
+			{
+				return 0;
+			}
+	};
 }
 
 #endif	// __BDDIBASE_H__

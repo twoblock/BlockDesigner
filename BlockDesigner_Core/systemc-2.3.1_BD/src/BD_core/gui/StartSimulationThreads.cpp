@@ -31,7 +31,6 @@ namespace BDapi
 	 * function 	: SimulationHandlerRoutine
 	 * design	    : make SimulationHandler thread 
 	 */
-
 	void *SimulationHandlerRoutine( void *arg)
 	{
 		SimulationHandler();
@@ -73,7 +72,8 @@ namespace BDapi
 			perror("Handler thread create error:");
 			exit(0);
 		}
-
+		pthread_detach(SimulationThread);
+		pthread_detach(SimulationHandlerThread);
 	}
 
 }

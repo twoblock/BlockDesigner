@@ -44,7 +44,8 @@ H_FILES = \
 	systemc \
 	systemc.h \
 	tlm \
-	tlm.h
+	tlm.h \
+	BlockDesigner.h
 
 nobase_include_HEADERS = $(H_FILES)
 
