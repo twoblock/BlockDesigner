@@ -342,7 +342,6 @@ void NANDFlashArray_SLC::update()
 
 void NANDFlashArray_SLC::driveSignal()
 {
-	printf("D_in_Slave: 0x%x\n",(unsigned int) D_in_SSlave);
 	r_CmdReg = D_in_SSlave;
 	r_P_AddrReg = D_in_SSlave; 
 	r_B_AddrReg = D_in_SSlave; 

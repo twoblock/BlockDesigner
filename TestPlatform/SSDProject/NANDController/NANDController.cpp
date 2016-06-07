@@ -1245,7 +1245,7 @@ void NANDController::decodingSignals(int value, signal_t *signals) {
 
 void NANDController::initMyVariables()
 {
-	printf( "[initMyVariables]\n");
+	//printf( "[initMyVariables]\n");
 
 
 	//init all registers

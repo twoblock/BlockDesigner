@@ -90,7 +90,7 @@ namespace BDapi
 				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
 				p_Module->GetBDDI()->BDDIGetParameterValues(dw_Index, Command.Argu5);
 
-				printf("\nget parameter value : %s\n", Command.Argu5);
+				//printf("\nget parameter value : %s\n", Command.Argu5);
 			}
 			else	{
 				assert(0);
@@ -101,7 +101,7 @@ namespace BDapi
 				unsigned int dw_Index = (unsigned int)strtoul(Command.Argu4, NULL, 10);
 				p_Module->GetBDDI()->BDDIGetRegisterValues(dw_Index, Command.Argu5);
 
-				printf("\nget register value : %s\n", Command.Argu5);
+				//printf("\nget register value : %s\n", Command.Argu5);
 			}
 			else	{
 				assert(0);

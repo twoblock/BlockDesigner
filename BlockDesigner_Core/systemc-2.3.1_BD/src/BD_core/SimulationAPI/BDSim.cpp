@@ -48,7 +48,7 @@ namespace BDapi
 
 		// Activate GTKWAVE Interactive Mode.
 		fp = popen("shmidcat wave.vcd | gtkwave -v -I /home/lucas/workspace/BlockDesigner/BlockDesigner_Plug-in/wave.gtkw", "r");	
-		if(fp == NULL) printf("\n\033[31m Error : Can not open GTKWAVE\033[0m\n");
+		if(fp == NULL) printf("\n Error : Can not open GTKWAVE \n");
 
 		p_SoftwareManager = SoftwareManager::GetInstance();	
 		p_CallBackManager = CallBackManager::GetInstance();

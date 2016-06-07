@@ -144,15 +144,15 @@ sc_process_table::~sc_process_table()
 	delete method_now_p;
     }
 
-    if ( m_thread_q )
-    {
-        ::std::cout << ::std::endl 
-             << "WATCH OUT!! In sc_process_table destructor. "
-             << "Threads and cthreads are not actually getting deleted here. "
-	     << "Some memory may leak. Look at the comments here in "
-	     << "kernel/sc_simcontext.cpp for more details."
-	     << ::std::endl;
-    }
+    //if ( m_thread_q )
+    //{
+        //::std::cout << ::std::endl 
+             //<< "WATCH OUT!! In sc_process_table destructor. "
+             //<< "Threads and cthreads are not actually getting deleted here. "
+	     //<< "Some memory may leak. Look at the comments here in "
+	     //<< "kernel/sc_simcontext.cpp for more details."
+	     //<< ::std::endl;
+    //}
 
     // don't delete threads and cthreads. If a (c)thread
     // has died, then it has already been deleted. Only (c)threads created

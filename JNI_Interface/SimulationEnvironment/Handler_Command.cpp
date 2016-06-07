@@ -51,7 +51,7 @@ JNIEXPORT void JNICALL Java_com_twoblock_blockdesigner_command_Handler_1Command_
 	//}
 
 	p_CommandQueue->PushCommand( GUI_commnad );
-	cout<< OperInt <<"/"<< CmdInt <<"/"<< c_Argu1 <<"/"<< c_Argu2 <<"/"<< c_Argu3 <<"/"<< c_Argu4 <<"/"<< c_Argu5 << endl;
+	//cout<< OperInt <<"/"<< CmdInt <<"/"<< c_Argu1 <<"/"<< c_Argu2 <<"/"<< c_Argu3 <<"/"<< c_Argu4 <<"/"<< c_Argu5 << endl;
 
 	env->ReleaseStringUTFChars(Argu1Str,c_Argu1);
 	env->ReleaseStringUTFChars(Argu2Str,c_Argu2);

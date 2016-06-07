@@ -28,7 +28,7 @@ namespace BDapi
 			AssemblyCodeFinder = AssemblyCode.find(dw_PC);
 			if(AssemblyCodeFinder != AssemblyCode.end()){
 				if(dw_PC == PC){
-					printf("\033[31m%x : %s \n\033[0m", dw_PC, AssemblyCodeFinder->second.c_str());
+					printf("%x : %s \n", dw_PC, AssemblyCodeFinder->second.c_str());
 				}
 				else{
 					printf("%x : %s \n", dw_PC, AssemblyCodeFinder->second.c_str());
