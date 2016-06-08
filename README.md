@@ -102,6 +102,8 @@ verilator
 
 	source EntireInstall.sh
 
+	mv ~/workspace/BlockDesigner/BlockDesigner_1.0.0.jar /*your_eclipse_path*/eclipse/plugins/
+
 # Execution
 
 	source ~/workspace/BlockDesigner/TestPlatform/sc_main/systemc.csh 
